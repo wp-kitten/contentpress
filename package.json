@@ -15,7 +15,8 @@
         "jquery": "^3.2",
         "popper.js": "^1.12",
         "react": "^16.2.0",
-        "react-dom": "^16.2.0"
+        "react-dom": "^16.2.0",
+        "vue-template-compiler": "^2.6.12"
     },
     "dependencies": {
         "@babel/preset-react": "^7.10.1",

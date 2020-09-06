@@ -1,0 +1,33 @@
+.themes-list {
+    .card {
+        &.active {
+            border-color: #1994f2;
+        }
+
+        .theme-title {
+            font-size: 1.2rem;
+        }
+
+        .card-body {
+            .img-thumbnail {
+                width: 100%;
+                max-width: 100%;
+                border: none 0;
+                border-radius: 0;
+            }
+        }
+
+        .card-footer {
+            border-radius: 0;
+            border: none 0;
+            background-color: transparent;
+        }
+
+        .theme-actions {
+            a {
+                font-size: 13px;
+                margin-right: 0.2rem;
+            }
+        }
+    }
+}

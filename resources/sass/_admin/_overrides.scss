@@ -1,0 +1,16 @@
+body {
+    background: #f8f9fa;
+}
+
+.app-wrapper {
+    display: flex;
+    flex-wrap: wrap;
+    max-height: 100vh;
+}
+
+.table th, .table td {
+    border-top: none;
+}
+.dropify-wrapper .dropify-message p {
+    font-size: 20px;
+}

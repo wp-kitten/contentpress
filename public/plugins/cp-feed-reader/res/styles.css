@@ -1,0 +1,6 @@
+.cpfr-page-wrap .optgroup .optgroup-header {
+    font-weight: bold;
+}
+.cpfr-page-wrap .optgroup .option:not(.selected) {
+    padding-left: 20px;
+}

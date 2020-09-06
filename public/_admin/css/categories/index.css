@@ -1,0 +1,66 @@
+.js-sortable .subcategory-list {
+  margin-left: 25px;
+}
+
+li.highlight {
+  background: #333333;
+  color: #999999;
+}
+
+li.placeholder {
+  position: relative;
+  margin: 0;
+  padding: 0;
+  border: none;
+}
+
+li.placeholder::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  box-shadow: 0 0 0 2px #2263b3;
+}
+
+li.placeholder::after {
+  position: absolute;
+  content: "";
+  height: 2px;
+  left: 0;
+  width: calc(100% - 4px);
+  top: 1px;
+  background: #2263b3;
+  margin-left: 4px;
+}
+
+.js-sortable .list-item {
+  word-wrap: break-word;
+  background-color: #fff;
+  background-clip: border-box;
+  border: 1px solid #f3f3f3;
+  border-radius: 0;
+  padding: 0.5rem 1.75rem 0 1.75rem;
+  margin-bottom: 0.25rem;
+  cursor: move;
+}
+
+.js-sortable .list-item:hover {
+  background: #fafafa;
+}
+
+.js-sortable .list-item.dragged {
+  position: absolute;
+  top: 0;
+  opacity: 1;
+  z-index: 2000;
+  width: auto !important;
+  height: auto !important;
+}
+
+.js-sortable .list-item.dragged ul {
+  display: none !important;
+}
+

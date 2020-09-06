@@ -1,0 +1,8 @@
+/* Single Post */
+body.texteditor-plugin-single .texteditor-plugin-single-post .hentry-single .hentry-content *,
+    /* Page */
+body.contentpress-page .texteditor-plugin-single-post * {
+    font-family: "Quicksand", sans-serif;
+    font-weight: 500;
+    color: #000;
+}

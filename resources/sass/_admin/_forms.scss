@@ -1,0 +1,14 @@
+select.form-control, select.asColorPicker-input, .dataTables_wrapper select, .jsgrid .jsgrid-table .jsgrid-filter-row select, .select2-container--default select.select2-selection--single, .select2-container--default .select2-selection--single select.select2-search__field, select.typeahead, select.tt-query, select.tt-hint {
+    color: #000000 !important;
+}
+
+.input-wide { width: 100%; }
+
+.cp-form-control-inline {
+    display: inline !important;
+    width: auto !important;
+}
+
+.selectize-input {
+    box-shadow: none !important;
+}

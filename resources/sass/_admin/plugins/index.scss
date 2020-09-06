@@ -1,0 +1,31 @@
+table.plugins {
+    background-color: #fff;
+    tr {
+        border-left: solid 5px transparent;
+
+        &.active {
+            background-color: #f7fcfe;
+            border-left-color: #144c84;
+        }
+
+        td {
+            &.plugin-title {
+                min-width: 300px;
+                max-width: 300px;
+
+                .plugin-title {
+                    font-weight: 500;
+                    color: #000;
+
+                    &.plugin-active { font-weight: 700; }
+                }
+            }
+            .plugin-actions {
+                a {
+                    font-size: 13px;
+                    margin-right: 0.2rem;
+                }
+            }
+        }
+    }
+}

@@ -1,0 +1,149 @@
+
+.hidden {
+    display: none !important;
+}
+
+.no-click {
+    pointer-events: none !important;
+}
+
+.cp-block {
+    display: block !important;
+
+    .form-check-input {
+        margin-top: 0.278rem !important;
+    }
+}
+
+.text-italic {
+    font-style: italic !important;
+}
+
+.cp-wide {
+    width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+}
+
+.borderless {
+    border: none 0 !important;
+}
+
+//
+
+@keyframes anim-rotate {
+    0% {
+        transform: rotate(0);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.spin {
+    display: inline-block;
+    animation: anim-rotate 2s infinite linear;
+    text-shadow: 0 0 .25em rgba(255, 255, 255, .3);
+}
+
+@import "_admin/globals";
+@import "_admin/ajax-loader";
+@import "_admin/forms";
+@import "_admin/posts";
+@import "_admin/comments/index";
+@import "_admin/sidebar-menu";
+@import "_admin/overrides";
+
+
+/* Fixes icon alignment in the notifications dropdown */
+.navbar .navbar-menu-wrapper .navbar-nav .nav-item.dropdown .navbar-dropdown .dropdown-item i {
+    margin-top: 3px;
+}
+.preview-list .preview-item .preview-item-content {
+    .preview-subject {
+        margin-top: 8px;
+    }
+}
+
+/*
+ * Overrides the default .form-control styles
+ */
+.btn {
+    padding: 0.275rem 0.75rem;
+}
+.form-control:not(select) {
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+}
+
+.form-control {
+    border-radius: 0 !important;
+    box-shadow: none;
+    border-color: #d2d6de !important;
+}
+
+.form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    line-height: 1.42857143;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    -webkit-transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s, -webkit-box-shadow ease-in-out .15s;
+}
+
+
+//#! Pagination
+.cp-pagination-center {
+    ul.pagination{
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+//#! base overrides
+
+//#! Overrides app-title section
+.app-title {
+    .content-section {
+        width: 50%;
+        margin: 0 0;
+    }
+}
+.cp-flex {
+    width: 100%;
+    margin: 0 0;
+    display: flex;
+    position: relative;
+}
+.cp-flex--center {
+    align-items: center;
+    align-content: center;
+}
+.cp-flex--space-between {
+    justify-content: space-between;
+    align-content: space-between !important;
+}
+
+.list-inline {
+    li {
+        display: inline-block;
+    }
+}
+
+.cp-table-align-middle {
+    td {
+        vertical-align: middle;
+    }
+}
