@@ -2,8 +2,6 @@
 
 namespace App\Http;
 
-use App\Http\Middleware\AppLoader;
-use App\Http\Middleware\Localization;
 use Illuminate\Foundation\Http\Kernel as HttpKernel;
 
 class Kernel extends HttpKernel
@@ -39,8 +37,9 @@ class Kernel extends HttpKernel
             \Illuminate\View\Middleware\ShareErrorsFromSession::class,
             \App\Http\Middleware\VerifyCsrfToken::class,
             \Illuminate\Routing\Middleware\SubstituteBindings::class,
-            Localization::class,
-            AppLoader::class,
+
+            \App\Http\Middleware\Localization::class,
+            \App\Http\Middleware\AppLoader::class,
         ],
 
         'api' => [
