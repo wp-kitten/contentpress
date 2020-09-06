@@ -3,7 +3,7 @@
  * This file stores all functions related to users
  */
 
-//use App\Helpers\CPML;
+use App\Helpers\CPML;
 use App\User;
 use App\UserMeta;
 use Illuminate\Contracts\Auth\Authenticatable;

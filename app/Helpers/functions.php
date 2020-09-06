@@ -3,17 +3,17 @@
  * Main functions file. This file is automatically loaded through composer.json
  */
 
-//use App\Helpers\CPML;
-//use App\Helpers\ImageHelper;
-//use App\Helpers\MenuWalkerFrontend;
-//use App\Helpers\ScriptsManager;
-//use App\Helpers\TranslationsLoader;
-//use App\Helpers\Util;
-//use App\MediaFile;
-//use App\Menu;
-//use App\Options;
-//use App\Post;
-//use App\Settings;
+use App\Helpers\CPML;
+use App\Helpers\ImageHelper;
+use App\Helpers\MenuWalkerFrontend;
+use App\Helpers\ScriptsManager;
+use App\Helpers\TranslationsLoader;
+use App\Helpers\Util;
+use App\MediaFile;
+use App\Menu;
+use App\Options;
+use App\Post;
+use App\Settings;
 use App\User;
 use Illuminate\Support\Facades\Request;
 use Illuminate\Support\Facades\Schema;
@@ -28,15 +28,15 @@ require_once( $crtDirPath . '/WP/wp-filters.php' );
 require_once( $crtDirPath . '/WP/_wp-functions.php' );
 require_once( $crtDirPath . '/WP/kses.php' );
 
-//require_once( $crtDirPath . '/inc/_actions.php' );
-//require_once( $crtDirPath . '/inc/_filters.php' );
-//require_once( $crtDirPath . '/inc/_fn_meta.php' );
-//require_once( $crtDirPath . '/inc/_fn_templates.php' );
+require_once( $crtDirPath . '/inc/_actions.php' );
+require_once( $crtDirPath . '/inc/_filters.php' );
+require_once( $crtDirPath . '/inc/_fn_meta.php' );
+require_once( $crtDirPath . '/inc/_fn_templates.php' );
 require_once( $crtDirPath . '/inc/_fn_users.php' );
-//require_once( $crtDirPath . '/inc/_fn_comments.php' );
-//require_once( $crtDirPath . '/inc/_fn_notices.php' );
-//require_once( $crtDirPath . '/inc/_fn_multilanguage.php' );
-//require_once( $crtDirPath . '/inc/_cp_admin.php' );
+require_once( $crtDirPath . '/inc/_fn_comments.php' );
+require_once( $crtDirPath . '/inc/_fn_notices.php' );
+require_once( $crtDirPath . '/inc/_fn_multilanguage.php' );
+require_once( $crtDirPath . '/inc/_cp_admin.php' );
 
 //#! Remove
 unset( $crtDirPath );
@@ -391,27 +391,27 @@ function wp_check_filetype( $filename, $mimes = null )
  */
 function get_allowed_mime_types( $user = null )
 {
-//    $t = wp_get_mime_types();
-//
-//    unset( $t[ 'swf' ], $t[ 'exe' ] );
-//
-//    $unfiltered = cp_current_user_can( 'unfiltered_html' );
-//
-//    if ( empty( $unfiltered ) ) {
-//        unset( $t[ 'htm|html' ], $t[ 'js' ] );
-//    }
-//
-//    /**
-//     * Filters list of allowed mime types and file extensions.
-//     *
-//     * @param array $t Mime types keyed by the file extension regex corresponding to
-//     *                               those types. 'swf' and 'exe' removed from full list. 'htm|html' also
-//     *                               removed depending on '$user' capabilities.
-//     * @param User|null $user User ID, User object or null if not provided (indicates current user).
-//     * @since 2.0.0
-//     *
-//     */
-//    return apply_filters( 'upload_mimes', $t, $user );
+    $t = wp_get_mime_types();
+
+    unset( $t[ 'swf' ], $t[ 'exe' ] );
+
+    $unfiltered = cp_current_user_can( 'unfiltered_html' );
+
+    if ( empty( $unfiltered ) ) {
+        unset( $t[ 'htm|html' ], $t[ 'js' ] );
+    }
+
+    /**
+     * Filters list of allowed mime types and file extensions.
+     *
+     * @param array $t Mime types keyed by the file extension regex corresponding to
+     *                               those types. 'swf' and 'exe' removed from full list. 'htm|html' also
+     *                               removed depending on '$user' capabilities.
+     * @param User|null $user User ID, User object or null if not provided (indicates current user).
+     * @since 2.0.0
+     *
+     */
+    return apply_filters( 'upload_mimes', $t, $user );
 }
 
 /**
@@ -457,24 +457,24 @@ function cp_is_ajax()
  */
 function cp_enqueue_media_scripts()
 {
-//    add_action( 'contentpress/admin/footer', function () {
-//        echo view( 'admin.media.modal' )->with( [
-//            'files' => ( new MediaFile() )->where( 'language_id', CPML::getDefaultLanguageID() )->get(),
-//        ] )->toHtml();
-//    } );
-//
-//    ScriptsManager::enqueueStylesheet( 'dropify.min.css', asset( 'vendor/dropify/css/dropify.min.css' ) );
-//    ScriptsManager::enqueueStylesheet( 'admin.media-styles', asset( '_admin/css/media/index.css' ) );
-//
-//    ScriptsManager::enqueueFooterScript( 'dropify.min.js', asset( 'vendor/dropify/js/dropify.min.js' ) );
-//    ScriptsManager::enqueueFooterScript( 'DropifyImageUploader.js', asset( '_admin/js/DropifyImageUploader.js' ) );
-//
-//    ScriptsManager::localizeScript( 'media-script-locale', 'MediaLocale', [
-//        'text_image_set' => __( 'a.Image uploaded' ),
-//        'text_image_removed' => __( 'a.Image removed' ),
-//        'text_media' => __( 'a.Media' ),
-//    ] );
-//    ScriptsManager::enqueueFooterScript( 'media-modal.js', asset( '_admin/js/media/modal.js' ) );
+    add_action( 'contentpress/admin/footer', function () {
+        echo view( 'admin.media.modal' )->with( [
+            'files' => ( new MediaFile() )->where( 'language_id', CPML::getDefaultLanguageID() )->get(),
+        ] )->toHtml();
+    } );
+
+    ScriptsManager::enqueueStylesheet( 'dropify.min.css', asset( 'vendor/dropify/css/dropify.min.css' ) );
+    ScriptsManager::enqueueStylesheet( 'admin.media-styles', asset( '_admin/css/media/index.css' ) );
+
+    ScriptsManager::enqueueFooterScript( 'dropify.min.js', asset( 'vendor/dropify/js/dropify.min.js' ) );
+    ScriptsManager::enqueueFooterScript( 'DropifyImageUploader.js', asset( '_admin/js/DropifyImageUploader.js' ) );
+
+    ScriptsManager::localizeScript( 'media-script-locale', 'MediaLocale', [
+        'text_image_set' => __( 'a.Image uploaded' ),
+        'text_image_removed' => __( 'a.Image removed' ),
+        'text_media' => __( 'a.Media' ),
+    ] );
+    ScriptsManager::enqueueFooterScript( 'media-modal.js', asset( '_admin/js/media/modal.js' ) );
 }
 
 /**
@@ -486,31 +486,31 @@ function cp_enqueue_media_scripts()
  */
 function cp_enqueue_text_editor_scripts( $currentPostID = 0, $screen = '', $parentPostID = 0, $languageID = 0 )
 {
-//    $post = Post::find( $currentPostID );
-//
-//    ScriptsManager::localizeScript( 'posts-script-locale', 'PostsLocale', [
-//        'post_id' => $currentPostID,
-//        'text_image_set' => __( 'a.Image set' ),
-//        'text_image_removed' => __( 'a.Image removed' ),
-//        'text_description' => __( 'a.Short description here...' ),
-//        'language_id' => ( empty( $languageID ) ? $post->post_type->language_id : $languageID ),
-//        'post_type_id' => $post->post_type->id,
-//
-//        //#! Screen: translate
-//        'parent_post_id' => $parentPostID,
-//        'current_post_id' => $currentPostID,
-//    ] );
-//
-//    //#! Load the scripts to customize the text editor
-//    if ( 'post-new' == $screen ) {
-//        ScriptsManager::enqueueFooterScript( 'posts-create.js', asset( '_admin/js/posts/create.js' ) );
-//    }
-//    elseif ( 'post-edit' == $screen ) {
-//        ScriptsManager::enqueueFooterScript( 'posts-edit.js', asset( '_admin/js/posts/edit.js' ) );
-//    }
-//    elseif ( 'post-translate' == $screen ) {
-//        ScriptsManager::enqueueFooterScript( 'posts-translate.js', asset( '_admin/js/posts/translate.js' ) );
-//    }
+    $post = Post::find( $currentPostID );
+
+    ScriptsManager::localizeScript( 'posts-script-locale', 'PostsLocale', [
+        'post_id' => $currentPostID,
+        'text_image_set' => __( 'a.Image set' ),
+        'text_image_removed' => __( 'a.Image removed' ),
+        'text_description' => __( 'a.Short description here...' ),
+        'language_id' => ( empty( $languageID ) ? $post->post_type->language_id : $languageID ),
+        'post_type_id' => $post->post_type->id,
+
+        //#! Screen: translate
+        'parent_post_id' => $parentPostID,
+        'current_post_id' => $currentPostID,
+    ] );
+
+    //#! Load the scripts to customize the text editor
+    if ( 'post-new' == $screen ) {
+        ScriptsManager::enqueueFooterScript( 'posts-create.js', asset( '_admin/js/posts/create.js' ) );
+    }
+    elseif ( 'post-edit' == $screen ) {
+        ScriptsManager::enqueueFooterScript( 'posts-edit.js', asset( '_admin/js/posts/edit.js' ) );
+    }
+    elseif ( 'post-translate' == $screen ) {
+        ScriptsManager::enqueueFooterScript( 'posts-translate.js', asset( '_admin/js/posts/translate.js' ) );
+    }
 }
 
 /**
@@ -520,13 +520,13 @@ function cp_enqueue_text_editor_scripts( $currentPostID = 0, $screen = '', $pare
  */
 function cp_is_front_page( $pageID )
 {
-//    $settings = new Settings();
-//    $showOnFront = $settings->getSetting( 'show_on_front', 'blog' );
-//    if ( 'page' == $showOnFront ) {
-//        $pageOnFront = $settings->getSetting( 'page_on_front' );
-//        return ( $pageOnFront == $pageID );
-//    }
-//    return false;
+    $settings = new Settings();
+    $showOnFront = $settings->getSetting( 'show_on_front', 'blog' );
+    if ( 'page' == $showOnFront ) {
+        $pageOnFront = $settings->getSetting( 'page_on_front' );
+        return ( $pageOnFront == $pageID );
+    }
+    return false;
 }
 
 /**
@@ -547,10 +547,10 @@ function cp_login_logout_links()
  */
 function contentpressHead()
 {
-//    do_action( 'contentpress/site/head' );
-//    ScriptsManager::printStylesheets();
-//    ScriptsManager::printLocalizedScripts();
-//    ScriptsManager::printHeadScripts();
+    do_action( 'contentpress/site/head' );
+    ScriptsManager::printStylesheets();
+    ScriptsManager::printLocalizedScripts();
+    ScriptsManager::printHeadScripts();
 }
 
 /*
@@ -558,22 +558,22 @@ function contentpressHead()
  */
 function contentpressFooter()
 {
-//    do_action( 'contentpress/site/footer' );
-//    ScriptsManager::printFooterScripts();
+    do_action( 'contentpress/site/footer' );
+    ScriptsManager::printFooterScripts();
 }
 
 function cp_admin_head()
 {
-//    do_action( 'contentpress/admin/head' );
-//    ScriptsManager::printStylesheets();
-//    ScriptsManager::printLocalizedScripts();
-//    ScriptsManager::printHeadScripts();
+    do_action( 'contentpress/admin/head' );
+    ScriptsManager::printStylesheets();
+    ScriptsManager::printLocalizedScripts();
+    ScriptsManager::printHeadScripts();
 }
 
 function cp_admin_footer()
 {
-//    do_action( 'contentpress/admin/footer' );
-//    ScriptsManager::printFooterScripts();
+    do_action( 'contentpress/admin/footer' );
+    ScriptsManager::printFooterScripts();
 }
 
 /**
@@ -583,7 +583,7 @@ function cp_admin_footer()
  */
 function cp_add_image_size( $id, array $size = [ 'w' => null, 'h' => null ] )
 {
-//    ImageHelper::addImageSize( $id, $size );
+    ImageHelper::addImageSize( $id, $size );
 }
 
 /**
@@ -616,8 +616,8 @@ function cp_get_global_id()
  */
 function cp_register_language_file( $namespace, $langsDirPath, $fileName = 'm' )
 {
-//    $loader = TranslationsLoader::getInstance();
-//    $loader->register( $namespace, $langsDirPath, $fileName );
+    $loader = TranslationsLoader::getInstance();
+    $loader->register( $namespace, $langsDirPath, $fileName );
 }
 
 /**
@@ -638,11 +638,11 @@ function cp_get_uploads_dir()
  */
 function cp_is_under_maintenance()
 {
-//    if ( Schema::hasTable( 'settings' ) ) {
-//        $settings = new Settings();
-//        return $settings->getSetting( 'is_under_maintenance', false );
-//    }
-//    return false;
+    if ( Schema::hasTable( 'settings' ) ) {
+        $settings = new Settings();
+        return $settings->getSetting( 'is_under_maintenance', false );
+    }
+    return false;
 }
 
 /**
@@ -651,32 +651,32 @@ function cp_is_under_maintenance()
  */
 function cp_get_registered_dashboard_widgets()
 {
-//    $dashWidgets = apply_filters( 'contentpress/dashboard/widgets', ( new Options() )->getOption( '_dashboard_widgets', [] ) );
-//    $registeredWidgets = apply_filters( 'contentpress/dashboard/widgets/register', [] );
-//
-//    $_tmpDashWidgets = [];
-//    foreach ( $dashWidgets as $section => $widgets ) {
-//        foreach ( $widgets as $className => $id ) {
-//            if ( class_exists( $className ) ) {
-//                array_push( $_tmpDashWidgets, $className );
-//            }
-//            else {
-//                unset( $dashWidgets[ $section ][ $className ] );
-//            }
-//        }
-//    }
-//
-//    foreach ( $registeredWidgets as $className => $id ) {
-//        if ( !in_array( $className, $_tmpDashWidgets ) && class_exists( $className ) ) {
-//            $dashWidgets[ 'section-1' ][ $className ] = $id;
-//        }
-//    }
-//    return $dashWidgets;
+    $dashWidgets = apply_filters( 'contentpress/dashboard/widgets', ( new Options() )->getOption( '_dashboard_widgets', [] ) );
+    $registeredWidgets = apply_filters( 'contentpress/dashboard/widgets/register', [] );
+
+    $_tmpDashWidgets = [];
+    foreach ( $dashWidgets as $section => $widgets ) {
+        foreach ( $widgets as $className => $id ) {
+            if ( class_exists( $className ) ) {
+                array_push( $_tmpDashWidgets, $className );
+            }
+            else {
+                unset( $dashWidgets[ $section ][ $className ] );
+            }
+        }
+    }
+
+    foreach ( $registeredWidgets as $className => $id ) {
+        if ( !in_array( $className, $_tmpDashWidgets ) && class_exists( $className ) ) {
+            $dashWidgets[ 'section-1' ][ $className ] = $id;
+        }
+    }
+    return $dashWidgets;
 }
 
 function cp_get_post_view_url( Post $post )
 {
-//    return Util::getPostViewUrl( $post );
+    return Util::getPostViewUrl( $post );
 }
 
 /**
@@ -693,17 +693,14 @@ function cp_get_themes_class()
  */
 function cp_get_current_theme()
 {
-//    $theme = null;
-//    try {
-//        $theme = cp_get_themes_class()->current();
-//    }
-//    catch ( BindingResolutionException $e ) {
-//        logger( $e->getMessage() );
-//    }
-//    catch ( \Exception $e ) {
-//        logger( $e->getMessage() );
-//    }
-//    return $theme;
+    $theme = null;
+    try {
+        $theme = cp_get_themes_class()->current();
+    }
+    catch ( \Exception $e ) {
+        logger( $e->getMessage() );
+    }
+    return $theme;
 }
 
 /**
@@ -712,10 +709,10 @@ function cp_get_current_theme()
  */
 function cp_get_current_theme_name()
 {
-//    if ( Schema::hasTable( 'options' ) ) {
-//        return ( new Options() )->getOption( 'contentpress_active_theme', 'material' );
-//    }
-//    return 'material';
+    if ( Schema::hasTable( 'options' ) ) {
+        return ( new Options() )->getOption( 'contentpress_active_theme', 'material' );
+    }
+    return 'material';
 }
 
 /**
@@ -748,17 +745,17 @@ function cp_theme_url( $themeName, $path )
  */
 function cp_has_menu( $menuSlugOrID, $languageID = null )
 {
-//    if ( empty( $languageID ) ) {
-//        $languageID = cp_get_frontend_user_language_id();
-//    }
-//
-//    return Menu::where( 'id', intval( $menuSlugOrID ) )
-//        ->orWhere( 'slug', $menuSlugOrID )
-//        ->orWhere( 'name', $menuSlugOrID )
-//        ->where( function ( $query ) use ( $languageID ) {
-//            return $query->where( 'language_id', $languageID );
-//        } )
-//        ->first();
+    if ( empty( $languageID ) ) {
+        $languageID = cp_get_frontend_user_language_id();
+    }
+
+    return Menu::where( 'id', intval( $menuSlugOrID ) )
+        ->orWhere( 'slug', $menuSlugOrID )
+        ->orWhere( 'name', $menuSlugOrID )
+        ->where( function ( $query ) use ( $languageID ) {
+            return $query->where( 'language_id', $languageID );
+        } )
+        ->first();
 }
 
 /**
@@ -767,14 +764,14 @@ function cp_has_menu( $menuSlugOrID, $languageID = null )
  */
 function cp_menu( $menuSlugOrID )
 {
-//    if ( cp_is_under_maintenance() ) {
-//        return;
-//    }
-//    try {
-//        $walker = new MenuWalkerFrontend( $menuSlugOrID, cp_get_frontend_user_language_id() );
-//        $walker->outputHtml();
-//    }
-//    catch ( Exception $e ) {
-//        logger( $e->getMessage() );
-//    }
+    if ( cp_is_under_maintenance() ) {
+        return;
+    }
+    try {
+        $walker = new MenuWalkerFrontend( $menuSlugOrID, cp_get_frontend_user_language_id() );
+        $walker->outputHtml();
+    }
+    catch ( Exception $e ) {
+        logger( $e->getMessage() );
+    }
 }

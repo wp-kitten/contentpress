@@ -1,0 +1,71 @@
+<?php
+
+namespace App\Helpers;
+
+/**
+ * Class UserNotices
+ * @package App\Helpers
+ *
+ * Standard Singleton
+ */
+class UserNotices
+{
+    /**
+     * @var array
+     */
+    private $notices = [];
+
+    /**
+     * @var UserNotices|null
+     */
+    private static $_instance = null;
+
+    private static $_allowedTypes = [
+        'info',
+        'success',
+        'warning',
+        'danger',
+    ];
+
+    /**
+     * UserNotices constructor.
+     */
+    private function __construct()
+    {
+
+    }
+
+    public static function getInstance()
+    {
+        if ( !self::$_instance ) {
+            self::$_instance = new self();
+        }
+        return self::$_instance;
+    }
+
+    public function addNotice( $type, $message = '' )
+    {
+        if ( $this->__isValidType( $type ) && !empty( $message ) ) {
+            array_push( $this->notices, [
+                'type' => $type,
+                'content' => $message,
+            ] );
+        }
+    }
+
+    public function getAll()
+    {
+        return $this->notices;
+    }
+
+    public function removeAll()
+    {
+        $this->notices = [];
+        return $this;
+    }
+
+    private function __isValidType( $type = '' ): bool
+    {
+        return ( $type && in_array( $type, self::$_allowedTypes ) );
+    }
+}
