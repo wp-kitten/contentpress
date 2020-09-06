@@ -447,4 +447,6 @@ return [
     'Theme activated.' => 'Theme activated.',
     'The page specified as blog page was not found.' => 'The page specified as blog page was not found.',
     'Cache cleared.' => 'Cache cleared.',
+    'Welcome to :app_name' => 'Welcome to :app_name',
+    'Thank you for registering an account on our website!' => 'Thank you for registering an account on our website!',
 ];

@@ -15,14 +15,14 @@ class PostTypeSeeder extends Seeder
     {
         PostType::create( [
             'name' => 'post',
-            'display_name' => __( 'a.Post' ),
-            'plural_name' => __( 'a.Posts' ),
+            'display_name' => 'Post',
+            'plural_name' => 'Posts',
             'language_id' => Language::where( 'code', 'en' )->first()->id,
         ] );
         PostType::create( [
             'name' => 'page',
-            'display_name' => __( 'a.Page' ),
-            'plural_name' => __( 'a.Pages' ),
+            'display_name' => 'Page',
+            'plural_name' => 'Pages',
             'language_id' => Language::where( 'code', 'en' )->first()->id,
         ] );
     }

@@ -4,10 +4,10 @@ WordPress-like application using the Laravel Framework.
 ## Reset to default state
 ```
 //#! Just the db structure
-php artisan cp:setup
+php artisan cp:setup --n
 
 //#! DB structure + the default duumy data
-php artisan cp:setup --seed
+php artisan cp:setup --n --s
 ```
  
 

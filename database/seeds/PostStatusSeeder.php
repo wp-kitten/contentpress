@@ -14,19 +14,19 @@ class PostStatusSeeder extends Seeder
     {
         PostStatus::create( [
             'name' => 'autosave',
-            'display_name' => __( 'a.Autosave' ),
+            'display_name' => 'Autosave',
         ] );
         PostStatus::create( [
             'name' => 'draft',
-            'display_name' => __( 'a.Draft' ),
+            'display_name' => 'Draft',
         ] );
         PostStatus::create( [
             'name' => 'publish',
-            'display_name' => __( 'a.Publish' ),
+            'display_name' => 'Publish',
         ] );
         PostStatus::create( [
             'name' => 'private',
-            'display_name' => __( 'a.Private' ),
+            'display_name' => 'Private',
         ] );
     }
 }

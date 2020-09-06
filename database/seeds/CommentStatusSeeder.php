@@ -14,15 +14,15 @@ class CommentStatusSeeder extends Seeder
     {
         CommentStatuses::create( [
             'name' => 'pending',
-            'display_name' => __( 'a.Pending moderation' ),
+            'display_name' => 'Pending moderation',
         ] );
         CommentStatuses::create( [
             'name' => 'spam',
-            'display_name' => __( 'a.Spam' ),
+            'display_name' => 'Spam',
         ] );
         CommentStatuses::create( [
             'name' => 'approve',
-            'display_name' => __( 'a.Approve' ),
+            'display_name' => 'Approve',
         ] );
     }
 }
