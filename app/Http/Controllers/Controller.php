@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Helpers\Cache;
 use App\Helpers\MediaHelper;
 use App\Helpers\PluginsManager;
+use App\Helpers\ThemesManager;
 use App\Language;
 use App\Options;
 use App\Settings;
@@ -55,6 +56,12 @@ class Controller extends BaseController
     protected $pluginsManager = null;
 
     /**
+     * Stores the reference to the instance of the ThemesManager class
+     * @var ThemesManager|null
+     */
+    protected $themesManager = null;
+
+    /**
      * Holds the reference to the instance of the MediaHelper class
      * @var MediaHelper|null
      */
@@ -80,6 +87,7 @@ class Controller extends BaseController
         $this->options = new Options();
         $this->userMeta = new UserMeta();
         $this->pluginsManager = PluginsManager::getInstance();
+        $this->themesManager = ThemesManager::getInstance();
         $this->request = \request();
         $this->media = new MediaHelper();
 

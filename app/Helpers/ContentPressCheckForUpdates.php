@@ -3,7 +3,6 @@
 namespace App\Helpers;
 
 use App\Options;
-use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\Http;
 
 /**
@@ -66,33 +65,64 @@ class ContentPressCheckForUpdates
         }
 
         //#! Scan plugins and check for updates
-        try {
-            $pluginsManager = PluginsManager::getInstance();
+        $pluginsManager = PluginsManager::getInstance();
 
-            $plugins = $pluginsManager->getAllPlugins();
+        $plugins = $pluginsManager->getAllPlugins();
 
-            foreach ( $plugins as $pluginFileName => $pluginInfo ) {
-                if ( !isset( $pluginInfo->update_url ) ) {
-                    continue;
-                }
-                $result = $this->__checkPluginForUpdate( $pluginFileName, $pluginInfo->update_url );
-                if ( !$result ) {
-                    continue;
-                }
-                if ( $result[ 'success' ] ) {
-                    $updatesInfo[ 'plugins' ][ $pluginFileName ] = [
-                        'display_name' => $pluginInfo->display_name,
-                        'version' => $result[ 'data' ][ 'version' ],
-                        'url' => $result[ 'data' ][ 'url' ],
-                    ];
-                }
-                else {
-                    $errors[ $pluginInfo->display_name ] = $result[ 'errors' ];
-                }
+        foreach ( $plugins as $pluginFileName => $pluginInfo ) {
+            if ( !isset( $pluginInfo->update_url ) ) {
+                continue;
+            }
+            $result = $this->__checkPluginForUpdate( $pluginFileName, $pluginInfo->update_url );
+            if ( !$result ) {
+                continue;
+            }
+            if ( $result[ 'success' ] ) {
+                $updatesInfo[ 'plugins' ][ $pluginFileName ] = [
+                    'display_name' => $pluginInfo->display_name,
+                    'version' => $result[ 'data' ][ 'version' ],
+                    'url' => $result[ 'data' ][ 'url' ],
+                ];
+            }
+            else {
+                $errors[ $pluginInfo->display_name ] = $result[ 'errors' ];
             }
         }
-        catch ( \Exception $e ) {
-            logger( $e->getMessage() );
+
+        //#! Scan themes and check for updates
+        $themes = ThemesManager::getInstance()->getInstalledThemes();
+        foreach ( $themes as $themeDirName ) {
+            $theme = new Theme( $themeDirName );
+            $info = $theme->getThemeData();
+            if ( !isset( $info[ 'name' ] ) || !isset( $info[ 'update_url' ] ) || !isset( $info[ 'display_name' ] ) ) {
+                continue;
+            }
+
+            $name = $info[ 'name' ];
+            $url = $info[ 'update_url' ];
+            $displayName = $info[ 'display_name' ];
+
+            $result = $this->__checkThemeForUpdate( $name, $url );
+            if ( !$result ) {
+                continue;
+            }
+            if ( $result[ 'success' ] ) {
+                $updatesInfo[ 'themes' ][ $name ] = [
+                    'display_name' => $displayName,
+                    'version' => $result[ 'data' ][ 'version' ],
+                    'url' => $result[ 'data' ][ 'url' ],
+                ];
+            }
+            else {
+                $errors[ $name ] = $result[ 'errors' ];
+            }
+        }
+
+        //#! Render error
+        if ( !empty( $errors ) ) {
+            foreach ( $errors as $source => $msgs ) {
+                UserNotices::getInstance()->addNotice( 'warning', implode( '<br/>', $msgs ) );
+            }
         }
 
         $updatesInfo[ 'last_check' ] = time();
@@ -107,7 +137,7 @@ class ContentPressCheckForUpdates
      * @return bool|array Boolean false on error, array on success
      * @uses filter 'contentpress/plugin/check-for-update/args'
      */
-    private function __checkPluginForUpdate( $name, $url )
+    private function __checkPluginForUpdate( string $name, string $url )
     {
         if ( empty( $name ) || empty( $url ) ) {
             return false;
@@ -125,19 +155,57 @@ class ContentPressCheckForUpdates
         $response = Http::asForm()->post( $url, $args )->json();
         if ( isset( $response[ 'code' ] ) && $response[ 'code' ] == 200 ) {
             //#! Compare versions
-            try {
-                $pluginInfo = PluginsManager::getInstance()->getPluginInfo( $name );
-                if ( version_compare( $pluginInfo->version, $response[ 'data' ][ 'version' ], '<' ) ) {
-                    return [
-                        'success' => true,
-                        'data' => $response[ 'data' ],
-                    ];
-                }
-            }
-            catch ( \Exception $e ) {
-                logger( $e->getMessage() );
+            $pluginInfo = PluginsManager::getInstance()->getPluginInfo( $name );
+            if ( version_compare( $pluginInfo->version, $response[ 'data' ][ 'version' ], '<' ) ) {
+                return [
+                    'success' => true,
+                    'data' => $response[ 'data' ],
+                ];
             }
             return false;
+        }
+        return [
+            'success' => false,
+            'code' => ( isset( $response[ 'code' ] ) ? $response[ 'code' ] : 404 ),
+            'errors' => ( isset( $response[ 'errors' ] ) ? $response[ 'errors' ] : [] ),
+        ];
+    }
+
+    /**
+     * Check to see whether the specified theme has any update available.
+     *
+     * @param string $name The directory name of the theme
+     * @param string $url The URL to check for theme updates
+     *
+     * @return bool|array Boolean false on error, array on success
+     * @uses filter 'contentpress/theme/check-for-update/args'
+     */
+    private function __checkThemeForUpdate( string $name, string $url )
+    {
+        if ( empty( $name ) || empty( $url ) ) {
+            return false;
+        }
+
+        //#! Allows developers to inject other required fields such as authentication
+        //#! Expected return: associative array ( ex: key => value )
+        $args = \apply_filters( 'contentpress/theme/check-for-update/args', $name );
+        if ( !is_array( $args ) ) {
+            $args = [
+                'name' => $name,
+            ];
+        }
+
+        //@see: https://laravel.com/docs/7.x/http-client
+        $response = Http::asForm()->post( $url, $args )->json();
+        if ( isset( $response[ 'code' ] ) && $response[ 'code' ] == 200 ) {
+            $theme = new Theme( $name );
+            $themeInfo = $theme->getThemeData();
+            if ( version_compare( $themeInfo[ 'version' ], $response[ 'data' ][ 'version' ], '<' ) ) {
+                return [
+                    'success' => true,
+                    'data' => $response[ 'data' ],
+                ];
+            }
         }
         return [
             'success' => false,

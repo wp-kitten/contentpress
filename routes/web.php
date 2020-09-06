@@ -11,6 +11,7 @@
 |
 */
 
+use App\Helpers\ThemesManager;
 use App\PostType;
 use App\Settings;
 use Illuminate\Support\Facades\Auth;
@@ -58,15 +59,17 @@ Route::get( "auth/maintenance", "UnderMaintenanceController@maintenance" )->midd
 Route::group( [
     'prefix' => '/', 'middleware' => [ 'web', 'active_user', 'under_maintenance' ],
 ], function () {
+    //#! Default app routes -- these can be overridden in themes & plugins
     Route::get( "/", "SiteController@index" )->name( "app.home" );
 
-    //#! Load routes from theme if provided
-    $frontendRoutesFilePath = path_combine( public_path( 'themes' ), cp_get_current_theme_name(), 'routes/web.php' );
-    if ( File::isFile( $frontendRoutesFilePath ) ) {
-        require_once( $frontendRoutesFilePath );
-    }
-    else {
-        //#! TODO: Register the app's required routes
+    //#! Load active theme's routes if provided
+    $tm = ThemesManager::getInstance();
+    $activeTheme = $tm->getActiveTheme();
+    if ( $activeTheme ) {
+        $frontendRoutesFilePath = path_combine( $tm->getThemesDirectoryPath(), $activeTheme->get( 'name' ), 'routes/web.php' );
+        if ( File::isFile( $frontendRoutesFilePath ) ) {
+            require_once( $frontendRoutesFilePath );
+        }
     }
 } );
 
@@ -232,7 +235,7 @@ if ( Schema::hasTable( 'post_types' ) ) {
 }
 
 /*
- * Load frontend routes
+ * Load routes from plugins
  * Plugins can use this action to inject their own routes
  */
 do_action( 'contentpress/plugins/loaded' );

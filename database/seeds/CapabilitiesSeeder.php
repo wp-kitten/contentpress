@@ -70,16 +70,23 @@ class CapabilitiesSeeder extends Seeder
         Capability::create( [ 'name' => 'update_plugins', ] );
         Capability::create( [ 'name' => 'delete_plugins', ] );
 
-        //[::7] Translations
+        //[::7] Themes
+        Capability::create( [ 'name' => 'list_themes', ] ); // Allows access to everything under this section - this is the root capability
+        Capability::create( [ 'name' => 'install_themes', ] );
+        Capability::create( [ 'name' => 'switch_themes', ] ); // Allows the user to change themes
+        Capability::create( [ 'name' => 'update_themes', ] );
+        Capability::create( [ 'name' => 'delete_themes', ] );
+
+        //[::8] Translations
         Capability::create( [ 'name' => 'manage_translations', ] ); // Allows access to everything under this section - this is the root capability
 
-        //[::8] Menus
+        //[::9] Menus
         Capability::create( [ 'name' => 'manage_menus', ] ); // Allows access to everything under this section - this is the root capability
         Capability::create( [ 'name' => 'create_menu', ] );
         Capability::create( [ 'name' => 'update_menu', ] );
         Capability::create( [ 'name' => 'delete_menu', ] );
 
-        //[::9] Media
+        //[::10] Media
         Capability::create( [ 'name' => 'list_media', ] ); // Allows access to everything under this section - this is the root capability
         Capability::create( [ 'name' => 'add_media', ] ); // requires upload_files as well
         Capability::create( [ 'name' => 'update_media', ] ); // Allows the user to change themes

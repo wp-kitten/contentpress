@@ -6,6 +6,7 @@ use App\Helpers\Cache;
 use App\Helpers\ContentPressCheckForUpdates;
 use App\Helpers\CPML;
 use App\Helpers\PluginsManager;
+use App\Helpers\ThemesManager;
 use App\Options;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
@@ -38,6 +39,7 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength( 191 );
 
         PluginsManager::getInstance();
+        ThemesManager::getInstance();
 
         if ( Schema::hasTable( 'options' ) ) {
             if ( cp_is_multilingual() ) {

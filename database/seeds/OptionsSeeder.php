@@ -2,6 +2,7 @@
 
 use App\CommentStatuses;
 use App\Helpers\StatsHelper;
+use App\Helpers\ThemesManager;
 use App\Options;
 use App\Post;
 use App\PostComments;
@@ -22,6 +23,12 @@ class OptionsSeeder extends Seeder
             'name' => 'enabled_languages',
             'value' => maybe_serialize( [ 'en' ] ),
         ] );
+
+        //#! Set the current theme
+        $defaultThemeName = env( 'DEFAULT_THEME_NAME', '' );
+        if ( !empty( $defaultThemeName ) ) {
+            ThemesManager::getInstance()->saveActiveTheme( $defaultThemeName );
+        }
 
         //#! Number of posts
         //#! Number of approved comments

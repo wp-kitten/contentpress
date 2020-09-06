@@ -7,6 +7,7 @@ use App\Helpers\CPML;
 use App\Helpers\ImageHelper;
 use App\Helpers\MediaHelper;
 use App\Helpers\MetaFields;
+use App\Helpers\Theme;
 use App\Helpers\Util;
 use App\Http\Controllers\Controller;
 use App\Language;
@@ -904,7 +905,7 @@ class AjaxController extends Controller
 
         $menuSlug = Str::slug( $menuName );
 
-        if ( $menu->where( 'slug', $menuSlug )->where('id', '!=', $menuID)->first() ) {
+        if ( $menu->where( 'slug', $menuSlug )->where( 'id', '!=', $menuID )->first() ) {
             return $this->responseError( __( 'a.A menu with the same name already exists.' ) );
         }
         $menu->slug = $menuSlug;
@@ -1217,7 +1218,6 @@ class AjaxController extends Controller
         }
     }
 
-
     //#! Plugins
     private function action_upload_plugin()
     {
@@ -1261,7 +1261,7 @@ class AjaxController extends Controller
                 File::moveDirectory( $pluginTmpDirPath, $pluginDestDirPath );
                 File::deleteDirectory( $tmpDirPath );
 
-                //#! Validate the uploaded theme
+                //#! Validate the uploaded plugin
                 $pluginInfo = $this->pluginsManager->getPluginInfo( $pluginDirName );
                 if ( false === $pluginInfo ) {
                     File::deleteDirectory( $pluginDestDirPath );
@@ -1325,6 +1325,90 @@ class AjaxController extends Controller
         }
         return $this->responseError( __( 'a.An error occurred.' ) );
     }
+
+    //#! Themes
+    private function action_upload_theme()
+    {
+        if ( !cp_current_user_can( [ 'install_themes', 'upload_files' ], true ) ) {
+            return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
+        }
+
+        if ( !$this->request->has( 'the_file' ) ) {
+            return $this->responseError( __( 'a.Request not valid.' ) );
+        }
+        if ( !$this->request->the_file->isValid() ) {
+            return $this->responseError( __( 'a.Error uploading the file.' ) );
+        }
+
+        //#! Setup vars
+        $uploadFilePath = $this->request->the_file->getRealPath();
+        $archiveName = basename( $uploadFilePath, '.zip' );
+
+        $zip = new \ZipArchive();
+        $tmpDirPath = public_path( 'uploads/tmp/' . $archiveName );
+        if ( !File::isDirectory( $tmpDirPath ) ) {
+            File::makeDirectory( $tmpDirPath, 0777, true );
+        }
+
+        if ( $zip->open( $uploadFilePath ) ) {
+            $zip->extractTo( $tmpDirPath );
+            $zip->close();
+
+            //#! Get the directory
+            $dirs = File::directories( $tmpDirPath );
+            if ( empty( $dirs ) ) {
+                return $this->responseError( __( 'a.The uploaded file is not valid.' ) );
+            }
+            $themeTmpDirPath = wp_normalize_path( $dirs[ 0 ] );
+            $themeDirName = basename( $themeTmpDirPath );
+
+            //#! Validate the uploaded theme
+            $errors = $this->themesManager->checkThemeUploadDir( $themeTmpDirPath );
+            if ( !empty( $errors ) ) {
+                File::deleteDirectory( $tmpDirPath );
+                return $this->responseError( __( 'a.The uploaded file is not a valid theme.' ) );
+            }
+
+            //#! Move to the themes directory
+            $themeDestDirPath = path_combine( $this->themesManager->getThemesDirectoryPath(), $themeDirName );
+
+            if ( File::isDirectory( $themeDestDirPath ) ) {
+                return $this->responseError( __( 'a.A theme with the same name already exists.' ) );
+            }
+
+            File::moveDirectory( $themeTmpDirPath, $themeDestDirPath );
+            File::deleteDirectory( $tmpDirPath );
+            $this->themesManager->updateCache();
+
+            return $this->responseSuccess( [
+                'path' => $themeDirName,
+            ] );
+        }
+        return $this->responseError( __( 'a.Error uploading the file.' ) );
+    }
+
+    private function action_get_theme_info()
+    {
+        if ( !cp_current_user_can( 'list_themes' ) ) {
+            return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
+        }
+
+        if ( !$this->request->has( 'theme_name' ) ) {
+            return $this->responseError( __( 'a.Request not valid.' ) );
+        }
+
+        $themeName = sanitize_file_name( $this->request->get( 'theme_name' ) );
+        $theme = new Theme( $themeName );
+        $themeInfo = $theme->getThemeData();
+        if ( !empty( $themeInfo ) ) {
+            return $this->responseSuccess( view( 'admin.themes.partials.info' )->with( [
+                'theme' => $themeInfo,
+            ] )->toHtml() );
+        }
+        return $this->responseError( __( 'a.An error occurred.' ) );
+    }
+
+
 
     //#! HELPER METHODS
     //=====================================================

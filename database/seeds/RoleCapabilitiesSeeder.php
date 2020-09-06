@@ -79,6 +79,12 @@ class RoleCapabilitiesSeeder extends Seeder
             Capability::where( 'name', 'update_plugins' )->first()->id,
             Capability::where( 'name', 'delete_plugins' )->first()->id,
 
+            Capability::where( 'name', 'list_themes' )->first()->id,
+            Capability::where( 'name', 'install_themes' )->first()->id,
+            Capability::where( 'name', 'switch_themes' )->first()->id,
+            Capability::where( 'name', 'update_themes' )->first()->id,
+            Capability::where( 'name', 'delete_themes' )->first()->id,
+
             Capability::where( 'name', 'manage_menus' )->first()->id,
             Capability::where( 'name', 'create_menu' )->first()->id,
             Capability::where( 'name', 'update_menu' )->first()->id,

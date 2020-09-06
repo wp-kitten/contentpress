@@ -26,8 +26,8 @@ abstract class ContentPressUpdaterAbstract
      */
     public function __construct()
     {
-        $this->themesDir = untrailingslashit( wp_normalize_path( public_path( 'themes' ) ) );
-        $this->pluginsDir = untrailingslashit( wp_normalize_path( public_path( 'plugins' ) ) );
+        $this->themesDir = ThemesManager::getInstance()->getThemesDirectoryPath();
+        $this->pluginsDir = PluginsManager::getInstance()->getPluginsDir();
 
         $this->options = new Options();
         $this->dbInfo = $this->options->getOption( 'contentpress_updates', [ 'plugins' => [], 'themes' => [] ] );
@@ -40,6 +40,8 @@ abstract class ContentPressUpdaterAbstract
      * @return mixed
      */
     abstract function update( $resourceFileName );
+
     abstract function exists( $resourceFileName );
+
     abstract function getInfo( $resourceFileName );
 }

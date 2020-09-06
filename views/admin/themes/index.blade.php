@@ -25,33 +25,35 @@
 
     @if(cp_current_user_can('list_themes'))
         <div class="row themes-list">
-            @foreach($themes as $theme)
+            @foreach($themes as $themeDirName)
                 @php
-                    $isActive = ($theme['name'] == cp_get_current_theme_name());
+                    $theme = new \App\Helpers\Theme($themeDirName);
+                    $themeInfo = $theme->getThemeData();
+                    $isActive = ($currentTheme->get('name') == $themeDirName);
                     $hasUpdate = false;
                 @endphp
 
                 <div class="col-sm-12 col-md-3">
                     <div class="card @if($isActive) active @endif">
                         <div class="card-body">
-                            @if($theme['thumbnail'])
+                            @if($themeInfo['thumbnail'])
                                 <a href="#"
                                    data-toggle="modal"
                                    data-target="#infoModal"
-                                   data-name="{{$theme['name']}}"
-                                   data-display-name="{{$theme['display_name']}}"
+                                   data-name="{{$themeInfo['name']}}"
+                                   data-display-name="{{$themeInfo['display_name']}}"
                                    class="theme-title js-open-info-modal @if($isActive) theme-active text-success @else text-dark @endif">
-                                    <img src="{{cp_theme_url($theme['name'], $currentTheme->getSetting('thumbnail'))}}" alt="{{$theme['name']}}" class="img-thumbnail"/>
+                                    <img src="{{cp_theme_url($themeInfo['name'], $currentTheme->get('thumbnail'))}}" alt="{{$themeInfo['name']}}" class="img-thumbnail"/>
                                 </a>
                             @endif
                         </div>
                         <div class="card-footer">
                             <div class="theme-actions d-flex">
-                                <h4 class="theme-title mr-auto">{{$theme['display_name']}}</h4>
+                                <h4 class="theme-title mr-auto">{{$themeInfo['display_name']}}</h4>
 
                                 <p>
                                     @if(cp_current_user_can('switch_themes') && ! $isActive)
-                                        <a href="{{route('admin.themes.activate', $theme['name'])}}"
+                                        <a href="{{route('admin.themes.activate', $themeInfo['name'])}}"
                                            class="text-primary js-theme-activate">{{__('a.Activate')}}</a>
                                     @endif
 
@@ -60,7 +62,7 @@
                                     @endif
 
                                     @if(cp_current_user_can('delete_themes') && ! $isActive)
-                                        <a href="{{route('admin.themes.delete', $theme['name'])}}"
+                                        <a href="{{route('admin.themes.delete', $themeInfo['name'])}}"
                                            data-confirm="{{__('a.Are you sure you want to delete this theme?')}}"
                                            class="text-danger">{{__('a.Delete')}}</a>
                                     @endif

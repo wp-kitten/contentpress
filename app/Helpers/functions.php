@@ -7,6 +7,8 @@ use App\Helpers\CPML;
 use App\Helpers\ImageHelper;
 use App\Helpers\MenuWalkerFrontend;
 use App\Helpers\ScriptsManager;
+use App\Helpers\Theme;
+use App\Helpers\ThemesManager;
 use App\Helpers\TranslationsLoader;
 use App\Helpers\Util;
 use App\MediaFile;
@@ -679,28 +681,14 @@ function cp_get_post_view_url( Post $post )
     return Util::getPostViewUrl( $post );
 }
 
-/**
- */
-function cp_get_themes_class()
-{
-    return null;
-}
 
 /**
- * TODO: VERIFY USAGES OF THEME
  * Retrieve the reference to the instance of the current theme
  * @return Theme|null
  */
-function cp_get_current_theme()
+function cp_get_current_theme(): ?Theme
 {
-    $theme = null;
-    try {
-        $theme = cp_get_themes_class()->current();
-    }
-    catch ( \Exception $e ) {
-        logger( $e->getMessage() );
-    }
-    return $theme;
+    return ThemesManager::getInstance()->getActiveTheme();
 }
 
 /**
@@ -710,9 +698,9 @@ function cp_get_current_theme()
 function cp_get_current_theme_name()
 {
     if ( Schema::hasTable( 'options' ) ) {
-        return ( new Options() )->getOption( 'contentpress_active_theme', 'material' );
+        return ( new Options() )->getOption( ThemesManager::ACTIVE_THEME_NAME_OPT_NAME, 'default' );
     }
-    return 'material';
+    return 'default';
 }
 
 /**
@@ -734,7 +722,7 @@ function cp_plugin_url( $pluginName, $path )
  */
 function cp_theme_url( $themeName, $path )
 {
-    return asset( path_combine( 'themes', $themeName, $path ) );
+    return path_combine( ThemesManager::getInstance()->getThemesDirectoryUrl(), $themeName, $path );
 }
 
 /**

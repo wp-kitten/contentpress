@@ -222,6 +222,29 @@
             </li>
         @endif
 
+        {{-- THEMES --}}
+        @if(cp_current_user_can('list_themes'))
+            <li class="treeview {{App\Helpers\MenuHelper::activateMenuItem('admin.themes')}}">
+                <a class="app-menu__item" href="#" data-toggle="treeview">
+                    <i class="app-menu__icon fa fa-paint-brush"></i>
+                    <span class="app-menu__label">{{__('a.Themes')}}</span>
+                    <i class="treeview-indicator fa fa-angle-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.themes.all')}}" href="{{route('admin.themes.all')}}">{{__('a.All')}}</a>
+                    </li>
+
+                    @if(cp_current_user_can('install_themes'))
+                        <li>
+                            <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.themes.add')}}" href="{{route('admin.themes.add')}}">{{__('a.Add new')}}</a>
+                        </li>
+                    @endif
+
+                    {!! do_action('contentpress/admin/sidebar/menu/themes') !!}
+                </ul>
+            </li>
+        @endif
         {{-- USERS --}}
         <li class="treeview {{App\Helpers\MenuHelper::activateMenuItem('admin.users')}}">
             <a class="app-menu__item" href="#" data-toggle="treeview">

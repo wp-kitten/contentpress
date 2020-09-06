@@ -2,8 +2,10 @@
 
 namespace App\Http\Middleware;
 
+use App\Helpers\ThemesManager;
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\View\FileViewFinder;
 
 class AppLoader
 {
@@ -12,8 +14,14 @@ class AppLoader
      */
     private $request = null;
 
+    /**
+     * @var ThemesManager|null
+     */
+    private $themesManager;
+
     public function __construct( Request $request )
     {
+        $this->themesManager = ThemesManager::getInstance();
         $this->request = $request;
         if ( cp_is_admin() ) {
             if ( !did_action( 'contentpress/admin/init' ) ) {
@@ -31,23 +39,9 @@ class AppLoader
      */
     public function handle( $request, Closure $next )
     {
-        //#! @1
         if ( !did_action( 'contentpress/app/loaded' ) ) {
             do_action( 'contentpress/app/loaded' );
         }
-
-        //#! @2
-        $paths = apply_filters( 'contentpress/register_view_paths', [] );
-        $paths = array_merge( config( 'view.paths' ), $paths );
-        //#! TODO: include path to teh currently active theme
-//        $paths = array_merge( $paths, [ public_path( 'themes/THEME_NAME/views' ) ] );
-        $paths = array_map( function ( $path ) {
-            return wp_normalize_path( $path );
-        }, $paths );
-        $paths = array_unique( $paths );
-
-        $viewFinder = app( 'view.finder' );
-        $viewFinder->setPaths( $paths );
 
         return $next( $request );
     }
