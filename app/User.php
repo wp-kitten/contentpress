@@ -3,6 +3,7 @@
 namespace App;
 
 //use App\Events\UserRegisteredEvent;
+use App\Events\UserRegisteredEvent;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -42,14 +43,14 @@ class User extends Authenticatable
      * @var array
      */
     protected $dispatchesEvents = [
-        //#! Used to set the default role upon user registration
-//        'created' => UserRegisteredEvent::class,
+        //#! Used to set the default role & meta data upon registration
+        'created' => UserRegisteredEvent::class,
     ];
 
-//    public function posts()
-//    {
-//        return $this->hasMany( Post::class );
-//    }
+    public function posts()
+    {
+        return $this->hasMany( Post::class );
+    }
 
     public function role()
     {
@@ -61,10 +62,10 @@ class User extends Authenticatable
         return $this->hasMany( UserMeta::class );
     }
 
-//    public function post_comments()
-//    {
-//        return $this->hasMany( PostComments::class );
-//    }
+    public function post_comments()
+    {
+        return $this->hasMany( PostComments::class );
+    }
 
     /**
      * Check to see whether or not the current user has a specific role identified by either role ID or name

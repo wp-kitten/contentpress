@@ -15,7 +15,6 @@ class DatabaseSeeder extends Seeder
         $this->call( RoleSeeder::class );
         $this->call( CapabilitiesSeeder::class );
         $this->call( UserSeeder::class );
-        $this->call( UserMetaSeeder::class );
         $this->call( RoleCapabilitiesSeeder::class );
 
         $this->call( CommentStatusSeeder::class );
