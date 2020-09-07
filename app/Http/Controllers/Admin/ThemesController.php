@@ -24,6 +24,8 @@ class ThemesController extends AdminControllerBase
         ScriptsManager::enqueueFooterScript( 'themes-index.js', asset( '_admin/js/themes/index.js' ) );
 
         //#! Filter the themes so the currently active theme shows up first in the list
+        //#! Pick up new uploaded themes (if any) and update cache
+        $this->themesManager->rebuildCache( false );
         $_themes = collect( $this->themesManager->getInstalledThemes() );
         $currentTheme = $this->themesManager->getActiveTheme();
         $currentThemeName = $currentTheme->get( 'name' );

@@ -1,0 +1,20 @@
+{
+    "name": "newspaper",
+    "extends": "",
+    "asset-path": "newspaper/assets",
+    "views-path": "newspaper/views",
+
+    "display_name": "Newspaper",
+    "version": "0.1",
+    "authors": [
+        {
+            "name": "wp-kitten",
+            "url": "https://wp-kitten.github.io"
+        }
+    ],
+    "contributors": [],
+    "page_url": "http://example.com/theme-page-url",
+    "update_url": "",
+    "description": "Syndication theme for ContentPress",
+    "thumbnail": "thumb.png"
+}

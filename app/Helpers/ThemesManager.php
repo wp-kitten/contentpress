@@ -155,6 +155,41 @@ class ThemesManager
     }
 
     /**
+     * Scan the themes directory and update cache
+     * @param bool|false $silent Whether to display the user notice if there is an error
+     * @return bool
+     */
+    public function rebuildCache( $silent = true ): bool
+    {
+        //#! Scan the themes directory
+        $themes = glob( $this->themesDir . '/*', GLOB_ONLYDIR );
+        $installedThemes = array_map( 'basename', $themes );
+        $cache = [];
+
+        foreach ( $installedThemes as $themeDirName ) {
+            $theme = new Theme( $themeDirName );
+            if ( $theme->isValid() ) {
+                $cache[] = $themeDirName;
+                continue;
+            }
+            $errors[ "$themeDirName" ] = $theme->getErrors();
+        }
+
+        //#! Check for errors
+        if ( !$silent && !empty( $errors ) ) {
+            //#! Combine messages so we won't display a notice for each error
+            foreach ( $errors as $path => $messages ) {
+                $this->noticesClass->addNotice( 'warning', implode( '<br/>', $messages ) );
+            }
+            return false;
+        }
+
+        $this->_installedThemes = $cache;
+        $this->updateCache();
+        return true;
+    }
+
+    /**
      * Check to see whether the specified uploaded theme is a valid theme
      * @param string $uploadDirPath
      * @return array

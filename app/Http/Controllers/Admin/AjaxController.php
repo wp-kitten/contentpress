@@ -1247,34 +1247,32 @@ class AjaxController extends Controller
             $zip->close();
 
             try {
-                //#! Get the directory
-                $dirs = File::directories( $tmpDirPath );
-                if ( empty( $dirs ) ) {
-                    return $this->responseError( __( 'a.The uploaded file is not valid.' ) );
-                }
-                $pluginTmpDirPath = wp_normalize_path( $dirs[ 0 ] );
-                $pluginDirName = basename( $pluginTmpDirPath );
+                //#! Get the directory inside the uploads/tmp/$archiveName
+                $pluginTmpDirPath = path_combine( $tmpDirPath, $archiveName);
 
                 //#! Move to the plugins directory
-                $pluginDestDirPath = path_combine( $this->pluginsManager->getPluginsDir(), $pluginDirName );
+                $pluginDestDirPath = path_combine( $this->pluginsManager->getPluginsDir(), $archiveName );
 
                 File::moveDirectory( $pluginTmpDirPath, $pluginDestDirPath );
                 File::deleteDirectory( $tmpDirPath );
 
                 //#! Validate the uploaded plugin
-                $pluginInfo = $this->pluginsManager->getPluginInfo( $pluginDirName );
+                $pluginInfo = $this->pluginsManager->getPluginInfo( $archiveName );
                 if ( false === $pluginInfo ) {
                     File::deleteDirectory( $pluginDestDirPath );
                     return $this->responseError( __( 'a.The uploaded plugin is not valid.' ) );
                 }
 
                 return $this->responseSuccess( [
-                    'path' => $pluginDirName,
+                    'path' => $archiveName,
                 ] );
             }
             catch ( \Exception $e ) {
                 return $this->responseError( $e->getMessage() );
             }
+        }
+        else {
+            File::deleteDirectory( $tmpDirPath );
         }
         return $this->responseError( __( 'a.Error uploading the file.' ) );
     }
