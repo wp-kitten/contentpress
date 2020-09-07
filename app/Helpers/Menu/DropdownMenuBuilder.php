@@ -50,7 +50,7 @@ class DropdownMenuBuilder implements IMenuBuilder
                 }
 
                 $hasChildren = ( isset( $menuItemData[ 'items' ] ) && !empty( $menuItemData[ 'items' ] ) );
-                $cssClass = ( $hasChildren ? 'nav-item dropdown' : 'nav-item' );
+                $cssClass = ( $hasChildren ? 'has-submenu' : 'menu-item' );
 
                 if ( 'custom' == $type->name ) {
                     $this->__renderMenuItemCustom( $menuItemID, $refItemID, $menuItemData, $cssClass );
@@ -72,6 +72,7 @@ class DropdownMenuBuilder implements IMenuBuilder
             $meta = maybe_unserialize( $metaData->meta_value );
             if ( !empty( $meta ) && isset( $meta[ 'title' ] ) && isset( $meta[ 'url' ] ) ) {
                 $title = $meta[ 'title' ];
+
                 //#! Check to see if this is a route
                 if ( Route::has( $meta[ 'url' ] ) ) {
                     $url = route( $meta[ 'url' ] );
@@ -79,15 +80,26 @@ class DropdownMenuBuilder implements IMenuBuilder
                 else {
                     $url = $meta[ 'url' ];
                 }
-                ?>
-                <li class="<?php esc_attr_e( $cssClass ); ?>">
-                    <a href="<?php esc_attr_e( $url ); ?>" class="nav-link"><?php esc_html_e( $title ); ?></a>
-                    <?php
-                    //#! Render the submenu tree
-                    $this->__renderSubmenuTree( $menuItemData );
+
+                if ( $cssClass == 'has-submenu' ) {
                     ?>
-                </li>
-                <?php
+                    <div class="<?php esc_attr_e( $cssClass ); ?>">
+                        <button class="show-submenu">
+                            <?php esc_html_e( $title ); ?>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <div class="submenu-content">
+                            <?php
+                            //#! Render the submenu tree
+                            $this->__renderSubmenuTree( $menuItemData );
+                            ?>
+                        </div>
+                    </div>
+                    <?php
+                }
+                else {
+                    echo '<a href="' . esc_attr( $url ) . '" class="' . esc_attr( $cssClass ) . '">' . esc_html( $title ) . '</a>';
+                }
             }
         }
     }
@@ -96,15 +108,27 @@ class DropdownMenuBuilder implements IMenuBuilder
     {
         $category = Category::find( $refItemID );
         if ( $category ) {
-            ?>
-            <li class="<?php esc_attr_e( $cssClass ); ?>">
-                <a href="<?php cp_get_category_link( $category ); ?>" class="nav-link"><?php esc_html_e( $category->name ); ?></a>
-                <?php
-                //#! Render the submenu tree
-                $this->__renderSubmenuTree( $menuItemData );
+            if ( $cssClass == 'has-submenu' ) {
                 ?>
-            </li>
-            <?php
+                <div class="<?php esc_attr_e( $cssClass ); ?>">
+                    <button class="show-submenu">
+                        <?php esc_html_e( $category->name ); ?>
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="submenu-content">
+                        <?php
+                        //#! Render the submenu tree
+                        $this->__renderSubmenuTree( $menuItemData );
+                        ?>
+                    </div>
+                </div>
+                <?php
+            }
+            else {
+                ?>
+                <a href="<?php cp_get_category_link( $category ); ?>" class="<?php esc_attr_e( $cssClass ); ?>"><?php esc_html_e( $category->name ); ?></a>
+                <?php
+            }
         }
     }
 
@@ -113,40 +137,60 @@ class DropdownMenuBuilder implements IMenuBuilder
         $post = Post::find( $refItemID );
         if ( $post ) {
             $menuItemInfo = $this->__getMenuInfo( $menuItemID, $menuItemData );
-            ?>
-            <li class="<?php esc_attr_e( $cssClass ); ?>">
-                <a href="<?php esc_attr_e( $menuItemInfo[ 'url' ] ); ?>" class="nav-link">
+            if ( $cssClass == 'has-submenu' ) {
+                ?>
+                <div class="<?php esc_attr_e( $cssClass ); ?>">
+                    <button class="show-submenu">
+                        <?php esc_html_e( $post->title ); ?>
+                        <i class="fa fa-caret-down"></i>
+                    </button>
+                    <div class="submenu-content">
+                        <?php
+                        //#! Render the submenu tree
+                        $this->__renderSubmenuTree( $menuItemData );
+                        ?>
+                    </div>
+                </div>
+                <?php
+            }
+            else {
+                ?>
+                <a href="<?php esc_attr_e( $menuItemInfo[ 'url' ] ); ?>" class="<?php esc_attr_e( $cssClass ); ?>">
                     <?php esc_html_e( $post->title ); ?>
                 </a>
-
                 <?php
-                //#! Render the submenu tree
-                $this->__renderSubmenuTree( $menuItemData );
-                ?>
-            </li>
-            <?php
+            }
         }
     }
 
     protected function __renderSubmenuTree( $menuItemData = [] )
     {
         if ( !empty( $menuItemData[ 'items' ] ) ) {
-            ?>
-            <ul class="sub-menu">
-                <?php
-                foreach ( $menuItemData[ 'items' ] as $miID => $miData ) {
-                    $menuItemInfo = $this->__getMenuInfo( $miID, $miData );
-                    $cssClass = ( empty( $miData[ 'items' ] ) ? '' : 'nav-item dropdown' );
-                    echo '<li class="' . $cssClass . '"><a href="' . esc_attr( $menuItemInfo[ 'url' ] ) . '">' . esc_html( $menuItemInfo[ 'title' ] ) . '</a>';
-                    //#! Recurse into children
-                    if ( !empty( $cssClass ) ) {
-                        $this->__renderSubmenuTree( $miData );
-                    }
-                    echo '</li>';
+
+            foreach ( $menuItemData[ 'items' ] as $miID => $miData ) {
+                $menuItemInfo = $this->__getMenuInfo( $miID, $miData );
+                $cssClass = ( empty( $miData[ 'items' ] ) ? 'menu-item' : 'has-submenu' );
+
+                if ( $cssClass == 'has-submenu' ) {
+                    ?>
+                    <div class="<?php esc_attr_e( $cssClass ); ?>">
+                        <button class="show-submenu">
+                            <?php esc_html_e( $menuItemInfo[ 'title' ] ); ?>
+                            <i class="fa fa-caret-down"></i>
+                        </button>
+                        <div class="submenu-content">
+                            <?php
+                            //#! Recurse into children
+                            $this->__renderSubmenuTree( $miData );
+                            ?>
+                        </div>
+                    </div>
+                    <?php
                 }
-                ?>
-            </ul>
-            <?php
+                else {
+                    echo '<a href="' . esc_attr( $menuItemInfo[ 'url' ] ) . '" class="' . $cssClass . '">' . esc_html( $menuItemInfo[ 'title' ] ) . '</a>';
+                }
+            }
         }
     }
 }
