@@ -10,7 +10,7 @@
 @endphp
 
 @section('content')
-    <main class="site-page page-blog">
+    <main class="site-page page-category">
 
         <div class="container">
             <div class="row">

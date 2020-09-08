@@ -4,7 +4,7 @@ The template to display pages
 @extends('layouts.frontend')
 
 @section('content')
-    <main id="main" class="site-content">
+    <main class="site-page page-page">
 {{--        @include('inc.page-header', [ 'page' => $page ] )--}}
 
         <section class="page-content-wrap">

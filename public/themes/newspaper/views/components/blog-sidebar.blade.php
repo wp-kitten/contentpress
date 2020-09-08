@@ -3,7 +3,7 @@
         $entries = [];
         $categories = $newspaperHelper->getTopCategories();
         $posts = $newspaperHelper->getRandomPosts(5);
-        $tags = App\Tag::all();
+        $tags = App\Tag::latest()->limit(100)->get();
         if($categories){
             $postStatusPublishID = (new App\PostStatus())->where('name', 'publish')->first()->id;
             foreach($categories as $category){

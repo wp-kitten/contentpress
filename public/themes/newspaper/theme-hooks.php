@@ -50,17 +50,22 @@ add_action( 'contentpress/site/head', function () {
     ScriptsManager::enqueueHeadScript( 'popper.js', $theme->url( 'assets/vendor/popper/popper.min.js' ) );
     ScriptsManager::enqueueHeadScript( 'bootstrap.js', $theme->url( 'assets/vendor/bootstrap/bootstrap.min.js' ) );
     ScriptsManager::enqueueHeadScript( 'fa-kit.js', '//kit.fontawesome.com/cec4674fec.js' );
-
-    ScriptsManager::enqueueFooterScript( 'masonry.js', $theme->url( 'assets/vendor/masonry.pkgd.min.js' ) . $qv );
-    ScriptsManager::enqueueFooterScript( 'theme-scripts.js', $theme->url( 'assets/dist/js/theme-scripts.js' ) . $qv );
-    ScriptsManager::enqueueFooterScript( 'theme-custom-scripts.js', $theme->url( 'assets/js/theme-custom-scripts.js' ) . $qv );
 } );
 
 /*
  * Load|output resources in the site footer
  */
 add_action( 'contentpress/site/footer', function () {
-    //...
+    $theme = new Theme( NP_THEME_DIR_NAME );
+
+    //#! [DEBUG] Prevent the browser from caching resources
+    $qv = ( env( 'APP_DEBUG' ) ? '?t=' . time() : '' );
+
+
+    ScriptsManager::enqueueFooterScript( 'siema.js', $theme->url( 'assets/vendor/siema.min.js' ) . $qv );
+    ScriptsManager::enqueueFooterScript( 'masonry.js', $theme->url( 'assets/vendor/masonry.pkgd.min.js' ) . $qv );
+    ScriptsManager::enqueueFooterScript( 'theme-scripts.js', $theme->url( 'assets/dist/js/theme-scripts.js' ) . $qv );
+    ScriptsManager::enqueueFooterScript( 'theme-custom-scripts.js', $theme->url( 'assets/js/theme-custom-scripts.js' ) . $qv );
 } );
 
 /*
@@ -123,6 +128,7 @@ add_action( 'contentpress/menu::main-menu', function () {
 //</editor-fold desc=":: MAIN MENU ::">
 
 add_action( 'contentpress/submit_comment', 'np_theme_submit_comment', 10, 2 );
+
 add_action( 'contentpress/post/footer', function ( Post $post ) {
     //#! Render the link back & the video if any
     if ( 'post' == $post->post_type()->first()->name ) {
@@ -137,19 +143,18 @@ add_action( 'contentpress/post/footer', function ( Post $post ) {
         }
         if ( $videoUrl ) {
             ?>
-            <div class="hentry-content section-video">
+            <section class="entry-content section-video">
                 <video src="<?php esc_attr_e( $videoUrl ); ?>" controls>
                     <embed src="<?php esc_attr_e( $videoUrl ); ?>"/>
                 </video>
-            </div>
+            </section>
             <?php
         }
 
         //#! Render tags, social icons, whatever...
         if ( $post->tags->count() ) {
             ?>
-            <div class="hentry-footer">
-                <div class="entry-tags">
+                <section class="entry-tags">
                     <span class="tags"><?php esc_html_e( __( 'np::m.Tags:' ) ); ?></span>
                     <?php
                     foreach ( $post->tags as $tag ) {
@@ -165,8 +170,7 @@ add_action( 'contentpress/post/footer', function ( Post $post ) {
                         );
                     }
                     ?>
-                </div>
-            </div> <!-- end .hentry-footer -->
+                </section>
         <?php } ?>
 
         <?php
@@ -184,7 +188,7 @@ add_action( 'contentpress/post/footer', function ( Post $post ) {
         }
         if ( $linkBack ) {
             ?>
-            <div class="hentry-footer section-credits mt-4 mb-4">
+            <section class="entry-credits mt-4 mb-4">
                 <p>
                     <i class="fas fa-external-link-alt"></i>
                     <a href="<?php echo esc_attr( $linkBack ); ?>" target="_blank"><?php echo esc_html( __( 'np::m.View original article' ) ); ?></a>
@@ -193,7 +197,7 @@ add_action( 'contentpress/post/footer', function ( Post $post ) {
                     <i class="fas fa-blog"></i>
                     <a href="//<?php echo esc_attr( $source ); ?>" target="_blank" title="<?php esc_attr_e( __( 'np::m.Source' ) ); ?>"><?php echo esc_html( $source ); ?></a>
                 </p>
-            </div>
+            </section>
             <?php
         }
 
@@ -203,7 +207,7 @@ add_action( 'contentpress/post/footer', function ( Post $post ) {
         $shareUrls = []; //NewspaperHelper::getShareUrls( $post );
         if ( !empty( $shareUrls ) ) {
             ?>
-            <div class="post-share clearfix">
+            <section class="entry-social-share">
                 <ul>
                     <li>
                         <a class="facebook df-share" data-sharetip="<?php esc_attr_e( __( __( 'np::m.Share on Facebook!' ) ) ); ?>"
@@ -236,7 +240,7 @@ add_action( 'contentpress/post/footer', function ( Post $post ) {
                             WhatsApp</a>
                     </li>
                 </ul>
-            </div>
+            </section>
             <?php
         }
     }

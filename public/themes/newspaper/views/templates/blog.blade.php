@@ -8,6 +8,7 @@
 @endsection
 
 @php
+    /**@var App\Newspaper\NewspaperHelper $newspaperHelper*/
     use Carbon\Carbon;
     $statusPublishID = $postStatus->where('name', 'publish')->first()->id;
     $typeID = $postType->where('name', 'post')->first()->id;

@@ -37,75 +37,76 @@
 @endsection
 
 @section('content')
+    <main class="site-page page-home">
 
-    <!-- BIG SLIDER START -->
-    <div class="container">
-        <div class="row">
-            @include('templates.inc.home.large-slider', [ 'newspaperHelper' => $newspaperHelper, ])
-        </div>
-    </div><!-- BIG SLIDER END -->
+        <!-- BIG SLIDER START -->
+        <div class="container">
+            <div class="row">
+                @include('templates.inc.home.large-slider', [ 'newspaperHelper' => $newspaperHelper, ])
+            </div>
+        </div><!-- BIG SLIDER END -->
 
-    <!-- RESPONSIVE AD START -->
-    <div class="container">
-        <div class="row">
-            <div style="margin: 30px 0 0; padding: 0;">
-                <div style="background: #ddd; color: #bbbbbb; display: inline-block; font-family: roboto, sans-serif; font-size: 1.2rem; font-weight: 900; height: 30px; overflow: hidden; padding: 22px 0 15px; text-align: center; white-space: nowrap; width: 100%;">
-                    RESPONSIVE AD AREA
+        <!-- RESPONSIVE AD START -->
+        <div class="container">
+            <div class="row">
+                <div style="margin: 30px 0 0; padding: 0;">
+                    <div style="background: #ddd; color: #bbbbbb; display: inline-block; font-family: roboto, sans-serif; font-size: 1.2rem; font-weight: 900; height: 30px; overflow: hidden; padding: 22px 0 15px; text-align: center; white-space: nowrap; width: 100%;">
+                        RESPONSIVE AD AREA
+                    </div>
                 </div>
             </div>
-        </div>
-    </div><!-- RESPONSIVE AD END -->
+        </div><!-- RESPONSIVE AD END -->
 
-    <!-- HOMEPAGE CATEGORIES START -->
-    <div class="container">
-        <div class="row">
+        <!-- HOMEPAGE CATEGORIES START -->
+        <div class="container">
+            <div class="row">
 
-            <div class="tabs-menu clearfix">
-                <div class="left-area">
-                    {{__('np::m.Left Sidebar')}}
-                </div>
-                <div class="left-area-2">
-                    {{__('np::m.Left Sidebar')}}
-                </div>
-                <div class="center-area">
-                    {{__('np::m.Featured News')}}
-                </div>
-                <div class="right-area">
-                    {{__('np::m.Right Sidebar')}}
-                </div>
-                <div class="right-area-2">
-                    {{__('np::m.Right Sidebar')}}
-                </div>
-            </div>
-
-            <div id="outer-wrapper" class="clearfix">
-
-                <div class="secondary-content clearfix">
-
-                    {{-- LEFT SIDEBAR --}}
-                    @include('templates.inc.home.left-sidebar', [ 'newspaperHelper' => $newspaperHelper, 'categories' => $sections['left'] ])
-
-                    {{-- MAIN CONTENT --}}
-                    @include('templates.inc.home.main-content', [ 'newspaperHelper' => $newspaperHelper, 'categories' => $sections['main'] ])
-
+                <div class="tabs-menu clearfix">
+                    <div class="left-area">
+                        {{__('np::m.Left Sidebar')}}
+                    </div>
+                    <div class="left-area-2">
+                        {{__('np::m.Left Sidebar')}}
+                    </div>
+                    <div class="center-area">
+                        {{__('np::m.Featured News')}}
+                    </div>
+                    <div class="right-area">
+                        {{__('np::m.Right Sidebar')}}
+                    </div>
+                    <div class="right-area-2">
+                        {{__('np::m.Right Sidebar')}}
+                    </div>
                 </div>
 
-                {{-- RIGHT SIDEBAR --}}
-                @include('templates.inc.home.right-sidebar', [ 'newspaperHelper' => $newspaperHelper, 'categories' => $sections['right'] ])
+                <div id="outer-wrapper" class="clearfix">
 
-            </div>
-        </div>
-    </div><!-- HOMEPAGE CATEGORIES END -->
+                    <div class="secondary-content clearfix">
 
-    <!-- RESPONSIVE AD START -->
-    <div class="container">
-        <div class="row">
-            <div style="margin: 15px 0 10px; padding: 0;">
-                <div style="background: #ddd; color: #bbbbbb; display: inline-block; font-family: roboto, sans-serif; font-size: 1.2rem; font-weight: 900; height: 30px; overflow: hidden; padding: 22px 0 15px; text-align: center; white-space: nowrap; width: 100%;">
-                    RESPONSIVE AD AREA
+                        {{-- LEFT SIDEBAR --}}
+                        @include('templates.inc.home.left-sidebar', [ 'newspaperHelper' => $newspaperHelper, 'categories' => $sections['left'] ])
+
+                        {{-- MAIN CONTENT --}}
+                        @include('templates.inc.home.main-content', [ 'newspaperHelper' => $newspaperHelper, 'categories' => $sections['main'] ])
+
+                    </div>
+
+                    {{-- RIGHT SIDEBAR --}}
+                    @include('templates.inc.home.right-sidebar', [ 'newspaperHelper' => $newspaperHelper, 'categories' => $sections['right'] ])
+
                 </div>
             </div>
-        </div>
-    </div><!-- RESPONSIVE AD END -->
+        </div><!-- HOMEPAGE CATEGORIES END -->
 
+        <!-- RESPONSIVE AD START -->
+        <div class="container">
+            <div class="row">
+                <div style="margin: 15px 0 10px; padding: 0;">
+                    <div style="background: #ddd; color: #bbbbbb; display: inline-block; font-family: roboto, sans-serif; font-size: 1.2rem; font-weight: 900; height: 30px; overflow: hidden; padding: 22px 0 15px; text-align: center; white-space: nowrap; width: 100%;">
+                        RESPONSIVE AD AREA
+                    </div>
+                </div>
+            </div>
+        </div><!-- RESPONSIVE AD END -->
+    </main>
 @endsection

@@ -334,29 +334,27 @@ function cp_posts_navigation( Post $post, $cssClass = '', $sameCategory = true, 
         $next = Post::find( $next_id );
         $previous = Post::find( $previous_id );
     }
-    if( ! $next && ! $previous){
+    if ( !$next && !$previous ) {
         return;
     }
     ?>
-    <div id="blog-pager" class="clearfix">
-        <span class="blog-pager-newer-link">
-            <span class="pager-title">
-                <?php if ( $previous ) { ?>
-                    <a href="<?php esc_attr_e( cp_get_permalink( $previous ) ); ?>">
-                        <i class="fa fa-hand-o-left"></i> <?php echo wp_kses_post( $previous->title ); ?>
-                    </a>
-                <?php } ?>
-            </span>
+    <div class="posts-navigation">
+        <span class="previous-link-wrap">
+            <?php if ( $previous ) { ?>
+                <a href="<?php esc_attr_e( cp_get_permalink( $previous ) ); ?>" class="previous-post-link">
+                    <i class="fas fa-chevron-left nav-icon"></i>
+                    <span class="the-title"><?php echo cp_ellipsis( wp_kses_post( $previous->title ), 100 ); ?></span>
+                </a>
+            <?php } ?>
         </span>
 
-        <span class="blog-pager-older-link">
-            <span class="pager-title">
-                <?php if ( $next ) { ?>
-                    <a href="<?php esc_attr_e( cp_get_permalink( $next ) ); ?>">
-                        <?php echo wp_kses_post( $next->title ); ?> <i class="fa fa-hand-o-right"></i>
-                    </a>
-                <?php } ?>
-            </span>
+        <span class="next-link-wrap">
+            <?php if ( $next ) { ?>
+                <a href="<?php esc_attr_e( cp_get_permalink( $next ) ); ?>" class="next-post-link">
+                    <span class="the-title"><?php echo cp_ellipsis( wp_kses_post( $next->title ), 100 ); ?></span>
+                     <i class="fas fa-chevron-right nav-icon"></i>
+                </a>
+            <?php } ?>
         </span>
     </div>
     <?php
