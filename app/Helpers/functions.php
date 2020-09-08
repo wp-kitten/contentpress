@@ -751,7 +751,8 @@ function cp_has_menu( $menuSlugOrID, $languageID = null )
  */
 function cp_menu( $menuSlugOrID )
 {
-    if ( cp_is_under_maintenance() ) {
+
+    if ( cp_is_under_maintenance() && !cp_current_user_can( 'administrator' ) ) {
         return;
     }
     try {
@@ -782,10 +783,10 @@ function cp_ellipsis( string $string, int $maxLength = 50, string $textMore = '.
  * Filter the specified category name
  * @param string $name
  *
- * @uses apply_filters('contentpress/category/name', $name)
  * @return string
+ * @uses apply_filters('contentpress/category/name', $name)
  */
 function cp_cat_name( string $name ): string
 {
-    return apply_filters('contentpress/category/name', $name);
+    return apply_filters( 'contentpress/category/name', $name );
 }
