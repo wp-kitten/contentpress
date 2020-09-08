@@ -146,6 +146,10 @@ a {
   justify-content: center;
 }
 
+.page-singular .article-single .entry-content {
+  font-size: 16px;
+}
+
 .site-page {
   margin-top: 20px;
 }
@@ -253,6 +257,11 @@ a {
 .posts-navigation .previous-post-link .nav-icon,
 .posts-navigation .next-post-link .nav-icon {
   font-size: 30px;
+}
+
+.posts-navigation .previous-post-link .the-title,
+.posts-navigation .next-post-link .the-title {
+  font-size: 16px;
 }
 
 .posts-navigation .previous-post-link:active,

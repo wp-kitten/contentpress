@@ -241,45 +241,6 @@ class NewspaperThemeController extends SiteController
         ] );
     }
 
-    public function author( $id )
-    {
-        $user = User::find( $id );
-        if ( !$user ) {
-            return $this->_not_found();
-        }
-
-        $postType = PostType::where( 'name', '!=', 'page' )->get();
-        if ( !$postType ) {
-            return $this->_not_found();
-        }
-        $postTypesArray = [];
-        foreach ( $postType as $post_type ) {
-            array_push( $postTypesArray, $post_type->id );
-        }
-
-        //#! Make sure the post is published if the current user is not allowed to "edit_private_posts"
-        $_postStatuses = PostStatus::all();
-        $postStatuses = [];
-        if ( cp_current_user_can( 'edit_private_posts' ) ) {
-            $postStatuses = Arr::pluck( $_postStatuses, 'id' );
-        }
-        else {
-            $postStatuses[] = PostStatus::where( 'name', 'publish' )->first()->id;
-        }
-
-        $posts = $user->posts()
-            ->where( 'language_id', cp_get_frontend_user_language_id() )
-            ->whereIn( 'post_status_id', $postStatuses )
-            ->whereIn( 'post_type_id', $postTypesArray )
-            ->latest()
-            ->paginate( $this->settings->getSetting( 'posts_per_page' ) );
-
-        return view( 'author' )->with( [
-            'user' => $user,
-            'posts' => $posts,
-        ] );
-    }
-
     public function search( $s = '' )
     {
         $postType = PostType::where( 'name', '!=', 'page' )->get();

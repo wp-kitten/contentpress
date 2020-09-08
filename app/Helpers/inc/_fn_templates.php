@@ -343,7 +343,9 @@ function cp_posts_navigation( Post $post, $cssClass = '', $sameCategory = true, 
             <?php if ( $previous ) { ?>
                 <a href="<?php esc_attr_e( cp_get_permalink( $previous ) ); ?>" class="previous-post-link">
                     <i class="fas fa-chevron-left nav-icon"></i>
-                    <span class="the-title"><?php echo cp_ellipsis( wp_kses_post( $previous->title ), 100 ); ?></span>
+                    <span class="the-title" title="<?php esc_attr_e( $previous->title ); ?>">
+                        <?php echo cp_ellipsis( wp_kses_post( $previous->title ), 80 ); ?>
+                    </span>
                 </a>
             <?php } ?>
         </span>
@@ -351,7 +353,9 @@ function cp_posts_navigation( Post $post, $cssClass = '', $sameCategory = true, 
         <span class="next-link-wrap">
             <?php if ( $next ) { ?>
                 <a href="<?php esc_attr_e( cp_get_permalink( $next ) ); ?>" class="next-post-link">
-                    <span class="the-title"><?php echo cp_ellipsis( wp_kses_post( $next->title ), 100 ); ?></span>
+                    <span class="the-title" title="<?php esc_attr_e( $next->title ); ?>">
+                        <?php echo cp_ellipsis( wp_kses_post( $next->title ), 80 ); ?>
+                    </span>
                      <i class="fas fa-chevron-right nav-icon"></i>
                 </a>
             <?php } ?>
