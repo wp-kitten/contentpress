@@ -8,6 +8,7 @@ use App\Post;
 use App\PostStatus;
 use App\PostType;
 use App\Tag;
+use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Arr;
@@ -258,6 +259,16 @@ class NewspaperThemeController extends SiteController
             $s = wp_kses( $s, [] );
         }
 
+        //#! Filters
+        $order = $this->request->get( 'order' );
+        if ( empty( $order ) ) {
+            $order = 'desc';
+        }
+        else {
+            $order = strtolower( wp_kses( $order, [] ) );
+            $order = ( in_array( $order, [ 'asc', 'desc' ] ) ? $order : 'desc' );
+        }
+
         $posts = Post::where( 'language_id', cp_get_frontend_user_language_id() )
             ->where( 'post_status_id', PostStatus::where( 'name', 'publish' )->first()->id )
             ->whereIn( 'post_type_id', $postTypesArray )
@@ -266,13 +277,20 @@ class NewspaperThemeController extends SiteController
                     $query->where( 'title', 'LIKE', '%' . $s . '%' )
                         ->orWhere( 'content', 'LIKE', '%' . $s . '%' )
                         ->orWhere( 'excerpt', 'LIKE', '%' . $s . '%' );
-            } );
+            } )
+            //#! Only include results from within the last month
+            ->whereDate( 'created_at', '>', Carbon::now()->subMonth() )
+            ->orderBy('id', $order );
 
         $numResults = $posts->count();
 
-        $posts = $posts->paginate( $this->settings->getSetting( 'posts_per_page' ) );
+        $posts = $posts->paginate( 30 );
 
-        return view( 'search' )->with( [ 'posts' => $posts, 'numResults' => $numResults ] );
+        return view( 'search' )->with( [
+            'posts' => $posts,
+            'numResults' => $numResults ,
+            'order' => $order,
+        ] );
     }
 
     public function __submitComment( $post_id )

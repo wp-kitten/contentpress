@@ -8,7 +8,7 @@ The template to display pages
 
         <section class="page-content-wrap">
             <div class="container">
-                <div class="section-title no-margin {{cp_post_classes()}}">
+                <div class="{{cp_post_classes()}}">
                     {!! $page->content !!}
                 </div>
 

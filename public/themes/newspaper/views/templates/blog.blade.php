@@ -39,7 +39,7 @@
                                             <img src="{{$imageUrl}}" class="image-responsive" alt="{{$post->title}}"/>
                                             <div class="hentry-category bg-danger">
                                                 <a href="{{cp_get_category_link($post->firstCategory())}}" class="text-light">
-                                                    {!! utf8_encode($post->firstCategory()->name) !!}
+                                                    {!! cp_cat_name($post->firstCategory()->name) !!}
                                                 </a>
                                             </div>
                                         </header>

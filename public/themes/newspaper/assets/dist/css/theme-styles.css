@@ -150,6 +150,10 @@ a {
   font-size: 16px;
 }
 
+.page-singular .article-single .entry-content img {
+  max-width: 100%;
+}
+
 .site-page {
   margin-top: 20px;
 }
