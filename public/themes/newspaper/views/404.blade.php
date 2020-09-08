@@ -7,6 +7,10 @@
 
 @section('content')
     <main class="site-page page-404">
-    <h4>{{__("np::m.Oooops! We couldn't find what you were looking for.")}}</h4>
+
+        <div class="container">
+            <h4>{{__("np::m.Oooops! We couldn't find what you were looking for.")}}</h4>
+        </div>
+
     </main>
 @endsection

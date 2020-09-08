@@ -7,6 +7,8 @@
 
 @section('content')
     <main class="site-page page-500">
-        <h4>{{__("np::m.Oooops! An error occurred.")}}</h4>
+        <div class="container">
+            <h4>{{__("np::m.Oooops! An error occurred.")}}</h4>
+        </div>
     </main>
 @endsection

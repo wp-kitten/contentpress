@@ -4,12 +4,16 @@ The template to display pages
 @extends('layouts.frontend')
 
 @section('content')
-    <main class="site-page page-page">
+    <main class="site-page page-page page-singular">
 
         <section class="page-content-wrap">
             <div class="container">
                 <div class="{{cp_post_classes()}}">
-                    {!! $page->content !!}
+                    <article class="article-single">
+                        <div class="entry-content">
+                            {!! $page->content !!}
+                        </div>
+                    </article>
                 </div>
 
                 {{-- Render the post Edit link --}}
