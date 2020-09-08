@@ -16,6 +16,10 @@ a {
   outline: none;
 }
 
+.alert p {
+  margin-bottom: 0 !important;
+}
+
 .masonry-grid .masonry-item {
   margin-bottom: 20px !important;
 }
@@ -195,7 +199,7 @@ a {
 .site-sidebar .widget-posts .posts-list li {
   display: flex;
   align-items: center;
-  align-content: start;
+  align-content: flex-start;
   justify-content: center;
 }
 

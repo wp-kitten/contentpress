@@ -57,7 +57,7 @@ Route::get( "maintenance", "UnderMaintenanceController@maintenance" )->middlewar
  * The route to home MUST be defined here though since it's used outside a theme's scope
  */
 Route::group( [
-    'prefix' => '/', 'middleware' => [ 'active_user' ],
+    'prefix' => '/', 'middleware' => [ 'web', 'active_user' ],
 ], function () {
     //#! Default app routes -- these can be overridden in themes & plugins
     Route::get( "/", "SiteController@index" )->name( "app.home" );

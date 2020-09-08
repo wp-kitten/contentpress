@@ -6,6 +6,8 @@
 body { background-color: #eee; }
 img, a {border: none 0; outline: none;}
 
+//#! Reset paragraphs' margin bottom in alerts
+.alert p { margin-bottom: 0 !important; }
 
 //#! Masonry
 .masonry-grid {

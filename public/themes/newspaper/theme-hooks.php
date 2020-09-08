@@ -9,6 +9,7 @@ use App\Post;
 use App\PostMeta;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 /**
  * Include theme's views into the global scope
@@ -300,4 +301,10 @@ function np_activate_theme_plugins()
             }
         }
     }
+}
+
+if ( !cp_is_admin() ) {
+    add_filter( 'contentpress/category/name', function ( string $name ) {
+        return ucwords( utf8_encode( Str::lower( $name ) ) );
+    } );
 }

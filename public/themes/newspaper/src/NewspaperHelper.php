@@ -89,95 +89,6 @@ class NewspaperHelper
     }
 
     /**
-     * Retrieve the list of posts from the category and the subcategories of the specified $category
-     * @param Category $category
-     * @param int $postStatusID
-     * @param bool|true $reset
-     * @return array
-     */
-    private function __getPostsFromCategoryTree( Category $category, $postStatusID = 1, $reset = true )
-    {
-        static $out = [];
-
-        if($reset){
-            $out = [];
-        }
-
-        $posts = $category->posts()->latest()->where( 'post_status_id', $postStatusID )->get();
-
-        //#! Get posts from the given category if any
-        if ( $posts && $posts->first() ) {
-            foreach ( $posts as $post ) {
-                $out[ $post->id ] = $post;
-            }
-        }
-        //#! Recurse into the category tree
-        if ( $subcategories = $category->childrenCategories()->get() ) {
-            foreach ( $subcategories as $subcategory ) {
-                $posts = $subcategory->posts()->latest()->where( 'post_status_id', $postStatusID )->get();
-                if ( $posts && $posts->first() ) {
-                    foreach ( $posts as $post ) {
-                        $out[ $post->id ] = $post;
-                    }
-                }
-                $out = $this->__getPostsFromCategoryTree( $subcategory, $postStatusID, false );
-            }
-        }
-
-        return $out;
-    }
-
-    /**
-     * @param Category $category
-     * @param int $postStatusID
-     * @param int $numPosts  A value of -1 or 0 will retrieve all
-     * @param array $excludePosts
-     * @return array
-     */
-    public function getPostsFromCategoryTree( Category $category, $postStatusID = 1, $numPosts = -1 ){
-        $entries = $this->__getPostsFromCategoryTree( $category, $postStatusID );
-        $posts = [];
-        if ( !empty( $entries ) && $numPosts > 0 ) {
-            if ( count( $entries ) > $numPosts ) {
-                $i = 1;
-                foreach ( $entries as $postID => $post ) {
-                    if ( $i > $numPosts ) {
-                        break;
-                    }
-                    $posts[ $postID ] = $post;
-                    $i++;
-                }
-            }
-        }
-        return $posts;
-    }
-
-
-
-    /**
-     * Retrieve the number of posts from the specified category
-     * @param Category $category
-     * @return int
-     */
-    public function getCategoryTreeNumPosts( Category $category )
-    {
-        $postStatus = PostStatus::where( 'name', 'publish' )->first();
-        $posts = $this->__getPostsFromCategoryTree( $category, $postStatus->id);
-        return count( $posts );
-    }
-
-    /**
-     * Retrieve the number of posts from the specified category. It does not recurse into subcategories.
-     * If that is needed, use fr_getCategoryTreeNumPosts() instead.
-     * @param Category $category
-     * @return int
-     */
-    public function getCategoryNumPosts( Category $category )
-    {
-        return $category->posts()->count();
-    }
-
-    /**
      * Retrieve a collection of randomly selected posts (Selects only posts published this month)
      * @param int $number
      * @return mixed
@@ -253,6 +164,80 @@ class NewspaperHelper
             'pinterest' => $pinterestUrl,
             'whatsapp' => $whatsAppUrl,
         ];
+    }
+
+    /**
+     * Internal variable to store posts
+     * @see getCategoryTreePosts()
+     * @see withClearCache()
+     * @see categoryTreeCountPosts()
+     * @var array
+     */
+    private static $out = [];
+
+    /**
+     * Internal function to reset the class var $out that stores the list of posts recursively collected by methods of this class
+     * @return $this
+     */
+    protected function withClearCache()
+    {
+        self::$out = [];
+        return $this;
+    }
+
+    /**
+     * Retrieve all posts from the specified $category and its subcategories
+     * @param Category $category
+     * @param int $postStatusID
+     * @return array|mixed
+     */
+    public function categoryTreeGetPosts( Category $category, $postStatusID = 1 )
+    {
+        $posts = $category->posts()->latest()->where( 'post_status_id', $postStatusID )->get();
+
+        //#! Get posts from the given category if any
+        if ( $posts && $posts->first() ) {
+            foreach ( $posts as $post ) {
+                self::$out[ $post->id ] = $post;
+            }
+        }
+        //#! Recurse into the category tree
+        if ( $subcategories = $category->childrenCategories()->get() ) {
+            foreach ( $subcategories as $subcategory ) {
+                $posts = $subcategory->posts()->latest()->where( 'post_status_id', $postStatusID )->get();
+                if ( $posts && $posts->first() ) {
+                    foreach ( $posts as $post ) {
+                        self::$out[ $post->id ] = $post;
+                    }
+                }
+                self::$out = $this->categoryTreeGetPosts( $subcategory, $postStatusID );
+            }
+        }
+
+        return self::$out;
+    }
+
+    /**
+     * Retrieve the number of posts from the specified category
+     * @param Category $category
+     * @return int
+     */
+    public function categoryTreeCountPosts( Category $category )
+    {
+        $postStatus = PostStatus::where( 'name', 'publish' )->first();
+        $posts = $this->withClearCache()->categoryTreeGetPosts( $category, $postStatus->id );
+        return count( $posts );
+    }
+
+    /**
+     * Retrieve the number of posts from the specified category. It does not recurse into subcategories.
+     * If that is needed, use categoryTreeCountPosts() instead.
+     * @param Category $category
+     * @return int
+     */
+    public function categoryCountPosts( Category $category )
+    {
+        return $category->posts()->count();
     }
 
 }

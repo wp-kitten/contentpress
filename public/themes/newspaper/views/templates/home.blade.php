@@ -5,7 +5,7 @@
     $collection = collect([]);
     //! Make sure all categories have posts
     foreach($categories as $category){
-        $numPosts = $newspaperHelper->getCategoryTreeNumPosts($category);
+        $numPosts = $newspaperHelper->categoryTreeCountPosts($category);
         if(! empty($numPosts)){
             $collection->push($category);
         }

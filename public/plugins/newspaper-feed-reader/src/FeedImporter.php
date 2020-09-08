@@ -280,7 +280,7 @@ class FeedImporter
     {
         $categoryName = wp_kses( $categoryName, [] );
 
-        $catTitle = Str::title( $categoryName );
+        $catTitle = Str::title( utf8_encode($categoryName) );
 
         $category = Category::where( 'name', $catTitle )
             ->where( 'category_id', $parentID )

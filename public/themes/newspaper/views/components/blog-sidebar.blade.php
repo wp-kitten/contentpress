@@ -7,7 +7,7 @@
         if($categories){
             $postStatusPublishID = (new App\PostStatus())->where('name', 'publish')->first()->id;
             foreach($categories as $category){
-                $numPosts = $newspaperHelper->getCategoryTreeNumPosts($category);
+                $numPosts = $newspaperHelper->categoryTreeCountPosts($category);
                 if( ! empty($numPosts)){
                     $entries[$category->id] = $numPosts;
                 }
@@ -39,7 +39,7 @@
     <div class="widget-title">
         <h3 class="text-danger">{{__('np::m.Search')}}</h3>
     </div>
-    <div class="widget-content mt-4 mb-0">
+    <div class="widget-content mt-4 mb-2">
         {{cp_search_form()}}
     </div>
 </div>

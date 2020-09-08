@@ -777,3 +777,15 @@ function cp_ellipsis( string $string, int $maxLength = 50, string $textMore = '.
     }
     return $string;
 }
+
+/**
+ * Filter the specified category name
+ * @param string $name
+ *
+ * @uses apply_filters('contentpress/category/name', $name)
+ * @return string
+ */
+function cp_cat_name( string $name ): string
+{
+    return apply_filters('contentpress/category/name', $name);
+}

@@ -1,7 +1,7 @@
-@extends('layouts.frontend')
 @inject('postStatus',App\PostStatus)
 @inject('postType',App\PostType)
 @inject('newspaperHelper',App\Newspaper\NewspaperHelper)
+@extends('layouts.frontend')
 
 @section('title')
     <title>{!! $page->title !!}</title>
@@ -28,7 +28,7 @@
                 {{-- MAIN CONTENT --}}
                 <div class="col-xs-12 col-md-9">
                     <div class="row masonry-grid">
-                        <!-- add sizing element for columnWidth -->
+                        <!-- The sizing element for columnWidth -->
                         <div class="grid-sizer col-xs-12 col-sm-6 col-md-4"></div>
                         @forelse($posts as $post)
                             <div class="col-xs-12 col-sm-6 col-md-4 masonry-item">
