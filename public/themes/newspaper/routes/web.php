@@ -1,6 +1,9 @@
 <?php
 
+use App\Options;
+use App\PostType;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Schema;
 
 /*
  * Add custom routes or override existent ones
@@ -10,8 +13,8 @@ use Illuminate\Support\Facades\Route;
  */
 
 //#! Override the default routes
-Route::get( "maintenance", "NewspaperThemeController@maintenance" )->name( "app.maintenance" );
-Route::get( "/", "NewspaperThemeController@index" )->name( "app.home" );
+//Route::get( "maintenance", "NewspaperThemeController@maintenance" )->name( "app.maintenance" );
+//Route::get( "/", "NewspaperThemeController@index" )->name( "app.home" );
 //#!--
 
 //#! Frontend routes
@@ -33,4 +36,20 @@ Route::get( "lang/{code}", "NewspaperThemeController@lang" )->name( "app.switch_
 
 Route::post( 'comment/{post_id}', "NewspaperThemeController@__submitComment" )->name( 'app.submit_comment' );
 
-
+/*
+ * Dynamic routes for post types
+ */
+if ( Schema::hasTable( 'post_types' ) ) {
+    $optionsClass = new Options();
+    $postTypes = PostType::all();
+    foreach ( $postTypes as $postType ) {
+        //#! If the post type supports tags
+        $allowTags = $optionsClass->getOption( "post_type_{$postType->name}_allow_tags", true );
+        if ( $allowTags ) {
+            //!# [post-type]-tags
+            $route = $postType->name . '-tags';
+            $method = str_replace( '-', '_', $route );
+            Route::get( $route, "NewspaperThemeController@{$method}" )->name( "{$postType->name}.tags" );
+        }
+    }
+}

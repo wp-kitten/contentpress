@@ -61,7 +61,6 @@ add_action( 'contentpress/site/footer', function () {
     //#! [DEBUG] Prevent the browser from caching resources
     $qv = ( env( 'APP_DEBUG' ) ? '?t=' . time() : '' );
 
-
     ScriptsManager::enqueueFooterScript( 'siema.js', $theme->url( 'assets/vendor/siema.min.js' ) . $qv );
     ScriptsManager::enqueueFooterScript( 'masonry.js', $theme->url( 'assets/vendor/masonry.pkgd.min.js' ) . $qv );
     ScriptsManager::enqueueFooterScript( 'theme-scripts.js', $theme->url( 'assets/dist/js/theme-scripts.js' ) . $qv );
@@ -105,11 +104,16 @@ add_action( 'contentpress/menu::main-menu/after', function () {
     echo '</div>';
 } );
 add_action( 'contentpress/menu::main-menu', function () {
+    //#! Render the link to the tags page
+    $activeClass = ( Route::is( 'post.tags' ) ? 'active' : '' );
+    echo '<a href="' . route( 'post.tags' ) . '" class="menu-item ' . esc_attr( $activeClass ) . '">' . __( 'np::m.Tags' ) . '</a>';
+
     //#! Render main categories (latest, limit 10)
     $categories = App\Category::where( 'language_id', cp_get_frontend_user_language_id() )->where( 'category_id', null )->latest()->limit( 10 )->get();
     if ( $categories ) {
+        $activeClass = ( Str::containsAll( url()->current(), [ 'categories/' ] ) ? 'active' : '' );
         ?>
-        <div class="has-submenu">
+        <div class="has-submenu <?php esc_attr_e( $activeClass ); ?>">
             <button class="show-submenu">
                 <?php esc_html_e( __( 'a.Categories' ) ); ?>
                 <i class="fa fa-caret-down"></i>
@@ -117,7 +121,9 @@ add_action( 'contentpress/menu::main-menu', function () {
             <div class="submenu-content">
                 <?php
                 foreach ( $categories as $category ) {
-                    echo '<a href="' . esc_attr( cp_get_category_link( $category ) ) . '" class="menu-item">' . utf8_encode( $category->name ) . '</a>';
+                    $url = cp_get_category_link( $category );
+                    $activeClass = ( Str::containsAll( url()->current(), [ $url ] ) ? 'active' : '' );
+                    echo '<a href="' . esc_attr( $url ) . '" class="menu-item ' . esc_attr( $activeClass ) . '">' . utf8_encode( $category->name ) . '</a>';
                 }
                 ?>
             </div>
@@ -143,7 +149,7 @@ add_action( 'contentpress/post/footer', function ( Post $post ) {
         }
         if ( $videoUrl ) {
             ?>
-            <section class="entry-content section-video">
+            <section class="entry-content section-video mb-3">
                 <video src="<?php esc_attr_e( $videoUrl ); ?>" controls>
                     <embed src="<?php esc_attr_e( $videoUrl ); ?>"/>
                 </video>
@@ -154,23 +160,23 @@ add_action( 'contentpress/post/footer', function ( Post $post ) {
         //#! Render tags, social icons, whatever...
         if ( $post->tags->count() ) {
             ?>
-                <section class="entry-tags">
-                    <span class="tags"><?php esc_html_e( __( 'np::m.Tags:' ) ); ?></span>
-                    <?php
-                    foreach ( $post->tags as $tag ) {
-                        wp_kses_e(
-                            sprintf(
-                                '<a href="%s" class="tag-link inline ml-15">%s</a>',
-                                esc_attr( cp_get_tag_link( $tag ) ),
-                                esc_html( $tag->name )
-                            ),
-                            [
-                                'a' => [ 'class' => [], 'href' => [] ],
-                            ]
-                        );
-                    }
-                    ?>
-                </section>
+            <section class="entry-tags">
+                <span class="tags"><?php esc_html_e( __( 'np::m.Tags:' ) ); ?></span>
+                <?php
+                foreach ( $post->tags as $tag ) {
+                    wp_kses_e(
+                        sprintf(
+                            '<a href="%s" class="tag-link inline ml-15">%s</a>',
+                            esc_attr( cp_get_tag_link( $tag ) ),
+                            esc_html( $tag->name )
+                        ),
+                        [
+                            'a' => [ 'class' => [], 'href' => [] ],
+                        ]
+                    );
+                }
+                ?>
+            </section>
         <?php } ?>
 
         <?php

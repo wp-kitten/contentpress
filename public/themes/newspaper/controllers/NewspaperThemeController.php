@@ -46,7 +46,6 @@ class NewspaperThemeController extends SiteController
         return redirect()->back();
     }
 
-
     /**
      * Render the category page
      * @param string $slug
@@ -208,9 +207,37 @@ class NewspaperThemeController extends SiteController
             ] );
         }
 
-        return view( 'blog.tag' )->with( [
+        return view( 'tag' )->with( [
             'tag' => $tag,
             'posts' => $posts,
+        ] );
+    }
+
+    /**
+     * Dynamic method "[post_type]_tags". Displays all tags relative to the post type "post"
+     * @return Application|\Illuminate\Contracts\View\Factory|View
+     */
+    public function post_tags()
+    {
+        //#! Get the selected language in frontend
+        $languageID = cp_get_frontend_user_language_id();
+        if ( !$languageID ) {
+            //#! Get the current language ID
+            $languageID = CPML::getDefaultLanguageID();
+        }
+        $postType = ( new PostType() )->where( 'name', 'post' )->first();
+
+        $tags = Tag::where( 'language_id', $languageID )->where( 'post_type_id', $postType->id )->get();
+
+        //#! Specific template
+        $view = "{$postType->name}-tags";
+
+        if ( !view()->exists( $view ) ) {
+            $view = 'tags';
+        }
+
+        return view( $view )->with( [
+            'tags' => $tags,
         ] );
     }
 

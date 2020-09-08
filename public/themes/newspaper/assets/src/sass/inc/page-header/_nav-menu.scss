@@ -25,6 +25,11 @@
     overflow: hidden;
 }
 
+.has-submenu.active {
+    background-color: #4CAF50;
+    color: white;
+}
+
 .has-submenu .show-submenu {
     border: none;
     outline: none;

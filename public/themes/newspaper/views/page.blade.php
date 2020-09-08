@@ -5,7 +5,6 @@ The template to display pages
 
 @section('content')
     <main class="site-page page-page">
-{{--        @include('inc.page-header', [ 'page' => $page ] )--}}
 
         <section class="page-content-wrap">
             <div class="container">
@@ -13,12 +12,11 @@ The template to display pages
                     {!! $page->content !!}
                 </div>
 
+                {{-- Render the post Edit link --}}
                 @if(cp_current_user_can('edit_others_posts'))
-                    <div class="hentry-content">
-                        <p>
-                            <a href="{{cp_get_post_edit_link($page)}}" class="text-link inline">{{__('np::m.Edit')}}</a>
-                        </p>
-                    </div>
+                    <footer class="entry-footer mt-4 mb-4">
+                        <a href="{{cp_get_post_edit_link($page)}}" class="btn bg-danger text-light">{{__('np::m.Edit')}}</a>
+                    </footer>
                 @endif
             </div> <!-- container -->
         </section> <!-- section-full -->

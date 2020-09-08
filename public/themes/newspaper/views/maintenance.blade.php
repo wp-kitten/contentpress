@@ -9,7 +9,8 @@
 @endsection
 
 @section('content')
-    <main class="page under-maintenance-wrap">
+
+    <main class="site-page page-under-maintenance">
         <div class="container">
             <div class="row flex flex-middle fitscreen">
                 <div class="col-xs-12 col-md-12 text-center">

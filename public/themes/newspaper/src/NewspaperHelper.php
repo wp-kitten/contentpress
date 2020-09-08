@@ -100,6 +100,7 @@ class NewspaperHelper
             $number = $settingsClass->getSetting( 'posts_per_page', 10 );
         }
         return Post::where( 'post_status_id', PostStatus::where( 'name', 'publish' )->first()->id )
+            ->where( 'post_type_id', ( new PostType() )->where( 'name', 'post' )->first()->id )
             ->whereDate( 'created_at', '>', Carbon::now()->subMonth() )
             ->limit( $number )
             ->inRandomOrder()
