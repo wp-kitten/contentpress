@@ -82,13 +82,9 @@
 
                 {{-- SIDEBAR --}}
                 <div class="col-sm-12 col-md-3">
-                    <div class="row">
-                        <div class="col-sm-12">
-                            <aside class="site-sidebar">
-                                @include('components.blog-sidebar', ['newspaperHelper' => $newspaperHelper])
-                            </aside>
-                        </div>
-                    </div>
+                    <aside class="site-sidebar">
+                        @include('components.blog-sidebar', ['newspaperHelper' => $newspaperHelper])
+                    </aside>
                 </div>
 
             </div>

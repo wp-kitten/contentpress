@@ -42,6 +42,7 @@ add_action( 'contentpress/site/head', function () {
     ScriptsManager::enqueueStylesheet( 'gfont-nunito', '//fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600;1,700;1,800;1,900&display=swap' );
     ScriptsManager::enqueueStylesheet( 'gfont-libre-baskerville', '//fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap' );
 
+    ScriptsManager::enqueueStylesheet( 'conveyor-ticker.css', $theme->url( 'assets/vendor/conveyor-ticker/jquery.jConveyorTicker.min.css' ) );
     ScriptsManager::enqueueStylesheet( 'bootstrap.css', $theme->url( 'assets/vendor/bootstrap/bootstrap.min.css' ) );
     ScriptsManager::enqueueStylesheet( 'theme-styles.css', $theme->url( 'assets/dist/css/theme-styles.css' ) . $qv );
     ScriptsManager::enqueueStylesheet( 'theme-overrides.css', $theme->url( 'assets/css/theme-overrides.css' ) . $qv );
@@ -63,6 +64,7 @@ add_action( 'contentpress/site/footer', function () {
 
     ScriptsManager::enqueueFooterScript( 'siema.js', $theme->url( 'assets/vendor/siema.min.js' ) . $qv );
     ScriptsManager::enqueueFooterScript( 'masonry.js', $theme->url( 'assets/vendor/masonry.pkgd.min.js' ) . $qv );
+    ScriptsManager::enqueueFooterScript( 'conveyor-ticker.js', $theme->url( 'assets/vendor/conveyor-ticker/jquery.jConveyorTicker.min.js' ) );
     ScriptsManager::enqueueFooterScript( 'theme-scripts.js', $theme->url( 'assets/dist/js/theme-scripts.js' ) . $qv );
     ScriptsManager::enqueueFooterScript( 'theme-custom-scripts.js', $theme->url( 'assets/js/theme-custom-scripts.js' ) . $qv );
 } );

@@ -24,6 +24,71 @@ a {
   margin-bottom: 20px !important;
 }
 
+.info-bar .info-bar-wrap {
+  display: flex;
+  align-items: center;
+  align-content: space-between;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.info-bar .info-bar-wrap .the-date {
+  margin-right: 25px;
+}
+
+.info-bar .info-bar-wrap a {
+  margin-right: 10px;
+}
+
+.info-bar .info-bar-wrap a:last-of-type {
+  margin-right: 0 !important;
+}
+
+.news-ticker {
+  width: 100%;
+}
+
+.news-ticker .news-ticker-wrap {
+  position: relative;
+}
+
+.news-ticker .news-ticker-label {
+  position: absolute;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  height: 100%;
+  background: #cc0000;
+  color: #fff;
+  padding: 5px 10px;
+}
+
+.news-ticker ul {
+  margin: 0 0;
+  list-style-type: none;
+  list-style-position: outside;
+  background-color: #343a40;
+}
+
+.news-ticker li {
+  padding: 0 10px;
+  margin: 4px 0;
+  display: inline-block;
+}
+
+.news-ticker li a {
+  font-size: 13px !important;
+  color: #fff;
+}
+
+.header-content .app-logo {
+  margin: 0 0;
+}
+
+.header-content .app-logo a {
+  text-decoration: none !important;
+}
+
 .topnav {
   overflow: hidden;
 }
@@ -213,7 +278,7 @@ a {
   display: flex;
   align-items: center;
   align-content: flex-start;
-  justify-content: center;
+  justify-content: flex-start;
 }
 
 .site-sidebar .widget-posts .posts-list li img {

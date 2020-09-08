@@ -1,0 +1,35 @@
+.news-ticker {
+    width: 100%;
+
+    .news-ticker-wrap {
+        position: relative;
+    }
+
+    .news-ticker-label {
+        position: absolute;
+        z-index: 2;
+        left:0;
+        top:0;
+        height:100%;
+        background: #cc0000;
+        color: #fff;
+        padding: 5px 10px;
+    }
+
+    ul {
+        margin: 0 0;
+        list-style-type: none;
+        list-style-position: outside;
+        background-color: #343a40;
+    }
+    li {
+        padding: 0 10px;
+        margin: 4px 0;
+        display: inline-block;
+
+        a {
+            font-size: 13px !important;
+            color: #fff;
+        }
+    }
+}

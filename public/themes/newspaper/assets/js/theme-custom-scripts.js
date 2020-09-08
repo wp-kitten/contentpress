@@ -7,7 +7,13 @@ jQuery( function ($) {
         $( '.topnav' ).toggleClass( 'responsive' );
     } );
 
-    //#! Varisous places
+    //#! News ticker
+    $('.news-ticker-wrap').jConveyorTicker({
+        anim_duration: 200,
+        force_loop:true,
+    });
+
+    //#! Various places
     $( '.masonry-grid' ).masonry( {
         // options
         itemSelector: '.masonry-item',

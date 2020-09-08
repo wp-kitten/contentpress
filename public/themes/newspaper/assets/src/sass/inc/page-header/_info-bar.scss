@@ -1,0 +1,23 @@
+.info-bar {
+
+    .info-bar-wrap {
+        display: flex;
+        align-items: center;
+        align-content: space-between;
+        justify-content: space-between;
+        height: 100%;
+
+        .the-date {
+            margin-right: 25px;
+        }
+
+        a {
+            margin-right: 10px;
+
+            &:last-of-type {
+                margin-right: 0 !important;
+            }
+        }
+    }
+
+}

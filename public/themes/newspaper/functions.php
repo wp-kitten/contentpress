@@ -141,7 +141,6 @@ function np_theme_submit_comment( Controller $controller, int $postID )
     ] );
 }
 
-
 /**
  * Render the auth links in the main menu
  */
@@ -150,7 +149,8 @@ function np_menuRenderAuthLinks()
     $links = cp_login_logout_links();
     if ( cp_is_user_logged_in() ) {
         $user = cp_get_current_user();
-        if ( cp_current_user_can( 'edit_dashboard' ) ) {
+        //#! Contributor & administrators
+        if ( cp_current_user_can( 'delete_others_posts' ) ) {
             ?>
             <a href="<?php esc_attr_e( route( 'admin.dashboard' ) ); ?>"><?php esc_html_e( __( 'np::m.Dashboard' ) ); ?></a>
             <?php
