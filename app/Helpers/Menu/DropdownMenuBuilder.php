@@ -9,6 +9,7 @@ use App\MenuItemMeta;
 use App\MenuItemType;
 use App\Post;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 class DropdownMenuBuilder implements IMenuBuilder
 {
@@ -108,9 +109,10 @@ class DropdownMenuBuilder implements IMenuBuilder
     {
         $category = Category::find( $refItemID );
         if ( $category ) {
+            $activeClass = ( Str::containsAll( url()->current(), [ cp_get_category_link( $category ) ] ) ? 'active' : '' );
             if ( $cssClass == 'has-submenu' ) {
                 ?>
-                <div class="<?php esc_attr_e( $cssClass ); ?>">
+                <div class="<?php esc_attr_e( "{$cssClass} {$activeClass}" ); ?>">
                     <button class="show-submenu">
                         <?php esc_html_e( $category->name ); ?>
                         <i class="fa fa-caret-down"></i>
@@ -126,7 +128,7 @@ class DropdownMenuBuilder implements IMenuBuilder
             }
             else {
                 ?>
-                <a href="<?php cp_get_category_link( $category ); ?>" class="<?php esc_attr_e( $cssClass ); ?>"><?php esc_html_e( $category->name ); ?></a>
+                <a href="<?php cp_get_category_link( $category ); ?>" class="<?php esc_attr_e( "{$cssClass} {$activeClass}" ); ?>"><?php esc_html_e( $category->name ); ?></a>
                 <?php
             }
         }
@@ -138,8 +140,9 @@ class DropdownMenuBuilder implements IMenuBuilder
         if ( $post ) {
             $menuItemInfo = $this->__getMenuInfo( $menuItemID, $menuItemData );
             if ( $cssClass == 'has-submenu' ) {
+                $activeClass = ( Str::containsAll( url()->current(), [ cp_get_permalink( $post ) ] ) ? 'active' : '' );
                 ?>
-                <div class="<?php esc_attr_e( $cssClass ); ?>">
+                <div class="<?php esc_attr_e( "{$cssClass} {$activeClass}" ); ?>">
                     <button class="show-submenu">
                         <?php esc_html_e( $post->title ); ?>
                         <i class="fa fa-caret-down"></i>
@@ -154,8 +157,9 @@ class DropdownMenuBuilder implements IMenuBuilder
                 <?php
             }
             else {
+                $activeClass = ( Str::containsAll( url()->current(), [ $menuItemInfo[ 'url' ] ] ) ? 'active' : '' );
                 ?>
-                <a href="<?php esc_attr_e( $menuItemInfo[ 'url' ] ); ?>" class="<?php esc_attr_e( $cssClass ); ?>">
+                <a href="<?php esc_attr_e( $menuItemInfo[ 'url' ] ); ?>" class="<?php esc_attr_e( "{$cssClass} {$activeClass}" ); ?>">
                     <?php esc_html_e( $post->title ); ?>
                 </a>
                 <?php
@@ -170,10 +174,10 @@ class DropdownMenuBuilder implements IMenuBuilder
             foreach ( $menuItemData[ 'items' ] as $miID => $miData ) {
                 $menuItemInfo = $this->__getMenuInfo( $miID, $miData );
                 $cssClass = ( empty( $miData[ 'items' ] ) ? 'menu-item' : 'has-submenu' );
-
+                $activeClass = ( Str::containsAll( url()->current(), [ $menuItemInfo[ 'url' ] ] ) ? 'active' : '' );
                 if ( $cssClass == 'has-submenu' ) {
                     ?>
-                    <div class="<?php esc_attr_e( $cssClass ); ?>">
+                    <div class="<?php esc_attr_e( "{$cssClass} {$activeClass}" ); ?>">
                         <button class="show-submenu">
                             <?php esc_html_e( $menuItemInfo[ 'title' ] ); ?>
                             <i class="fa fa-caret-down"></i>
@@ -188,7 +192,8 @@ class DropdownMenuBuilder implements IMenuBuilder
                     <?php
                 }
                 else {
-                    echo '<a href="' . esc_attr( $menuItemInfo[ 'url' ] ) . '" class="' . $cssClass . '">' . esc_html( $menuItemInfo[ 'title' ] ) . '</a>';
+                    $activeClass = ( Str::containsAll( url()->current(), [ $menuItemInfo[ 'url' ] ] ) ? 'active' : '' );
+                    echo '<a href="' . esc_attr( $menuItemInfo[ 'url' ] ) . '" class="' . esc_attr( "{$cssClass} {$activeClass}" ) . '">' . esc_html( $menuItemInfo[ 'title' ] ) . '</a>';
                 }
             }
         }

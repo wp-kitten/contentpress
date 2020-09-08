@@ -51,7 +51,7 @@
                                     <option value="0">{{__('a.Select')}}</option>
                                     @forelse($categories as $id => $name)
                                         @php $selected = ($id == session()->get('previously_selected') ? 'selected="selected"' : ''); @endphp
-                                        <option value="{{$id}}" {!! $selected !!}>{{$name}}</option>
+                                        <option value="{{$id}}" {!! $selected !!}>{!! $name !!}</option>
                                     @empty
                                     @endforelse
                                 </select>

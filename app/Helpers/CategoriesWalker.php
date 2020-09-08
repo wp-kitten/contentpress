@@ -149,7 +149,7 @@ class CategoriesWalker
         <li id="category_<?php esc_attr_e( $category->id ); ?>" data-id="<?php esc_attr_e( $category->id ); ?>" class="list-item">
             <div>
                 <a class="cp-text-dark"
-                   href="<?php esc_attr_e( route( 'blog.category', [ 'slug' => $category->slug ] ) ); ?>"
+                   href="<?php esc_attr_e( route( 'blog.category', $category->slug ) ); ?>"
                    title="<?php esc_attr_e( __( 'a.View' ) ); ?>"
                    target="_blank">
                     <?php
@@ -160,7 +160,7 @@ class CategoriesWalker
                         echo '<span class="bullet success" title="'.esc_html(__('a.This category has translations for all enabled languages.')).'"></span>';
                     }
                     ?>
-                    <?php esc_html_e( $category->name ); ?>
+                    <?php echo utf8_encode( $category->name ); ?>
                 </a>
                 <?php $this->renderActions( $category ); ?>
             </div>
@@ -199,7 +199,7 @@ class CategoriesWalker
                 <li id="category_<?php esc_attr_e( $subcategory->id ); ?>" data-id="<?php esc_attr_e( $subcategory->id ); ?>" class="list-item">
                     <div>
                         <a class="cp-text-dark"
-                           href="<?php esc_attr_e( route( 'blog.category', [ 'slug' => $subcategory->slug ] ) ); ?>"
+                           href="<?php esc_attr_e( route( 'blog.category', $subcategory->slug ) ); ?>"
                            title="<?php esc_attr_e( __( 'a.View' ) ); ?>"
                            target="_blank">
                             <?php
@@ -210,7 +210,7 @@ class CategoriesWalker
                                 echo '<span class="bullet success" title="'.esc_html(__('a.This category has translations for all enabled languages.')).'"></span>';
                             }
                             ?>
-                            <?php esc_html_e( $subcategory->name ); ?>
+                            <?php echo utf8_encode( $subcategory->name ); ?>
                         </a>
 
                         <?php $this->renderActions( $subcategory ); ?>

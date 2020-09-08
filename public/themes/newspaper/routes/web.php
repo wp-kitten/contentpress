@@ -1,21 +1,20 @@
 <?php
 
-/*
- * Add custom routes or override existent ones
- */
-
 use Illuminate\Support\Facades\Route;
 
 /*
- * Web routes
+ * Add custom routes or override existent ones
+ *
+ * Already loaded in the appropriate context
+ * @see ./resources/routes/web.php
  */
 
-//#! Already loaded in the appropriate context
-//#! @see ./resources/routes/web.php
-
-//#! Override the default route
+//#! Override the default routes
+Route::get( "maintenance", "NewspaperThemeController@maintenance" )->name( "app.maintenance" );
 Route::get( "/", "NewspaperThemeController@index" )->name( "app.home" );
+//#!--
 
+//#! Frontend routes
 Route::get( "categories", "NewspaperThemeController@categories" )->name( "blog.categories" );
 
 //#! Required in CategoriesWalker.. if not defined admin/post-type/category fails to load

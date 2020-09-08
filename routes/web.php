@@ -48,7 +48,7 @@ if ( Schema::hasTable( 'settings' ) ) {
 }
 
 //#! Under Maintenance route
-Route::get( "auth/maintenance", "UnderMaintenanceController@maintenance" )->middleware( [ 'web' ] )->name( "app.maintenance" );
+Route::get( "maintenance", "UnderMaintenanceController@maintenance" )->middleware( [ 'web' ] )->name( "app.maintenance" );
 
 /*
  * Frontend routes
@@ -57,10 +57,13 @@ Route::get( "auth/maintenance", "UnderMaintenanceController@maintenance" )->midd
  * The route to home MUST be defined here though since it's used outside a theme's scope
  */
 Route::group( [
-    'prefix' => '/', 'middleware' => [ 'web', 'active_user', 'under_maintenance' ],
+    'prefix' => '/', 'middleware' => [ 'active_user' ],
 ], function () {
     //#! Default app routes -- these can be overridden in themes & plugins
     Route::get( "/", "SiteController@index" )->name( "app.home" );
+    Route::get( "/404", "SiteController@error404" );
+    Route::get( "/500", "SiteController@error500" );
+    //#!--
 
     //#! Load active theme's routes if provided
     $tm = ThemesManager::getInstance();

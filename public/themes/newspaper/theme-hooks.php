@@ -8,6 +8,7 @@ use App\Helpers\Util;
 use App\Post;
 use App\PostMeta;
 use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Route;
 
 /**
  * Include theme's views into the global scope
@@ -15,7 +16,7 @@ use Illuminate\Support\Facades\File;
 add_filter( 'contentpress/register_view_paths', function ( $paths = [] ) {
     $paths[] = path_combine( NP_THEME_DIR_PATH, 'views' );
     return $paths;
-}, 20 );
+}, 80 );
 
 /**
  * Register the path to the translation file that will be used depending on the current locale
@@ -49,6 +50,7 @@ add_action( 'contentpress/site/head', function () {
     ScriptsManager::enqueueHeadScript( 'bootstrap.js', $theme->url( 'assets/vendor/bootstrap/bootstrap.min.js' ) );
     ScriptsManager::enqueueHeadScript( 'fa-kit.js', '//kit.fontawesome.com/cec4674fec.js' );
 
+    ScriptsManager::enqueueFooterScript( 'masonry.js', $theme->url( 'assets/vendor/masonry.pkgd.min.js' ) . $qv );
     ScriptsManager::enqueueFooterScript( 'theme-scripts.js', $theme->url( 'assets/dist/js/theme-scripts.js' ) . $qv );
     ScriptsManager::enqueueFooterScript( 'theme-custom-scripts.js', $theme->url( 'assets/js/theme-custom-scripts.js' ) . $qv );
 } );
@@ -88,9 +90,9 @@ add_filter( 'contentpress/body-class', function ( $classes = [] ) {
  * Add custom menu items to the main menu
  */
 add_action( 'contentpress/menu::main-menu/before', function () {
-    echo '<div class="topnav">';
-    ?>
-    <?php
+    echo '<div class="topnav bg-light text-dark">';
+    $activeClass = ( Route::is( 'app.home' ) ? 'active' : '' );
+    echo '<a href="' . route( 'app.home' ) . '" class="menu-item ' . $activeClass . '">' . esc_attr( __( 'np::m.Home' ) ) . '</a>';
 } );
 add_action( 'contentpress/menu::main-menu/after', function () {
     echo '<a href="#" class="icon btn-toggle-nav">&#9776;</a>';

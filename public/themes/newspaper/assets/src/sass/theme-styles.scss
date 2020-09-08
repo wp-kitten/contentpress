@@ -1,2 +1,6 @@
-@import 'inc/vars', 'inc/globals';
-@import 'components/nav-menu';
+@import 'vars', 'globals';
+
+@import 'components/page-header';
+@import 'components/pages';
+@import 'components/posts';
+@import 'components/site-sidebar';

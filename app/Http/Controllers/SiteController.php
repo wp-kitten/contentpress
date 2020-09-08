@@ -21,7 +21,17 @@ class SiteController extends Controller
      */
     public function index()
     {
-        return view( 'index' )->with( [ 'settings' => $this->settings ] );
+        return view( 'index' );
+    }
+
+    public function error404()
+    {
+        return view( '404' );
+    }
+
+    public function error500()
+    {
+        return view( '500' );
     }
 
     /**
@@ -120,8 +130,8 @@ class SiteController extends Controller
 
         //#! [::1] Check to see whether or not there is a specific template for this post type
         //#! Ex: views/singular-article.blade.php to render all post type article
-        if ( view()->exists( 'singular-'.$postType ) ) {
-            return view( 'singular-'.$postType )->with( [ 'page' => $thePost ] );
+        if ( view()->exists( 'singular-' . $postType ) ) {
+            return view( 'singular-' . $postType )->with( [ 'page' => $thePost ] );
         }
 
         //#! Return the single general template

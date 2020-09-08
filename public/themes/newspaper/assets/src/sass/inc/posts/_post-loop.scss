@@ -1,0 +1,25 @@
+.hentry-loop {
+    background-color: #fff;
+
+    .hentry-header {
+        position: relative;
+
+        .hentry-category {
+            position: absolute;
+            z-index: 2;
+            right: 5px;
+            bottom: 5px;
+            padding: 5px 10px;
+        }
+    }
+
+    .hentry-content {
+        padding: 10px 0;
+
+        .hentry-title {
+            font-size: 17px;
+            line-height: 1.4;
+            padding: 0 10px;
+        }
+    }
+}

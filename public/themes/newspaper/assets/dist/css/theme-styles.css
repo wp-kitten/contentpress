@@ -1,12 +1,32 @@
+.hidden {
+  display: none !important;
+}
+
+.image-responsive {
+  max-width: 100%;
+}
+
+body {
+  background-color: #eee;
+}
+
+img,
+a {
+  border: none 0;
+  outline: none;
+}
+
+.masonry-grid .masonry-item {
+  margin-bottom: 20px !important;
+}
+
 .topnav {
   overflow: hidden;
-  background-color: #333;
 }
 
 .topnav a {
   float: left;
   display: block;
-  color: #f2f2f2;
   text-align: center;
   padding: 14px 16px;
   text-decoration: none;
@@ -29,7 +49,6 @@
 .has-submenu .show-submenu {
   border: none;
   outline: none;
-  color: white;
   padding: 14px 16px;
   background-color: inherit;
   margin: 0;
@@ -41,7 +60,7 @@
   background-color: #f9f9f9;
   min-width: 160px;
   box-shadow: 0 8px 16px 0 rgba(0, 0, 0, 0.2);
-  z-index: 1;
+  z-index: 3;
 }
 
 .submenu-content a {
@@ -55,8 +74,7 @@
 
 .topnav a:hover,
 .has-submenu:hover .show-submenu {
-  background-color: #555;
-  color: white;
+  background-color: #4CAF50;
 }
 
 .submenu-content a:hover {
@@ -110,5 +128,83 @@
     width: 100%;
     text-align: left;
   }
+}
+
+.page-blog {
+  margin-top: 20px;
+}
+
+.pagination-wrap nav {
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+.hentry-loop {
+  background-color: #fff;
+}
+
+.hentry-loop .hentry-header {
+  position: relative;
+}
+
+.hentry-loop .hentry-header .hentry-category {
+  position: absolute;
+  z-index: 2;
+  right: 5px;
+  bottom: 5px;
+  padding: 5px 10px;
+}
+
+.hentry-loop .hentry-content {
+  padding: 10px 0;
+}
+
+.hentry-loop .hentry-content .hentry-title {
+  font-size: 17px;
+  line-height: 1.4;
+  padding: 0 10px;
+}
+
+.site-sidebar .widget-categories .categories-list li {
+  display: flex;
+  align-items: center;
+  align-content: space-between;
+  justify-content: space-between;
+  border-bottom: solid 1px #f5f5f5;
+  padding: 10px 0;
+}
+
+.site-sidebar .widget-categories .categories-list li:last-child {
+  border-bottom: none 0;
+}
+
+.site-sidebar .widget-search .widget-content .search-button {
+  display: none !important;
+}
+
+.site-sidebar .widget-search .widget-content .search-field {
+  width: 100%;
+  max-width: 100%;
+  outline: 0 !important;
+  line-height: 1.6;
+  padding: 5px 12px;
+}
+
+.site-sidebar .widget-posts .posts-list li {
+  display: flex;
+  align-items: center;
+  align-content: start;
+  justify-content: center;
+}
+
+.site-sidebar .widget-posts .posts-list li img {
+  width: 60px;
+  height: 60px;
+}
+
+.site-sidebar .widget-posts .posts-list li:last-child {
+  margin-bottom: 0 !important;
 }
 

@@ -1,4 +1,5 @@
 <!doctype html>
+@inject('newspaperHelper',App\Newspaper\NewspaperHelper)
 @php
     $currentLanguageCode = App\Helpers\CPML::getFrontendLanguageCode();
     app()->setLocale($currentLanguageCode);
@@ -11,6 +12,8 @@
 
     <!-- CSRF Token -->
     <meta name="csrf-token" content="{{ csrf_token() }}"/>
+
+    @php $newspaperHelper->printSocialMetaTags() @endphp
 
     @hasSection('title')
         @yield('title')
@@ -26,12 +29,7 @@
 <body class="{{cp_body_classes()}}">
     {{do_action('contentpress/after_body_open')}}
 
-    <header class="app-header">
-        <div>
-            <h3>{{config('app.name')}}</h3>
-        </div>
-        @include('components.nav-menu')
-    </header>
+    @include('partials.site-header')
 
     @yield('content')
 

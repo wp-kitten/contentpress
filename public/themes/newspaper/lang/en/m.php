@@ -1,5 +1,8 @@
 <?php
 return [
-    // localized strings
-    'Hello' => 'Hello'
+    'Home' => 'Home',
+    'Categories' => 'Categories',
+    'Search' => 'Search',
+    'Random posts' => 'Random posts',
+    'Tags' => 'Tags',
 ];

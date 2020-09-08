@@ -1,0 +1,15 @@
+//#! Helper classes
+.hidden { display:none !important;}
+.image-responsive { max-width: 100%;}
+
+//
+body { background-color: #eee; }
+img, a {border: none 0; outline: none;}
+
+
+//#! Masonry
+.masonry-grid {
+    .masonry-item {
+        margin-bottom: 20px !important;
+    }
+}

@@ -1,12 +1,11 @@
 .topnav {
     overflow: hidden;
-    background-color: #333;
 }
 
 .topnav a {
     float: left;
     display: block;
-    color: #f2f2f2;
+    //color: #f2f2f2;
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
@@ -29,7 +28,7 @@
 .has-submenu .show-submenu {
     border: none;
     outline: none;
-    color: white;
+    //color: white;
     padding: 14px 16px;
     background-color: inherit;
     margin: 0;
@@ -41,7 +40,7 @@
     background-color: #f9f9f9;
     min-width: 160px;
     box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-    z-index: 1;
+    z-index: 3;
 }
 
 .submenu-content a {
@@ -54,8 +53,8 @@
 }
 
 .topnav a:hover, .has-submenu:hover .show-submenu {
-    background-color: #555;
-    color: white;
+    background-color: #4CAF50;
+    //color: white;
 }
 
 .submenu-content a:hover {

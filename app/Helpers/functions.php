@@ -681,7 +681,6 @@ function cp_get_post_view_url( Post $post )
     return Util::getPostViewUrl( $post );
 }
 
-
 /**
  * Retrieve the reference to the instance of the current theme
  * @return Theme|null
@@ -762,4 +761,19 @@ function cp_menu( $menuSlugOrID )
     catch ( Exception $e ) {
         logger( $e->getMessage() );
     }
+}
+
+/**
+ * Truncates a text with ellipsis
+ * @param string $string
+ * @param int $maxLength The min length the text should have to be truncated. Defaults to 50 characters
+ * @param string $textMore
+ * @return string
+ */
+function cp_ellipsis( string $string, int $maxLength = 50, string $textMore = '...' ): string
+{
+    if ( strlen( $string ) > $maxLength ) {
+        return substr( $string, 0, $maxLength ) . $textMore;
+    }
+    return $string;
 }

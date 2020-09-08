@@ -160,12 +160,12 @@ function cp_search_form( $placeholderText = 'Search', $searchButtonText = 'Searc
 {
     $fid = cp_get_global_id();
     ?>
-    <form method="get" action="<?php esc_attr_e( route( 'blog.search' ) ); ?>">
+    <form method="get" action="<?php esc_attr_e( route( 'blog.search' ) ); ?>" class="search-form">
         <label class="hidden" for="search-field-<?php esc_attr_e( $fid ); ?>"><?php esc_html_e( __( 'a.Search' ) ); ?></label>
         <input type="text" name="s" id="search-field-<?php esc_attr_e( $fid ); ?>" class="search-field"
                placeholder="<?php esc_attr_e( $placeholderText ); ?>"
                value="<?php esc_attr_e( cp_get_search_query() ); ?>"/>
-        <input type="submit" class="btn-large waves-effect btn-sky-blue text-uppercase" value="<?php esc_attr_e( $searchButtonText ); ?>"/>
+        <input type="submit" class="search-button" value="<?php esc_attr_e( $searchButtonText ); ?>"/>
     </form>
     <?php
 }
