@@ -10,6 +10,7 @@ use App\Post;
 use App\PostMeta;
 use App\PostStatus;
 use App\PostType;
+use App\Role;
 use App\Tag;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -49,7 +50,7 @@ class FeedImporter
     private $languageID;
 
     /**
-     * Holds the ID of the user to be set as psot author
+     * Holds the ID of the user to be set as post author
      * @var int|null
      */
     private $currentUserID;
@@ -71,6 +72,15 @@ class FeedImporter
         $this->publishPostStatus = ( new PostStatus() )->where( 'name', 'publish' )->first();
         $this->draftPostStatus = ( new PostStatus() )->where( 'name', 'draft' )->first();
         $this->currentUserID = cp_get_current_user_id();
+        if ( !cp_current_user_can( 'administrator' ) ) {
+            //#! Pick the first super admin
+            $user = Role::where( 'name', Role::ROLE_SUPER_ADMIN )->first()->users()->first();
+            if ( !$user ) {
+                //#! Pick an admin
+                $user = Role::where( 'name', Role::ROLE_ADMIN )->first()->users()->first();
+            }
+            $this->currentUserID = $user->id;
+        }
         $this->mediaFile = new MediaFile();
         $this->postMeta = new PostMeta();
     }
@@ -292,10 +302,21 @@ class FeedImporter
      */
     private function __getCreateCategoryID( string $categoryName, int $parentID = null )
     {
+        $_categoryName = $categoryName;
+        $categoryName = wp_check_invalid_utf8( $_categoryName );
+        if ( empty( $categoryName ) ) {
+            $categoryName = wp_kses_normalize_entities( $_categoryName );
+        }
+        else {
+            $categoryName = wp_kses_decode_entities( $categoryName );
+            $categoryName = wp_kses_normalize_entities( $categoryName );
+        }
+
         $categoryName = wp_kses( $categoryName, [] );
 
         $catTitle = Str::title( utf8_encode( $categoryName ) );
 
+        //#! If the category exists, retrieve the category ID
         $category = Category::where( 'name', $catTitle )
             ->where( 'category_id', $parentID )
             ->where( 'post_type_id', $this->postType->id )
@@ -305,19 +326,30 @@ class FeedImporter
             return $category->id;
         }
 
+        //#! Invalid chars of whatever, return the parent category ID
         $slug = Str::slug( $categoryName );
+        if ( empty( $slug ) ) {
+            return $parentID;
+        }
+
+        //#! Attempt to create the category
         if ( !Util::isUniqueCategorySlug( $slug, $this->languageID, $this->postType->id ) ) {
-            usleep( 250 );
             $slug = Str::slug( Category::find( $parentID )->name . '-' . $categoryName );
         }
-        $r = Category::create( [
-            'name' => $catTitle,
-            'slug' => $slug,
-            'description' => '',
-            'language_id' => $this->languageID,
-            'post_type_id' => $this->postType->id,
-            'category_id' => ( empty( $parentID ) ? null : $parentID ),
-        ] );
+        $r = false;
+        try {
+            $r = Category::create( [
+                'name' => $catTitle,
+                'slug' => $slug,
+                'description' => '',
+                'language_id' => $this->languageID,
+                'post_type_id' => $this->postType->id,
+                'category_id' => ( empty( $parentID ) ? null : $parentID ),
+            ] );
+        }
+        catch ( \Exception $e ) {
+            logger( 'Error creating category: ' . $e->getMessage() );
+        }
         return ( $r ? $r->id : false );
     }
 
@@ -328,18 +360,38 @@ class FeedImporter
      */
     private function __getCreateTagID( $name )
     {
+        $_name = $name;
+        $name = wp_check_invalid_utf8( $_name );
+        if ( empty( $name ) ) {
+            $name = wp_kses_normalize_entities( $_name );
+        }
+        else {
+            $name = wp_kses_decode_entities( $name );
+            $name = wp_kses_normalize_entities( $name );
+        }
+
         $name = wp_kses( $name, [] );
         $slug = Str::slug( $name );
+        if ( empty( $slug ) ) {
+            return false;
+        }
+
         if ( !Util::isUniqueTagSlug( $slug, $this->languageID, $this->postType->id ) ) {
             return Tag::where( 'slug', $slug )->first()->id;
         }
 
-        $r = Tag::create( [
-            'name' => $name,
-            'slug' => $slug,
-            'language_id' => $this->languageID,
-            'post_type_id' => $this->postType->id,
-        ] );
+        $r = false;
+        try {
+            $r = Tag::create( [
+                'name' => $name,
+                'slug' => $slug,
+                'language_id' => $this->languageID,
+                'post_type_id' => $this->postType->id,
+            ] );
+        }
+        catch ( \Exception $e ) {
+            logger( 'Error creating tag: ' . $e->getMessage() );
+        }
         return ( $r ? $r->id : false );
     }
 
@@ -351,25 +403,55 @@ class FeedImporter
      */
     private function __insertPost( array $postData, $postStatusID )
     {
-        $title = wp_kses_post( $postData[ 'title' ] );
+        $_title = $postData[ 'title' ];
+        $title = wp_check_invalid_utf8( $_title );
+        if ( empty( $title ) ) {
+            $title = wp_kses_normalize_entities( $_title );
+        }
+        else {
+            $title = wp_kses_decode_entities( $title );
+            $title = wp_kses_normalize_entities( $title );
+        }
+
+        $title = wp_kses( $title, [] );
         $post_slug = Str::slug( $title );
         if ( !Util::isUniquePostSlug( $post_slug ) ) {
             return false;
         }
-        $content = wp_kses_post( $postData[ 'content' ] );
-        $excerpt = substr( wp_kses( $postData[ 'content' ], [] ), 0, 180 );
-        $r = Post::create( [
-            'title' => $title,
-            'slug' => $post_slug,
-            'content' => $content,
-            'excerpt' => $excerpt,
-            'user_id' => $this->currentUserID,
-            'language_id' => $this->languageID,
-            'post_type_id' => $this->postType->id,
-            'post_status_id' => $postStatusID,
-        ] );
+        if ( empty( $post_slug ) ) {
+            return false;
+        }
 
-        return ( $r ? $r : false );
+        $_content = trim( $postData[ 'content' ] );
+        $content = wp_check_invalid_utf8( $_content );
+        if ( empty( $content ) ) {
+            $content = wp_kses_normalize_entities( $_content );
+        }
+        else {
+            $content = wp_kses_decode_entities( $content );
+            $content = wp_kses_normalize_entities( $content );
+        }
+
+        $content = wp_kses_post( $content );
+        $excerpt = wp_html_excerpt( $content, 180 );
+        $r = false;
+        try {
+            $r = Post::create( [
+                'title' => $title,
+                'slug' => $post_slug,
+                'content' => $content,
+                'excerpt' => $excerpt,
+                'user_id' => $this->currentUserID,
+                'language_id' => $this->languageID,
+                'post_type_id' => $this->postType->id,
+                'post_status_id' => $postStatusID,
+            ] );
+        }
+        catch ( \Exception $e ) {
+            logger( 'Error creating post: ' . $e->getMessage() );
+        }
+
+        return ( $r ?: false );
     }
 
     /**
@@ -419,4 +501,5 @@ class FeedImporter
         }
         return false;
     }
+
 }

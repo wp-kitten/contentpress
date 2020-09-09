@@ -334,7 +334,7 @@ Route::post( 'admin/feed-reader/feeds/import', function () {
     }
 
     $options = ( new Options() );
-    $expires = time() + ( 5 * 60 );
+    $expires = time() + CP_HOUR_IN_SECONDS;
     $options->addOption( NPFR_PROCESS_OPT_NAME, $expires );
 
     $feeds = Feed::all();

@@ -28,4 +28,3 @@ if ( cp_is_admin() ) {
     require_once( NPFR_PLUGIN_DIR_PATH . '/admin/hooks.php' );
     require_once( NPFR_PLUGIN_DIR_PATH . '/admin/routes.php' );
 }
-

@@ -10,14 +10,22 @@
 
 @section('content')
 
+    @php
+        /**@var App\Settings $settings*/
+
+        if(! isset($title) || empty($title)){
+            $title =  $settings->getSetting('under_maintenance_page_title');
+        }
+        if(! isset($message) || empty($message)){
+            $message =  $settings->getSetting('under_maintenance_message');
+        }
+    @endphp
+
+
     <main class="site-page page-under-maintenance">
         <div class="container">
             <div class="row flex flex-middle fitscreen">
                 <div class="col-xs-12 col-md-12 text-center">
-                    @php
-                        $title =  $settings->getSetting('under_maintenance_page_title');
-                        $message =  $settings->getSetting('under_maintenance_message');
-                    @endphp
                     <h1 class="mb-3">
                         @if(! empty($title))
                             {{$title}}

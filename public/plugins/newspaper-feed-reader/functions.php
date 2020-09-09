@@ -20,10 +20,8 @@ function cpfrImportingContent()
     //#! Check to see whether or not we're already importing
     $options = ( new Options() );
     $option = $options->where( 'name', NPFR_PROCESS_OPT_NAME )->first();
-    if ( $option ) {
-        if ( $option->value > time() ) {
-            return true;
-        }
+    if ( $option && $option->value > time() ) {
+        return true;
     }
     return false;
 }
@@ -69,7 +67,7 @@ function cpfrGetCategoriesTree()
     return $out;
 }
 
-
-function getAdminBaseController(){
+function getAdminBaseController()
+{
     return new AdminControllerBase();
 }
