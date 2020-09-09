@@ -62,8 +62,8 @@ add_action( 'contentpress/site/footer', function () {
     //#! [DEBUG] Prevent the browser from caching resources
     $qv = ( env( 'APP_DEBUG' ) ? '?t=' . time() : '' );
 
-    ScriptsManager::enqueueFooterScript( 'siema.js', $theme->url( 'assets/vendor/siema.min.js' ) . $qv );
-    ScriptsManager::enqueueFooterScript( 'masonry.js', $theme->url( 'assets/vendor/masonry.pkgd.min.js' ) . $qv );
+    ScriptsManager::enqueueFooterScript( 'siema.js', $theme->url( 'assets/vendor/siema.min.js' ) );
+    ScriptsManager::enqueueFooterScript( 'masonry.js', $theme->url( 'assets/vendor/masonry.pkgd.min.js' ) );
     ScriptsManager::enqueueFooterScript( 'conveyor-ticker.js', $theme->url( 'assets/vendor/conveyor-ticker/jquery.jConveyorTicker.min.js' ) );
     ScriptsManager::enqueueFooterScript( 'theme-scripts.js', $theme->url( 'assets/dist/js/theme-scripts.js' ) . $qv );
     ScriptsManager::enqueueFooterScript( 'theme-custom-scripts.js', $theme->url( 'assets/js/theme-custom-scripts.js' ) . $qv );
