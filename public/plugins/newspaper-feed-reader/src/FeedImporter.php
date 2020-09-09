@@ -365,6 +365,9 @@ class FeedImporter
      */
     private function __importImage( string $imageUrl )
     {
+        //#! Strip query vars from url
+        $imageUrl = strtok($imageUrl, '?');
+
         $extension = pathinfo( $imageUrl, PATHINFO_EXTENSION );
         $fn = md5( basename( $imageUrl ) );
 
