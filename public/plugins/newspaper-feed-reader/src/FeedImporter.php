@@ -125,9 +125,23 @@ class FeedImporter
                     $entries = $syn->getEntries();
                     if ( !empty( $entries ) ) {
                         foreach ( $entries as $entry ) {
+
+                            if ( !isset( $entry[ 'title' ] ) || empty( $entry[ 'title' ] ) ) {
+                                logger( 'Feed title not found: ' . $feedUrl );
+                                continue;
+                            }
+
+                            $feedContent = '';
+                            if ( isset( $entry[ 'description' ] ) ) {
+                                $feedContent = $entry[ 'description' ];
+                            }
+                            elseif ( isset( $entry[ 'content' ] ) ) {
+                                $feedContent = $entry[ 'content' ];
+                            }
+
                             $postData = [
                                 'title' => trim( $entry[ 'title' ] ),
-                                'content' => trim( $entry[ 'description' ] ),
+                                'content' => trim( $feedContent ),
                             ];
 
                             //#! Attempt to create the post as draft
@@ -280,7 +294,7 @@ class FeedImporter
     {
         $categoryName = wp_kses( $categoryName, [] );
 
-        $catTitle = Str::title( utf8_encode($categoryName) );
+        $catTitle = Str::title( utf8_encode( $categoryName ) );
 
         $category = Category::where( 'name', $catTitle )
             ->where( 'category_id', $parentID )
@@ -366,7 +380,7 @@ class FeedImporter
     private function __importImage( string $imageUrl )
     {
         //#! Strip query vars from url
-        $imageUrl = strtok($imageUrl, '?');
+        $imageUrl = strtok( $imageUrl, '?' );
 
         $extension = pathinfo( $imageUrl, PATHINFO_EXTENSION );
         $fn = md5( basename( $imageUrl ) );
