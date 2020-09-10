@@ -11,6 +11,7 @@ img, a {border: none 0; outline: none;}
 
 //#! Masonry
 .masonry-grid {
+    .grid-sizer { display: none; }
     .masonry-item {
         margin-bottom: 20px !important;
     }

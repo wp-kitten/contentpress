@@ -17,6 +17,10 @@ use Illuminate\Support\Facades\Schema;
 //Route::get( "/", "NewspaperThemeController@index" )->name( "app.home" );
 //#!--
 
+//#! Ajax
+Route::get( "ajax", [ "uses" => "NewspaperAjaxController@index" ] )->name( "app.ajax" );
+Route::post( "ajax", [ "uses" => "NewspaperAjaxController@index" ] )->name( "app.ajax" );
+
 //#! Frontend routes
 Route::get( "categories", "NewspaperThemeController@categories" )->name( "blog.categories" );
 

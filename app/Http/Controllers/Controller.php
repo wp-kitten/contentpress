@@ -90,11 +90,13 @@ class Controller extends BaseController
         $this->themesManager = ThemesManager::getInstance();
         $this->request = \request();
         $this->media = new MediaHelper();
+        $enabledLanguages = [];
 
         //#! Check to see whether or not there are any enabled languages
         if ( Schema::hasTable( 'options' ) ) {
             $enabledLanguages = $this->options->getOption( 'enabled_languages', TYPE_ERROR );
             if ( $enabledLanguages == TYPE_ERROR ) {
+                $enabledLanguages = [];
                 //#! Add the default language and save the option
                 array_push( $enabledLanguages, 'en' );
                 Options::create( [

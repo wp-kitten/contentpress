@@ -51,6 +51,20 @@ add_action( 'contentpress/site/head', function () {
     ScriptsManager::enqueueHeadScript( 'popper.js', $theme->url( 'assets/vendor/popper/popper.min.js' ) );
     ScriptsManager::enqueueHeadScript( 'bootstrap.js', $theme->url( 'assets/vendor/bootstrap/bootstrap.min.js' ) );
     ScriptsManager::enqueueHeadScript( 'fa-kit.js', '//kit.fontawesome.com/cec4674fec.js' );
+
+    ScriptsManager::localizeScript( 'cp-locale', 'CPLocale', [
+        'ajax' => [
+            'url' => route( 'app.ajax' ),
+            'nonce_name' => '_token',
+            'nonce_value' => csrf_token(),
+        ],
+        't' => [
+            'no_response' => esc_js( __( 'np::m.No response from server' ) ),
+            'empty_response' => esc_js( __( 'np::m.Empty response from server' ) ),
+            'invalid_response' => esc_js( __( 'np::m.Invalid response' ) ),
+            'unknown_error' => esc_js( __( 'np::m.An error occurred:' ) ),
+        ],
+    ] );
 } );
 
 /*

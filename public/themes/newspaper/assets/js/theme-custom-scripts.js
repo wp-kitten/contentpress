@@ -14,12 +14,12 @@ jQuery( function ($) {
     });
 
     //#! Various places
-    $( '.masonry-grid' ).masonry( {
-        // options
-        itemSelector: '.masonry-item',
-        columnWidth: '.grid-sizer',
-        percentPosition: true,
-    } );
+    // $( '.masonry-grid' ).masonry( {
+    //     // options
+    //     itemSelector: '.masonry-item',
+    //     columnWidth: '.grid-sizer',
+    //     percentPosition: true,
+    // } );
 
     //#! Singular: Related posts carousel
     var relatedPostsCarousel = $( '.related-posts' );

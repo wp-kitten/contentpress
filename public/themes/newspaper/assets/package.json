@@ -22,6 +22,7 @@
         "react": "^16.13.1",
         "react-dom": "^16.13.1",
         "react-flux": "^1.0.1",
+        "react-masonry-component": "^6.2.1",
         "resolve-url-loader": "^3.1.0",
         "sass": "^1.26.7",
         "sass-loader": "^8.0.0"
