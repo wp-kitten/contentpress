@@ -104,7 +104,7 @@
                 </div>
 
                 {{-- SIDEBAR --}}
-                <div class="col-md-3 d-none d-sm-none">
+                <div class="col-md-3 d-none d-md-block d-lg-block">
                     <aside class="site-sidebar">
                         @include('components.blog-sidebar', ['newspaperHelper' => $newspaperHelper])
                     </aside>

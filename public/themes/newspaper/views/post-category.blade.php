@@ -106,7 +106,7 @@
                 </div>
 
                 {{-- SIDEBAR --}}
-                <div class="col-md-3 d-none d-sm-none">
+                <div class="col-md-3 d-none d-md-block d-lg-block">
                     <aside class="site-sidebar">
                         <div class="widget widget-categories bg-white p-3">
                             <div class="widget-title">
