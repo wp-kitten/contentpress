@@ -1,6 +1,9 @@
 jQuery( function ($) {
     "use strict";
 
+    $('.load-container').fadeOut();
+    $('.loader-mask').delay(450).fadeOut('600');
+
     //#! [Responsive] Toggle nav menu
     $( '.btn-toggle-nav' ).on( 'click', function (ev) {
         ev.preventDefault();

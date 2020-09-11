@@ -52,4 +52,9 @@ return [
     'Before proceeding, please check your email for a verification link.' => 'Before proceeding, please check your email for a verification link.',
     'If you did not receive the email' => 'If you did not receive the email',
     'click here to request another' => 'click here to request another',
+    'No response from server' => 'No response from server',
+    'Empty response from server' => 'Empty response from server',
+    'Invalid response' => 'Invalid response',
+    'An error occurred:' => 'An error occurred:',
+    'Get more' => 'Get more',
 ];

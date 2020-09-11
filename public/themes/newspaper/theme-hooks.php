@@ -63,7 +63,9 @@ add_action( 'contentpress/site/head', function () {
             'empty_response' => esc_js( __( 'np::m.Empty response from server' ) ),
             'invalid_response' => esc_js( __( 'np::m.Invalid response' ) ),
             'unknown_error' => esc_js( __( 'np::m.An error occurred:' ) ),
+            'load_more' => esc_js( __( 'np::m.Get more' ) ),
         ],
+        'is_mobile' => wp_is_mobile(),
     ] );
 } );
 
@@ -94,7 +96,14 @@ add_action( 'contentpress/plugins/loaded', function () {
  * Output some content right after the <body> tag
  */
 add_action( 'contentpress/after_body_open', function () {
-    //...
+    ?>
+    <div class="loader-mask">
+        <div class="load-container">
+            <div class="cube purple"></div>
+            <div class="cube orange"></div>
+        </div>
+    </div>
+    <?php
 } );
 
 /**

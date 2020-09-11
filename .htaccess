@@ -1,0 +1,41 @@
+#
+# Local .htaccess file
+# Used to set the "public" directory as the document root
+### laravel App (https://laravel-site.dev/)
+#
+#Options +FollowSymLinks -MultiViews
+## Turn mod_rewrite on
+#RewriteEngine On
+#RewriteBase /
+#
+#RewriteCond %{DOCUMENT_ROOT}/public/$1 -f [OR]
+#RewriteCond %{DOCUMENT_ROOT}/public/$1 -d [OR]
+#RewriteCond %{DOCUMENT_ROOT}/public/$1 -l
+## Once you verify it is working fine, replace R=302 to R=301. Avoid using R=301 (Permanent Redirect) while testing your mod_rewrite rules.
+#RewriteRule (?!^public/)^(.*)$ /public/$1 [R=301,L,NC]
+
+# BEGIN Expire headers
+<ifModule mod_expires.c>
+        ExpiresActive On
+        ExpiresDefault "access plus 5 seconds"
+        ExpiresByType image/x-icon "access plus 2592000 seconds"
+        ExpiresByType image/jpeg "access plus 2592000 seconds"
+        ExpiresByType image/png "access plus 2592000 seconds"
+        ExpiresByType image/gif "access plus 2592000 seconds"
+        ExpiresByType image/svg+xml "access plus 2592000 seconds"
+        ExpiresByType application/x-font-ttf "access plus 2592000 seconds"
+        ExpiresByType application/x-font-truetype "access plus 2592000 seconds"
+        ExpiresByType application/x-font-opentype "access plus 2592000 seconds"
+        ExpiresByType application/x-font-woff "access plus 2592000 seconds"
+        ExpiresByType application/font-woff2 "access plus 2592000 seconds"
+        ExpiresByType application/vnd.ms-fontobject "access plus 2592000 seconds"
+        ExpiresByType application/font-sfnt "access plus 2592000 seconds"
+        ExpiresByType application/x-shockwave-flash "access plus 2592000 seconds"
+        ExpiresByType text/css "access plus 604800 seconds"
+        ExpiresByType text/javascript "access plus 216000 seconds"
+        ExpiresByType application/javascript "access plus 216000 seconds"
+        ExpiresByType application/x-javascript "access plus 216000 seconds"
+        ExpiresByType text/html "access plus 600 seconds"
+        ExpiresByType application/xhtml+xml "access plus 600 seconds"
+</ifModule>
+# END Expire headers

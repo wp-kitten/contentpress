@@ -24,17 +24,30 @@ class BlogPage extends Component {
                 page: 0,
                 entries: [],
             },
+            //#! Assume we have more data to retrieve
+            has_more: true,
+            load_more: false,
         };
+
+        this.btnLoadMoreRef = React.createRef();
+        this.__initJS = this.__initJS.bind( this );
+        this.__checkWinSize = this.__checkWinSize.bind( this );
+        this.__initInfiniteScroll = this.__initInfiniteScroll.bind( this );
+        this.__loadMoreOnClick = this.__loadMoreOnClick.bind( this );
     }
 
     componentDidMount() {
         // execute the ajax request
         this.__ajaxGetEntries();
-        this.__initInfiniteScroll();
+
+        this.__initJS();
     }
 
     __ajaxGetEntries() {
         if ( this.state.loading ) {
+            return false;
+        }
+        if ( !this.state.has_more ) {
             return false;
         }
 
@@ -76,6 +89,9 @@ class BlogPage extends Component {
                         }
                         else {
                             //#! Do nothing, we don't have any more posts to show
+                            self.setState( {
+                                has_more: false
+                            } );
                         }
                     }
                     else {
@@ -96,6 +112,7 @@ class BlogPage extends Component {
             } )
             .always( function () {
                 self.setState( { loading: false } );
+                $(self.btnLoadMoreRef.current).removeAttr('disabled');
             } );
     }
 
@@ -103,6 +120,35 @@ class BlogPage extends Component {
         return <div className="col-xs-12 col-sm-6 col-md-4 masonry-item">
             <h3>Loading...</h3>
         </div>
+    }
+
+    /**
+     * Checks for changes in window size
+     * @private
+     */
+    __initJS() {
+        var mq = window.matchMedia( "(max-width: 767px)" );
+        this.__checkWinSize( mq );
+        const self = this;
+        $( window ).on( 'load resize', function () {
+            self.__checkWinSize( mq );
+        } );
+    }
+
+    /**
+     * Helper method to check the window size
+     * @param mq
+     * @private
+     */
+    __checkWinSize(mq) {
+        // If media query matches
+        if ( mq.matches ) {
+            this.setState( { load_more: true } )
+        }
+        else {
+            this.__initInfiniteScroll();
+            this.setState( { load_more: false } )
+        }
     }
 
     __initInfiniteScroll() {
@@ -115,8 +161,17 @@ class BlogPage extends Component {
         } );
     }
 
+    __loadMoreOnClick() {
+        //#! Prevent repetitive clicks
+        if ( this.loading ) {
+            return false;
+        }
+        $(this.btnLoadMoreRef.current).attr('disabled', true);
+        this.__ajaxGetEntries();
+    }
+
     render() {
-        const { loading, data } = this.state;
+        const { loading, data, load_more, has_more } = this.state;
 
         const entries = ( data.entries ? data.entries : false );
 
@@ -124,6 +179,14 @@ class BlogPage extends Component {
             {loading && this.__loading()}
 
             {entries && <BlogPageMasonry elements={entries}/>}
+
+            {( load_more && has_more ) && <div className="col-xs-12 col-sm-12">
+                <div className="text-center mt-4 mb-4">
+                    <button className="btn btn-primary"
+                            ref={this.btnLoadMoreRef}
+                            onClick={this.__loadMoreOnClick}>{locale.t.load_more}</button>
+                </div>
+            </div>}
         </React.Fragment>
     }
 }
