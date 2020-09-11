@@ -35,7 +35,7 @@
     </div>
 </div>
 
-<div class="widget widget-search bg-white p-3 mt-4">
+<div class="widget widget-search bg-white p-3 mt-2">
     <div class="widget-title">
         <h3 class="text-danger">{{__('np::m.Search')}}</h3>
     </div>

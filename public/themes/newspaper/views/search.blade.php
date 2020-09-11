@@ -12,6 +12,14 @@
     <title>{{__('np::m.Search for: :query_string', [ 'query_string' => cp_get_search_query()]) }}</title>
 @endsection
 
+
+@section('sidenav')
+    <aside class="site-sidebar">
+        @include('components.blog-sidebar', ['newspaperHelper' => $newspaperHelper])
+    </aside>
+@endsection
+
+
 @section('content')
     <main class="site-page page-search">
 
@@ -96,7 +104,7 @@
                 </div>
 
                 {{-- SIDEBAR --}}
-                <div class="col-xs-12 col-md-3">
+                <div class="col-md-3 d-none d-sm-none">
                     <aside class="site-sidebar">
                         @include('components.blog-sidebar', ['newspaperHelper' => $newspaperHelper])
                     </aside>

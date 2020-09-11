@@ -5,7 +5,7 @@ jQuery( function ($) {
     $('.loader-mask').delay(450).fadeOut('600');
 
     //#! [Responsive] Toggle nav menu
-    $( '.btn-toggle-nav' ).on( 'click', function (ev) {
+    $( '.js-toggle-menu' ).on( 'click', function (ev) {
         ev.preventDefault();
         $( '.topnav' ).toggleClass( 'responsive' );
     } );
@@ -52,4 +52,15 @@ jQuery( function ($) {
             $( '#' + formID ).trigger( 'submit' );
         }
     } );
+
+    //#! Side nav
+    var sideNav = $('.sidenav');
+    $('.btn-open-sidenav').on('click', function(ev){
+        ev.preventDefault();
+        sideNav.css('width', '250px');
+    });
+    $('.btn-close-sidenav').on('click', function(ev){
+        ev.preventDefault();
+        sideNav.css('width', 0);
+    });
 } );

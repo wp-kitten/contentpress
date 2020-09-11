@@ -9,6 +9,15 @@
     <title>{{__('np::m.Tags')}}</title>
 @endsection
 
+
+@section('sidenav')
+    <aside class="site-sidebar">
+        @include('components.tags-sidebar', ['newspaperHelper' => $newspaperHelper])
+    </aside>
+@endsection
+
+
+
 @section('content')
     <main class="site-page page-post-tags">
 
@@ -34,7 +43,7 @@
                     </div>
 
                     {{-- SIDEBAR --}}
-                    <div class="col-xs-12 col-md-3">
+                    <div class="col-md-3 d-none d-sm-none">
                         <aside class="site-sidebar">
                             @include('components.tags-sidebar', ['newspaperHelper' => $newspaperHelper])
                         </aside>

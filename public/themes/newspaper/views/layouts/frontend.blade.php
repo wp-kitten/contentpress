@@ -29,6 +29,22 @@
 <body class="{{cp_body_classes()}}">
     {{do_action('contentpress/after_body_open')}}
 
+
+    {{-- SIDENAV --}}
+    <a href="#" class="btn-open-sidenav" title="{{__( 'np::m.Open side nav' )}}">&#9776;</a>
+    <div id="mySidenav" class="sidenav">
+        <a href="#" class="btn-close-sidenav">&times;</a>
+        <div class="sidenav-content custom-scroll">
+            @hasSection('sidenav')
+                @yield('sidenav')
+            @else
+                <aside class="site-sidebar">
+                    @include('components.blog-sidebar', ['newspaperHelper' => $newspaperHelper])
+                </aside>
+            @endif
+        </div>
+    </div>
+
     @include('partials.site-header')
 
     @yield('content')

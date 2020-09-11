@@ -9,6 +9,35 @@
     /**@var App\Newspaper\NewspaperHelper $newspaperHelper*/
 @endphp
 
+
+@section('sidenav')
+    <aside class="site-sidebar">
+        <div class="widget widget-categories bg-white p-3">
+            <div class="widget-title">
+                <h3 class="text-danger">{{__('np::m.Categories')}}</h3>
+            </div>
+            <div class="widget-content">
+                <ul class="list-unstyled mt-3 mb-3 categories-list">
+                    @if(! empty($subcategories))
+                        @forelse($subcategories as $cat)
+                            <li>
+
+                                <a class="category-name text-info" href="{{cp_get_category_link($cat)}}">{!! cp_cat_name($cat->name) !!}</a>
+                                <span class="num-posts text-dark">{{$newspaperHelper->categoryTreeCountPosts($cat)}}</span>
+                            </li>
+                        @empty
+                            <li>
+                                @include('partials.no-content', ['class' => 'info', 'text' => __('np::m.No subcategories found.')])
+                            </li>
+                        @endforelse
+                    @endif
+                </ul>
+            </div>
+        </div>
+    </aside>
+@endsection
+
+
 @section('content')
     <main class="site-page page-category">
 
@@ -77,7 +106,7 @@
                 </div>
 
                 {{-- SIDEBAR --}}
-                <div class="col-sm-12 col-md-3">
+                <div class="col-md-3 d-none d-sm-none">
                     <aside class="site-sidebar">
                         <div class="widget widget-categories bg-white p-3">
                             <div class="widget-title">

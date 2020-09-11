@@ -125,7 +125,7 @@ add_action( 'contentpress/menu::main-menu/before', function () {
     echo '<a href="' . route( 'app.home' ) . '" class="menu-item ' . $activeClass . '">' . esc_attr( __( 'np::m.Home' ) ) . '</a>';
 } );
 add_action( 'contentpress/menu::main-menu/after', function () {
-    echo '<a href="#" class="icon btn-toggle-nav">&#9776;</a>';
+    echo '<a href="#" class="icon btn-toggle-nav js-toggle-menu" title="' . esc_attr( __( 'np::m.Toggle menu' ) ) . '">&#9776;</a>';
     echo '</div>';
 } );
 add_action( 'contentpress/menu::main-menu', function () {

@@ -101,3 +101,73 @@ h1, h2, h3, h4, h5, h6 {
         z-index: 4;
     }
 }
+
+/* -- Side nav -- */
+.sidenav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 3;
+    top: 0;
+    right: 0;
+    background-color: #fff;
+    overflow-x: hidden;
+    transition: 0.5s;
+    padding-top: 60px;
+}
+
+.sidenav .btn-close-sidenav {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.sidenav .btn-close-sidenav:focus,
+.sidenav .btn-close-sidenav:hover {
+    color: #1a1a1a;
+    text-decoration: none;
+}
+.btn-open-sidenav {
+    top: 0;
+    position: fixed;
+    right: 0;
+    padding: 10px 15px;
+    font-size: 20px;
+    text-decoration: none;
+    transition: 0.3s;
+    background: #cc0000;
+    color: #fff;
+    z-index: 3;
+}
+.btn-open-sidenav:focus,
+.btn-open-sidenav:visited,
+.btn-open-sidenav:hover { background: #b31d1d; color: #fafafa; text-decoration: none; }
+
+.sidenav .sidenav-content { height: 100%; }
+.sidenav .sidenav-content a { font-size: 14px; transition: 0.3s;}
+
+@media screen and (max-height: 450px) {
+    .sidenav {padding-top: 15px;}
+    .sidenav a {font-size: 18px;}
+}
+
+/* -- Custom Scroll -- */
+.custom-scroll {
+    overflow: hidden;
+    overflow-y: auto;
+}
+
+.custom-scroll::-webkit-scrollbar {
+    width: 4px;
+}
+
+.custom-scroll::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.custom-scroll::-webkit-scrollbar-thumb {
+    background: #d8d8d8;
+}

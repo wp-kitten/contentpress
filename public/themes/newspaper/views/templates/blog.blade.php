@@ -11,6 +11,12 @@
     /**@var App\Newspaper\NewspaperHelper $newspaperHelper*/
 @endphp
 
+@section('sidenav')
+    <aside class="site-sidebar">
+        @include('components.blog-sidebar', ['newspaperHelper' => $newspaperHelper])
+    </aside>
+@endsection
+
 @section('content')
     <main class="site-page page-blog">
 
@@ -23,7 +29,7 @@
                 </div>
 
                 {{-- SIDEBAR --}}
-                <div class="col-xs-12 col-md-3">
+                <div class="col-md-3 d-none d-sm-none">
                     <aside class="site-sidebar">
                         @include('components.blog-sidebar', ['newspaperHelper' => $newspaperHelper])
                     </aside>
