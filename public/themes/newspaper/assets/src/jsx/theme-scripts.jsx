@@ -11,5 +11,8 @@ if ( !locale ) {
     throw new Error( 'An error occurred. CPLocale not found.' )
 }
 
-ReactDOM.render( <BlogPage/>, document.getElementById( 'root' ) );
-
+//#! Ensure valid context
+const rootEl = $( '#blog-app-root' );
+if ( rootEl && rootEl.length ) {
+    ReactDOM.render( <BlogPage/>, document.getElementById( 'blog-app-root' ) );
+}

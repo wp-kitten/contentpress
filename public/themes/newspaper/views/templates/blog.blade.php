@@ -25,7 +25,7 @@
             <div class="row">
                 {{-- MAIN CONTENT --}}
                 <div class="col-xs-12 col-md-9">
-                    <div id="root"></div>
+                    <div id="blog-app-root"></div>
                 </div>
 
                 {{-- SIDEBAR --}}

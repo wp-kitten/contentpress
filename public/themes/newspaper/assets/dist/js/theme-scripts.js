@@ -52400,9 +52400,14 @@ var locale = typeof window.CPLocale !== 'undefined' ? window.CPLocale : false;
 
 if (!locale) {
   throw new Error('An error occurred. CPLocale not found.');
-}
+} //#! Ensure valid context
 
-react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_BlogPage__WEBPACK_IMPORTED_MODULE_3__["default"], null), document.getElementById('root'));
+
+var rootEl = $('#blog-app-root');
+
+if (rootEl && rootEl.length) {
+  react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_BlogPage__WEBPACK_IMPORTED_MODULE_3__["default"], null), document.getElementById('blog-app-root'));
+}
 
 /***/ }),
 
