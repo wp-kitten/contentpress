@@ -12,8 +12,6 @@ use Illuminate\Support\Str;
 
 class FeedSeeder extends Seeder
 {
-    private static $_categoriesMap = [];
-
     public static $categories = [
         'Portland Press Herald' => [
             "News" => 'https://www.pressherald.com/feed/',

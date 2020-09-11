@@ -315,7 +315,7 @@ Route::post( 'admin/feed-reader/import-default-content', function () {
 } )->middleware( [ 'web', 'auth', 'active_user' ] )->name( "admin.feeds.import_default_content" );
 
 /*
- * @POST: Import feeds
+ * @POST: Import all feeds
  */
 Route::post( 'admin/feed-reader/feeds/import', function () {
     if ( !cp_current_user_can( 'manage_options' ) ) {
@@ -360,6 +360,7 @@ Route::post( 'admin/feed-reader/feeds/import', function () {
         ] );
     }
 
+    do_action( 'newspaper-feed-reader/import-complete' );
 
     return redirect()->back()->with( 'message', [
         'class' => 'success',
@@ -413,6 +414,8 @@ Route::post( 'admin/feed-reader/feeds/import/{id}', function ( $feedID ) {
             'text' => __( 'npfr::m.An error occurred: :error', [ 'error' => $e->getMessage() ] ),
         ] );
     }
+
+    do_action( 'newspaper-feed-reader/import-complete' );
 
     return redirect()->back()->with( 'message', [
         'class' => 'success',

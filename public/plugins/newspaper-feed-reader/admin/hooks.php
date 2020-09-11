@@ -85,3 +85,13 @@ add_action( 'contentpress/admin/head', function () {
         ScriptsManager::enqueueFooterScript( 'npfr-plugin-scripts', cp_plugin_url( NPFR_PLUGIN_DIR_NAME, 'res/scripts.js' ) );
     }
 }, 80 );
+
+/**
+ * Clear cache after feed(s) import
+ */
+add_action( 'newspaper-feed-reader/import-complete', function () {
+    $cacheClass = app( 'cp.cache' );
+    if ( $cacheClass ) {
+        $cacheClass->clear();
+    }
+} );

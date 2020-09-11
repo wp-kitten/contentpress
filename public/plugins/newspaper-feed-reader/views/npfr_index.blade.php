@@ -24,14 +24,16 @@
                         </form>
                     @endif
 
-                    <a class="btn btn-dark d-none d-inline-block" href="#"
-                       onclick="event.preventDefault(); document.getElementById('cpfr-import-default-content').submit();"
-                       title="{{__('npfr::m.Creates the default pages, categories & feed urls')}}">
-                        {{__('npfr::m.Import default content')}}
-                    </a>
-                    <form id="cpfr-import-default-content" method="post" action="{{route('admin.feeds.import_default_content')}}" class="hidden">
-                        @csrf
-                    </form>
+                    @if(! App\Category::where('name', \Illuminate\Support\Str::title('Teslarati'))->first())
+                        <a class="btn btn-dark d-none d-inline-block" href="#"
+                           onclick="event.preventDefault(); document.getElementById('cpfr-import-default-content').submit();"
+                           title="{{__('npfr::m.Creates the default pages, categories & feed urls')}}">
+                            {{__('npfr::m.Import default content')}}
+                        </a>
+                        <form id="cpfr-import-default-content" method="post" action="{{route('admin.feeds.import_default_content')}}" class="hidden">
+                            @csrf
+                        </form>
+                    @endif
                 </li>
             </ul>
         </div>
