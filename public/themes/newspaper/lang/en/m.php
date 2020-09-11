@@ -58,4 +58,6 @@ return [
     'An error occurred:' => 'An error occurred:',
     'Get more' => 'Get more',
     'Advertise yourself on :provider today!' => 'Advertise yourself on :provider today!',
+    'Copyright &copy;2020 ContentPress' => 'Copyright &copy;2020 ContentPress',
+    'ContentPress' => 'ContentPress',
 ];

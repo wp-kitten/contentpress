@@ -2,7 +2,6 @@
 The template to display pages
 --}}
 @extends('layouts.frontend')
-
 @section('content')
     <main class="site-page page-page page-singular">
 

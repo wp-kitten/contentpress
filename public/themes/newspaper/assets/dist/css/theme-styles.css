@@ -370,3 +370,41 @@ a {
   margin-left: 10px;
 }
 
+.site-footer {
+  background-color: #0D0A0A;
+}
+
+.site-footer .site-logo {
+  margin: 1rem 0;
+}
+
+.site-footer .footer-menu-nav .footer-menu {
+  margin: 0 0;
+  padding: 0 0;
+  list-style-position: outside;
+}
+
+.site-footer .footer-menu-nav .footer-menu .active {
+  background-color: transparent;
+}
+
+.site-footer .footer-menu-nav .footer-menu a {
+  color: #f5f5f5;
+  font-size: 12px;
+  padding: 7px 10px;
+}
+
+.site-footer .footer-menu-nav .footer-menu a:active,
+.site-footer .footer-menu-nav .footer-menu a:focus,
+.site-footer .footer-menu-nav .footer-menu a:hover {
+  color: #fafafa;
+}
+
+.site-footer .footer-menu-nav .footer-menu a:last-of-type {
+  padding-right: 0 !important;
+}
+
+.site-footer .copyright {
+  border-top: 1px solid #191818;
+}
+

@@ -49,6 +49,7 @@
 
     @yield('content')
 
+    @include('partials.site-footer')
 
     {{contentpressFooter()}}
 </body>

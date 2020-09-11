@@ -2,10 +2,13 @@
 The template to display the front page or the blog page depending on what is set in Settings > Reading
 --}}
 @inject('settings', App\Settings)
-@extends('layouts.frontend')
-
 @php
+     //#! Check what we need to display on homepage
+
+    /**@var App\Settings $settings*/
+
     $thePage = null;
+
     $showOnFront = $settings->getSetting( 'show_on_front', 'blog' );
     //#! Specific page
     if ( 'page' == $showOnFront ) {
@@ -22,6 +25,7 @@ The template to display the front page or the blog page depending on what is set
         }
     }
 @endphp
+@extends('layouts.frontend')
 
 @section('title')
     <title>

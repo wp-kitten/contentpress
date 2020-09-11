@@ -23,7 +23,6 @@
     ];
 @endphp
 
-
 @section('sidenav')
     <aside class="site-sidebar">
         @include('components.blog-sidebar', ['newspaperHelper' => $newspaperHelper])
