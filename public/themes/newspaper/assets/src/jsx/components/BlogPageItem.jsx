@@ -14,19 +14,26 @@ class BlogPageItem extends Component {
             category_name,
             category_url
         } = this.props.entry;
+
+        const isAd = ( category_name.length === 0 );
+        let linkAttrs = {};
+        if ( isAd ) {
+            linkAttrs.target = '_blank';
+        }
+
         return <div className="col-xs-12 col-sm-6 col-md-4 masonry-item">
             <article className="hentry-loop">
                 <header className="hentry-header">
                     {image_url && <img src={image_url} alt={post_title} className="image-responsive"/>}
-                    <div className="hentry-category bg-danger">
+                    {category_url && <div className="hentry-category bg-danger">
                         <a href={category_url} className="text-light">
                             {category_name}
                         </a>
-                    </div>
+                    </div>}
                 </header>
                 <section className="hentry-content">
                     <h4 className="hentry-title">
-                        <a href={post_url} className="text-info">
+                        <a href={post_url} className="text-info" {...linkAttrs}>
                             {post_title}
                         </a>
                     </h4>

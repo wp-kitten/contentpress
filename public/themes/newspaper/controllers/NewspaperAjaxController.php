@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\Cache;
+use App\Newspaper\AdsManager;
 use App\Newspaper\NewspaperHelper;
 use App\Post;
 use App\PostStatus;
@@ -81,8 +82,9 @@ class NewspaperAjaxController extends Controller
                 'ids' => [],
                 'posts' => [],
             ];
+
             $newspaperHelper = new NewspaperHelper();
-            foreach ( $posts as $post ) {
+            foreach ( $posts as $i => $post ) {
                 array_push( $cache[ 'ids' ], $post->id );
                 $cache[ 'posts' ][ $post->id ] = [
                     'image_url' => $newspaperHelper->getPostImageOrPlaceholder( $post ),
@@ -94,6 +96,31 @@ class NewspaperAjaxController extends Controller
             }
             $cacheClass->set( $cacheKey, $cache );
         }
+
+        //#!++ Inject ads every "n" posts
+        //#! Make sure we have enough posts to inject the ads between
+        $every_n_posts = 6;
+        $ids = $cache[ 'ids' ];
+        if ( count( $ids ) > ( $every_n_posts * 3 ) ) {
+            $posts = $cache[ 'posts' ];
+            foreach ( $ids as $i => $pid ) {
+                if ( 0 == ( $i % $every_n_posts ) ) {
+                    $ad = AdsManager::get();
+                    $posts[ $pid ] = [
+                        'image_url' => $ad[ 'image_url' ],
+                        'post_title' => $ad[ 'title' ],
+                        'post_url' => $ad[ 'url' ],
+                        'category_name' => '',
+                        'category_url' => '',
+                    ];
+                }
+                else {
+                    $posts[ $pid ] = $cache[ 'posts' ][ $pid ];
+                }
+            }
+            $cache[ 'posts' ] = $posts;
+        }
+        //#!--
 
         return $this->responseSuccess( [
             'ids' => array_unique( $cache[ 'ids' ] ),

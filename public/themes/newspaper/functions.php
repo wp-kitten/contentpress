@@ -9,6 +9,7 @@ use Illuminate\Routing\Controller;
 define( 'NP_THEME_DIR_PATH', untrailingslashit( wp_normalize_path( dirname( __FILE__ ) ) ) );
 define( 'NP_THEME_DIR_NAME', basename( dirname( __FILE__ ) ) );
 
+require_once( NP_THEME_DIR_PATH . '/src/AdsManager.php' );
 require_once( NP_THEME_DIR_PATH . '/src/NewspaperHelper.php' );
 require_once( NP_THEME_DIR_PATH . '/controllers/NewspaperThemeController.php' );
 require_once( NP_THEME_DIR_PATH . '/controllers/NewspaperAjaxController.php' );
