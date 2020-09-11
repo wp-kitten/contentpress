@@ -94,15 +94,13 @@ class Controller extends BaseController
 
         //#! Check to see whether or not there are any enabled languages
         if ( Schema::hasTable( 'options' ) ) {
-            $enabledLanguages = $this->options->getOption( 'enabled_languages', TYPE_ERROR );
-            if ( $enabledLanguages == TYPE_ERROR ) {
-                $enabledLanguages = [];
+            $enabledLanguages = $this->options->getOption( 'enabled_languages', [] );
+            if ( empty( $enabledLanguages ) ) {
                 //#! Add the default language and save the option
                 array_push( $enabledLanguages, 'en' );
-                Options::create( [
-                    'name' => 'enabled_languages',
-                    'value' => maybe_serialize( $enabledLanguages ),
-                ] );
+                $opt = Options::where('name', 'enabled_languages')->first();
+                $opt->value = maybe_serialize( $enabledLanguages );
+                $opt->save();
             }
         }
 

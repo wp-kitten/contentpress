@@ -160,7 +160,7 @@ class CategoriesWalker
                         echo '<span class="bullet success" title="'.esc_html(__('a.This category has translations for all enabled languages.')).'"></span>';
                     }
                     ?>
-                    <?php echo utf8_encode( $category->name ); ?>
+                    <?php echo  $category->name; ?>
                 </a>
                 <?php $this->renderActions( $category ); ?>
             </div>
@@ -210,7 +210,7 @@ class CategoriesWalker
                                 echo '<span class="bullet success" title="'.esc_html(__('a.This category has translations for all enabled languages.')).'"></span>';
                             }
                             ?>
-                            <?php echo utf8_encode( $subcategory->name ); ?>
+                            <?php echo $subcategory->name; ?>
                         </a>
 
                         <?php $this->renderActions( $subcategory ); ?>

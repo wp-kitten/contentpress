@@ -2,7 +2,7 @@
 @inject('newspaperHelper',App\Newspaper\NewspaperHelper)
 
 @section('title')
-    <title>{!! utf8_encode($tag->name) !!}</title>
+    <title>{!! $tag->name !!}</title>
 @endsection
 
 @php
@@ -29,7 +29,7 @@
                     {{-- PAGE TITLE --}}
                     <div class="row">
                         <div class="col-sm-12">
-                            <h2 class="page-title">{!! cp_cat_name($tag->name) !!}</h2>
+                            <h2 class="page-title">{!! $tag->name !!}</h2>
                         </div>
                     </div>
 
@@ -50,7 +50,7 @@
                                                         <img src="{{$imageUrl}}" class="image-responsive" alt="{{$post->title}}"/>
                                                         <div class="hentry-category bg-danger">
                                                             <a href="{{cp_get_category_link($post->firstCategory())}}" class="text-light">
-                                                                {!! cp_cat_name($post->firstCategory()->name) !!}
+                                                                {!! $post->firstCategory()->name !!}
                                                             </a>
                                                         </div>
                                                     </header>

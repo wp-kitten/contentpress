@@ -24,7 +24,7 @@
                 @forelse($categories as $category)
                     @if(isset($entries[$category->id]))
                         <li>
-                            <a class="category-name text-info" href="{{cp_get_category_link($category)}}">{!! utf8_encode($category->name) !!}</a>
+                            <a class="category-name text-info" href="{{cp_get_category_link($category)}}">{!! $category->name !!}</a>
                             <span class="num-posts text-dark">{{$entries[$category->id]}}</span>
                         </li>
                     @endif

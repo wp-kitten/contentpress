@@ -449,4 +449,6 @@ return [
     'Cache cleared.' => 'Cache cleared.',
     'Welcome to :app_name' => 'Welcome to :app_name',
     'Thank you for registering an account on our website!' => 'Thank you for registering an account on our website!',
+    'The application has been reinstalled and the dummy data imported.' => 'The application has been reinstalled and the dummy data imported.',
+    'An error occurred while trying to reinstall the application: :error' => 'An error occurred while trying to reinstall the application: :error',
 ];

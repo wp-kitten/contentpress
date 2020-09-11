@@ -148,7 +148,7 @@ add_action( 'contentpress/menu::main-menu', function () {
                 foreach ( $categories as $category ) {
                     $url = cp_get_category_link( $category );
                     $activeClass = ( Str::containsAll( url()->current(), [ $url ] ) ? 'active' : '' );
-                    echo '<a href="' . esc_attr( $url ) . '" class="menu-item ' . esc_attr( $activeClass ) . '">' . utf8_encode( $category->name ) . '</a>';
+                    echo '<a href="' . esc_attr( $url ) . '" class="menu-item ' . esc_attr( $activeClass ) . '">' . $category->name . '</a>';
                 }
                 ?>
             </div>
@@ -336,10 +336,4 @@ function np_activate_theme_plugins()
             }
         }
     }
-}
-
-if ( !cp_is_admin() ) {
-    add_filter( 'contentpress/category/name', function ( string $name ) {
-        return ucwords( utf8_encode( Str::lower( $name ) ) );
-    } );
 }

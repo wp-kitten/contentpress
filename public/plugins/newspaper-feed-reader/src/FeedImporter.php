@@ -302,19 +302,11 @@ class FeedImporter
      */
     private function __getCreateCategoryID( string $categoryName, int $parentID = null )
     {
-        $_categoryName = $categoryName;
-        $categoryName = wp_check_invalid_utf8( $_categoryName );
-        if ( empty( $categoryName ) ) {
-            $categoryName = wp_kses_normalize_entities( $_categoryName );
-        }
-        else {
-            $categoryName = wp_kses_decode_entities( $categoryName );
-            $categoryName = wp_kses_normalize_entities( $categoryName );
-        }
-
+        $categoryName = wp_check_invalid_utf8( $categoryName );
+        $categoryName = mb_convert_encoding( $categoryName, 'utf-8', 'auto' );
         $categoryName = wp_kses( $categoryName, [] );
 
-        $catTitle = Str::title( utf8_encode( $categoryName ) );
+        $catTitle = Str::title( $categoryName );
 
         //#! If the category exists, retrieve the category ID
         $category = Category::where( 'name', $catTitle )
@@ -360,17 +352,10 @@ class FeedImporter
      */
     private function __getCreateTagID( $name )
     {
-        $_name = $name;
-        $name = wp_check_invalid_utf8( $_name );
-        if ( empty( $name ) ) {
-            $name = wp_kses_normalize_entities( $_name );
-        }
-        else {
-            $name = wp_kses_decode_entities( $name );
-            $name = wp_kses_normalize_entities( $name );
-        }
-
+        $name = wp_check_invalid_utf8( $name );
+        $name = mb_convert_encoding( $name, 'utf-8', 'auto' );
         $name = wp_kses( $name, [] );
+
         $slug = Str::slug( $name );
         if ( empty( $slug ) ) {
             return false;
@@ -403,17 +388,11 @@ class FeedImporter
      */
     private function __insertPost( array $postData, $postStatusID )
     {
-        $_title = $postData[ 'title' ];
-        $title = wp_check_invalid_utf8( $_title );
-        if ( empty( $title ) ) {
-            $title = wp_kses_normalize_entities( $_title );
-        }
-        else {
-            $title = wp_kses_decode_entities( $title );
-            $title = wp_kses_normalize_entities( $title );
-        }
-
+        $title = $postData[ 'title' ];
+        $title = wp_check_invalid_utf8( $title );
+        $title = mb_convert_encoding( $title, 'utf-8', 'auto' );
         $title = wp_kses( $title, [] );
+
         $post_slug = Str::slug( $title );
         if ( !Util::isUniquePostSlug( $post_slug ) ) {
             return false;
@@ -422,18 +401,11 @@ class FeedImporter
             return false;
         }
 
-        $_content = trim( $postData[ 'content' ] );
-        $content = wp_check_invalid_utf8( $_content );
-        if ( empty( $content ) ) {
-            $content = wp_kses_normalize_entities( $_content );
-        }
-        else {
-            $content = wp_kses_decode_entities( $content );
-            $content = wp_kses_normalize_entities( $content );
-        }
-
+        $content = trim( $postData[ 'content' ] );
+        $content = mb_convert_encoding( $content, 'utf-8', 'auto' );
         $content = wp_kses_post( $content );
         $excerpt = wp_html_excerpt( $content, 180 );
+
         $r = false;
         try {
             $r = Post::create( [

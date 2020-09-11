@@ -34,7 +34,7 @@
                                 @foreach($tags as $tag)
                                     @if($tag->posts()->count())
                                         <a href="{{cp_get_tag_link($tag)}}" class="tag-link">
-                                            {!! cp_cat_name($tag->name) !!}
+                                            {!! $tag->name !!}
                                         </a>
                                     @endif
                                 @endforeach

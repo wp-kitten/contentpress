@@ -2,7 +2,7 @@
 @inject('newspaperHelper',App\Newspaper\NewspaperHelper)
 
 @section('title')
-    <title>{!! utf8_encode($category->name) !!}</title>
+    <title>{!! $category->name !!}</title>
 @endsection
 
 @php
@@ -22,7 +22,7 @@
                         @forelse($subcategories as $cat)
                             <li>
 
-                                <a class="category-name text-info" href="{{cp_get_category_link($cat)}}">{!! cp_cat_name($cat->name) !!}</a>
+                                <a class="category-name text-info" href="{{cp_get_category_link($cat)}}">{!! $cat->name !!}</a>
                                 <span class="num-posts text-dark">{{$newspaperHelper->categoryTreeCountPosts($cat)}}</span>
                             </li>
                         @empty
@@ -50,7 +50,7 @@
                     {{-- PAGE TITLE --}}
                     <div class="row">
                         <div class="col-sm-12">
-                            <h2 class="page-title">{!! utf8_encode($category->name) !!}</h2>
+                            <h2 class="page-title">{!!  $category->name !!}</h2>
                             @php
                                 $parentCategories = $category->parentCategories();
                                 $catsTree = [];
@@ -59,7 +59,7 @@
                                         $catsTree[] = '<a href="'.esc_attr(cp_get_category_link($cat)).'">'.$cat->name.'</a>';
                                     }
                                 }
-                                $catsTree[] = '<a href="'.esc_attr(cp_get_category_link($category)).'">'. utf8_encode( $category->name ).'</a>';
+                                $catsTree[] = '<a href="'.esc_attr(cp_get_category_link($category)).'">'. $category->name.'</a>';
                             @endphp
                             @if(count($catsTree) > 1)
                                 <span class="d-block text-description">{!! implode('/', $catsTree) !!}</span>
@@ -84,7 +84,7 @@
                                                         <img src="{{$imageUrl}}" class="image-responsive" alt="{{$post->title}}"/>
                                                         <div class="hentry-category bg-danger">
                                                             <a href="{{cp_get_category_link($post->firstCategory())}}" class="text-light">
-                                                                {!! cp_cat_name($post->firstCategory()->name) !!}
+                                                                {!! $post->firstCategory()->name !!}
                                                             </a>
                                                         </div>
                                                     </header>
@@ -118,7 +118,7 @@
                                         @forelse($subcategories as $cat)
                                             <li>
 
-                                                <a class="category-name text-info" href="{{cp_get_category_link($cat)}}">{!! cp_cat_name($cat->name) !!}</a>
+                                                <a class="category-name text-info" href="{{cp_get_category_link($cat)}}">{!! $cat->name !!}</a>
                                                 <span class="num-posts text-dark">{{$newspaperHelper->categoryTreeCountPosts($cat)}}</span>
                                             </li>
                                         @empty

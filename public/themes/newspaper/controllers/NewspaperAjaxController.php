@@ -90,7 +90,7 @@ class NewspaperAjaxController extends Controller
                     'image_url' => $newspaperHelper->getPostImageOrPlaceholder( $post ),
                     'post_title' => $post->title,
                     'post_url' => cp_get_permalink( $post ),
-                    'category_name' => cp_cat_name( $post->firstCategory()->name ),
+                    'category_name' => $post->firstCategory()->name,
                     'category_url' => cp_get_category_link( $post->firstCategory() ),
                 ];
             }

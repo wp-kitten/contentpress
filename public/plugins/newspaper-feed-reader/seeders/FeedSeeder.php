@@ -5,8 +5,10 @@ use App\CategoryMeta;
 use App\Feed;
 use App\Helpers\CPML;
 use App\Post;
+use App\PostMeta;
 use App\PostStatus;
 use App\PostType;
+use App\Settings;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -78,6 +80,10 @@ class FeedSeeder extends Seeder
         'Sporting News' => 'http://www.sportingnews.com/us/rss',
         'Romania' => [
             'Film Now' => 'https://www.filmnow.ro/rss',
+        ],
+
+        'Sports' => [
+            'Marca' => 'https://e00-marca.uecdn.es/rss/portada.xml',
         ],
     ];
 
@@ -214,18 +220,45 @@ class FeedSeeder extends Seeder
         $defaultLanguageID = CPML::getDefaultLanguageID();
         $postTypeId = PostType::where( 'name', 'page' )->first()->id;
 
+        $blogPageID = 0;
+
         foreach ( self::$pages as $title ) {
             if ( !$postClass->exists( Str::slug( $title ) ) ) {
-                $postClass->create( [
+                $slug = Str::slug( $title );
+                $page = $postClass->create( [
                     'title' => Str::title( $title ),
-                    'slug' => Str::slug( $title ),
+                    'slug' => $slug,
                     'content' => '',
                     'user_id' => $currentUserID,
                     'language_id' => $defaultLanguageID,
                     'post_type_id' => $postTypeId,
                     'post_status_id' => $postStatusID,
                 ] );
+                //#! Set templates
+                if ( $page && 'home' == $slug ) {
+                    PostMeta::create( [
+                        'post_id' => $page->id,
+                        'language_id' => CPML::getDefaultLanguageID(),
+                        'meta_name' => 'template',
+                        'meta_value' => 'templates.home',
+                    ] );
+                }
+                elseif ( $page && 'blog' == $slug ) {
+                    PostMeta::create( [
+                        'post_id' => $page->id,
+                        'language_id' => CPML::getDefaultLanguageID(),
+                        'meta_name' => 'template',
+                        'meta_value' => 'templates.blog',
+                    ] );
+                    $blogPageID = $page->id;
+                }
             }
         }
+
+        //#! Settings > reading
+        $settings = new Settings();
+        $settings->updateSetting( 'show_on_front', 'blog' );
+        $settings->updateSetting( 'page_on_front', $blogPageID );
+        $settings->updateSetting( 'blog_page', $blogPageID );
     }
 }

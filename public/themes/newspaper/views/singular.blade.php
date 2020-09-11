@@ -58,7 +58,7 @@
                                 <span>
                                 <i class="fa fa-folder-open"></i>
                                 @foreach($post->categories()->get() as $category)
-                                        <a href="{{cp_get_category_link($category)}}" class="category-link">{!! utf8_encode($category->name) !!}</a>
+                                        <a href="{{cp_get_category_link($category)}}" class="category-link">{!! $category->name !!}</a>
                                     @endforeach
                             </span>
                             @endif

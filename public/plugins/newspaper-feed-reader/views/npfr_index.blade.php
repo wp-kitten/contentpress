@@ -61,13 +61,13 @@
                                     @php
                                         $cat = $catModel->find($categoryID);
                                         if( empty( $subcategories ) ) {
-                                            echo '<option value="'.esc_attr($categoryID).'">'.utf8_encode($cat->name).'</option>';
+                                            echo '<option value="'.esc_attr($categoryID).'">'.$cat->name.'</option>';
                                         }
                                         else {
-                                            echo '<optgroup label="'.utf8_encode($cat->name).'">';
+                                            echo '<optgroup label="'.$cat->name.'">';
                                             foreach($subcategories as $subcategoryID){
                                                 $subcat = $catModel->find($subcategoryID);
-                                                echo '<option value="'.esc_attr($subcategoryID).'">'.utf8_encode($subcat->name).'</option>';
+                                                echo '<option value="'.esc_attr($subcategoryID).'">'.$subcat->name.'</option>';
                                             }
                                             echo '</optgroup>';
                                         }

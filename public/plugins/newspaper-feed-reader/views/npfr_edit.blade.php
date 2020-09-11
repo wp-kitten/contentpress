@@ -44,14 +44,14 @@
                                         $cat = $catModel->find($categoryID);
                                         if( empty( $subcategories ) ) {
                                             $selected = ($categoryID == $feed->category->id ? 'selected' : '');
-                                            echo '<option value="'.esc_attr($categoryID).'" '.$selected.'>'.utf8_encode($cat->name).'</option>';
+                                            echo '<option value="'.esc_attr($categoryID).'" '.$selected.'>'.$cat->name.'</option>';
                                         }
                                         else {
-                                            echo '<optgroup label="'.utf8_encode($cat->name).'">';
+                                            echo '<optgroup label="'.$cat->name.'">';
                                             foreach($subcategories as $subcategoryID){
                                                 $selected = ($subcategoryID == $feed->category->id ? 'selected' : '');
                                                 $subcat = $catModel->find($subcategoryID);
-                                                echo '<option value="'.esc_attr($subcategoryID).'" '.$selected.'>'.utf8_encode($subcat->name).'</option>';
+                                                echo '<option value="'.esc_attr($subcategoryID).'" '.$selected.'>'.$subcat->name.'</option>';
                                             }
                                             echo '</optgroup>';
                                         }

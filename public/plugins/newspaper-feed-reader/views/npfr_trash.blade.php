@@ -39,7 +39,7 @@
                             @forelse($feeds as $feed)
                                 <li class="cp-flex cp-flex--center cp-flex--space-between mb-3 border-bottom">
                                     <p>
-                                        <span class="d-block text-description">{!! utf8_encode($feed->category->name) !!}</span>
+                                        <span class="d-block text-description">{!! $feed->category->name !!}</span>
                                         <span class="d-block">{{$feed->url}}</span>
                                     </p>
                                     <div>
