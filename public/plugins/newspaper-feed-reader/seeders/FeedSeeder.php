@@ -75,15 +75,17 @@ class FeedSeeder extends Seeder
             'Editorials' => 'https://phys.org/rss-feed/editorials',
         ],
 
-        'Los Angeles' => 'https://www.dailynews.com/feed',
+        'Los Angeles' => [
+            'Daily News' => 'https://www.dailynews.com/feed',
+        ],
         'Independent' => 'https://www.independent.co.uk/rss',
-        'Sporting News' => 'http://www.sportingnews.com/us/rss',
         'Romania' => [
             'Film Now' => 'https://www.filmnow.ro/rss',
         ],
 
         'Sports' => [
             'Marca' => 'https://e00-marca.uecdn.es/rss/portada.xml',
+            'Sporting News' => 'http://www.sportingnews.com/us/rss',
         ],
     ];
 
@@ -113,11 +115,20 @@ class FeedSeeder extends Seeder
         ///===============================
         //#! Create categories, subcategories & feeds
         foreach ( self::$categories as $categoryName => $catInfo ) {
-            $theCat = $catClass->exists( $categoryName, true );
+            /*
+             * [::1] Create the main category if it doesn't already exist
+             */
+            $theCatName = Str::title( mb_convert_encoding( $categoryName, 'utf-8', 'auto' ) );
+            $theCat = Category::where( 'name', $theCatName )
+                ->where( 'language_id', $languageID )
+                ->where( 'post_type_id', $postTypeID )
+                ->where( 'category_id', null )
+                ->first();
+
             if ( !$theCat ) {
                 $theCat = Category::create( [
-                    'name' => Str::title( $categoryName ),
-                    'slug' => Str::slug( $categoryName ),
+                    'name' => $theCatName,
+                    'slug' => Str::slug( $theCatName ),
                     'language_id' => $languageID,
                     'post_type_id' => $postTypeID,
                 ] );
@@ -139,9 +150,15 @@ class FeedSeeder extends Seeder
                 }
             }
 
-            //#!
+            /*
+             * [::2] Add the category's feed
+             */
             if ( is_string( $catInfo ) ) {
-                $feedUrl = untrailingslashit( strtolower( $catInfo ) );
+                $feedUrl = untrailingslashit( Str::lower( $catInfo ) );
+                if ( !filter_var( $feedUrl, FILTER_VALIDATE_URL ) ) {
+                    logger( 'The feed "' . $feedUrl . '" could not be created: Not a valid url.' );
+                    continue;
+                }
                 $feed = Feed::create( [
                     'url' => $feedUrl,
                     'hash' => md5( $feedUrl ),
@@ -152,14 +169,22 @@ class FeedSeeder extends Seeder
                     return;
                 }
             }
-            //#! process subcategories & feeds
+            /*
+             * [::3] Process category's subcategories/feeds
+             */
             else {
                 foreach ( $catInfo as $subcategoryName => $feedUrls ) {
-                    $theSubCat = Category::where( 'slug', Str::slug( $subcategoryName ) )->where( 'category_id', $theCat->id )->first();
+                    $theSubcatName = Str::title( mb_convert_encoding( $subcategoryName, 'utf-8', 'auto' ) );
+                    $theSubCat = Category::where( 'name', $theSubcatName )
+                        ->where( 'language_id', $languageID )
+                        ->where( 'post_type_id', $postTypeID )
+                        ->where( 'category_id', $theCat->id )
+                        ->first();
+
                     if ( !$theSubCat ) {
                         $theSubCat = Category::create( [
-                            'name' => Str::title( $subcategoryName ),
-                            'slug' => Str::slug( $theCat->name . '-' . $subcategoryName ),
+                            'name' => $theSubcatName,
+                            'slug' => Str::slug( $theCat->name . '-' . $theSubcatName ),
                             'language_id' => $languageID,
                             'post_type_id' => $postTypeID,
                             'category_id' => $theCat->id,
@@ -184,6 +209,10 @@ class FeedSeeder extends Seeder
 
                     if ( is_string( $feedUrls ) ) {
                         $feedUrl = untrailingslashit( strtolower( $feedUrls ) );
+                        if ( !filter_var( $feedUrl, FILTER_VALIDATE_URL ) ) {
+                            logger( 'The feed "' . $feedUrl . '" could not be created: Not a valid url.' );
+                            continue;
+                        }
                         $feed = Feed::create( [
                             'url' => $feedUrl,
                             'hash' => md5( $feedUrl ),
@@ -196,7 +225,11 @@ class FeedSeeder extends Seeder
                     }
                     else {
                         foreach ( $feedUrls as $feedUrl ) {
-                            $feedUrl = untrailingslashit( strtolower( $feedUrls ) );
+                            $feedUrl = untrailingslashit( strtolower( $feedUrl ) );
+                            if ( !filter_var( $feedUrl, FILTER_VALIDATE_URL ) ) {
+                                logger( 'The feed "' . $feedUrl . '" could not be created: Not a valid url.' );
+                                continue;
+                            }
                             $feed = Feed::createOrUpdate( [
                                 'url' => $feedUrl,
                                 'hash' => md5( $feedUrl ),

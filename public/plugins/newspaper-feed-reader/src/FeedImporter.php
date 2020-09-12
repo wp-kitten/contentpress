@@ -302,7 +302,7 @@ class FeedImporter
      */
     private function __getCreateCategoryID( string $categoryName, int $parentID = null )
     {
-        $categoryName = wp_check_invalid_utf8( $categoryName );
+//        $categoryName = wp_check_invalid_utf8( $categoryName );
         $categoryName = mb_convert_encoding( $categoryName, 'utf-8', 'auto' );
         $categoryName = wp_kses( $categoryName, [] );
 
@@ -352,7 +352,7 @@ class FeedImporter
      */
     private function __getCreateTagID( $name )
     {
-        $name = wp_check_invalid_utf8( $name );
+//        $name = wp_check_invalid_utf8( $name );
         $name = mb_convert_encoding( $name, 'utf-8', 'auto' );
         $name = wp_kses( $name, [] );
 
@@ -389,7 +389,7 @@ class FeedImporter
     private function __insertPost( array $postData, $postStatusID )
     {
         $title = $postData[ 'title' ];
-        $title = wp_check_invalid_utf8( $title );
+//        $title = wp_check_invalid_utf8( $title );
         $title = mb_convert_encoding( $title, 'utf-8', 'auto' );
         $title = wp_kses( $title, [] );
 

@@ -20,11 +20,26 @@ class Category extends Model
      * ...so all categories eager load their children
      * @var string[]
      */
-    protected $with =  ['categories'];
+    protected $with = [ 'categories' ];
 
     public function exists( $idNameSlug, $get = false )
     {
         $category = $this->where( 'id', intval( $idNameSlug ) )
+            ->orWhere( 'name', $idNameSlug )
+            ->orWhere( 'slug', $idNameSlug )
+            ->first();
+        if ( $category && $category->id ) {
+            return ( $get ? $category : true );
+        }
+        return false;
+    }
+
+    public function existsWithParent( $idNameSlug, $parentCategoryID, $get = false )
+    {
+        $category = $this->where( function ( $query ) use ( $idNameSlug, $parentCategoryID ) {
+            return $query->where( 'id', intval( $idNameSlug ) )
+                ->where( 'category_id', $parentCategoryID );
+        } )
             ->orWhere( 'name', $idNameSlug )
             ->orWhere( 'slug', $idNameSlug )
             ->first();
