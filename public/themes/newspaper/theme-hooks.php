@@ -5,6 +5,9 @@ use App\Helpers\ScriptsManager;
 use App\Helpers\Theme;
 use App\Helpers\UserNotices;
 use App\Helpers\Util;
+use App\Http\Controllers\NewspaperAdminController;
+use App\Menu;
+use App\Options;
 use App\Post;
 use App\PostMeta;
 use Illuminate\Support\Facades\File;
@@ -119,16 +122,16 @@ add_filter( 'contentpress/body-class', function ( $classes = [] ) {
 /**
  * Add custom menu items to the main menu
  */
-add_action( 'contentpress/menu::main-menu/before', function () {
+add_action( 'contentpress/menu::main-menu/before', function ( Menu $menu ) {
     echo '<div class="topnav bg-light text-dark">';
     $activeClass = ( Route::is( 'app.home' ) ? 'active' : '' );
     echo '<a href="' . route( 'app.home' ) . '" class="menu-item ' . $activeClass . '">' . esc_attr( __( 'np::m.Home' ) ) . '</a>';
 } );
-add_action( 'contentpress/menu::main-menu/after', function () {
+add_action( 'contentpress/menu::main-menu/after', function ( Menu $menu ) {
     echo '<a href="#" class="icon btn-toggle-nav js-toggle-menu" title="' . esc_attr( __( 'np::m.Toggle menu' ) ) . '">&#9776;</a>';
     echo '</div>';
 } );
-add_action( 'contentpress/menu::main-menu', function () {
+add_action( 'contentpress/menu::main-menu', function ( Menu $menu ) {
     //#! Render the link to the tags page
     $activeClass = ( Route::is( 'post.tags' ) ? 'active' : '' );
     echo '<a href="' . route( 'post.tags' ) . '" class="menu-item ' . esc_attr( $activeClass ) . '">' . __( 'np::m.Tags' ) . '</a>';
@@ -277,7 +280,9 @@ add_action( 'contentpress/post/footer', function ( Post $post ) {
     }
 } );
 
-//#! Install and activate the theme's plugins
+/*
+ * Install and activate(if not already installed) the theme's dependent plugins
+ */
 add_action( 'contentpress/plugins/loaded', 'np_activate_theme_plugins', 20 );
 function np_activate_theme_plugins()
 {
@@ -337,3 +342,42 @@ function np_activate_theme_plugins()
         }
     }
 }
+
+/*
+ * [ADMIN]
+ * Add the Theme options menu item under Themes in the admin menu
+ */
+add_action( 'contentpress/admin/sidebar/menu/themes', function () {
+    if ( cp_current_user_can( 'manage_options' ) ) {
+        ?>
+        <li>
+            <a class="treeview-item <?php App\Helpers\MenuHelper::activateSubmenuItem( 'admin.themes.newspaper-options' ); ?>"
+               href="<?php esc_attr_e( route( 'admin.themes.newspaper-options' ) ); ?>">
+                <?php esc_html_e( __( 'np::m.Theme Options' ) ); ?>
+            </a>
+        </li>
+        <?php
+    }
+}, 800 );
+
+/*
+ * [ADMIN]
+ * Enqueue theme's resources in the admin area
+ */
+add_action( 'contentpress/admin/head', function () {
+    //#! Make sure we're only loading in our page
+    if ( request()->is( 'admin/themes/newspaper-options*' ) ) {
+        ScriptsManager::enqueueStylesheet( 'newspaper-theme-options-styles', cp_theme_url( NP_THEME_DIR_NAME, 'assets/admin/styles.css' ) );
+        ScriptsManager::enqueueFooterScript( 'newspaper-theme-options-js', cp_theme_url( NP_THEME_DIR_NAME, 'assets/admin/theme-options.js' ) );
+    }
+}, 80 );
+
+/**
+ * Set theme's default options upon activation
+ */
+add_action( 'contentpress/switch_theme', function ( $currentThemeName, $oldThemeName = '' ) {
+    if ( $currentThemeName == NP_THEME_DIR_NAME ) {
+        $options = new Options();
+        $options->addOption( NewspaperAdminController::THEME_OPTIONS_OPT_NAME, NewspaperAdminController::getDefaultThemeOptions() );
+    }
+}, 20, 2 );

@@ -44,10 +44,7 @@ class BlogPage extends Component {
     }
 
     __ajaxGetEntries() {
-        if ( this.state.loading ) {
-            return false;
-        }
-        if ( !this.state.has_more ) {
+        if ( this.state.loading || !this.state.has_more ) {
             return false;
         }
 
@@ -73,7 +70,7 @@ class BlogPage extends Component {
             .done( function (r) {
                 if ( r ) {
                     if ( r.success ) {
-                        if ( r.data && r.data.ids ) {
+                        if ( r.data && r.data.ids && r.data.entries.length >= 1 ) {
                             //#! Update state
                             const page = r.data.page;
                             let objData = self.state.data;
@@ -96,10 +93,10 @@ class BlogPage extends Component {
                     }
                     else {
                         if ( r.data ) {
-                            alert( locale.t.invalid_response );
+                            console.error( locale.t.invalid_response );
                         }
                         else {
-                            alert( locale.t.empty_response );
+                            console.error( locale.t.empty_response );
                         }
                     }
                 }
@@ -112,7 +109,7 @@ class BlogPage extends Component {
             } )
             .always( function () {
                 self.setState( { loading: false } );
-                $(self.btnLoadMoreRef.current).removeAttr('disabled');
+                $( self.btnLoadMoreRef.current ).removeAttr( 'disabled' );
             } );
     }
 
@@ -166,7 +163,7 @@ class BlogPage extends Component {
         if ( this.loading ) {
             return false;
         }
-        $(this.btnLoadMoreRef.current).attr('disabled', true);
+        $( this.btnLoadMoreRef.current ).attr( 'disabled', true );
         this.__ajaxGetEntries();
     }
 
@@ -176,17 +173,17 @@ class BlogPage extends Component {
         const entries = ( data.entries ? data.entries : false );
 
         return <React.Fragment>
+            {entries.length ? <BlogPageMasonry elements={entries}/> : ''}
+
             {loading && this.__loading()}
 
-            {entries && <BlogPageMasonry elements={entries}/>}
-
-            {( load_more && has_more ) && <div className="col-xs-12 col-sm-12">
+            {( entries.length && load_more && has_more ) ? <div className="col-xs-12 col-sm-12">
                 <div className="text-center mt-4 mb-4">
                     <button className="btn btn-primary"
                             ref={this.btnLoadMoreRef}
                             onClick={this.__loadMoreOnClick}>{locale.t.load_more}</button>
                 </div>
-            </div>}
+            </div> : ''}
         </React.Fragment>
     }
 }

@@ -298,5 +298,4 @@ class NewspaperThemeController extends SiteController
         do_action( 'contentpress/submit_comment', $this, $post_id );
         return redirect()->back();
     }
-
 }

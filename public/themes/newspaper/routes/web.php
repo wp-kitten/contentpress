@@ -57,3 +57,13 @@ if ( Schema::hasTable( 'post_types' ) ) {
         }
     }
 }
+
+/*
+ * Admin routes
+ */
+Route::get( 'admin/themes/newspaper-options', 'NewspaperAdminController@themeOptionsPageView' )
+    ->middleware( [ 'web', 'auth', 'active_user', 'under_maintenance' ] )
+    ->name( 'admin.themes.newspaper-options' );
+Route::post( 'admin/themes/newspaper-options/save', 'NewspaperAdminController@themeOptionsSave' )
+    ->middleware( [ 'web', 'auth', 'active_user', 'under_maintenance' ] )
+    ->name( 'admin.themes.newspaper-options.save' );

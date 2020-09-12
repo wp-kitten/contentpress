@@ -10,6 +10,8 @@ class BlogPageMasonry extends Component {
 
     render() {
         const elements = this.props.elements;
+        const hasElements = elements.length >= 1;
+        let __children = false;
 
         const masonryOptions = {
             transitionDuration: 0,
@@ -20,12 +22,14 @@ class BlogPageMasonry extends Component {
 
         const imagesLoadedOptions = { background: '.my-bg-image-el' }
 
-        const __children = elements.map( function (obj, keyIndex) {
-            return <BlogPageItem key={keyIndex} entry={obj}/>;
-        } );
+        if ( hasElements ) {
+            __children = elements.map( function (obj, keyIndex) {
+                return <BlogPageItem key={keyIndex} entry={obj}/>;
+            } );
+        }
 
-        return (
-            <Masonry
+        return <React.Fragment>
+            {hasElements && <h3>hello</h3> && <Masonry
                 className="row masonry-grid blog-masonry-grid" // default ''
                 elementType={'div'} // default 'div'
                 options={masonryOptions} // default {}
@@ -36,8 +40,8 @@ class BlogPageMasonry extends Component {
                 {/*  The sizing element for columnWidth  */}
                 <div className="grid-sizer col-xs-12 col-sm-6 col-md-4"></div>
                 {__children}
-            </Masonry>
-        );
+            </Masonry>}
+        </React.Fragment>
     }
 
 }

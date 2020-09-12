@@ -122,6 +122,12 @@ class ThemesController extends AdminControllerBase
 
         //#! Delete the theme's directory
         $theme = new Theme( $themeDirName );
+        //#! Load the theme's uninstall.php file before deleting the theme's files
+        $filePath = path_combine( $theme->getDirPath(), 'uninstall.php' );
+        if ( File::exists( $filePath ) ) {
+            require_once( $filePath );
+        }
+        //#! Delete theme's files
         if ( File::deleteDirectory( $theme->getDirPath() ) ) {
             do_action( 'contentpress/theme_deleted', $themeDirName );
             return redirect()->back()->with( 'message', [

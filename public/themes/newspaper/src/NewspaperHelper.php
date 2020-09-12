@@ -4,12 +4,14 @@ namespace App\Newspaper;
 
 use App\Category;
 use App\Helpers\CPML;
+use App\Http\Controllers\NewspaperAdminController;
 use App\Post;
 use App\PostMeta;
 use App\PostStatus;
 use App\PostType;
 use App\Settings;
 use Carbon\Carbon;
+use Illuminate\Support\Arr;
 
 class NewspaperHelper
 {
@@ -241,4 +243,58 @@ class NewspaperHelper
         return $category->posts()->count();
     }
 
+    /**
+     * Internal variable to store a subcategory's tree
+     * @see getCategoriesTree()
+     * @var array
+     */
+    private static $out_subcategories = [];
+
+    /**
+     * Retrieve the subcategories, 1 level deep of the specified $category
+     * @param Category $category
+     * @return array
+     */
+    public function getSubCategoriesTree( Category $category )
+    {
+        static $out_subcategories = [];
+
+        if ( !$category ) {
+            return $out_subcategories;
+        }
+
+        if ( $subcategories = $category->childrenCategories()->get() ) {
+            $out_subcategories[ $category->id ] = Arr::pluck( $subcategories, 'id' );
+        }
+        return $out_subcategories;
+    }
+
+    public function getCategoriesTree()
+    {
+        $categories = $this->getTopCategories();
+        $out = [];
+        if ( !$categories || $categories->count() == 0 ) {
+            return $out;
+        }
+        foreach ( $categories as $category ) {
+            $out = $this->getSubCategoriesTree( $category );
+        }
+        self::$out_subcategories = [];
+        return $out;
+    }
+
+    /**
+     * Retrieve the value of the specified theme option or the $default value if the option doesn't exist
+     * @param string $name
+     * @param bool|false $default
+     * @return array|false|mixed
+     */
+    public function getThemeOption( string $name, bool $default = false )
+    {
+        $options = NewspaperAdminController::getThemeOptions();
+        if ( isset( $options[ $name ] ) ) {
+            return $options[ $name ];
+        }
+        return $default;
+    }
 }

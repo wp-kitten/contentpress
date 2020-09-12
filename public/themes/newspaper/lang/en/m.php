@@ -60,4 +60,11 @@ return [
     'Advertise yourself on :provider today!' => 'Advertise yourself on :provider today!',
     'Copyright &copy;2020 ContentPress' => 'Copyright &copy;2020 ContentPress',
     'ContentPress' => 'ContentPress',
+    'Theme Options' => 'Theme Options',
+    'Save' => 'Save',
+    'General Options' => 'General Options',
+    'Featured Categories' => 'Featured Categories',
+    'These categories will be featured on homepage.' => 'These categories will be featured on homepage.',
+    'Options saved.' => 'Options saved.',
+    '' => '',
 ];
