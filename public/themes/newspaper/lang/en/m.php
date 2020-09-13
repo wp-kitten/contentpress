@@ -64,7 +64,7 @@ return [
     'Save' => 'Save',
     'General Options' => 'General Options',
     'Featured Categories' => 'Featured Categories',
-    'These categories will be featured on homepage.' => 'These categories will be featured on homepage.',
+    'These categories will be featured on homepage. If none selected here then all main categories having at least 6 posts will be displayed' => 'These categories will be featured on homepage. If none selected here then all main categories having at least 6 posts will be displayed',
     'Options saved.' => 'Options saved.',
     '' => '',
 ];

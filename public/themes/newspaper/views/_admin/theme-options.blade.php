@@ -35,7 +35,7 @@
 
                         <div class="form-group">
                             <label for="featured-categories-field">{{__('np::m.Featured Categories')}}</label>
-                            <p class="text-description">{{__('np::m.These categories will be featured on homepage.')}}</p>
+                            <p class="text-description">{{__('np::m.These categories will be featured on homepage. If none selected here then all main categories having at least 6 posts will be displayed')}}</p>
                             <select id="featured-categories-field" name="featured_categories[]" class="selectize-control" multiple="multiple">
                                 @forelse($categories as $categoryID => $subcategories)
                                     @php

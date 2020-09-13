@@ -9,18 +9,29 @@
     $postStatusID = $postStatus->where('name', 'publish')->first()->id;
     $featuredCategories = $newspaperHelper->getThemeOption('featured_categories', []);
 
+    $categories = [];
 
-
-$categories = [];
-$mainCategories = $newspaperHelper->getTopCategories();
-if($mainCategories){
-    foreach($mainCategories as $mainCategory){
-        $numPosts = $newspaperHelper->categoryTreeCountPosts($mainCategory);
-        if($numPosts >= 6 ){
-            $categories[] = $mainCategory;
+    //#! [Theme options] If there are any featured categories set
+    if( empty($featuredCategories)){
+        $mainCategories = $newspaperHelper->getTopCategories();
+        if($mainCategories){
+            foreach($mainCategories as $mainCategory){
+                $numPosts = $newspaperHelper->categoryTreeCountPosts($mainCategory);
+                if($numPosts >= 6 ){
+                    $categories[] = $mainCategory;
+                }
+            }
         }
     }
-}
+    else {
+        foreach($featuredCategories as $categoryID){
+            $category = App\Category::find($categoryID);
+            $numPosts = $newspaperHelper->categoryTreeCountPosts($category);
+            if($numPosts >= 6 ){
+                $categories[] = $category;
+            }
+        }
+    }
 
 $loopIndex = 1;
 $index = 0;
@@ -51,7 +62,7 @@ $index = 0;
                         @foreach($categories as $category)
                             @php
                                 //#! Helps keeping track of the template to load
-                                if($loopIndex > 4){ $loopIndex = 1; }
+                                if($loopIndex > 3){ $loopIndex = 1; }
                                 //#! Helps creating columns
                                 if($index > 1){ $index = 0; }
 
@@ -72,62 +83,11 @@ $index = 0;
                         @endforeach
                     @endif
 
-
-
-
-
-
-
-
-
-
-{{--                    @if(! empty($featuredCategories))--}}
-
-{{--                        --}}{{-- BUILD THE HOMEPAGE LAYOUT --}}
-{{--                        @foreach($featuredCategories as $index => $catID)--}}
-
-{{--                            @if( in_array( $index, [ 0, 1 ] ) )--}}
-{{--                                @include('partials.homepage.s-1', [--}}
-{{--                                    'newspaperHelper' => $newspaperHelper,--}}
-{{--                                    'index' => $index,--}}
-{{--                                    'cat_id' => $catID,--}}
-{{--                                    'post_status_id' => $postStatusID,--}}
-{{--                                ])--}}
-
-{{--                            @elseif( 2 == $index )--}}
-{{--                                @include('partials.homepage.s-2', [--}}
-{{--                                    'newspaperHelper' => $newspaperHelper,--}}
-{{--                                    'index' => $index,--}}
-{{--                                    'cat_id' => $catID,--}}
-{{--                                    'post_status_id' => $postStatusID,--}}
-{{--                                ])--}}
-
-{{--                            @elseif( 3 == $index )--}}
-{{--                                @include('partials.homepage.s-3', [--}}
-{{--                                    'newspaperHelper' => $newspaperHelper,--}}
-{{--                                    'index' => $index,--}}
-{{--                                    'cat_id' => $catID,--}}
-{{--                                    'post_status_id' => $postStatusID,--}}
-{{--                                ])--}}
-
-{{--                            @elseif( in_array( $index, [ 4, 5 ] ) )--}}
-{{--                                <div class="row">--}}
-{{--                                    @include('partials.homepage.s-4', [--}}
-{{--                                        'newspaperHelper' => $newspaperHelper,--}}
-{{--                                        'index' => $index,--}}
-{{--                                        'cat_id' => $catID,--}}
-{{--                                        'post_status_id' => $postStatusID,--}}
-{{--                                    ])--}}
-{{--                                </div>--}}
-
-{{--                            @endif--}}
-{{--                        @endforeach--}}
-{{--                    @endif--}}
                 </div>
 
                 {{-- SIDEBAR --}}
                 <div class="col-md-3 d-none d-md-block d-lg-block">
-                    <aside class="site-sidebar">
+                    <aside class="site-sidebar mt-3">
                         @include('components.home-sidebar', ['newspaperHelper' => $newspaperHelper])
                     </aside>
                 </div>

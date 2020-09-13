@@ -15,7 +15,7 @@ $ix = 0;
 
 <div class="col-sm-12 col-md-6">
     @if($posts)
-        <section class="section-cat-title">
+        <section class="section-cat-title mt-3">
             <h3>{!! $category->name !!}</h3>
         </section>
         @foreach($posts as $postID => $post)

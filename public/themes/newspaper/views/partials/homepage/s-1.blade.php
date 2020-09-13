@@ -14,7 +14,7 @@
 @if($posts)
     <div class="row">
         <div class="col-sm-12">
-            <section class="section-cat-title">
+            <section class="section-cat-title mt-3">
                 <h3>{!! $category->name !!}</h3>
             </section>
         </div>
