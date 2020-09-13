@@ -23,7 +23,9 @@ class NewspaperThemeController extends SiteController
      */
     public function index()
     {
-        return view( 'index' );
+        return view( 'index' )->with([
+            'options' => NewspaperAdminController::getThemeOptions(),
+        ]);
     }
 
     public function maintenance()

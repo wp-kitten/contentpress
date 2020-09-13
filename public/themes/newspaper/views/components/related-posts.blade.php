@@ -25,6 +25,5 @@
             @empty
             @endforelse
         </div>
-
     </section>
 @endif

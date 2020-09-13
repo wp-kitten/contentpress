@@ -1,25 +1,37 @@
 .hentry-loop {
+    position: relative;
     background-color: #fff;
 
     .hentry-header {
         position: relative;
+    }
 
-        .hentry-category {
-            position: absolute;
-            z-index: 2;
-            right: 5px;
-            bottom: 5px;
-            padding: 5px 10px;
-        }
+    .hentry-category {
+        position: absolute;
+        z-index: 2;
+        right: 5px;
+        bottom: 5px;
+        padding: 5px 10px;
     }
 
     .hentry-content {
+        position: relative;
         padding: 10px 0;
 
         .hentry-title {
             font-size: 17px;
             line-height: 1.4;
-            padding: 0 10px;
         }
     }
+
+    .hentry-content .hentry-title,
+    .hentry-excerpt {
+        padding: 0 10px;
+    }
+
+    //#! Special kind of mess
+    .hentry-title.title-small {
+        font-size: 14px;
+    }
+
 }

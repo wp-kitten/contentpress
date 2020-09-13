@@ -36,11 +36,14 @@
             </div>
         </div>
 
-
         <div class="row">
             <div class="col-12">
                 <div class="copyright mt-3 pb-2">
-                    <small>{!! __('np::m.Copyright &copy;2020 ContentPress') !!}</small>
+                    <div class="d-flex
+                                justify-content-center align-items-center align-content-center
+                                justify-content-md-start align-items-md-start align-content-md-start">
+                        <small>{!! __('np::m.Copyright &copy;2020 ContentPress') !!}</small>
+                    </div>
                 </div>
             </div>
         </div>

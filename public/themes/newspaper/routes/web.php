@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Schema;
 
 //#! Override the default routes
 //Route::get( "maintenance", "NewspaperThemeController@maintenance" )->name( "app.maintenance" );
-//Route::get( "/", "NewspaperThemeController@index" )->name( "app.home" );
+Route::get( "/", "NewspaperThemeController@index" )->name( "app.home" );
 //#!--
 
 //#! Ajax

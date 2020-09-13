@@ -28,6 +28,18 @@ a {
   margin-bottom: 20px !important;
 }
 
+.full-w {
+  width: 100% !important;
+}
+
+.full-h {
+  height: 100% !important;
+}
+
+.font-default {
+  font-family: "Nunito", sans-serif;
+}
+
 .info-bar .info-bar-wrap {
   display: flex;
   align-items: center;
@@ -228,6 +240,7 @@ a {
 }
 
 .hentry-loop {
+  position: relative;
   background-color: #fff;
 }
 
@@ -235,7 +248,7 @@ a {
   position: relative;
 }
 
-.hentry-loop .hentry-header .hentry-category {
+.hentry-loop .hentry-category {
   position: absolute;
   z-index: 2;
   right: 5px;
@@ -244,13 +257,22 @@ a {
 }
 
 .hentry-loop .hentry-content {
+  position: relative;
   padding: 10px 0;
 }
 
 .hentry-loop .hentry-content .hentry-title {
   font-size: 17px;
   line-height: 1.4;
+}
+
+.hentry-loop .hentry-content .hentry-title,
+.hentry-loop .hentry-excerpt {
   padding: 0 10px;
+}
+
+.hentry-loop .hentry-title.title-small {
+  font-size: 14px;
 }
 
 .site-sidebar .widget-categories .categories-list li {

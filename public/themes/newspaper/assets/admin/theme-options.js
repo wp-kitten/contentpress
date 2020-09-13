@@ -3,6 +3,7 @@ jQuery(function($){
 
     $('#featured-categories-field').selectize({
         create: false,
-        sortField: 'text'
+        sortField: 'text',
+        maxItems: 15,
     });
 })

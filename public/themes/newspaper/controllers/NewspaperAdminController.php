@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Http\Controllers\Admin\AdminControllerBase;
 use App\Newspaper\NewspaperHelper;
+use App\Options;
 
 class NewspaperAdminController extends AdminControllerBase
 {
@@ -74,6 +75,15 @@ class NewspaperAdminController extends AdminControllerBase
      */
     public static function getThemeOptions(): array
     {
+        if ( empty( self::$_themeOptions ) ) {
+            $option = Options::where( 'name', self::THEME_OPTIONS_OPT_NAME )->first();
+            if ( $option ) {
+                self::$_themeOptions = maybe_unserialize( $option->value );
+            }
+            else {
+                self::$_themeOptions = self::$_defaultOptions;
+            }
+        }
         return self::$_themeOptions;
     }
 

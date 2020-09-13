@@ -172,7 +172,7 @@ class NewspaperHelper
     /**
      * Internal variable to store posts
      * @see getCategoryTreePosts()
-     * @see withClearCache()
+     * @see clearOutCache()
      * @see categoryTreeCountPosts()
      * @var array
      */
@@ -182,7 +182,7 @@ class NewspaperHelper
      * Internal function to reset the class var $out that stores the list of posts recursively collected by methods of this class
      * @return $this
      */
-    protected function withClearCache()
+    public function clearOutCache()
     {
         self::$out = [];
         return $this;
@@ -192,9 +192,10 @@ class NewspaperHelper
      * Retrieve all posts from the specified $category and its subcategories
      * @param Category $category
      * @param int $postStatusID
+     * @param int $numPosts The number of psots to retrieve. -1 or 0 gets them all
      * @return array|mixed
      */
-    public function categoryTreeGetPosts( Category $category, $postStatusID = 1 )
+    public function categoryTreeGetPosts( Category $category, $postStatusID = 1, $numPosts = -1 )
     {
         $posts = $category->posts()->latest()->where( 'post_status_id', $postStatusID )->get();
 
@@ -217,6 +218,20 @@ class NewspaperHelper
             }
         }
 
+        if ( !empty( $numPosts ) ) {
+            $e = [];
+            $i = 0;
+            foreach ( self::$out as $pid => $post ) {
+                if ( $i == $numPosts ) {
+                    break;
+                }
+                $e[ $pid ] = $post;
+                $i++;
+            }
+            self::$out = $e;
+            unset( $e );
+        }
+
         return self::$out;
     }
 
@@ -228,7 +243,7 @@ class NewspaperHelper
     public function categoryTreeCountPosts( Category $category )
     {
         $postStatus = PostStatus::where( 'name', 'publish' )->first();
-        $posts = $this->withClearCache()->categoryTreeGetPosts( $category, $postStatus->id );
+        $posts = $this->clearOutCache()->categoryTreeGetPosts( $category, $postStatus->id );
         return count( $posts );
     }
 
@@ -276,8 +291,10 @@ class NewspaperHelper
         if ( !$categories || $categories->count() == 0 ) {
             return $out;
         }
-        foreach ( $categories as $category ) {
-            $out = $this->getSubCategoriesTree( $category );
+        else {
+            foreach ( $categories as $category ) {
+                $out = $this->getSubCategoriesTree( $category );
+            }
         }
         self::$out_subcategories = [];
         return $out;
@@ -286,10 +303,10 @@ class NewspaperHelper
     /**
      * Retrieve the value of the specified theme option or the $default value if the option doesn't exist
      * @param string $name
-     * @param bool|false $default
+     * @param false $default
      * @return array|false|mixed
      */
-    public function getThemeOption( string $name, bool $default = false )
+    public function getThemeOption( string $name, $default = false )
     {
         $options = NewspaperAdminController::getThemeOptions();
         if ( isset( $options[ $name ] ) ) {
