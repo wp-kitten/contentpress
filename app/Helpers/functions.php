@@ -774,7 +774,7 @@ function cp_menu( $menuSlugOrID )
 function cp_ellipsis( string $string, int $maxLength = 50, string $textMore = '...' ): string
 {
     if ( strlen( $string ) > $maxLength ) {
-        return substr( $string, 0, $maxLength ) . $textMore;
+        return mb_substr( $string, 0, $maxLength ) . $textMore;
     }
     return $string;
 }

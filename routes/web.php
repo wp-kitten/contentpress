@@ -101,6 +101,7 @@ Route::group(
     Route::get( "dashboard_edit", [ "uses" => "DashboardController@showEditDashboardView" ] )->name( "admin.dashboard.edit" );
     Route::post( "dashboard_refresh_stats", [ "uses" => "DashboardController@__refreshStats" ] )->name( "admin.dashboard.refresh_stats" );
     Route::post( "reinstall-app", [ "uses" => "DashboardController@__reinstallApp" ] )->name( "admin.dashboard.reinstall_app" );
+    Route::post( "clear-cache", [ "uses" => "DashboardController@__clearAppCache" ] )->name( "admin.dashboard.clear_cache" );
 
     Route::get( "updates", [ "uses" => "DashboardController@showUpdatesView" ] )->name( "admin.dashboard.updates" );
     Route::post( "updates/check", [ "uses" => "DashboardController@__checkForUpdates" ] )->name( "admin.dashboard.check_for_updates" );

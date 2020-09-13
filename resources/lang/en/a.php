@@ -453,4 +453,8 @@ return [
     'An error occurred while trying to reinstall the application: :error' => 'An error occurred while trying to reinstall the application: :error',
     'Reinstall' => 'Reinstall',
     'Custom field added.' => 'Custom field added.',
+    'Are you really sure you want to clear the application cache?' => 'Are you really sure you want to clear the application cache?',
+    'An error occurred while trying to clear the application cache: :error' => 'An error occurred while trying to clear the application cache: :error',
+    'The application cache has been cleared.' => 'The application cache has been cleared.',
+    'Clear app cache' => 'Clear app cache',
 ];

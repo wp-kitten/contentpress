@@ -208,4 +208,21 @@ class DashboardController extends AdminControllerBase
             'text' => __( 'a.The application has been reinstalled and the dummy data imported.' ),
         ] );
     }
+
+    public function __clearAppCache(  )
+    {
+        try {
+            Artisan::call( 'cp:cache');
+        }
+        catch ( \Exception $e ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => __( 'a.An error occurred while trying to clear the application cache: :error', [ 'error' => $e->getMessage() ] ),
+            ] );
+        }
+        return redirect()->back()->with( 'message', [
+            'class' => 'success',
+            'text' => __( 'a.The application cache has been cleared.' ),
+        ] );
+    }
 }
