@@ -21,7 +21,7 @@ class BlogPageItem extends Component {
             linkAttrs.target = '_blank';
         }
 
-        return (image_url.length && <div className="col-xs-12 col-sm-6 col-md-4 masonry-item">
+        return (image_url.length ? <div className="col-xs-12 col-sm-6 col-md-4 masonry-item">
             <article className="hentry-loop">
                 <header className="hentry-header">
                     {image_url && <img src={image_url} alt={post_title} className="image-responsive"/>}
@@ -39,7 +39,7 @@ class BlogPageItem extends Component {
                     </h4>
                 </section>
             </article>
-        </div>)
+        </div> : '')
     }
 
 }

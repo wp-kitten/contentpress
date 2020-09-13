@@ -29,7 +29,7 @@ class BlogPageMasonry extends Component {
         }
 
         return <React.Fragment>
-            {hasElements && <h3>hello</h3> && <Masonry
+            {hasElements && <Masonry
                 className="row masonry-grid blog-masonry-grid" // default ''
                 elementType={'div'} // default 'div'
                 options={masonryOptions} // default {}

@@ -70,7 +70,7 @@ class BlogPage extends Component {
             .done( function (r) {
                 if ( r ) {
                     if ( r.success ) {
-                        if ( r.data && r.data.ids && r.data.entries.length >= 1 ) {
+                        if ( r.data && r.data.ids ) {
                             //#! Update state
                             const page = r.data.page;
                             let objData = self.state.data;
@@ -114,8 +114,12 @@ class BlogPage extends Component {
     }
 
     __loading() {
+        const styles = {
+            fontSize: '30px',
+            color: '#cc0000'
+        }
         return <div className="col-xs-12 col-sm-6 col-md-4 masonry-item">
-            <h3>Loading...</h3>
+            <div className="text-center mt-3 mb-3"><i className="fas fa-circle-notch fa-spin" style={styles}></i></div>
         </div>
     }
 
@@ -173,11 +177,11 @@ class BlogPage extends Component {
         const entries = ( data.entries ? data.entries : false );
 
         return <React.Fragment>
-            {entries.length ? <BlogPageMasonry elements={entries}/> : ''}
+            {entries ? <BlogPageMasonry elements={entries}/> : ''}
 
             {loading && this.__loading()}
 
-            {( entries.length && load_more && has_more ) ? <div className="col-xs-12 col-sm-12">
+            {( entries && load_more && has_more ) ? <div className="col-xs-12 col-sm-12">
                 <div className="text-center mt-4 mb-4">
                     <button className="btn btn-primary"
                             ref={this.btnLoadMoreRef}

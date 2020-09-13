@@ -48,7 +48,7 @@ $ix = 0;
                         </div>
                         <div class="col-sm-12 col-md-8">
                             <section class="hentry-content">
-                                <h4 class="hentry-title title-small font-default">
+                                <h4 class="hentry-title @if(!wp_is_mobile()) title-small font-default @endif">
                                     <a href={{cp_get_permalink($post)}} class="text-info">
                                         {!! cp_ellipsis($post->title, 50) !!}
                                     </a>
