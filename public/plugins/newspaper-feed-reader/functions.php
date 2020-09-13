@@ -20,10 +20,7 @@ function cpfrImportingContent()
     //#! Check to see whether or not we're already importing
     $options = ( new Options() );
     $option = $options->where( 'name', NPFR_PROCESS_OPT_NAME )->first();
-    if ( $option && $option->value > time() ) {
-        return true;
-    }
-    return false;
+    return ( $option && $option->value <= time() );
 }
 
 function cpfrGetTopCategories()

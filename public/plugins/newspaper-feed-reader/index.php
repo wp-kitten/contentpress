@@ -24,7 +24,6 @@ require_once( NPFR_PLUGIN_DIR_PATH . '/src/Syndication/FeedReader.php' );
 require_once( NPFR_PLUGIN_DIR_PATH . '/src/FeedImporter.php' );
 require_once( NPFR_PLUGIN_DIR_PATH . '/functions.php' );
 
-if ( cp_is_admin() ) {
-    require_once( NPFR_PLUGIN_DIR_PATH . '/admin/hooks.php' );
-    require_once( NPFR_PLUGIN_DIR_PATH . '/admin/routes.php' );
-}
+require_once( NPFR_PLUGIN_DIR_PATH . '/plugin-hooks.php' );
+require_once( NPFR_PLUGIN_DIR_PATH . '/routes/web.php' );
+require_once( NPFR_PLUGIN_DIR_PATH . '/routes/console.php' );

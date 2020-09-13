@@ -18,7 +18,7 @@
 * https://www.dailymail.co.uk/articles.rss
 
 **Billboard**
-* https://www.billboard.com/feed/
+* https://www.billboard.com/rss/
 
 **Vox**
 * https://www.vox.com/rss/index.xml

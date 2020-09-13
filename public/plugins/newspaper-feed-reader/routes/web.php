@@ -360,6 +360,7 @@ Route::post( 'admin/feed-reader/feeds/import', function () {
         ] );
     }
 
+    //#! Clear cache
     do_action( 'newspaper-feed-reader/import-complete' );
 
     return redirect()->back()->with( 'message', [
@@ -422,3 +423,16 @@ Route::post( 'admin/feed-reader/feeds/import/{id}', function ( $feedID ) {
         'text' => __( 'npfr::m.The feed ":url" has been imported.', [ 'url' => $feedUrl ] ),
     ] );
 } )->middleware( [ 'web', 'auth', 'active_user' ] )->name( 'admin.feed_reader.feeds.import_feed' );
+
+
+/*
+ * Frontend route
+ *
+ * Registers a route that whenever accessed it will trigger the feed import command
+ */
+Route::any('newspaper-feed-reader/import-feeds', function(){
+    $r = Artisan::call('npfr_import_feeds');
+    return [
+        'success' => $r,
+    ];
+})->middleware( [ 'web', 'auth', 'active_user', 'under_maintenance' ] );

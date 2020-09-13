@@ -95,3 +95,4 @@ add_action( 'newspaper-feed-reader/import-complete', function () {
         $cacheClass->clear();
     }
 } );
+

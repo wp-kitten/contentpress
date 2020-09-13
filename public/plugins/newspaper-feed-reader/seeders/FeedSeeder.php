@@ -30,7 +30,7 @@ class FeedSeeder extends Seeder
 
         'Daily Mail' => 'https://www.dailymail.co.uk/articles.rss',
 
-        'Billboard' => 'https://www.billboard.com/feed',
+        'Billboard' => 'https://www.billboard.com/rss',
 
         'Vox' => 'https://www.vox.com/rss/index.xml',
 
