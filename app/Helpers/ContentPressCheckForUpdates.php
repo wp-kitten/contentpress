@@ -221,6 +221,10 @@ class ContentPressCheckForUpdates
      */
     private function __checkCoreForUpdate()
     {
+        if( '' == CONTENTPRESS_API_URL ) {
+            return false;
+        }
+
         $url = path_combine( CONTENTPRESS_API_URL, 'updates' );
         $response = Http::get( $url )->json();
 

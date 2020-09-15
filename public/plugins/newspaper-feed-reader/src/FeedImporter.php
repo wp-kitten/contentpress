@@ -72,13 +72,9 @@ class FeedImporter
         $this->publishPostStatus = ( new PostStatus() )->where( 'name', 'publish' )->first();
         $this->draftPostStatus = ( new PostStatus() )->where( 'name', 'draft' )->first();
         $this->currentUserID = cp_get_current_user_id();
-        if ( !cp_current_user_can( 'administrator' ) ) {
+        if ( !cp_user_can( $this->currentUserID, 'administrator' ) ) {
             //#! Pick the first super admin
-            $user = Role::where( 'name', Role::ROLE_SUPER_ADMIN )->first()->users()->first();
-            if ( !$user ) {
-                //#! Pick an admin
-                $user = Role::where( 'name', Role::ROLE_ADMIN )->first()->users()->first();
-            }
+            $user = Role::where( 'name', Role::ROLE_SUPER_ADMIN )->orWhere( 'name', Role::ROLE_ADMIN )->first()->users()->first();
             $this->currentUserID = $user->id;
         }
         $this->mediaFile = new MediaFile();

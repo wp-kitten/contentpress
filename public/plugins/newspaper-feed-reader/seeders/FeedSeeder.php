@@ -81,6 +81,12 @@ class FeedSeeder extends Seeder
         'Independent' => 'https://www.independent.co.uk/rss',
         'Romania' => [
             'Film Now' => 'https://www.filmnow.ro/rss',
+            'Digi24' => 'https://www.digi24.ro/rss',
+            'Digi Life' => 'https://www.digi-life.tv/rss',
+            'Music Channel' => 'https://1music.ro/feed/',
+            'ProFM' => 'https://www.profm.ro/rss',
+            'Digi FM' => 'https://www.digifm.ro/rss',
+            'Digi Sport' => 'https://www.digisport.ro/rss',
         ],
 
         'Sports' => [

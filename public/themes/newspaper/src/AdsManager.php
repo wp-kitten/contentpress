@@ -17,7 +17,7 @@ class AdsManager
         return [
             'fb' => [
                 'image_url' => $theme->url( 'assets/img/fb-ad-placeholder.png' ),
-                'title' => __( 'np::m.Advertise yourself on :provider today!', [ 'provider' => 'Advertise yourself on Facebook today!'] ),
+                'title' => __( 'np::m.Advertise yourself on :provider today!', [ 'provider' => 'Facebook'] ),
                 'url' => 'https://ads.facebook.com',
             ],
             'ga' => [

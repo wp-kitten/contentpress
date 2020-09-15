@@ -65,6 +65,7 @@
                                         }
                                         else {
                                             echo '<optgroup label="'.$cat->name.'">';
+                                            echo '<option value="'.esc_attr($categoryID).'">'.$cat->name.'</option>';
                                             foreach($subcategories as $subcategoryID){
                                                 $subcat = $catModel->find($subcategoryID);
                                                 echo '<option value="'.esc_attr($subcategoryID).'">'.$subcat->name.'</option>';

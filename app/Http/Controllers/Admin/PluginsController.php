@@ -51,10 +51,12 @@ class PluginsController extends AdminControllerBase
         $defaultPlugins = $cache->get( 'cp_default_plugins', [] ); // get from cache
 
         if ( empty( $defaultPlugins ) ) {
-            $response = Http::get( CONTENTPRESS_API_URL . '/plugins', [ 'verify' => false ] )->json();
-            if ( is_array( $response ) && isset( $response[ 'data' ] ) ) {
-                $defaultPlugins = $response[ 'data' ];
-                $cache->set( 'cp_default_plugins', $defaultPlugins );
+            if( '' != CONTENTPRESS_API_URL ) {
+                $response = Http::get( CONTENTPRESS_API_URL . '/plugins', [ 'verify' => false ] )->json();
+                if ( is_array( $response ) && isset( $response[ 'data' ] ) ) {
+                    $defaultPlugins = $response[ 'data' ];
+                    $cache->set( 'cp_default_plugins', $defaultPlugins );
+                }
             }
         }
 

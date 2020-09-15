@@ -53,4 +53,5 @@ return [
     'Are you sure you want to permanently delete this feed?' => 'Are you sure you want to permanently delete this feed?',
     'Permanently delete' => 'Permanently delete',
     'No feeds found in the trash' => 'No feeds found in the trash',
+    'Cannot start a new import process. Timeout not expired yet.' => 'Cannot start a new import process. Timeout not expired yet.',
 ];

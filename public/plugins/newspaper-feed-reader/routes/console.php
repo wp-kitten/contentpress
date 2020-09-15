@@ -15,22 +15,11 @@ use Illuminate\Support\Facades\Artisan;
 | commands.
 |
 */
-
+// /usr/local/bin/php -q /home/appvyxhr5zi6/public_html/demo.contentpress.news/artisan npfr_import_feeds >> /dev/null 2>&1
 Artisan::command( 'npfr_import_feeds', function () {
-
-    if ( cp_is_under_maintenance() && !cp_current_user_can( [ 'administrator', 'super_admin' ] ) ) {
-        logger( 'App is under maintenance.' );
-        return 0;
-    }
-
-    if ( !cp_current_user_can( 'manage_options' ) ) {
-        logger( 'Current user not allowed to perform this action' );
-        return 0;
-    }
-
     //#! Check to see whether or not we're already importing
     if ( cpfrImportingContent() ) {
-        logger( 'Cannot start a new import process. Timeout not expired yet.' );
+//        logger( 'Cannot start a new import process. Timeout not expired yet.' );
         return 0;
     }
 

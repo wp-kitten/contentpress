@@ -329,13 +329,9 @@ Route::post( 'admin/feed-reader/feeds/import', function () {
     if ( cpfrImportingContent() ) {
         return redirect()->back()->with( 'message', [
             'class' => 'danger',
-            'text' => __( 'npfr::m.Sorry, another import process is already in progress.' ),
+            'text' => __( 'npfr::m.Cannot start a new import process. Timeout not expired yet.' ),
         ] );
     }
-
-    $options = ( new Options() );
-    $expires = time() + CP_HOUR_IN_SECONDS;
-    $options->addOption( NPFR_PROCESS_OPT_NAME, $expires );
 
     $feeds = Feed::all();
     if ( empty( $feeds ) ) {
@@ -359,6 +355,10 @@ Route::post( 'admin/feed-reader/feeds/import', function () {
             'text' => __( 'npfr::m.An error occurred: :error', [ 'error' => $e->getMessage() ] ),
         ] );
     }
+
+    $options = ( new Options() );
+    $expires = time() + CP_HOUR_IN_SECONDS;
+    $options->addOption( NPFR_PROCESS_OPT_NAME, $expires );
 
     //#! Clear cache
     do_action( 'newspaper-feed-reader/import-complete' );
