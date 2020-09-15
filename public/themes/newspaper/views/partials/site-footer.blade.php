@@ -39,9 +39,9 @@
         <div class="row">
             <div class="col-12">
                 <div class="copyright mt-3 pb-2">
-                    <div class="d-flex
+                    <div class="d-flex pt-1
                                 justify-content-center align-items-center align-content-center
-                                justify-content-md-start align-items-md-start align-content-md-start">
+                                justify-content-md-end align-items-md-end align-content-md-end">
                         <small>{!! __('np::m.Copyright &copy;2020 ContentPress') !!}</small>
                     </div>
                 </div>

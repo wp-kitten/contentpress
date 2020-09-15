@@ -15,7 +15,8 @@ use Illuminate\Support\Facades\Artisan;
 | commands.
 |
 */
-// /usr/local/bin/php -q /home/appvyxhr5zi6/public_html/demo.contentpress.news/artisan npfr_import_feeds >> /dev/null 2>&1
+//#! Cron job: every hour
+//#! 0	*	*	*	* /usr/local/bin/php -q /home/appvyxhr5zi6/public_html/demo.contentpress.news/artisan npfr_import_feeds >> /dev/null 2>&1
 Artisan::command( 'npfr_import_feeds', function () {
     //#! Check to see whether or not we're already importing
     if ( cpfrImportingContent() ) {
