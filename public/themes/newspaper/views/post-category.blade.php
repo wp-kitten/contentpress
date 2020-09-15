@@ -117,8 +117,7 @@
                                     @if(! empty($subcategories))
                                         @forelse($subcategories as $cat)
                                             <li>
-
-                                                <a class="category-name text-info" href="{{cp_get_category_link($cat)}}">{!! $cat->name !!}</a>
+                                                <a class="category-name text-info text-capitalize" href="{{cp_get_category_link($cat)}}">{!! $cat->name !!}</a>
                                                 <span class="num-posts text-dark">{{$newspaperHelper->categoryTreeCountPosts($cat)}}</span>
                                             </li>
                                         @empty

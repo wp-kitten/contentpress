@@ -10,7 +10,7 @@
             <a class="btn-prev" href="#" title="{{__('np::m.Previous')}}"><i class="fas fa-chevron-left nav-icon"></i></a>
             <a class="btn-next" href="#" title="{{__('np::m.Next')}}"><i class="fas fa-chevron-right nav-icon"></i></a>
         </section>
-        <div class="siema-slider siema slider-wrap">
+        <div class="siema-slider siema slider-wrap mt-3">
             @forelse($_posts as $entry)
                 <div class="slide-item">
                     <article class="hentry-loop">

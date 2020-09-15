@@ -179,7 +179,7 @@ class FeedImporter
                                     $entryCategory = ( isset( $_categories[ 0 ] ) && !empty( $_categories[ 0 ] ) ? preg_replace( '/\s+/', ' ', $_categories[ 0 ] ) : '' );
                                 }
                                 //#! If the entry sub-category is different than the parent category, use it instead
-                                if ( !empty( $entryCategory ) && ( $feed->category->name != Str::title( $entryCategory ) ) ) {
+                                if ( !empty( $entryCategory ) && ( $feed->category->name != Str::lower( $entryCategory ) ) ) {
                                     if ( $entrySubcategoryID = $this->__getCreateCategoryID( $entryCategory, $categoryID ) ) {
                                         $postCategories = [ $entrySubcategoryID ];
                                     }
@@ -302,7 +302,7 @@ class FeedImporter
         $categoryName = mb_convert_encoding( $categoryName, 'utf-8', 'auto' );
         $categoryName = wp_kses( $categoryName, [] );
 
-        $catTitle = Str::title( $categoryName );
+        $catTitle = Str::lower( $categoryName );
 
         //#! If the category exists, retrieve the category ID
         $category = Category::where( 'name', $catTitle )
