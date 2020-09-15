@@ -32,7 +32,7 @@
                     <section class="hentry-content">
                         <h4 class="hentry-title">
                             <a href={{cp_get_permalink($post)}} class="text-info">
-                                {!! cp_ellipsis($post->title, 50) !!}
+                                {!! cp_ellipsis($post->title, 40) !!}
                             </a>
                         </h4>
                     </section>

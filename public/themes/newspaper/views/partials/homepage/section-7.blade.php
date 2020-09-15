@@ -29,7 +29,7 @@
                                 <div class="hentry-header">
                                     <img alt="{{$post->title}}" src="{{$newspaperHelper->getPostImageOrPlaceholder($post)}}" class="image-responsive"/>
                                     <h4 class="hentry-title">
-                                        <a href="{{cp_get_permalink($post)}}">{!! cp_ellipsis($post->title, 50) !!}</a>
+                                        <a href="{{cp_get_permalink($post)}}">{!! cp_ellipsis($post->title, 35) !!}</a>
                                     </h4>
                                 </div>
                                 <div class="np-relative">
