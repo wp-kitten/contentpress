@@ -53,7 +53,6 @@ jQuery( function ($) {
             768: 2,
             1024: 3,
         }, false );
-
     }
 
     //#! Filter search results

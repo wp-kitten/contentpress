@@ -5,6 +5,17 @@
     <title>{{__('np::m.Theme Options')}}</title>
 @endsection
 
+@php
+    $homepageOptions = [];
+    $homepageOptions['section-1'] = (isset($options['homepage']['section-1']) ? intval($options['homepage']['section-1']) : 0);
+    $homepageOptions['section-2'] = (isset($options['homepage']['section-2']) ? intval($options['homepage']['section-2']) : 0);
+    $homepageOptions['section-3'] = (isset($options['homepage']['section-3']) ? intval($options['homepage']['section-3']) : 0);
+    $homepageOptions['section-4'] = (isset($options['homepage']['section-4']) ? intval($options['homepage']['section-4']) : 0);
+    $homepageOptions['section-5'] = (isset($options['homepage']['section-5']) ? intval($options['homepage']['section-5']) : 0);
+    $homepageOptions['section-6'] = (isset($options['homepage']['section-6']) ? intval($options['homepage']['section-6']) : 0);
+    $homepageOptions['section-7'] = (isset($options['homepage']['section-7']) ? intval($options['homepage']['section-7']) : 0);
+@endphp
+
 @section('main')
 
     <form method="post" action="{{route('admin.themes.newspaper-options.save')}}" class="np-theme-options-page-wrap">
@@ -31,36 +42,47 @@
             <div class="row">
                 <div class="col-sm-12">
                     <div class="tile">
-                        <h3 class="tile-title">{{__('np::m.General Options')}}</h3>
-
-                        <div class="form-group">
-                            <label for="featured-categories-field">{{__('np::m.Featured Categories')}}</label>
-                            <p class="text-description">{{__('np::m.These categories will be featured on homepage. If none selected here then all main categories having at least 6 posts will be displayed')}}</p>
-                            <select id="featured-categories-field" name="featured_categories[]" class="selectize-control" multiple="multiple">
-                                @forelse($categories as $categoryID => $subcategories)
-                                    @php
-                                        $cat = $catModel->find($categoryID);
-                                        if( empty( $subcategories ) ) {
-                                            $selected = (in_array($categoryID, $options['featured_categories']) ? 'selected' : '');
-                                            echo '<option value="'.esc_attr($categoryID).'" '.$selected.'>'.$cat->name.'</option>';
-                                        }
-                                        else {
-                                            echo '<optgroup label="'.$cat->name.'">';
-                                            foreach($subcategories as $subcategoryID){
-                                            $selected = (in_array($subcategoryID, $options['featured_categories']) ? 'selected' : '');
-                                                $subcat = $catModel->find($subcategoryID);
-                                                echo '<option value="'.esc_attr($subcategoryID).'" '.$selected.'>'.$subcat->name.'</option>';
-                                            }
-                                            echo '</optgroup>';
-                                        }
-                                    @endphp
-                                @empty
-                                @endforelse
-                            </select>
-                        </div>
-
-                        <button type="submit" class="btn btn-primary">{{__('np::m.Save')}}</button>
+                        <h3 class="tile-title">{{__('np::m.Homepage Options')}}</h3>
                     </div>
+                </div>
+
+                <div class="col-sm-12">
+                    <div class="row">
+                        @foreach($homepageOptions as $sectionName => $sectionCatID)
+                            @php $sectionID = str_replace('section-', '', $sectionName); @endphp
+                            <div class="col-sm-12 col-md-4">
+                                <div class="tile">
+                                    <div class="form-group">
+                                        <label for="{{$sectionName}}-category">{{__('np::m.Section :number Category', ['number' => $sectionID])}}</label>
+                                        <p class="text-description">{{__('np::m.Select the category to be displayed in section :number.', ['number' => $sectionID])}}</p>
+                                        <select id="{{$sectionName}}-category" name="homepage[{{$sectionName}}]" class="selectize-control theme-options-selectize-control-single">
+                                            @forelse($categories as $categoryID => $subcategories)
+                                                @php
+                                                    $cat = $catModel->find($categoryID);
+                                                    if( empty( $subcategories ) ) {
+                                                        $selected = ($categoryID == $sectionCatID ? 'selected' : '');
+                                                        echo '<option value="'.esc_attr($categoryID).'" '.$selected.'>'.$cat->name.'</option>';
+                                                    }
+                                                    else {
+                                                        echo '<optgroup label="'.$cat->name.'">';
+                                                        $selected = ($categoryID == $sectionCatID ? 'selected' : '');
+                                                        echo '<option value="'.esc_attr($categoryID).'" '.$selected.'>'.$cat->name.'</option>';
+                                                        foreach($subcategories as $subcategoryID){
+                                                            $selected = ($subcategoryID == $sectionCatID ? 'selected' : '');
+                                                            $subcat = $catModel->find($subcategoryID);
+                                                            echo '<option value="'.esc_attr($subcategoryID).'" '.$selected.'>'.$subcat->name.'</option>';
+                                                        }
+                                                        echo '</optgroup>';
+                                                    }
+                                                @endphp
+                                            @empty
+                                            @endforelse
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    </div>{{-- END .row --}}
                 </div>
             </div>
         @endif

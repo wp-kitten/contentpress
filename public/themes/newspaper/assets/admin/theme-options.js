@@ -1,9 +1,9 @@
 jQuery(function($){
     "use strict";
 
-    $('#featured-categories-field').selectize({
+    $('.theme-options-selectize-control-single').selectize({
         create: false,
         sortField: 'text',
-        maxItems: 15,
+        maxItems: 1,
     });
 })

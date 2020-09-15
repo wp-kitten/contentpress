@@ -1,0 +1,90 @@
+{{--
+    Style #4
+        2 columns, each 5 vertical small posts
+
+    col 1, col 2
+        5 x small posts
+--}}
+@inject('postStatus', App\PostStatus)
+@php
+    /**@var App\Newspaper\NewspaperHelper $newspaperHelper*/
+    /**@var App\Post $post */
+
+    $posts = $newspaperHelper->clearOutCache()->categoryTreeGetPosts($category, $postStatusID, 10);
+    $postsLeft = [];
+    $postsRight = [];
+    if(! empty($posts)){
+        $i = 0;
+        foreach($posts as $pid => $p){
+            if($i > 4){
+                $postsRight[$pid] = $p;
+            }
+            else {
+                $postsLeft[$pid] = $p;
+            }
+            $i++;
+        }
+    }
+@endphp
+<div class="row">
+    @if(!empty($posts))
+        <div class="col-sm-12">
+            <section class="section-cat-title mt-3">
+                <h3>{!! $category->name !!}</h3>
+            </section>
+        </div>
+    @endif
+
+    @if(! empty($postsLeft))
+        <div class="col-sm-12 col-md-6">
+            @foreach($postsLeft as $postID => $post)
+                <article class="hentry-loop mb-3">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4">
+                            <header class="hentry-header full-h">
+                                <img src="{{$newspaperHelper->getPostImageOrPlaceholder($post)}}"
+                                     alt="{{$post->title}}"
+                                     class="image-responsive full-h full-w"/>
+                            </header>
+                        </div>
+                        <div class="col-sm-12 col-md-8">
+                            <section class="hentry-content">
+                                <h4 class="hentry-title @if(!wp_is_mobile()) title-small font-default @endif">
+                                    <a href={{cp_get_permalink($post)}} class="text-info">
+                                        {!! cp_ellipsis($post->title, 70) !!}
+                                    </a>
+                                </h4>
+                            </section>
+                        </div>
+                    </div>
+                </article>
+            @endforeach
+        </div>
+    @endif
+    @if(! empty($postsRight))
+        <div class="col-sm-12 col-md-6">
+            @foreach($postsRight as $postID => $post)
+                <article class="hentry-loop mb-3">
+                    <div class="row">
+                        <div class="col-sm-12 col-md-4">
+                            <header class="hentry-header full-h">
+                                <img src="{{$newspaperHelper->getPostImageOrPlaceholder($post)}}"
+                                     alt="{{$post->title}}"
+                                     class="image-responsive full-h full-w"/>
+                            </header>
+                        </div>
+                        <div class="col-sm-12 col-md-8">
+                            <section class="hentry-content">
+                                <h4 class="hentry-title @if(!wp_is_mobile()) title-small font-default @endif">
+                                    <a href={{cp_get_permalink($post)}} class="text-info">
+                                        {!! cp_ellipsis($post->title, 70) !!}
+                                    </a>
+                                </h4>
+                            </section>
+                        </div>
+                    </div>
+                </article>
+            @endforeach
+        </div>
+    @endif
+</div>

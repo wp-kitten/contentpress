@@ -1,40 +1,18 @@
 @inject('newspaperHelper',App\Newspaper\NewspaperHelper)
 @inject('postStatus', App\PostStatus)
+@inject('catModel', App\Category)
 @extends('layouts.frontend')
 
 @php
     /**@var App\Newspaper\NewspaperHelper $newspaperHelper*/
     /**@var App\PostStatus $postStatus */
+    /**@var App\Category $catModel */
 
     $postStatusID = $postStatus->where('name', 'publish')->first()->id;
-    $featuredCategories = $newspaperHelper->getThemeOption('featured_categories', []);
 
-    $categories = [];
+    //#! Get homepage sections
+    $sections = $newspaperHelper->getThemeOption('homepage', []);
 
-    //#! [Theme options] If there are any featured categories set
-    if( empty($featuredCategories)){
-        $mainCategories = $newspaperHelper->getTopCategories();
-        if($mainCategories){
-            foreach($mainCategories as $mainCategory){
-                $numPosts = $newspaperHelper->categoryTreeCountPosts($mainCategory);
-                if($numPosts >= 6 ){
-                    $categories[] = $mainCategory;
-                }
-            }
-        }
-    }
-    else {
-        foreach($featuredCategories as $categoryID){
-            $category = App\Category::find($categoryID);
-            $numPosts = $newspaperHelper->categoryTreeCountPosts($category);
-            if($numPosts >= 6 ){
-                $categories[] = $category;
-            }
-        }
-    }
-
-$loopIndex = 1;
-$index = 0;
 @endphp
 
 
@@ -57,32 +35,19 @@ $index = 0;
             <div class="row">
                 {{-- MAIN CONTENT --}}
                 <div class="col-xs-12 col-md-9">
-
-                    @if(! empty($categories))
-                        @foreach($categories as $category)
+                    @if(! empty($sections))
+                        @foreach($sections as $sectionName => $catID)
                             @php
-                                //#! Helps keeping track of the template to load
-                                if($loopIndex > 3){ $loopIndex = 1; }
-                                //#! Helps creating columns
-                                if($index > 1){ $index = 0; }
-
-                                $posts = $newspaperHelper->clearOutCache()->categoryTreeGetPosts($category, $postStatusID, 6);
+                                $sectionID = str_replace('section-', '', $sectionName);
+                                $category = $catModel->find($catID);
                             @endphp
-
-
-                            @include('partials.homepage.s-'.$loopIndex, [
+                            @include('partials.homepage.section-'.$sectionID, [
                                 'category' => $category,
-                                'posts' => $posts,
                                 'newspaperHelper' => $newspaperHelper,
-                                'post_status_id' => $postStatusID,
-                                'index' => $loopIndex,
+                                'postStatusID' => $postStatusID,
                             ])
-
-
-                            @php $loopIndex++; $index++; @endphp
                         @endforeach
                     @endif
-
                 </div>
 
                 {{-- SIDEBAR --}}

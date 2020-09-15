@@ -24,6 +24,10 @@
         }
     }
 
+    .hentry-excerpt {
+        position: relative;
+    }
+
     .hentry-content .hentry-title,
     .hentry-excerpt {
         padding: 0 10px;
@@ -34,4 +38,66 @@
         font-size: 14px;
     }
 
+    //#! Special entry
+    // title & category displayed absolutely on top of the image
+    &.special {
+        .hentry-title {
+            position: absolute;
+            left: 5px;
+            bottom: 0;
+            z-index: 2;
+
+            a {
+                font-size: 16px;
+                color: #fff !important;
+            }
+        }
+        .hentry-category {
+            top: 5px;
+            bottom: auto;
+        }
+    }
+
+    //#! Carousel of posts
+    &.carousel {
+        position: relative;
+
+        .hentry-title {
+            position: absolute;
+            left: 0;
+            bottom: 0;
+            z-index: 2;
+            margin: 0 0;
+            padding: 5px 5px 30px 5px;
+            background: rgba(0,0,0,0.4);
+
+            a {
+                font-size: 16px;
+                color: #fff !important;
+            }
+        }
+        .hentry-content {
+            margin: -20px 10px 0 10px;
+            position: relative;
+            background: #fff;
+            z-index: 3;
+        }
+        .hentry-category {
+            position: relative !important;
+            color: #cc0000;
+            padding: 0;
+            margin: 0;
+            right:auto;
+            left:auto;
+            top:auto;
+            bottom: auto;
+        }
+        .hentry-meta {
+            display: flex;
+            align-items: center;
+            align-content: space-between;
+            justify-content: space-between;
+            padding: 0 10px;
+        }
+    }
 }

@@ -48,20 +48,28 @@ class NewspaperAdminController extends AdminControllerBase
     //#! [post]
     public function themeOptionsSave()
     {
-        //#! Featured Categories
-        $featuredCategories = $this->request->get( 'featured_categories', [] );
-        $featuredCategories = array_map( 'intval', $featuredCategories );
-        $featuredCategories = array_map( function ( $catID ) {
-            return ( Category::find( $catID ) ? $catID : false );
-        }, $featuredCategories );
+        $themeOptions = $this->options->getOption(self::THEME_OPTIONS_OPT_NAME, []);
 
-        //#! Update options
-        $options = [
-            'featured_categories' => $featuredCategories,
-        ];
+        //#! Homepage options
+        $options = $this->request->get('homepage');
+        if( ! isset($themeOptions['homepage'])){
+            $themeOptions['homepage'] = [];
+        }
+        $homepageOptions = $themeOptions['homepage'];
+        if(! empty($options)){
+            foreach($options as $sectionID => $catID){
+                $theCat = Category::find($catID);
+                if($theCat){
+                    $homepageOptions[$sectionID] = $catID;
+                }
+            }
+        }
+        $themeOptions['homepage'] = $homepageOptions;
+
+        //...
 
         //#! Save options
-        $this->options->addOption( self::THEME_OPTIONS_OPT_NAME, $options );
+        $this->options->addOption( self::THEME_OPTIONS_OPT_NAME, $themeOptions );
 
         return redirect()->back()->with( 'message', [
             'class' => 'success',

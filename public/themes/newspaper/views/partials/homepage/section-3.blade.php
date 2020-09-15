@@ -1,26 +1,46 @@
 {{--
-    Style #3 (same as 2)
-        1 column, 5 vertical posts
+    Style #3
+        2 columns
 
     col 1
         1 x large post
-        5 x small posts
+    col 2
+        4 x small posts
 --}}
 @inject('postStatus', App\PostStatus)
 @php
     /**@var App\Newspaper\NewspaperHelper $newspaperHelper*/
     /**@var App\Post $post */
-$ix = 0;
-@endphp
 
-<div class="col-sm-12 col-md-6">
-    @if($posts)
-        <section class="section-cat-title mt-3">
-            <h3>{!! $category->name !!}</h3>
-        </section>
-        @foreach($posts as $postID => $post)
-            <article class="hentry-loop mb-3">
-                @if(0 == $ix)
+    $posts = $newspaperHelper->clearOutCache()->categoryTreeGetPosts($category, $postStatusID, 5);
+    $postsLeft = [];
+    $postsRight = [];
+    if(! empty($posts)){
+        $i = 0;
+        foreach($posts as $pid => $p){
+            if($i >= 1){
+                $postsRight[$pid] = $p;
+            }
+            else {
+                $postsLeft[$pid] = $p;
+            }
+            $i++;
+        }
+    }
+@endphp
+<div class="row">
+    @if(!empty($posts))
+        <div class="col-sm-12">
+            <section class="section-cat-title mt-3">
+                <h3>{!! $category->name !!}</h3>
+            </section>
+        </div>
+    @endif
+
+    @if(! empty($postsLeft))
+        <div class="col-sm-12 col-md-6">
+            @foreach($postsLeft as $postID => $post)
+                <article class="hentry-loop mb-3">
                     <header class="hentry-header">
                         <img src="{{$newspaperHelper->getPostImageOrPlaceholder($post)}}" alt="{{$post->title}}" class="image-responsive"/>
                         <div class="hentry-category bg-danger">
@@ -36,8 +56,15 @@ $ix = 0;
                             </a>
                         </h4>
                     </section>
-
-                @else
+                </article>
+            @endforeach
+        </div>
+    @endif
+    @if(! empty($postsRight))
+        @php $ix = 0; @endphp
+        <div class="col-sm-12 col-md-6">
+            @foreach($postsRight as $postID => $post)
+                <article class="hentry-loop mb-3">
                     <div class="row">
                         <div class="col-sm-12 col-md-4">
                             <header class="hentry-header full-h">
@@ -56,11 +83,8 @@ $ix = 0;
                             </section>
                         </div>
                     </div>
-                @endif
-            </article>
-            @php $ix++; @endphp
-        @endforeach
+                </article>
+            @endforeach
+        </div>
     @endif
 </div>
-
-@if($index == 3) </div><!--// END .row --> @endif
