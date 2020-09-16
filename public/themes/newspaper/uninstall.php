@@ -1,6 +1,6 @@
 <?php
 /*
- * Loaded automatically by the system when the theme is deleted
+ * Loaded automatically by the system before the theme is deleted
  */
 
 //#! Delete theme options

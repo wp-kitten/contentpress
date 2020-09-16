@@ -1088,18 +1088,18 @@ class AjaxController extends Controller
             $fileName = Util::basename( $this->request->media_image->getClientOriginalName() ) . time() . '.' . $this->request->media_image->extension();
         }
 
-        $r = $this->request->media_image->move( $uploadPath, $fileName );
+        $mediaFileModel = $this->request->media_image->move( $uploadPath, $fileName );
 
-        if ( $r ) {
+        if ( $mediaFileModel ) {
             //#! Add entry to database
             $model = new MediaFile();
-            $r = $model->create( [
+            $mediaFileModel = $model->create( [
                 'slug' => Str::slug( $fileName ),
                 'path' => $subdirs . '/' . $fileName,
                 'language_id' => CPML::getDefaultLanguageID(),
             ] );
 
-            if ( !$r ) {
+            if ( !$mediaFileModel ) {
                 File::delete( path_combine( $uploadPath, $fileName ) );
                 return $this->responseError( __( 'a.Image not uploaded.' ) );
             }
@@ -1110,13 +1110,13 @@ class AjaxController extends Controller
             //!# Only jpeg, png & gif files can be resized here
             $mimeType = File::mimeType( $filePath );
             if ( $mimeType && in_array( $mimeType, [ 'image/jpeg', 'image/png', 'image/gif' ] ) ) {
-                ImageHelper::resizeImage( $filePath, $r );
+                ImageHelper::resizeImage( $filePath, $mediaFileModel );
             }
 
             return $this->responseSuccess( [
                 'path' => $filePath,
                 'url' => $this->media->getUrl( $uploadPath . '/' . $fileName ),
-                'id' => $r->id,
+                'id' => $mediaFileModel->id,
             ] );
         }
         return $this->responseError( __( 'a.Image not uploaded.' ) );

@@ -19,7 +19,8 @@
         "laravel/tinker": "^v2.4.2",
         "laravel/ui": "^v2.2.0",
         "ext-dom": "*",
-        "ext-libxml": "*"
+        "ext-libxml": "*",
+        "ext-exif": "*"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.8",

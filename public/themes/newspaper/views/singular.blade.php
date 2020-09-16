@@ -42,7 +42,7 @@
 
                         <!-- POST IMAGE -->
                         <header class="entry-header">
-                            <img src="{{$newspaperHelper->getPostImageOrPlaceholder($post)}}" class="image-responsive" alt="{{$post->title}}"/>
+                            @php echo \App\Helpers\ImageHelper::getResponsiveImage($post, 'w576', 'image-responsive'); @endphp
                         </header>
 
                         <!-- POST TITLE -->

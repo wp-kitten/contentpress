@@ -60,7 +60,6 @@ This document lists all hooks registered by the application and the order they'r
 ### Backend Filter Hooks
 * ContentPress
     * contentpress::image-sizes ($imageSizes = [])
-    * contentpress::breakpoints ($breakpoints = [])
     * contentpress/the_post_editor_content ($postContent = '')
     * contentpress/register_view_paths ($viewPaths = [])
     * contentpress/share-buttons ($buttons)

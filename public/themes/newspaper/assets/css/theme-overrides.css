@@ -2,7 +2,9 @@ body {
     font-family: 'Nunito', sans-serif;
     font-size: 14px;
 }
-
+body .site-page * {
+    word-break: break-all;
+}
 h1, h2, h3, h4, h5, h6 {
     font-family: 'Libre Baskerville', serif;
 }
@@ -134,7 +136,7 @@ h1, h2, h3, h4, h5, h6 {
     top: 0;
     position: fixed;
     right: 0;
-    padding: 10px 15px;
+    padding: 5px 10px;
     font-size: 20px;
     text-decoration: none;
     transition: 0.3s;

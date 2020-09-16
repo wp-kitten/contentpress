@@ -1,9 +1,12 @@
 <?php
 
+use App\Helpers\CPML;
 use App\Helpers\ImageHelper;
+use App\Helpers\ImageResizeHelper;
 use App\Helpers\MediaHelper;
 use App\Http\Controllers\Admin\AjaxController;
 use App\MediaFile;
+use App\MediaFileMeta;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 
@@ -94,8 +97,31 @@ function cprt_plugin_resize_image( Model $mediaFile, array $newImageSizes, Media
 
     //#! Generate new images & update meta
     if ( !$skip ) {
+        $mh = new MediaHelper();
         foreach ( $newImageSizes as $imageSizeName => $info ) {
-            ImageHelper::resizeImage( $mediaFilePath, $mediaFile );
+            $helper = new ImageResizeHelper( $mediaFilePath, $info[ 'w' ] );
+            $newImagePath = $helper->resizeImage();
+            if ( !empty( $newImagePath ) ) {
+                //#! Add/Update meta
+                $meta = $mediaFile->media_file_metas()->where( 'meta_name', 'srcset' )->first();
+                if ( $meta ) {
+                    $metaValue = maybe_unserialize( $meta->meta_value );
+                    if ( !is_array( $metaValue ) ) {
+                        $metaValue = [];
+                    }
+                    $metaValue[ "$imageSizeName" ] = $mh->getBaseUploadPath( $newImagePath );
+                    $meta->meta_value = serialize( $metaValue );
+                    $meta->update();
+                }
+                else {
+                    MediaFileMeta::create( [
+                        'media_file_id' => $mediaFile->id,
+                        'language_id' => CPML::getDefaultLanguageID(),
+                        'meta_name' => 'srcset',
+                        'meta_value' => serialize( [ "$imageSizeName" => $mh->getBaseUploadPath( $newImagePath ) ] ),
+                    ] );
+                }
+            }
         }
     }
 }

@@ -16,6 +16,9 @@ require_once( NP_THEME_DIR_PATH . '/controllers/NewspaperThemeController.php' );
 require_once( NP_THEME_DIR_PATH . '/controllers/NewspaperAjaxController.php' );
 require_once( NP_THEME_DIR_PATH . '/theme-hooks.php' );
 
+//#! If w = 0, then size will be ignored
+cp_add_image_size( 'w576', [ 'w' => 576 ] );
+
 /**
  * Submit a comment
  * @param Controller $controller
