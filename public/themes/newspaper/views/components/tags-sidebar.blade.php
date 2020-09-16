@@ -21,7 +21,7 @@
             @if(count($posts))
                 @foreach($posts as $post)
                     <li class="mb-3">
-                        <img src="{{$newspaperHelper->getPostImageOrPlaceholder($post)}}" alt="{{$post->title}}" class="image-responsive rounded"/>
+                        {!! $newspaperHelper->getPostImageOrPlaceholder($post, '', 'image-responsive rounded', ['alt' => $post->title]) !!}
                         <a href="{{cp_get_permalink($post)}}" class="text-info ml-2" title="{{$post->title}}">
                             {!! cp_ellipsis(wp_kses_post($post->title), 40) !!}
                         </a>

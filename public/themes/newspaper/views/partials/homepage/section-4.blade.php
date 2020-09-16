@@ -42,9 +42,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-4">
                             <header class="hentry-header full-h">
-                                <img src="{{$newspaperHelper->getPostImageOrPlaceholder($post)}}"
-                                     alt="{{$post->title}}"
-                                     class="image-responsive full-h full-w"/>
+                                {!! $newspaperHelper->getPostImageOrPlaceholder($post, '', 'image-responsive', ['alt' => $post->title]) !!}
                             </header>
                         </div>
                         <div class="col-sm-12 col-md-8">
@@ -68,9 +66,7 @@
                     <div class="row">
                         <div class="col-sm-12 col-md-4">
                             <header class="hentry-header full-h">
-                                <img src="{{$newspaperHelper->getPostImageOrPlaceholder($post)}}"
-                                     alt="{{$post->title}}"
-                                     class="image-responsive full-h full-w"/>
+                                {!! $newspaperHelper->getPostImageOrPlaceholder($post, '', 'image-responsive', ['alt' => $post->title]) !!}
                             </header>
                         </div>
                         <div class="col-sm-12 col-md-8">

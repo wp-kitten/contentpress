@@ -4,6 +4,7 @@ namespace App\Newspaper;
 
 use App\Category;
 use App\Helpers\CPML;
+use App\Helpers\ImageHelper;
 use App\Http\Controllers\NewspaperAdminController;
 use App\Post;
 use App\PostMeta;
@@ -29,12 +30,13 @@ class NewspaperHelper
         return PostStatus::where( 'name', 'publish' )->first()->id;
     }
 
-    public function getPostImageOrPlaceholder( Post $post )
+    public function getPostImageOrPlaceholder( Post $post, $sizeName = '', $imageClass = 'image-responsive', $imageAttributes = [] )
     {
+        $img = '<img src="'.asset( 'themes/newspaper/assets/img/placeholder.png' ).'" alt=""/>';
         if ( cp_post_has_featured_image( $post ) ) {
-            return cp_post_get_featured_image_url( $post->id );
+            $img = ImageHelper::getResponsiveImage($post, $sizeName, $imageClass, $imageAttributes);
         }
-        return asset( 'themes/newspaper/assets/img/placeholder.png' );
+        return $img;
     }
 
     public function getCategoryImageOrPlaceholder( Category $category )

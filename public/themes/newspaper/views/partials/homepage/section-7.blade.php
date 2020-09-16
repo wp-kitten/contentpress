@@ -27,7 +27,7 @@
                         <div class="slide-item">
                             <article class="hentry-loop carousel">
                                 <div class="hentry-header">
-                                    <img alt="{{$post->title}}" src="{{$newspaperHelper->getPostImageOrPlaceholder($post)}}" class="image-responsive"/>
+                                    {!! $newspaperHelper->getPostImageOrPlaceholder($post, '', 'image-responsive', ['alt' => $post->title]) !!}
                                     <h4 class="hentry-title">
                                         <a href="{{cp_get_permalink($post)}}">{!! cp_ellipsis($post->title, 35) !!}</a>
                                     </h4>

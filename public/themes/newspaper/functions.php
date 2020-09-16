@@ -17,7 +17,11 @@ require_once( NP_THEME_DIR_PATH . '/controllers/NewspaperAjaxController.php' );
 require_once( NP_THEME_DIR_PATH . '/theme-hooks.php' );
 
 //#! If w = 0, then size will be ignored
-cp_add_image_size( 'w576', [ 'w' => 576 ] );
+cp_add_image_size( 'w60', [ 'w' => 60 ] );
+cp_add_image_size( 'w150', [ 'w' => 150 ] );
+cp_add_image_size( 'w240', [ 'w' => 240 ] );
+cp_add_image_size( 'w350', [ 'w' => 350 ] );
+cp_add_image_size( 'w510', [ 'w' => 510 ] );
 
 /**
  * Submit a comment

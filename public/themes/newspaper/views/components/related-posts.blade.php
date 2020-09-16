@@ -18,7 +18,7 @@
                 <div class="slide-item">
                     <article class="hentry-loop">
                         <div class="hentry-header">
-                            <img alt="{{$entry->title}}" src="{{$newspaperHelper->getPostImageOrPlaceholder($entry)}}" class="image-responsive"/>
+                            {!! $newspaperHelper->getPostImageOrPlaceholder($entry, '', 'image-responsive', ['alt' => $entry->title]) !!}
                         </div>
                         <div class="hentry-content">
                             <h4 class="hentry-title"><a href="{{cp_get_permalink($entry)}}">{!! $entry->title !!}</a>

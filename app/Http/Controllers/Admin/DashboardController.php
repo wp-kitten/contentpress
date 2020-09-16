@@ -106,7 +106,6 @@ class DashboardController extends AdminControllerBase
         ] );
     }
 
-
     public function __update_plugin( $file_name )
     {
         $pluginUpdater = new PluginUpdater();
@@ -196,6 +195,10 @@ class DashboardController extends AdminControllerBase
                 '--n' => true,
                 '--s' => true,
             ] );
+
+            //#! Delete all uploaded files
+            $uploadsDir = public_path( 'uploads' );
+            File::deleteDirectory( $uploadsDir, true );
         }
         catch ( \Exception $e ) {
             return redirect()->back()->with( 'message', [
@@ -209,10 +212,10 @@ class DashboardController extends AdminControllerBase
         ] );
     }
 
-    public function __clearAppCache(  )
+    public function __clearAppCache()
     {
         try {
-            Artisan::call( 'cp:cache');
+            Artisan::call( 'cp:cache' );
         }
         catch ( \Exception $e ) {
             return redirect()->back()->with( 'message', [

@@ -58,10 +58,10 @@ class ImageHelper
 
     /**
      * Create image sizes
-     * @param string $imagePath The system path to the image
+     * @param string $imagePath The system path to the image to resize
      * @param Model $mediaFileModel
      */
-    public static function resizeImage( $imagePath, Model $mediaFileModel )
+    public static function resizeImage( string $imagePath, Model $mediaFileModel )
     {
         $sizes = self::getSizes();
         if ( empty( $sizes ) ) {
@@ -114,7 +114,7 @@ class ImageHelper
      * @param array $imageAttrs
      * @return string
      */
-    public static function getResponsiveImage( Model $post, string $sizeName, $imageClass = '', $imageAttrs = [] )
+    public static function getResponsiveImage( Model $post, string $sizeName = '', $imageClass = '', $imageAttrs = [] )
     {
         if ( !$post ) {
             return '';
@@ -142,13 +142,24 @@ class ImageHelper
         if ( !empty( $srcsetArray ) ) {
             $mh = new MediaHelper();
             $s = [];
-            foreach ( $srcsetArray as $sizeName => $partialFilePath ) {
-                if ( isset( $imageSizes[ $sizeName ] ) && isset( $imageSizes[ $sizeName ][ 'w' ] ) ) {
-                    $url = $mh->getUploadsUrl() . $srcsetArray[ $sizeName ];
-                    $w = $imageSizes[ $sizeName ][ 'w' ];
-                    $s[] = "{$url} {$w}w";
+
+            //#! Get all
+            if ( empty( $sizeName ) ) {
+                foreach ( $srcsetArray as $sizeName => $partialFilePath ) {
+                    if ( isset( $imageSizes[ $sizeName ] ) && isset( $imageSizes[ $sizeName ][ 'w' ] ) ) {
+                        $url = $mh->getUploadsUrl() . $srcsetArray[ $sizeName ];
+                        $w = $imageSizes[ $sizeName ][ 'w' ];
+                        $s[] = "{$url} {$w}w";
+                    }
                 }
             }
+            //#! Get the specified size
+            elseif ( isset( $srcsetArray[ $sizeName ] ) && ( isset( $imageSizes[ $sizeName ] ) && isset( $imageSizes[ $sizeName ][ 'w' ] ) ) ) {
+                $url = $mh->getUploadsUrl() . $srcsetArray[ $sizeName ];
+                $w = $imageSizes[ $sizeName ][ 'w' ];
+                $s[] = "{$url} {$w}w";
+            }
+
             if ( !empty( $s ) ) {
                 $srcset = implode( ', ', $s );
             }

@@ -19,7 +19,7 @@
             <div class="col-xs-12 col-md-4">
                 <article class="hentry-loop special mb-3">
                     <header class="hentry-header">
-                        <img src="{{$newspaperHelper->getPostImageOrPlaceholder($post)}}" alt="{{$post->title}}" class="image-responsive"/>
+                        {!! $newspaperHelper->getPostImageOrPlaceholder($post, '', 'image-responsive', ['alt' => $post->title]) !!}
                         <div class="hentry-category bg-danger">
                             <a href={{cp_get_category_link($category)}} class="text-light">
                                 {!! $category->name !!}
