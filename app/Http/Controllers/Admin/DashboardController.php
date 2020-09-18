@@ -191,14 +191,18 @@ class DashboardController extends AdminControllerBase
     public function __reinstallApp()
     {
         try {
-            Artisan::call( 'cp:setup', [
-                '--n' => true,
-                '--s' => true,
-            ] );
+            //#! Clear cache
+            Artisan::call( 'cp:cache' );
 
             //#! Delete all uploaded files
             $uploadsDir = public_path( 'uploads' );
             File::deleteDirectory( $uploadsDir, true );
+
+            //#! Reinstall
+            Artisan::call( 'cp:setup', [
+                '--n' => true,
+                '--s' => true,
+            ] );
         }
         catch ( \Exception $e ) {
             return redirect()->back()->with( 'message', [

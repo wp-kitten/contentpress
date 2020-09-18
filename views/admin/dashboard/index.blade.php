@@ -23,8 +23,8 @@
                     <li class="">
                         <a href="#" class="btn btn-danger mr-5"
                            data-confirm="{{__('a.Are you really sure you want to clear the application cache?')}}"
-                           data-form-id="form-app-reinstall">{{__('a.Clear app cache')}}</a>
-                        <form id="form-app-reinstall" action="{{route('admin.dashboard.clear_cache')}}" method="post" class="hidden">
+                           data-form-id="form-app-clear_cache">{{__('a.Clear app cache')}}</a>
+                        <form id="form-app-clear_cache" action="{{route('admin.dashboard.clear_cache')}}" method="post" class="hidden">
                             @csrf
                         </form>
                     </li>

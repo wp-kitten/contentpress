@@ -48,8 +48,6 @@ class FeedSeeder extends Seeder
 
         'Politico' => 'https://www.politico.com/rss/politicopicks.xml',
 
-        'Newsweek' => 'https://newsweek.ro/rss',
-
         'The Daily Beast' => 'https://feeds.thedailybeast.com/rss/articles',
 
         'Yahoo!' => [
@@ -87,11 +85,33 @@ class FeedSeeder extends Seeder
             'ProFM' => 'https://www.profm.ro/rss',
             'Digi FM' => 'https://www.digifm.ro/rss',
             'Digi Sport' => 'https://www.digisport.ro/rss',
+            'Discovery' => 'https://discovery.ro/feed/',
+            'Mediafax' => 'https://www.mediafax.ro/rss',
+            'Stirile ProTV' => 'https://stirileprotv.ro/rss',
+            'news.ro' => 'https://www.news.ro/rss',
+            'Ziarul Libertatea' => 'https://www.libertatea.ro/stiri/feed',
+            'Cancan.ro' => 'https://www.cancan.ro/stiri/feed',
+            'Ziarul Financiar' => 'https://www.zf.ro/rss',
+            'newsin.ro' => 'https://newsin.ro/feed/',
+            'Realitatea.net' => 'https://rss.realitatea.net/homepage.xml',
+            'Newsweek' => 'https://newsweek.ro/rss',
+            'Economica.net' => 'https://www.economica.net/rss/stiri.xml',
+            'AgerPress' => 'https://www.agerpres.ro/rss',
+            'RFI' => 'https://www.rfi.ro/rss.xml',
+            'GSP' => 'https://www.gsp.ro/rss.xml',
+            'Sport.ro' => 'https://www.sport.ro/rss',
+            'Vremea' => 'https://vremea.ido.ro/stiri/feed/',
+            'RomaniaTV' => 'https://www.romaniatv.net/rss/stiri.xml',
+            'Stirile TVR' => 'http://stiri.tvr.ro/rss/stiri.xml',
+            'Capitalul.ro' => 'https://capitalul.ro/feed/',
         ],
 
         'Sports' => [
             'Marca' => 'https://e00-marca.uecdn.es/rss/portada.xml',
             'Sporting News' => 'http://www.sportingnews.com/us/rss',
+        ],
+        'NASA' => [
+            'Science' => 'https://science.nasa.gov/rss.xml',
         ],
     ];
 

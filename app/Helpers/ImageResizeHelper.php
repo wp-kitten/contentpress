@@ -2,8 +2,6 @@
 
 namespace App\Helpers;
 
-use Illuminate\Support\Facades\File;
-
 /**
  * Class ImageResizeHelper
  * @package App\Helpers
@@ -62,51 +60,50 @@ class ImageResizeHelper
      */
     public function resizeImage(): string
     {
-        if ( !File::exists( $this->saveImagePath ) ) {
-            $image = $this->__openImage( $this->sourceImageFilePath );
+        $image = $this->__openImage( $this->sourceImageFilePath );
 
-            // *** Get width and height
-            if ( $image ) {
-                $this->width = imagesx( $image );
-                $this->height = imagesy( $image );
-            }
-
-            if ( empty( $this->height ) ) {
-                return '';
-            }
-
-            $ratio = $this->height / $this->width;
-            $newHeight = $this->newWidth * $ratio;
-
-            // *** Resample - create image canvas of x, y size
-            $this->imageResized = imagecreatetruecolor( $this->newWidth, $newHeight );
-
-            // Preserve transparency
-            if ( $this->imageType == ( IMAGETYPE_PNG || IMAGETYPE_GIF ) ) {
-                $transparent_index = imagecolortransparent( $image );
-                if ( $transparent_index >= 0 ) {  // GIF
-                    imagepalettecopy( $image, $this->imageResized );
-                    imagefill( $this->imageResized, 0, 0, $transparent_index );
-                    imagecolortransparent( $this->imageResized, $transparent_index );
-                    imagetruecolortopalette( $this->imageResized, true, 256 );
-                }
-                else {
-                    // PNG
-                    imagealphablending( $this->imageResized, false );
-                    imagesavealpha( $this->imageResized, true );
-                    $transparent = imagecolorallocatealpha( $this->imageResized, 255, 255, 255, 127 );
-                    imagefilledrectangle( $this->imageResized, 0, 0, $this->width, $this->height, $transparent );
-                }
-            }
-
-            imagecopyresampled( $this->imageResized, $image, 0, 0, 0, 0, $this->newWidth, $newHeight, $this->width, $this->height );
-
-            return $this->saveImage();
+        // *** Get width and height
+        if ( $image ) {
+            $this->width = imagesx( $image );
+            $this->height = imagesy( $image );
         }
+
+        if ( empty( $this->height ) ) {
+            return '';
+        }
+
+        $ratio = $this->height / $this->width;
+        $newHeight = $this->newWidth * $ratio;
+
+        // *** Resample - create image canvas of x, y size
+        $this->imageResized = imagecreatetruecolor( $this->newWidth, $newHeight );
+
+        // Preserve transparency
+        if ( $this->imageType == ( IMAGETYPE_PNG || IMAGETYPE_GIF ) ) {
+            $transparent_index = imagecolortransparent( $image );
+            if ( $transparent_index >= 0 ) {  // GIF
+                imagepalettecopy( $image, $this->imageResized );
+                imagefill( $this->imageResized, 0, 0, $transparent_index );
+                imagecolortransparent( $this->imageResized, $transparent_index );
+                imagetruecolortopalette( $this->imageResized, true, 256 );
+            }
+            else {
+                // PNG
+                imagealphablending( $this->imageResized, false );
+                imagesavealpha( $this->imageResized, true );
+                $transparent = imagecolorallocatealpha( $this->imageResized, 255, 255, 255, 127 );
+                imagefilledrectangle( $this->imageResized, 0, 0, $this->width, $this->height, $transparent );
+            }
+        }
+
+        imagecopyresampled( $this->imageResized, $image, 0, 0, 0, 0, $this->newWidth, $newHeight, $this->width, $this->height );
+
+        $this->saveImage();
+        imagedestroy( $this->imageResized );
         return $this->saveImagePath;
     }
 
-    public function saveImage(): string
+    protected function saveImage(): string
     {
         switch ( $this->imageType ) {
             case IMAGETYPE_JPEG:
@@ -131,9 +128,6 @@ class ImageResizeHelper
                 // *** Not recognised
                 break;
         }
-
-        imagedestroy( $this->imageResized );
-
         return $this->saveImagePath;
     }
 
@@ -156,7 +150,7 @@ class ImageResizeHelper
         return $img;
     }
 
-    private function __setNewImagePath( $width )
+    private function __setNewImagePath( $width ): string
     {
         $ext = strtolower( pathinfo( $this->sourceImageFilePath, PATHINFO_EXTENSION ) );
         return trailingslashit( $this->saveDirPath ) . basename( $this->sourceImageFilePath, '.' . $ext ) . '_x' . $width;

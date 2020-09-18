@@ -54,4 +54,5 @@ return [
     'Permanently delete' => 'Permanently delete',
     'No feeds found in the trash' => 'No feeds found in the trash',
     'Cannot start a new import process. Timeout not expired yet.' => 'Cannot start a new import process. Timeout not expired yet.',
+    'The feed importer is triggered by a cron job scheduled to run every hour.' => 'The feed importer is triggered by a cron job scheduled to run every hour.',
 ];

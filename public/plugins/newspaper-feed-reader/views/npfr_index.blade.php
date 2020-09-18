@@ -10,11 +10,12 @@
     <div class="app-title">
         <div class="cp-flex cp-flex--center cp-flex--space-between">
             <div>
-                <h1>{{__('npfr::m.Feeds')}}</h1>
+                <h1>{{__('npfr::m.Feeds')}} <small>({{$numFeeds}})</small></h1>
+                <p class="text-description">{{__('npfr::m.The feed importer is triggered by a cron job scheduled to run every hour.')}}</p>
             </div>
             <ul class="list-unstyled list-inline mb-0">
                 <li class="">
-                    @if($feeds && $feeds->count())
+                    @if(! empty($numFeeds) && $numFeeds <= 10 )
                         <a class="btn btn-primary d-none d-inline-block" href="#"
                            onclick="event.preventDefault(); document.getElementById('cpfr-import-feeds').submit();">
                             {{__('npfr::m.Import Feeds')}}
@@ -24,7 +25,7 @@
                         </form>
                     @endif
 
-                    @if(! App\Category::where('name', \Illuminate\Support\Str::title('Teslarati'))->first())
+                    @if(! App\Category::where('name', \Illuminate\Support\Str::title('Romania'))->first())
                         <a class="btn btn-dark d-none d-inline-block" href="#"
                            onclick="event.preventDefault(); document.getElementById('cpfr-import-default-content').submit();"
                            title="{{__('npfr::m.Creates the default pages, categories & feed urls')}}">

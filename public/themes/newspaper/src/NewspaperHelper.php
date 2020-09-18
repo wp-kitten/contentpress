@@ -32,9 +32,15 @@ class NewspaperHelper
 
     public function getPostImageOrPlaceholder( Post $post, $sizeName = '', $imageClass = 'image-responsive', $imageAttributes = [] )
     {
-        $img = '<img src="'.asset( 'themes/newspaper/assets/img/placeholder.png' ).'" alt=""/>';
+        $placeholder = '<img src="' . asset( 'themes/newspaper/assets/img/placeholder.png' ) . '" alt="" class="' . $imageClass . '"/>';
         if ( cp_post_has_featured_image( $post ) ) {
-            $img = ImageHelper::getResponsiveImage($post, $sizeName, $imageClass, $imageAttributes);
+            $img = ImageHelper::getResponsiveImage( $post, $sizeName, $imageClass, $imageAttributes );
+            if ( empty( $img ) ) {
+                return $placeholder;
+            }
+        }
+        else {
+            $img = $placeholder;
         }
         return $img;
     }

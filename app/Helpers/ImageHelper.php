@@ -121,7 +121,7 @@ class ImageHelper
         }
 
         $postInfo = cp_post_get_featured_image_info( $post->id );
-        if ( !isset( $postInfo[ 'url' ] ) || empty( $postInfo[ 'url' ] ) ) {
+        if ( !isset( $postInfo[ 'id' ] ) || empty( $postInfo[ 'url' ] ) ) {
             return '';
         }
 
@@ -142,12 +142,15 @@ class ImageHelper
         if ( !empty( $srcsetArray ) ) {
             $mh = new MediaHelper();
             $s = [];
-
+logger('INFO: '.var_export([
+    '$imageSizes' => $imageSizes,
+    '$srcsetArray' => $srcsetArray,
+    ],1));
             //#! Get all
             if ( empty( $sizeName ) ) {
                 foreach ( $srcsetArray as $sizeName => $partialFilePath ) {
                     if ( isset( $imageSizes[ $sizeName ] ) && isset( $imageSizes[ $sizeName ][ 'w' ] ) ) {
-                        $url = $mh->getUploadsUrl() . $srcsetArray[ $sizeName ];
+                        $url = $mh->getUrl( $srcsetArray[ $sizeName ] );
                         $w = $imageSizes[ $sizeName ][ 'w' ];
                         $s[] = "{$url} {$w}w";
                     }
@@ -155,7 +158,7 @@ class ImageHelper
             }
             //#! Get the specified size
             elseif ( isset( $srcsetArray[ $sizeName ] ) && ( isset( $imageSizes[ $sizeName ] ) && isset( $imageSizes[ $sizeName ][ 'w' ] ) ) ) {
-                $url = $mh->getUploadsUrl() . $srcsetArray[ $sizeName ];
+                $url = $mh->getUrl( $srcsetArray[ $sizeName ] );
                 $w = $imageSizes[ $sizeName ][ 'w' ];
                 $s[] = "{$url} {$w}w";
             }

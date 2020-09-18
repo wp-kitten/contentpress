@@ -23,15 +23,19 @@ Route::get( "admin/feed-reader/feeds", function () {
     }
 
     $feeds = [];
+    $numFeeds = 0;
     if ( !Schema::hasTable( 'feeds' ) ) {
         UserNotices::getInstance()->addNotice( 'danger', __( 'npfr.The feeds table was not found. Have you forgotten to run the migration?' ) );
     }
     else {
-        $feeds = Feed::latest()->paginate( ( new Settings() )->getSetting( 'post_per_page' ) );
+        $feedsQuery = Feed::orderBy('created_at', 'desc');
+        $numFeeds = $feedsQuery->count();
+        $feeds = $feedsQuery->paginate( ( new Settings() )->getSetting( 'post_per_page' ) );
     }
 
     return view( 'npfr_index' )->with( [
         'feeds' => $feeds,
+        'numFeeds' => $numFeeds,
         'categories' => cpfrGetCategoriesTree(),
     ] );
 } )->middleware( [ 'web', 'auth', 'active_user' ] )->name( "admin.feed_reader.feeds.all" );

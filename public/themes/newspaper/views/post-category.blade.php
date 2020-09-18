@@ -79,16 +79,16 @@
                                     @foreach($posts as $post)
                                         <div class="col-xs-12 col-sm-6 col-md-4 masonry-item">
                                             <article class="hentry-loop">
-                                                @if($imageUrl = $newspaperHelper->getPostImageOrPlaceholder($post))
-                                                    <header class="hentry-header">
-                                                        <img src="{{$imageUrl}}" class="image-responsive" alt="{{$post->title}}"/>
-                                                        <div class="hentry-category bg-danger">
-                                                            <a href="{{cp_get_category_link($post->firstCategory())}}" class="text-light">
-                                                                {!! $post->firstCategory()->name !!}
-                                                            </a>
-                                                        </div>
-                                                    </header>
-                                                @endif
+
+                                                <header class="hentry-header">
+                                                    {!! $newspaperHelper->getPostImageOrPlaceholder($post, '', 'image-responsive', ['alt' => $post->title]) !!}
+                                                    <div class="hentry-category bg-danger">
+                                                        <a href="{{cp_get_category_link($post->firstCategory())}}" class="text-light">
+                                                            {!! $post->firstCategory()->name !!}
+                                                        </a>
+                                                    </div>
+                                                </header>
+
                                                 <section class="hentry-content">
                                                     <h4 class="hentry-title">
                                                         <a href="{{cp_get_permalink($post)}}" class="text-info">

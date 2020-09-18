@@ -38,10 +38,10 @@ class MediaHelper
      * @param string $filePath
      * @return string
      */
-    public function getUrl( $filePath ): string
+    public function getUrl( string $filePath ): string
     {
-        $basePath = str_ireplace( $this->uploadsDir, '', $filePath );
-        return untrailingslashit( $this->uploadsUrl ) . '/' . wp_normalize_path( $basePath );
+        $basePath = str_ireplace( $this->uploadsDir, '', wp_normalize_path( $filePath ) );
+        return untrailingslashit( $this->uploadsUrl ) . '/' . $basePath;
     }
 
     /**
@@ -49,9 +49,9 @@ class MediaHelper
      * @param string $filePath
      * @return mixed
      */
-    public function getBaseUploadPath( $filePath )
+    public function getBaseUploadPath( string $filePath )
     {
-        return str_ireplace( $this->uploadsDir, '', $filePath );
+        return str_ireplace( $this->uploadsDir, '', wp_normalize_path( $filePath ) );
     }
 
     /**
@@ -59,7 +59,7 @@ class MediaHelper
      * @param string $fileBasePath
      * @return string
      */
-    public function getPath( $fileBasePath ): string
+    public function getPath( string $fileBasePath ): string
     {
         return path_combine( $this->uploadsDir, $fileBasePath );
     }
@@ -87,7 +87,7 @@ class MediaHelper
      * @param string $path The file path to check
      * @return bool
      */
-    public function isValidUploadsDirPath( $path ): bool
+    public function isValidUploadsDirPath( string $path ): bool
     {
         $path = wp_normalize_path( realpath( $path ) );
         return Str::contains( $path, $this->uploadsDir );
