@@ -107,7 +107,7 @@ class NewspaperAjaxController extends Controller
                 if ( 0 == ( $i % $every_n_posts ) ) {
                     $ad = AdsManager::get();
                     $posts[ $pid ] = [
-                        'image_url' => $ad[ 'image_url' ],
+                        'image_url' => '<img src="' . esc_attr( $ad[ 'image_url' ] ) . '" alt="advertisement" class="image-responsive"/>',
                         'post_title' => $ad[ 'title' ],
                         'post_url' => $ad[ 'url' ],
                         'category_name' => '',

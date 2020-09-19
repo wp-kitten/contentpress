@@ -38,11 +38,9 @@ class NewspaperHelper
             if ( empty( $img ) ) {
                 return $placeholder;
             }
+            return $img;
         }
-        else {
-            $img = $placeholder;
-        }
-        return $img;
+        return $placeholder;
     }
 
     public function getCategoryImageOrPlaceholder( Category $category )

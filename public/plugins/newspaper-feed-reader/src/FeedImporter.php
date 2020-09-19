@@ -170,22 +170,6 @@ class FeedImporter
                             $postTags = [];
                             $postCategories = [ $categoryID ];
 
-                            //#! Try to create the subcategory
-                            if ( $entryCategory ) {
-                                //#! Some feeds might provide their categories separated by commas, so if that's the case
-                                //#! we only need the first one
-                                $_categories = explode( ',', $entryCategory );
-                                if ( !empty( $_categories ) ) {
-                                    $entryCategory = ( isset( $_categories[ 0 ] ) && !empty( $_categories[ 0 ] ) ? preg_replace( '/\s+/', ' ', $_categories[ 0 ] ) : '' );
-                                }
-                                //#! If the entry sub-category is different than the parent category, use it instead
-                                if ( !empty( $entryCategory ) && ( $feed->category->name != Str::lower( $entryCategory ) ) ) {
-                                    if ( $entrySubcategoryID = $this->__getCreateCategoryID( $entryCategory, $categoryID ) ) {
-                                        $postCategories = [ $entrySubcategoryID ];
-                                    }
-                                }
-                            }
-
                             //#! Set categories
                             $currentPost->categories()->detach();
                             $currentPost->categories()->attach( $postCategories );
@@ -288,56 +272,6 @@ class FeedImporter
                 logger( 'Error processing feed: ' . $feedUrl . '. Error: ' . $e->getMessage() );
             }
         }
-    }
-
-    /**
-     * Retrieve the ID of the specified category. Attempts to create it if it doesn't exist.
-     * @param string $categoryName
-     * @param null $parentID
-     * @return false|int category ID on success, boolean false otherwise
-     */
-    private function __getCreateCategoryID( string $categoryName, int $parentID = null )
-    {
-        $categoryName = mb_convert_encoding( $categoryName, 'utf-8', 'auto' );
-        $categoryName = wp_kses( $categoryName, [] );
-
-        $catTitle = Str::lower( $categoryName );
-
-        //#! If the category exists, retrieve the category ID
-        $category = Category::where( 'name', $catTitle )
-            ->where( 'category_id', $parentID )
-            ->where( 'post_type_id', $this->postType->id )
-            ->where( 'language_id', $this->languageID )
-            ->first();
-        if ( $category ) {
-            return $category->id;
-        }
-
-        //#! Invalid chars of whatever, return the parent category ID
-        $slug = Str::slug( $categoryName );
-        if ( empty( $slug ) ) {
-            return $parentID;
-        }
-
-        //#! Attempt to create the category
-        if ( !Util::isUniqueCategorySlug( $slug, $this->languageID, $this->postType->id ) ) {
-            $slug = Str::slug( Category::find( $parentID )->name . '-' . $categoryName );
-        }
-        $r = false;
-        try {
-            $r = Category::create( [
-                'name' => $catTitle,
-                'slug' => $slug,
-                'description' => '',
-                'language_id' => $this->languageID,
-                'post_type_id' => $this->postType->id,
-                'category_id' => ( empty( $parentID ) ? null : $parentID ),
-            ] );
-        }
-        catch ( \Exception $e ) {
-            logger( 'Error creating category: ' . $e->getMessage() );
-        }
-        return ( $r ? $r->id : false );
     }
 
     /**
