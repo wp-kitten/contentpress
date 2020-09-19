@@ -1,0 +1,61 @@
+@mixin list-none {
+    list-style-position: outside;
+    list-style-type: none;
+    margin: 0 0;
+    padding: 0 0;
+}
+
+.cp-mega-menu {
+    @include list-none;
+    overflow: hidden;
+    background-color: #0f6674;
+
+    .has-dropdown > .sub-menu {
+        @include list-none;
+        display: none;
+        position: absolute;
+        left: 15px;
+        width: calc(100% - 30px);
+        background-color: #fff;
+        box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+        z-index: 12;
+        margin: 0 0;
+        padding: 0 0;
+
+        > .submenu-wrap {
+            padding: 10px 10px;
+            display: flex;
+            align-items: center;
+            align-content: flex-start;
+            justify-content: flex-start;
+        }
+
+        .megamenu-section {
+            min-width: 25%;
+            max-width: 25%;
+        }
+
+        .megamenu-child {
+            @include list-none;
+        }
+    }
+
+    .has-dropdown {
+        float: left;
+        overflow: hidden;
+        display: block;
+
+
+        > a {
+            color: #fff;
+            display: block;
+            padding: 14px 16px;
+        }
+
+        &:hover {
+            .sub-menu {
+                display: block;
+            }
+        }
+    }
+}

@@ -2,7 +2,6 @@
 
 namespace App\Helpers\Menu;
 
-
 use App\Category;
 use App\Helpers\Menu\Traits\MenuInfo;
 use App\Menu;
@@ -10,6 +9,7 @@ use App\MenuItemMeta;
 use App\MenuItemType;
 use App\Post;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 class MegaMenuBuilder implements IMenuBuilder
 {
@@ -50,7 +50,7 @@ class MegaMenuBuilder implements IMenuBuilder
                 }
 
                 $hasChildren = ( isset( $menuItemData[ 'items' ] ) && !empty( $menuItemData[ 'items' ] ) );
-                $cssClass = ( $hasChildren ? 'has-dropdown megamenu' : '' );
+                $cssClass = ( $hasChildren ? 'has-dropdown' : '' );
 
                 if ( 'custom' == $type->name ) {
                     $this->__renderMenuItemCustom( $menuItemID, $refItemID, $menuItemData, $cssClass );
@@ -80,8 +80,9 @@ class MegaMenuBuilder implements IMenuBuilder
                     $url = $meta[ 'url' ];
                 }
                 ?>
-                <li class="<?php esc_attr_e( $cssClass ); ?>">
+                <li class="<?php esc_attr_e( $cssClass ); ?> menu-item-main">
                     <a href="<?php esc_attr_e( $url ); ?>"><?php esc_html_e( $title ); ?></a>
+                    <?php $this->renderSubmenus( $menuItemData ); ?>
                 </li>
                 <?php
             }
@@ -93,11 +94,9 @@ class MegaMenuBuilder implements IMenuBuilder
         $category = Category::find( $refItemID );
         if ( $category ) {
             ?>
-            <li class="<?php esc_attr_e( $cssClass ); ?>">
+            <li class="<?php esc_attr_e( $cssClass ); ?> menu-item-main">
                 <a href="#"><?php esc_html_e( $category->name ); ?></a>
-                <?php
-                //  $this->__renderHtmlBackendSubmenus( $menuItemData[ 'items' ] );
-                ?>
+                <?php $this->renderSubmenus( $menuItemData ); ?>
             </li>
             <?php
         }
@@ -109,38 +108,49 @@ class MegaMenuBuilder implements IMenuBuilder
         if ( $post ) {
             $menuItemInfo = $this->__getMenuInfo( $menuItemID, $menuItemData );
             ?>
-            <li class="<?php esc_attr_e( $cssClass ); ?>">
+            <li class="<?php esc_attr_e( $cssClass ); ?> menu-item-main">
                 <a href="<?php esc_attr_e( $menuItemInfo[ 'url' ] ); ?>"><?php esc_html_e( $post->title ); ?></a>
-                <?php
-                //#! Render the submenu tree
-                if ( !empty( $menuItemData[ 'items' ] ) ) {
-                    ?>
-                    <ul class="sub-menu megamenu-wrapper flex">
-                        <?php
-                        foreach ( $menuItemData[ 'items' ] as $miID => $miData ) {
-                            $captionInfo = $this->__getMenuInfo( $miID, $miData );
-                            ?>
-                            <li>
-                                <ul class="megamenu-child">
-                                    <li class="megamenu-title"><?php esc_html_e( $captionInfo[ 'title' ] ); ?></li>
-                                    <?php
-                                    if ( !empty( $miData[ 'items' ] ) ) {
-                                        foreach ( $miData[ 'items' ] as $micID => $micData ) {
-                                            $menuItemInfo = $this->__getMenuInfo( $micID, $micData );
-                                            echo '<li><a href="' . esc_attr( $menuItemInfo[ 'url' ] ) . '">' . esc_html( $menuItemInfo[ 'title' ] ) . '</a></li>';
-                                        }
-                                    }
-                                    ?>
-                                </ul>
-                            </li>
-                            <?php
-                        }
-                        ?>
-                    </ul>
-                    <?php
-                }
-                ?>
+                <?php $this->renderSubmenus( $menuItemData ); ?>
             </li>
+            <?php
+        }
+    }
+
+    /**
+     * Render submenus of a given parent
+     * @param array $menuItemData
+     */
+    protected function renderSubmenus( array $menuItemData = [] )
+    {
+        if ( !empty( $menuItemData[ 'items' ] ) ) {
+            ?>
+            <div class="sub-menu">
+                <div class="submenu-wrap">
+                    <?php
+                    foreach ( $menuItemData[ 'items' ] as $miID => $miData ) {
+                        $captionInfo = $this->__getMenuInfo( $miID, $miData );
+                        ?>
+                        <div class="megamenu-section">
+                            <h4 class="megamenu-title"><?php esc_html_e( $captionInfo[ 'title' ] ); ?></h4>
+                            <ul class="megamenu-child">
+                                <?php
+                                if ( !empty( $miData[ 'items' ] ) ) {
+                                    foreach ( $miData[ 'items' ] as $micID => $micData ) {
+                                        $menuItemInfo = $this->__getMenuInfo( $micID, $micData );
+                                        $activeClass = ( Str::containsAll( url()->current(), [ $menuItemInfo[ 'url' ] ] ) ? 'active' : '' );
+                                        echo '<li class="menu-item-child">';
+                                        echo '<a href="' . esc_attr( $menuItemInfo[ 'url' ] ) . '" class="' . esc_attr( $activeClass ) . '">' . esc_html( $menuItemInfo[ 'title' ] ) . '</a>';
+                                        echo '</li>';
+                                    }
+                                }
+                                ?>
+                            </ul>
+                        </div>
+                        <?php
+                    }
+                    ?>
+                </div>
+            </div>
             <?php
         }
     }

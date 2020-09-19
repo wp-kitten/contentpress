@@ -142,10 +142,7 @@ class ImageHelper
         if ( !empty( $srcsetArray ) ) {
             $mh = new MediaHelper();
             $s = [];
-logger('INFO: '.var_export([
-    '$imageSizes' => $imageSizes,
-    '$srcsetArray' => $srcsetArray,
-    ],1));
+
             //#! Get all
             if ( empty( $sizeName ) ) {
                 foreach ( $srcsetArray as $sizeName => $partialFilePath ) {

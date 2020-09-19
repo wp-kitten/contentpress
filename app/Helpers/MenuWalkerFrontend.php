@@ -48,7 +48,7 @@ class MenuWalkerFrontend implements IMenuWalker
         $menu = sanitize_file_name( $menu );
         $theMenu = Menu::where( 'language_id', $languageID )
             ->where( function ( $query ) use ( $menu ) {
-                return $query->orWhere( 'id', $menu )
+                return $query->where( 'id', $menu )
                     ->orWhere( 'name', $menu )
                     ->orWhere( 'slug', $menu );
             } )
@@ -103,8 +103,8 @@ class MenuWalkerFrontend implements IMenuWalker
     {
         if ( $this->menu && ( $this->hasMenuItems() || has_action( 'contentpress/menu::' . $this->menu->slug ) ) ) {
             do_action( "contentpress/menu::{$this->menu->slug}/before", $this->menu );
-
             if ( 'megamenu' == $this->displayAs ) {
+
                 $menu = new MegaMenuBuilder( $this->menu, $this->menuItems );
                 $menu->outputHtml();
             }

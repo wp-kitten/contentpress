@@ -9,6 +9,7 @@ use App\MenuItemMeta;
 use App\MenuItemType;
 use App\Post;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Str;
 
 /**
  * Class MenuBuilderBase
@@ -77,15 +78,11 @@ class MenuBuilderBasic
             if ( !empty( $meta ) && isset( $meta[ 'title' ] ) && isset( $meta[ 'url' ] ) ) {
                 $title = $meta[ 'title' ];
                 //#! Check to see if this is a route
-                if ( Route::has( $meta[ 'url' ] ) ) {
-                    $url = route( $meta[ 'url' ] );
-                }
-                else {
-                    $url = $meta[ 'url' ];
-                }
+                $url = ( Route::has( $meta[ 'url' ] ) ? route( $meta[ 'url' ] ) : $meta[ 'url' ] );
+                $activeClass = ( Str::containsAll( url()->current(), [ $url ] ) ? 'active' : '' );
                 ?>
                 <li class="<?php esc_attr_e( $cssClass ); ?>">
-                    <a href="<?php esc_attr_e( $url ); ?>" class="<?php esc_attr_e( cp_activate_menu_item( $url ) ); ?>">
+                    <a href="<?php esc_attr_e( $url ); ?>" class="<?php esc_attr_e( $activeClass ); ?>">
                         <?php echo wp_kses_post( $title ); ?>
                     </a>
                 </li>
@@ -99,9 +96,10 @@ class MenuBuilderBasic
         $category = Category::find( $refItemID );
         if ( $category ) {
             $url = cp_get_category_link( $category );
+            $activeClass = ( Str::containsAll( url()->current(), [ $url ] ) ? 'active' : '' );
             ?>
             <li class="<?php esc_attr_e( $cssClass ); ?>">
-                <a href="<?php esc_attr_e( $url ); ?>" class="<?php esc_attr_e( cp_activate_menu_item( $url ) ); ?>">
+                <a href="<?php esc_attr_e( $url ); ?>" class="<?php esc_attr_e( $activeClass ); ?>">
                     <?php echo wp_kses_post( $category->name ); ?>
                 </a>
             </li>
@@ -113,10 +111,11 @@ class MenuBuilderBasic
     {
         $post = Post::find( $refItemID );
         if ( $post ) {
-            $menuItemInfo = $this->__getMenuInfo( $menuItemID, $menuItemData );
+            $url = cp_get_permalink( $post );
+            $activeClass = ( Str::containsAll( url()->current(), [ $url ] ) ? 'active' : '' );
             ?>
             <li class="<?php esc_attr_e( $cssClass ); ?>">
-                <a href="<?php esc_attr_e( $menuItemInfo[ 'url' ] ); ?>" class="<?php esc_attr_e( cp_activate_menu_item( $menuItemInfo[ 'url' ] ) ); ?>">
+                <a href="<?php esc_attr_e( $url ); ?>" class="<?php esc_attr_e( $activeClass ); ?>">
                     <?php echo wp_kses_post( $post->title ); ?>
                 </a>
             </li>
