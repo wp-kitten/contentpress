@@ -100,6 +100,13 @@
                                         </div>
                                     @endforeach
                                 </div>
+                                <div class="row">
+                                    <div class="col-sm-12">
+                                        <div class="pagination-wrap mt-4 mb-4">
+                                            {!! $posts->render() !!}
+                                        </div>
+                                    </div>
+                                </div>
                             @endif
                         </div>
                     </div>

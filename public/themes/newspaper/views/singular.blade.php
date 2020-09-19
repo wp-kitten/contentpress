@@ -42,7 +42,7 @@
 
                         <!-- POST IMAGE -->
                         <header class="entry-header">
-                            {!! $newspaperHelper->getPostImageOrPlaceholder($post, '', 'image-responsive') !!}
+                            {!! $newspaperHelper->getPostImageOrPlaceholder($post, '', 'image-responsive', [ 'alt' => $post->title ]) !!}
                         </header>
 
                         <!-- POST TITLE -->
@@ -58,8 +58,8 @@
                                 <span>
                                 <i class="fa fa-folder-open"></i>
                                 @foreach($post->categories()->get() as $category)
-                                        <a href="{{cp_get_category_link($category)}}" class="category-link">{!! $category->name !!}</a>
-                                    @endforeach
+                                    <a href="{{cp_get_category_link($category)}}" class="category-link">{!! $category->name !!}</a>
+                                @endforeach
                             </span>
                             @endif
                         </section>
