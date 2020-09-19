@@ -15,7 +15,7 @@
             @if(cp_current_user_can('delete_menu'))
                 <ul class="list-unstyled list-inline mb-0">
                     <li>
-                        <a href="{{route('admin.media.delete', $menu->id)}}"
+                        <a href="#"
                            data-confirm="{{__('a.Are you sure you want to delete this menu?')}}"
                            data-form-id="form-menu-delete-{{$menu->id}}"
                            class="btn btn-danger">{{__('a.Delete')}}</a>
