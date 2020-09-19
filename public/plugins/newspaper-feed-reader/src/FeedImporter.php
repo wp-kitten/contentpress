@@ -2,7 +2,6 @@
 
 namespace App\Helpers;
 
-use App\Category;
 use App\Feed;
 use App\Helpers\Syndication\FeedReader;
 use App\MediaFile;
@@ -364,6 +363,11 @@ class FeedImporter
         $imageUrl = strtok( $imageUrl, '?' );
 
         $extension = pathinfo( $imageUrl, PATHINFO_EXTENSION );
+
+        if ( empty( $extension ) ) {
+            return false;
+        }
+
         $fn = md5( basename( $imageUrl ) );
 
         //#! If the file already exists
@@ -374,35 +378,40 @@ class FeedImporter
         }
 
         //#! Download & import the file
-        $fileData = file_get_contents( $imageUrl );
-        if ( !empty( $fileData ) ) {
-            //#! Year /month/day since we're importing lots of feeds and the number of images
-            //#! might get gigantic over a month period. This avoids reaching the max number of files
-            //#! per directory
-            $subdirs = date( 'Y' ) . '/' . date( 'n' ) . '/' . date( 'j' );
-            $saveDirPath = public_path( "uploads/files/{$subdirs}" );
-            if ( !File::isDirectory( $saveDirPath ) ) {
-                File::makeDirectory( $saveDirPath, 0777, true );
-            }
+        try {
+            //#! Since some hosts might refuse our requests...
+            $fileData = file_get_contents( $imageUrl );
+            if ( !empty( $fileData ) ) {
+                //#! Year /month/day since we're importing lots of feeds and the number of images
+                //#! might get gigantic over a month period. This avoids reaching the max number of files
+                //#! per directory
+                $subdirs = date( 'Y' ) . '/' . date( 'n' ) . '/' . date( 'j' );
+                $saveDirPath = public_path( "uploads/files/{$subdirs}" );
+                if ( !File::isDirectory( $saveDirPath ) ) {
+                    File::makeDirectory( $saveDirPath, 0777, true );
+                }
 
-            $saveFilePath = "{$saveDirPath}/{$fn}.{$extension}";
-            file_put_contents( $saveFilePath, $fileData );
-            if ( !File::isFile( $saveFilePath ) ) {
+                $saveFilePath = "{$saveDirPath}/{$fn}.{$extension}";
+                file_put_contents( $saveFilePath, $fileData );
+                if ( !File::isFile( $saveFilePath ) ) {
+                    return false;
+                }
+
+                $r = $this->mediaFile->create( [
+                    'slug' => $slug,
+                    'path' => $subdirs . '/' . "{$fn}.{$extension}",
+                    'language_id' => $this->languageID,
+                ] );
+
+                //#! Resize image
+                if ( $r && $r->id ) {
+                    ImageHelper::resizeImage( $saveFilePath, $r );
+                    return $r->id;
+                }
                 return false;
             }
-
-            $r = $this->mediaFile->create( [
-                'slug' => $slug,
-                'path' => $subdirs . '/' . "{$fn}.{$extension}",
-                'language_id' => $this->languageID,
-            ] );
-
-            //#! Resize image
-            if ( $r && $r->id ) {
-                ImageHelper::resizeImage( $saveFilePath, $r );
-                return $r->id;
-            }
-            return false;
+        }
+        catch ( \Exception $e ) {
         }
         return false;
     }
