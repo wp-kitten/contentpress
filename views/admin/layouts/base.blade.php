@@ -22,8 +22,8 @@
 
     {{-- Fonts --}}
     <link rel="dns-prefetch" href="//fonts.gstatic.com"/>
-    <link href="https://fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400;1,700;1,900&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Niconne&display=swap" rel="stylesheet"/>
+    <link href="//fonts.googleapis.com/css2?family=Lato:ital,wght@0,300;0,400;0,700;0,900;1,400;1,700;1,900&display=swap" rel="stylesheet"/>
+    <link href="//fonts.googleapis.com/css2?family=Niconne&display=swap" rel="stylesheet"/>
     {{--    <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>--}}
 
     {{-- Selectize.js --}}
@@ -41,7 +41,7 @@
     <link href="{{asset('_admin/css/admin-helpers.css')}}" rel="stylesheet" type="text/css"/>
 
     {{-- Scripts --}}
-    <script src="https://kit.fontawesome.com/cec4674fec.js" crossorigin="anonymous"></script>
+    <script src="//kit.fontawesome.com/cec4674fec.js"></script>
     <script src="{{ asset('_admin/js/app-dependencies.js') }}"></script>
     <script src="{{asset('vendor/jquery.toast/jquery.toast.min.js')}}"></script>
 
