@@ -435,7 +435,7 @@ class FeedImporter
         //#! If the file already exists
         $slug = Str::slug( $fn );
         $entry = $this->mediaFile->where( 'slug', $slug )->first();
-        if ( $entry ) {
+        if ( $entry && $entry->id ) {
             return $entry->id;
         }
 
@@ -466,7 +466,7 @@ class FeedImporter
             //#! Resize image
             if ( $r && $r->id ) {
                 ImageHelper::resizeImage( $saveFilePath, $r );
-                return true;
+                return $r->id;
             }
             return false;
         }
