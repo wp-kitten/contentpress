@@ -6,7 +6,14 @@
     /**@var App\Newspaper\NewspaperHelper $newspaperHelper*/
     /**@var App\Post $post */
     /**@var App\Category $category */
-    $posts = $newspaperHelper->clearOutCache()->categoryTreeGetPosts($category, $postStatusID, 6);
+    $cacheKey = "home-section-5-{$category->id}";
+    $posts = $cache->get($cacheKey);
+    if( ! $posts ) {
+        $posts = $newspaperHelper->clearOutCache()->categoryTreeGetPosts($category, $postStatusID, 6);
+        if( ! empty( $posts ) ) {
+            $cache->set( $cacheKey, $posts );
+        }
+    }
 @endphp
 @if($posts)
     <div class="row">

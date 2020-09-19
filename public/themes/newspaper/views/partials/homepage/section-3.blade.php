@@ -12,7 +12,14 @@
     /**@var App\Newspaper\NewspaperHelper $newspaperHelper*/
     /**@var App\Post $post */
 
-    $posts = $newspaperHelper->clearOutCache()->categoryTreeGetPosts($category, $postStatusID, 5);
+    $cacheKey = "home-section-3-{$category->id}";
+    $posts = $cache->get($cacheKey);
+    if( ! $posts ) {
+        $posts = $newspaperHelper->clearOutCache()->categoryTreeGetPosts($category, $postStatusID, 5);
+         if( ! empty( $posts ) ) {
+            $cache->set($cacheKey, $posts);
+        }
+   }
     $postsLeft = [];
     $postsRight = [];
     if(! empty($posts)){

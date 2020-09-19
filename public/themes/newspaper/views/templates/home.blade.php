@@ -13,6 +13,8 @@
     //#! Get homepage sections
     $sections = $newspaperHelper->getThemeOption('homepage', []);
 
+    //#! Cache
+    $cache = app('cp.cache');
 @endphp
 
 
@@ -45,6 +47,7 @@
                                 'category' => $category,
                                 'newspaperHelper' => $newspaperHelper,
                                 'postStatusID' => $postStatusID,
+                                'cache' => $cache,
                             ])
                         @endforeach
                     @endif
