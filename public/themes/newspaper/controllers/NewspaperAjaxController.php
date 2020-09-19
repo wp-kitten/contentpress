@@ -87,7 +87,7 @@ class NewspaperAjaxController extends Controller
             foreach ( $posts as $i => $post ) {
                 array_push( $cache[ 'ids' ], $post->id );
                 $cache[ 'posts' ][ $post->id ] = [
-                    'image_url' => $newspaperHelper->getPostImageOrPlaceholder( $post ),
+                    'image_url' => $newspaperHelper->getPostImageOrPlaceholder( $post, '', 'image-responsive', [ 'alt' => $post->title ] ),
                     'post_title' => $post->title,
                     'post_url' => cp_get_permalink( $post ),
                     'category_name' => $post->firstCategory()->name,

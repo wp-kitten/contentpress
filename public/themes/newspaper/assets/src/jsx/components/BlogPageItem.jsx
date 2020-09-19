@@ -24,7 +24,7 @@ class BlogPageItem extends Component {
         return (image_url.length ? <div className="col-xs-12 col-sm-6 col-md-4 masonry-item">
             <article className="hentry-loop">
                 <header className="hentry-header">
-                    {image_url && <img src={image_url} alt={post_title} className="image-responsive"/>}
+                    {image_url && <div dangerouslySetInnerHTML={{__html: image_url}}></div>}
                     {category_url && <div className="hentry-category bg-danger">
                         <a href={category_url} className="text-light">
                             {category_name}
