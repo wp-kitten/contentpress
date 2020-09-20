@@ -37,8 +37,23 @@ Route::any( "search", "NewspaperThemeController@search" )->name( "blog.search" )
 
 //#! Special entries
 Route::get( "lang/{code}", "NewspaperThemeController@lang" )->name( "app.switch_language" );
-
 Route::post( 'comment/{post_id}', "NewspaperThemeController@__submitComment" )->name( 'app.submit_comment' );
+
+/*
+ * Register the route for user's custom home page, if:
+ *  - the feed reader plugin is active
+ *  - the theme option is enabled
+ *
+ * Requires auth & active user
+ */
+if ( defined( 'NPFR_PLUGIN_DIR_NAME' ) && np_userCustomHomeEnabled() ) {
+    Route::get( "my-feeds", "NewspaperThemeController@userCustomHome" )
+        ->middleware( [ 'auth', 'active_user', 'under_maintenance' ] )
+        ->name( "app.my_feeds" );
+    Route::get( "my-feeds/{category_slug}", "NewspaperThemeController@userCustomHomeCategoryView" )
+        ->middleware( [ 'auth', 'active_user', 'under_maintenance' ] )
+        ->name( "app.my_feeds.category" );
+}
 
 /*
  * Dynamic routes for post types

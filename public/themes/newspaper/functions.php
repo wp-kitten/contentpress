@@ -2,8 +2,10 @@
 
 use App\CommentStatuses;
 use App\Feed;
+use App\Options;
 use App\Post;
 use App\PostComments;
+use App\Settings;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 
@@ -15,6 +17,7 @@ require_once( NP_THEME_DIR_PATH . '/src/NewspaperHelper.php' );
 require_once( NP_THEME_DIR_PATH . '/controllers/NewspaperAdminController.php' );
 require_once( NP_THEME_DIR_PATH . '/controllers/NewspaperThemeController.php' );
 require_once( NP_THEME_DIR_PATH . '/controllers/NewspaperAjaxController.php' );
+require_once( NP_THEME_DIR_PATH . '/models/User.php' );
 require_once( NP_THEME_DIR_PATH . '/theme-hooks.php' );
 
 //#! If w = 0, then size will be ignored
@@ -208,6 +211,23 @@ function np_isUserFeed( int $feedID, string $specialCategorySlug = NPFR_CATEGORY
             $parentCat = $category->parent()->first();
             return ( $parentCat && $parentCat->slug == $specialCategorySlug );
         }
+    }
+    return false;
+}
+
+/**
+ * Check to see whether the user custom home feature is enabled
+ * @return bool
+ */
+function np_userCustomHomeEnabled()
+{
+    $userRegistrationOpen = ( new Settings() )->getSetting( 'user_registration_open' );
+    if ( $userRegistrationOpen ) {
+        $themeOptions = ( new Options() )->getOption( \App\Http\Controllers\NewspaperAdminController::THEME_OPTIONS_OPT_NAME, [] );
+        if ( !isset( $themeOptions[ 'general' ] ) ) {
+            return false;
+        }
+        return ( is_array( $themeOptions[ 'general' ] ) && isset( $themeOptions[ 'general' ][ 'enable_user_custom_home' ] ) );
     }
     return false;
 }

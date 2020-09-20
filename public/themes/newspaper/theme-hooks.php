@@ -159,6 +159,13 @@ add_action( 'contentpress/menu::main-menu', function ( Menu $menu ) {
         </div>
         <?php
     }
+
+    //#! Inject link to user's custom home if the feature is enabled
+    if ( defined( 'NPFR_PLUGIN_DIR_NAME' ) && np_userCustomHomeEnabled() ) {
+        echo '<a href="' . esc_attr( route( 'app.my_feeds' ) ) . '">';
+        echo esc_html( __( 'np::m.My Feeds' ) );
+        echo '</a>';
+    }
 } );
 //</editor-fold desc=":: MAIN MENU ::">
 

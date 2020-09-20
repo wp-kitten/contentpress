@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\Feed;
 use App\Helpers\CPML;
+use App\Newspaper\User as NpUser;
 use App\Post;
 use App\PostStatus;
 use App\PostType;
@@ -23,9 +25,9 @@ class NewspaperThemeController extends SiteController
      */
     public function index()
     {
-        return view( 'index' )->with([
+        return view( 'index' )->with( [
             'options' => NewspaperAdminController::getThemeOptions(),
-        ]);
+        ] );
     }
 
     public function maintenance()
@@ -282,7 +284,7 @@ class NewspaperThemeController extends SiteController
             } )
             //#! Only include results from within the last month
             ->whereDate( 'created_at', '>', Carbon::now()->subMonth() )
-            ->orderBy('id', $order );
+            ->orderBy( 'id', $order );
 
         $numResults = $posts->count();
 
@@ -290,7 +292,7 @@ class NewspaperThemeController extends SiteController
 
         return view( 'search' )->with( [
             'posts' => $posts,
-            'numResults' => $numResults ,
+            'numResults' => $numResults,
             'order' => $order,
         ] );
     }
@@ -299,5 +301,61 @@ class NewspaperThemeController extends SiteController
     {
         do_action( 'contentpress/submit_comment', $this, $post_id );
         return redirect()->back();
+    }
+
+    /*
+     * Render the user's custom home if the feature is enabled
+     */
+    public function userCustomHome()
+    {
+        $userID = cp_get_current_user_id();
+        $feeds = NpUser::find( $userID )->feeds()->get();
+        $categories = [];
+        if ( !empty( $feeds ) ) {
+            foreach ( $feeds as $feed ) {
+                $category = $feed->category()->first();
+                if ( !isset( $categories[ $category->id ] ) ) {
+                    $categories[ $category->id ] = [
+                        'category' => $category,
+                        'count' => 0,
+                    ];
+                }
+                $categories[ $category->id ][ 'count' ]++;
+            }
+        }
+
+        return view( 'user-custom-home/home' )->with( [
+            'user_id' => $userID,
+            'feeds' => $feeds,
+            'categories' => $categories,
+        ] );
+    }
+
+    public function userCustomHomeCategoryView( $category_slug )
+    {
+        if ( !defined( 'NPFR_CATEGORY_PRIVATE' ) ) {
+            return view( '404' );
+        }
+        $category = Category::where( 'slug', $category_slug )
+            ->where( 'language_id', cp_get_frontend_user_language_id() )
+            ->where( 'post_type_id', PostType::where( 'name', 'post' )->first()->id )
+            ->first();
+        if ( !$category ) {
+            return view( '404' );
+        }
+
+        $parentCategory = $category->parent()->first();
+        if ( !$parentCategory ) {
+            return view( '404' );
+        }
+        if ( !in_array( $parentCategory->slug, [ NPFR_CATEGORY_PRIVATE, NPFR_CATEGORY_PUBLIC ] ) ) {
+            return view( '404' );
+        }
+
+        return view( 'user-custom-home/category' )->with( [
+            'category' => $category,
+            'parent_category' => $parentCategory,
+            'feeds' => Feed::where( 'user_id', cp_get_current_user_id() )->where('category_id', $category->id)->get(),
+        ] );
     }
 }

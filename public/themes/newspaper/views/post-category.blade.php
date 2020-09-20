@@ -79,7 +79,6 @@
                                     @foreach($posts as $post)
                                         <div class="col-xs-12 col-sm-6 col-md-4 masonry-item">
                                             <article class="hentry-loop">
-
                                                 <header class="hentry-header">
                                                     {!! $newspaperHelper->getPostImageOrPlaceholder($post, '', 'image-responsive', ['alt' => $post->title]) !!}
                                                     <div class="hentry-category bg-danger">

@@ -98,7 +98,7 @@ return [
     'Edit feed' => 'Edit feed',
     'Update' => 'Update',
     'Feed updated.' => 'Feed updated.',
-    '' => '',
+    'My Feeds' => 'My Feeds',
     '' => '',
     '' => '',
     '' => '',
