@@ -73,7 +73,10 @@ class FeedImporter
         $this->currentUserID = cp_get_current_user_id();
         if ( !cp_user_can( $this->currentUserID, 'administrator' ) ) {
             //#! Pick the first super admin
-            $user = Role::where( 'name', Role::ROLE_SUPER_ADMIN )->orWhere( 'name', Role::ROLE_ADMIN )->first()->users()->first();
+            $user = Role::where( 'name', Role::ROLE_SUPER_ADMIN )->first()->users()->first();
+            if ( !$user ) {
+                $user = Role::orWhere( 'name', Role::ROLE_ADMIN )->first()->users()->first();
+            }
             $this->currentUserID = $user->id;
         }
         $this->mediaFile = new MediaFile();
@@ -156,7 +159,6 @@ class FeedImporter
                             }
 
                             $linkBack = ( isset( $entry[ 'link' ] ) ? trim( $entry[ 'link' ] ) : false );
-                            $entryCategory = ( isset( $entry[ 'category' ] ) ? trim( $entry[ 'category' ] ) : false );
                             $keywords = ( isset( $entry[ 'media:keywords' ] ) ? trim( $entry[ 'media:keywords' ] ) : false );
                             $imageUrl = '';
                             if ( isset( $entry[ 'image' ] ) && !empty( $entry[ 'image' ] ) ) {

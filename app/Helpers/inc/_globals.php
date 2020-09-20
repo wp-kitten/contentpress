@@ -6,7 +6,7 @@ use App\Post;
  * The current version of the application
  * @var float
  */
-define( 'CONTENTPRESS_VERSION', '0.2' );
+define( 'CONTENTPRESS_VERSION', '0.3' );
 
 /**
  * Holds the url to the api server

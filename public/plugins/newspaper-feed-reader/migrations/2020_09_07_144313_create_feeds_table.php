@@ -18,10 +18,12 @@ class CreateFeedsTable extends Migration
             $table->longText( 'url' );
             $table->string( 'hash', 100 )->unique();
             $table->unsignedBigInteger( 'category_id' )->nullable();
+            $table->unsignedBigInteger( 'user_id' );
             $table->timestamps();
             $table->softDeletes();
 
             $table->foreign( 'category_id' )->references( 'id' )->on( 'categories' )->cascadeOnDelete();
+            $table->foreign( 'user_id' )->references( 'id' )->on( 'users' )->cascadeOnDelete();
         } );
     }
 

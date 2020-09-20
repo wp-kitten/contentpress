@@ -16,6 +16,17 @@ define( 'NPFR_PLUGIN_DIR_PATH', dirname( __FILE__ ) );
  */
 define( 'NPFR_PROCESS_OPT_NAME', 'cp_feed_reader_running' );
 
+/**
+ * Stores the name of the special category: public
+ * @var string
+ */
+define( 'NPFR_CATEGORY_PUBLIC', 'public' );
+/**
+ * Stores the name of the special category: private
+ * @var string
+ */
+define( 'NPFR_CATEGORY_PRIVATE', 'private' );
+
 require_once( NPFR_PLUGIN_DIR_PATH . '/src/Models/Feed.php' );
 require_once( NPFR_PLUGIN_DIR_PATH . '/src/Syndication/ISyndication.php' );
 require_once( NPFR_PLUGIN_DIR_PATH . '/src/Syndication/AtomReader.php' );

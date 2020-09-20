@@ -1,6 +1,7 @@
 <?php
 
 use App\CommentStatuses;
+use App\Feed;
 use App\Post;
 use App\PostComments;
 use Illuminate\Http\RedirectResponse;
@@ -187,4 +188,26 @@ function np_menuRenderAuthLinks()
             echo '<a href="' . esc_attr( $links[ 'register' ] ) . '">' . esc_html( __( 'np::m.Register' ) ) . '</a>';
         }
     }
+}
+
+/**
+ * Check to see whether the specified $feedID is part of the provided $specialCategorySlug
+ * @param int $feedID
+ * @param string $specialCategorySlug
+ * @return bool
+ */
+function np_isUserFeed( int $feedID, string $specialCategorySlug = NPFR_CATEGORY_PRIVATE )
+{
+    if ( !defined( 'NPFR_CATEGORY_PRIVATE' ) ) {
+        return false;
+    }
+    $feed = Feed::find( $feedID );
+    if ( $feed ) {
+        $category = $feed->category()->first();
+        if ( $category ) {
+            $parentCat = $category->parent()->first();
+            return ( $parentCat && $parentCat->slug == $specialCategorySlug );
+        }
+    }
+    return false;
 }

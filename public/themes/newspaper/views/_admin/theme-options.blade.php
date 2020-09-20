@@ -6,6 +6,12 @@
 @endsection
 
 @php
+    $registrationEnabled = $settings->getSetting('user_registration_open');
+
+    $generalOptions = [];
+    $generalOptions['enable_user_custom_home'] = (isset($options['general']['enable_user_custom_home']) ? $options['general']['enable_user_custom_home'] : false);
+
+
     $homepageOptions = [];
     $homepageOptions['section-1'] = (isset($options['homepage']['section-1']) ? intval($options['homepage']['section-1']) : 0);
     $homepageOptions['section-2'] = (isset($options['homepage']['section-2']) ? intval($options['homepage']['section-2']) : 0);
@@ -17,7 +23,7 @@
 @endphp
 
 @section('main')
-
+    {{--<pre>@php var_export($options) @endphp</pre>--}}
     <form method="post" action="{{route('admin.themes.newspaper-options.save')}}" class="np-theme-options-page-wrap">
         @csrf
         <div class="app-title">
@@ -39,6 +45,33 @@
         @include('admin.partials.notices')
 
         @if(cp_current_user_can('manage_options'))
+
+            {{-- GENERAL OPTIONS --}}
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="tile">
+                        <h3 class="tile-title">{{__('np::m.General Options')}}</h3>
+
+                        <div class="form-group">
+
+                            <p class="text-description">{{__('np::m.Enabling this option will allow registered users to customize the website homepage to display their selected feeds.')}}</p>
+                            @if($registrationEnabled && defined('NPFR_PLUGIN_DIR_NAME'))
+                                @php $checked = ($generalOptions['enable_user_custom_home'] ? 'checked' : ''); @endphp
+                                <input type="checkbox"
+                                       id="chk-enable_user_custom_home"
+                                       name="general[enable_user_custom_home]"
+                                       {!! $checked !!}
+                                       value="1"/>
+                                <label for="chk-enable_user_custom_home">{{__('np::m.Allow users to have custom homepages?')}}</label>
+                            @else
+                                <p class="text-danger">{{__('np::m.In order to have this functionality the user registration must be opened.')}}</p>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {{-- HOMEPAGE OPTIONS --}}
             <div class="row">
                 <div class="col-sm-12">
                     <div class="tile">

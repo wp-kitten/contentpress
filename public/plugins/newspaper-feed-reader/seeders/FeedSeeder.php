@@ -135,8 +135,16 @@ class FeedSeeder extends Seeder
         $postTypeID = PostType::where( 'name', 'post' )->first()->id;
         $languageID = CPML::getDefaultLanguageID();
 
-        //#! Create categories and add meta fields
-        $catClass = new Category();
+        //#! Create the special categories and add meta fields
+        $specialCategories = [ NPFR_CATEGORY_PUBLIC, NPFR_CATEGORY_PRIVATE ];
+        foreach ( $specialCategories as $categoryName ) {
+            Category::create( [
+                'name' => $categoryName,
+                'slug' => Str::slug( $categoryName ),
+                'post_type_id' => PostType::where( 'name', 'post' )->first()->id,
+                'language_id' => CPML::getDefaultLanguageID(),
+            ] );
+        }
 
         ///===============================
         //#! Create categories, subcategories & feeds
@@ -188,6 +196,7 @@ class FeedSeeder extends Seeder
                 $feed = Feed::create( [
                     'url' => $feedUrl,
                     'hash' => md5( $feedUrl ),
+                    'user_id' => cp_get_current_user_id(),
                     'category_id' => $theCat->id,
                 ] );
                 if ( !$feed ) {
@@ -242,6 +251,7 @@ class FeedSeeder extends Seeder
                         $feed = Feed::create( [
                             'url' => $feedUrl,
                             'hash' => md5( $feedUrl ),
+                            'user_id' => cp_get_current_user_id(),
                             'category_id' => $theSubCat->id,
                         ] );
                         if ( !$feed ) {
@@ -259,6 +269,7 @@ class FeedSeeder extends Seeder
                             $feed = Feed::createOrUpdate( [
                                 'url' => $feedUrl,
                                 'hash' => md5( $feedUrl ),
+                                'user_id' => cp_get_current_user_id(),
                                 'category_id' => $theSubCat->id,
                             ] );
                             if ( !$feed ) {

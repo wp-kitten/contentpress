@@ -10,6 +10,7 @@ use App\Menu;
 use App\Options;
 use App\Post;
 use App\PostMeta;
+use App\Settings;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
@@ -381,3 +382,26 @@ add_action( 'contentpress/switch_theme', function ( $currentThemeName, $oldTheme
         $options->addOption( NewspaperAdminController::THEME_OPTIONS_OPT_NAME, NewspaperAdminController::getDefaultThemeOptions() );
     }
 }, 20, 2 );
+
+/*
+ * Adds the menu entry to admin sidebar > users that allows them to manage their feeds
+ */
+add_action( 'contentpress/admin/sidebar/menu/users', function () {
+    if ( defined( 'NPFR_PLUGIN_DIR_NAME' ) ) {
+        $settings = new Settings();
+        if ( $settings->getSetting( 'user_registration_open' ) ) {
+            $options = new Options();
+            $themeOptions = $options->getOption( NewspaperAdminController::THEME_OPTIONS_OPT_NAME, [] );
+            if ( isset( $themeOptions[ 'general' ] ) &&
+                isset( $themeOptions[ 'general' ][ 'enable_user_custom_home' ] ) &&
+                !empty( $themeOptions[ 'general' ][ 'enable_user_custom_home' ] ) ) {
+                ?>
+                <li>
+                    <a class="treeview-item <?php App\Helpers\MenuHelper::activateSubmenuItem( 'admin.users.feeds.all' ); ?>"
+                       href="<?php echo esc_attr( route( 'admin.users.feeds.all' ) ); ?>"><?php esc_attr_e( __( 'np::m.Your feeds' ) ); ?></a>
+                </li>
+                <?php
+            }
+        }
+    }
+} );

@@ -68,3 +68,27 @@ function getAdminBaseController()
 {
     return new AdminControllerBase();
 }
+
+/**
+ * Retrieve the Model for the special category: public
+ * @return mixed
+ */
+function npfrGetCategoryPublic()
+{
+    return Category::where( 'slug', NPFR_CATEGORY_PUBLIC )
+        ->where( 'language_id', CPML::getDefaultLanguageID() )
+        ->where( 'post_type_id', PostType::where( 'name', 'post' )->first()->id )
+        ->first();
+}
+
+/**
+ * Retrieve the Model for the special category: private
+ * @return mixed
+ */
+function npfrGetCategoryPrivate()
+{
+    return Category::where( 'slug', NPFR_CATEGORY_PRIVATE )
+        ->where( 'language_id', CPML::getDefaultLanguageID() )
+        ->where( 'post_type_id', PostType::where( 'name', 'post' )->first()->id )
+        ->first();
+}

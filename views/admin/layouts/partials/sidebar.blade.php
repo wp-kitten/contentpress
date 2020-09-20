@@ -245,6 +245,7 @@
                 </ul>
             </li>
         @endif
+
         {{-- USERS --}}
         <li class="treeview {{App\Helpers\MenuHelper::activateMenuItem('admin.users')}}">
             <a class="app-menu__item" href="#" data-toggle="treeview">

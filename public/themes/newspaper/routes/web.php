@@ -67,3 +67,23 @@ Route::get( 'admin/themes/newspaper-options', 'NewspaperAdminController@themeOpt
 Route::post( 'admin/themes/newspaper-options/save', 'NewspaperAdminController@themeOptionsSave' )
     ->middleware( [ 'web', 'auth', 'active_user', 'under_maintenance' ] )
     ->name( 'admin.themes.newspaper-options.save' );
+/*
+ * Routes for user's feeds management
+ */
+if ( defined( 'NPFR_PLUGIN_DIR_NAME' ) ) {
+    Route::get( 'admin/users/feeds', 'NewspaperAdminController@userFeedsView' )
+        ->middleware( [ 'web', 'auth', 'active_user', 'under_maintenance' ] )
+        ->name( 'admin.users.feeds.all' );
+    Route::post( 'admin/users/feeds/submit', 'NewspaperAdminController@userFeedSubmit' )
+        ->middleware( [ 'web', 'auth', 'active_user', 'under_maintenance' ] )
+        ->name( 'admin.users.feeds.submit' );
+    Route::post( 'admin/users/feeds/delete/{id}', 'NewspaperAdminController@userFeedDelete' )
+        ->middleware( [ 'web', 'auth', 'active_user', 'under_maintenance' ] )
+        ->name( 'admin.users.feeds.delete' );
+    Route::get( 'admin/users/feeds/edit/{id}', 'NewspaperAdminController@userFeedsEdit' )
+        ->middleware( [ 'web', 'auth', 'active_user', 'under_maintenance' ] )
+        ->name( 'admin.users.feeds.edit' );
+    Route::post( 'admin/users/feeds/update/{id}', 'NewspaperAdminController@userFeedsUpdate' )
+        ->middleware( [ 'web', 'auth', 'active_user', 'under_maintenance' ] )
+        ->name( 'admin.users.feeds.update' );
+}

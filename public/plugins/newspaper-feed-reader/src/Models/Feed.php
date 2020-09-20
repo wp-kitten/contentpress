@@ -10,12 +10,17 @@ class Feed extends Model
     use SoftDeletes;
 
     protected $fillable = [
-        'url', 'hash', 'category_id', 'created_at', 'updated_at',
+        'url', 'hash', 'user_id', 'category_id', 'created_at', 'updated_at',
     ];
 
     public function category()
     {
         return $this->belongsTo( Category::class );
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany( User::class );
     }
 
     public function exists( $url )
