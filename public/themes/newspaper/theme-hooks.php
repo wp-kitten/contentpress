@@ -43,8 +43,8 @@ add_action( 'contentpress/site/head', function () {
     //#! [DEBUG] Prevent the browser from caching resources
     $qv = ( env( 'APP_DEBUG' ) ? '?t=' . time() : '' );
 
-    ScriptsManager::enqueueStylesheet( 'gfont-nunito', '//fonts.googleapis.com/css2?family=Nunito:ital,wght@0,400;0,600;0,700;0,800;0,900;1,400;1,600;1,700;1,800;1,900&display=swap' );
-    ScriptsManager::enqueueStylesheet( 'gfont-libre-baskerville', '//fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&display=swap' );
+    ScriptsManager::enqueueStylesheet( 'gfont-montserrat', '//fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600;1,700;1,800;1,900&display=swap' );
+    ScriptsManager::enqueueStylesheet( 'gfont-open-sans', '//fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,400;0,600;0,700;0,800;1,400;1,600;1,700;1,800&display=swap' );
 
     ScriptsManager::enqueueStylesheet( 'conveyor-ticker.css', $theme->url( 'assets/vendor/conveyor-ticker/jquery.jConveyorTicker.min.css' ) );
     ScriptsManager::enqueueStylesheet( 'bootstrap.css', $theme->url( 'assets/vendor/bootstrap/bootstrap.min.css' ) );

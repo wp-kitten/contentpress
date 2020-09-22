@@ -16,7 +16,7 @@
     }
 @endphp
 @if($posts)
-    <div class="row">
+    <div class="row s-7">
         <div class="col-sm-12">
             <section class="section-cat-title mt-3">
                 <h3>{!! $category->name !!}</h3>
@@ -36,7 +36,7 @@
                                 <div class="hentry-header">
                                     {!! $newspaperHelper->getPostImageOrPlaceholder($post, '', 'image-responsive', ['alt' => $post->title]) !!}
                                     <h4 class="hentry-title">
-                                        <a href="{{cp_get_permalink($post)}}">{!! cp_ellipsis($post->title, 35) !!}</a>
+                                        <a href="{{cp_get_permalink($post)}}">{!! cp_ellipsis($post->title, 50) !!}</a>
                                     </h4>
                                 </div>
                                 <div class="np-relative">
@@ -50,7 +50,7 @@
                                         </span>
                                         </div>
                                     </div>
-                                    <div class="pt-0 pl-3 pb-3 pr-3">{!! $post->excerpt !!}</div>
+                                    <div class="pt-0 pl-3 pb-3 pr-3">{!! cp_ellipsis($post->excerpt, 80) !!}</div>
                                 </div>
                             </article>
                         </div>

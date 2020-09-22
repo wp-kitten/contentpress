@@ -16,7 +16,7 @@
     }
 @endphp
 @if($posts)
-    <div class="row">
+    <div class="row s-5">
         <div class="col-sm-12">
             <section class="section-cat-title mt-3">
                 <h3>{!! $category->name !!}</h3>

@@ -13,15 +13,16 @@ use App\Settings;
 use App\Tag;
 use App\User;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Route;
 
 /**
  * Retrieve the route to the specified $post
- * @param Post $post
+ * @param Model $post A specific PostType model (ex: Post, Page, Article, whatever)
  * @return string
  */
-function cp_get_permalink( $post )
+function cp_get_permalink( Model $post ): string
 {
     $postType = $post->post_type->name;
 
@@ -36,7 +37,7 @@ function cp_get_permalink( $post )
  * @param Category $category
  * @return string
  */
-function cp_get_category_link( $category )
+function cp_get_category_link( Category $category ): string
 {
     if ( Route::has( "blog.category" ) ) {
         return route( "blog.category", $category->slug );
@@ -49,7 +50,7 @@ function cp_get_category_link( $category )
  * @param User $user
  * @return string
  */
-function cp_get_author_link( $user )
+function cp_get_author_link( User $user ): string
 {
     if ( Route::has( "blog.author" ) ) {
         return route( "blog.author", $user->id );
@@ -62,7 +63,7 @@ function cp_get_author_link( $user )
  * @param Tag $tag
  * @return string
  */
-function cp_get_tag_link( $tag )
+function cp_get_tag_link( Tag $tag ): string
 {
     if ( Route::has( "blog.tag" ) ) {
         return route( "blog.tag", $tag->slug );
@@ -75,7 +76,7 @@ function cp_get_tag_link( $tag )
  * @param Post $post
  * @return string
  */
-function cp_get_post_edit_link( Post $post )
+function cp_get_post_edit_link( Post $post ): string
 {
     return route( "admin.{$post->post_type->name}.edit", $post->id );
 }
@@ -86,7 +87,7 @@ function cp_get_post_edit_link( Post $post )
  * @param int $commentID
  * @return string
  */
-function cp_get_comment_edit_link( Post $post, $commentID )
+function cp_get_comment_edit_link( Post $post, $commentID ): string
 {
     return route( "admin.{$post->post_type->name}.comment.edit", $commentID );
 }
@@ -96,7 +97,7 @@ function cp_get_comment_edit_link( Post $post, $commentID )
  * @param Post|PostComments $post
  * @return false|string
  */
-function cp_the_date( $post )
+function cp_the_date( $post ): string
 {
     $settings = new Settings();
     $dateFormat = $settings->getSetting( 'date_format', 'M j, Y' );
@@ -174,7 +175,7 @@ function cp_search_form( $placeholderText = 'Search', $searchButtonText = 'Searc
  * Retrieve the search query
  * @return mixed|string
  */
-function cp_get_search_query()
+function cp_get_search_query(): string
 {
     return ( \request()->has( 's' ) ? \request()->get( 's' ) : '' );
 }
@@ -229,31 +230,37 @@ function cp_is_page()
 }
 
 /**
- * Print body classes
+ * Retrieve body tag classes
  * @param array $classes
+ * @return string
  * @uses filter contentpress/body-class
  */
-function cp_body_classes( $classes = [] )
+function cp_body_classes( array $classes = [] ): string
 {
     $classes = apply_filters( 'contentpress/body-class', $classes );
-    $classes = array_unique( $classes );
     if ( !empty( $classes ) ) {
-        echo implode( ' ', array_map( 'esc_attr', $classes ) );
+        $classes = array_unique( $classes );
+        $classes = array_map( 'trim', $classes );
+        return implode( ' ', array_map( 'esc_attr', $classes ) );
     }
+    return '';
 }
 
 /**
  * Print post classes
  * @param array $classes
+ * @return string
  * @uses filter contentpress/body-class
  */
-function cp_post_classes( $classes = [] )
+function cp_post_classes( array $classes = [] ): string
 {
     $classes = apply_filters( 'contentpress/post-class', $classes );
-    $classes = array_unique( $classes );
     if ( !empty( $classes ) ) {
-        echo implode( ' ', array_map( 'esc_attr', $classes ) );
+        $classes = array_unique( $classes );
+        $classes = array_map( 'trim', $classes );
+        return implode( ' ', array_map( 'esc_attr', $classes ) );
     }
+    return '';
 }
 
 /**
@@ -261,7 +268,7 @@ function cp_post_classes( $classes = [] )
  * @param null|int $postID
  * @return App\Post|null
  */
-function cp_get_post( $postID = null )
+function cp_get_post( $postID = null ): ?Post
 {
     if ( !empty( $postID ) ) {
         $post = Post::find( $postID );

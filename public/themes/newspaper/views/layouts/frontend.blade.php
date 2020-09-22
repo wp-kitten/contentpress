@@ -19,31 +19,33 @@
         @yield('title')
     @else
         <title>{{ config('app.name', 'ContentPress') }}</title>
-    @endif
+@endif
 
 <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com"/>
 
-    {{contentpressHead()}}
+    @cp_head()
 </head>
 <body class="{{cp_body_classes()}}">
     {{do_action('contentpress/after_body_open')}}
 
 
     {{-- SIDENAV --}}
-    <a href="#" class="btn-open-sidenav" title="{{__( 'np::m.Open side nav' )}}">&#9776;</a>
-    <div id="mySidenav" class="sidenav">
-        <a href="#" class="btn-close-sidenav">&times;</a>
-        <div class="sidenav-content custom-scroll">
-            @hasSection('sidenav')
-                @yield('sidenav')
-            @else
-                <aside class="site-sidebar">
-                    @include('components.blog-sidebar', ['newspaperHelper' => $newspaperHelper])
-                </aside>
-            @endif
+    @if(wp_is_mobile())
+        <a href="#" class="btn-open-sidenav" title="{{__( 'np::m.Open side nav' )}}">&#9776;</a>
+        <div id="mySidenav" class="sidenav">
+            <a href="#" class="btn-close-sidenav">&times;</a>
+            <div class="sidenav-content custom-scroll">
+                @hasSection('sidenav')
+                    @yield('sidenav')
+                @else
+                    <aside class="site-sidebar">
+                        @include('components.blog-sidebar', ['newspaperHelper' => $newspaperHelper])
+                    </aside>
+                @endif
+            </div>
         </div>
-    </div>
+    @endif
 
     @include('partials.site-header')
 
@@ -51,6 +53,6 @@
 
     @include('partials.site-footer')
 
-    {{contentpressFooter()}}
+    @cp_footer()
 </body>
 </html>

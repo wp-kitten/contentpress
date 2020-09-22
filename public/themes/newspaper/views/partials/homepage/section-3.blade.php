@@ -35,7 +35,7 @@
         }
     }
 @endphp
-<div class="row">
+<div class="row s-3">
     @if(!empty($posts))
         <div class="col-sm-12">
             <section class="section-cat-title mt-3">
@@ -59,7 +59,7 @@
                     <section class="hentry-content">
                         <h4 class="hentry-title">
                             <a href={{cp_get_permalink($post)}} class="text-info">
-                                {!! cp_ellipsis($post->title, 50) !!}
+                                {!! cp_ellipsis($post->title, 100) !!}
                             </a>
                         </h4>
                     </section>
@@ -82,7 +82,7 @@
                             <section class="hentry-content">
                                 <h4 class="hentry-title @if(!wp_is_mobile()) title-small font-default @endif">
                                     <a href={{cp_get_permalink($post)}} class="text-info">
-                                        {!! cp_ellipsis($post->title, 50) !!}
+                                       {!! cp_ellipsis($post->title, 60) !!}
                                     </a>
                                 </h4>
                             </section>

@@ -16,7 +16,7 @@
     }
 @endphp
 @if($posts)
-    <div class="row">
+    <div class="row s-6">
         <div class="col-sm-12">
             <section class="section-cat-title mt-3">
                 <h3>{!! $category->name !!}</h3>
@@ -35,7 +35,7 @@
                             <section class="hentry-content">
                                 <h4 class="hentry-title">
                                     <a href={{cp_get_permalink($post)}} class="text-info">
-                                        {!! cp_ellipsis($post->title, 70) !!}
+                                        {!! $post->title !!}
                                     </a>
                                 </h4>
                             </section>

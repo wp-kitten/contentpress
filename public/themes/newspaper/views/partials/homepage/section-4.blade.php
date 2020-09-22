@@ -33,7 +33,7 @@
         }
     }
 @endphp
-<div class="row">
+<div class="row s-4">
     @if(!empty($posts))
         <div class="col-sm-12">
             <section class="section-cat-title mt-3">

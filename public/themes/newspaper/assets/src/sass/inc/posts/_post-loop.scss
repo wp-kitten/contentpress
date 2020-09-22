@@ -19,7 +19,7 @@
         padding: 10px 0;
 
         .hentry-title {
-            font-size: 17px;
+            font-size: 14px;
             line-height: 1.4;
         }
     }
@@ -69,10 +69,13 @@
             z-index: 2;
             margin: 0 0;
             padding: 5px 5px 30px 5px;
-            background: rgba(0,0,0,0.4);
+            background: rgba(0,0,0,0.5);
+            line-height: 1.4;
+            font-size: 0.9rem;
+            font-weight: normal;
 
             a {
-                font-size: 16px;
+                font-size: inherit;
                 color: #fff !important;
             }
         }

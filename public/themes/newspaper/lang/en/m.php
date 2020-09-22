@@ -99,7 +99,7 @@ return [
     'Update' => 'Update',
     'Feed updated.' => 'Feed updated.',
     'My Feeds' => 'My Feeds',
-    '' => '',
+    'Tags:' => 'Tags:',
     '' => '',
     '' => '',
 ];
