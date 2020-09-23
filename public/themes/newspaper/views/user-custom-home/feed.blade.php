@@ -16,7 +16,7 @@
                 <div class="col-sm-12">
                     <h3>{!! $category->name !!}</h3>
                     @if(!$posts || ! $posts->count())
-                        @include('partials.no-content', ['class' => 'info', 'text' => __('np::m.No posts in this category.')])
+                        @include('partials.no-content', ['class' => 'info', 'text' => __('np::m.No posts in this feed.')])
                     @else
                         <div class="row masonry-grid js-masonry-init">
                             <!-- The sizing element for columnWidth -->

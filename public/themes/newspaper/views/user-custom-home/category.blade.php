@@ -13,7 +13,7 @@
             <div class="row">
 
                 {{-- MAIN CONTENT --}}
-                <div class="col-sm-12 col-md-9">
+                <div class="col-sm-12">
                     <h3>{!! $category->name !!}</h3>
                     @if(empty($feeds))
                         @include('partials.no-content', ['class' => 'info', 'text' => __('np::m.No feeds found in this category.')])
@@ -27,16 +27,6 @@
                             @endforeach
                         </p>
                     @endif
-                </div>
-
-                {{-- SIDEBAR --}}
-                <div class="col-md-3 d-none d-md-block d-lg-block">
-                    <aside class="site-sidebar">
-{{--                        @include('user-custom-home.category-sidebar', [--}}
-{{--                            'newspaperHelper' => $newspaperHelper,--}}
-{{--                            'categories' => $categories,--}}
-{{--                        ])--}}
-                    </aside>
                 </div>
 
             </div>

@@ -25,13 +25,28 @@
                         @csrf
 
                         <div class="form-group">
-                            <label for="feed-url">{{__('np::m.Url')}}</label>
-                            <input type="text" class="form-control" name="feed_url" id="feed-url" value="" placeholder="{{__('np::m.Url')}}" maxlength="255" required/>
+                            <label for="website_url">{{__('np::m.Website or feed url')}}</label>
+                            <input type="text" class="form-control" name="website_url" id="website_url" value="" placeholder="{{__('np::m.Url')}}" maxlength="255" required/>
                         </div>
+
+                        <div class="form-group">
+                            <div class="animated-checkbox">
+                                <label for="is_feed">
+                                    <input type="checkbox"
+                                           id="is_feed"
+                                           name="is_feed"
+                                           value="1"
+                                           class=""/>
+                                    <span class="label-text">{{__('np::m.Is feed url?')}}</span>
+                                </label>
+                            </div>
+                        </div>
+
                         <div class="form-group">
                             <label for="feed-category">{{__('np::m.Category')}}</label>
                             <input type="text" class="form-control" name="feed_category" id="feed-category" value="" placeholder="{{__('np::m.Category name')}}" maxlength="50" required/>
                         </div>
+
                         <div class="form-group">
                             <div class="animated-checkbox">
                                 <label for="feed-visibility">

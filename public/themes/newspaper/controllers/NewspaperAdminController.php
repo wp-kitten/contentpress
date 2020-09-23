@@ -11,6 +11,7 @@ use App\Http\Controllers\Admin\AdminControllerBase;
 use App\Newspaper\NewspaperHelper;
 use App\Options;
 use App\PostType;
+use DOMDocument;
 use Illuminate\Support\Str;
 
 class NewspaperAdminController extends AdminControllerBase
@@ -134,23 +135,46 @@ class NewspaperAdminController extends AdminControllerBase
      */
     public function userFeedSubmit()
     {
-        // feed_url, feed_private
+        // website_url, feed_private
         $this->request->validate( [
-            'feed_url' => 'required|string|max:255',
+            'website_url' => 'required|string|max:255',
         ] );
+        $websiteUrl = $this->request->get( 'website_url' );
         $private = $this->request->get( 'feed_private', false );
+        $isFeedUrl = $this->request->get( 'is_feed', false );
         $userID = cp_get_current_user_id();
 
-        $url = $this->__validateFeedUrl( $this->request->get( 'feed_url' ) );
-        if ( !$url ) {
+        $feedUrl = $this->__validateUrl( $websiteUrl );
+        if ( !$feedUrl ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'np::m.The url is not valid.' ),
             ] );
         }
 
+        //#! Check the website for feeds
+        if( ! $isFeedUrl){
+            $feedUrl = $this->__getFeedFromWebsite( $feedUrl );
+            if ( empty( $feedUrl ) ) {
+                return redirect()->back()->with( 'message', [
+                    'class' => 'danger',
+                    'text' => __( 'np::m.We could not find any feed urls in that website.' ),
+                ] );
+            }
+            $domain = parse_url( $websiteUrl, PHP_URL_HOST );
+            $scheme = parse_url( $websiteUrl, PHP_URL_SCHEME );
+            $feedUrl = "{$scheme}://{$domain}/{$feedUrl}";
+            if( ! $this->__validateUrl($feedUrl)){
+                return redirect()->back()->with( 'message', [
+                    'class' => 'danger',
+                    'text' => __( 'np::m.The url is not valid.' ),
+                ] );
+            }
+        }
+
+
         //#! Check if feed exists
-        $hash = md5( $url );
+        $hash = md5( $feedUrl );
         $feed = $this->__feedExists( $hash, $userID, $private );
         if ( $feed && $feed->id ) {
             return redirect()->back()->with( 'message', [
@@ -171,8 +195,8 @@ class NewspaperAdminController extends AdminControllerBase
 
         //#! Public by default
         $feedData = [
-            'hash' => md5( $url ),
-            'url' => $url,
+            'hash' => md5( $feedUrl ),
+            'url' => $feedUrl,
             'category_id' => $feedCategory->id,
             'user_id' => $userID,
         ];
@@ -317,7 +341,7 @@ class NewspaperAdminController extends AdminControllerBase
         $private = $this->request->get( 'feed_private', false );
         $userID = cp_get_current_user_id();
 
-        $url = $this->__validateFeedUrl( $this->request->get( 'feed_url' ) );
+        $url = $this->__validateUrl( $this->request->get( 'feed_url' ) );
         if ( !$url ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
@@ -477,9 +501,45 @@ class NewspaperAdminController extends AdminControllerBase
      * @param string $feedUrl
      * @return false|string
      */
-    private function __validateFeedUrl( string $feedUrl )
+    private function __validateUrl( string $feedUrl )
     {
         $feedUrl = untrailingslashit( strtolower( $feedUrl ) );
         return ( filter_var( $feedUrl, FILTER_VALIDATE_URL ) ? $feedUrl : false );
+    }
+
+    private function __getFeedFromWebsite( string $websiteUrl ): string
+    {
+        $html = file_get_contents( $websiteUrl );
+        if ( !$html || empty( $html ) ) {
+            return '';
+        }
+
+        $htmlDom = new DOMDocument();
+
+        $loaded = @$htmlDom->loadHTML( $html );
+        if ( false === $loaded ) {
+            return '';
+        }
+
+        $links = $htmlDom->getElementsByTagName( 'link' );
+        if ( $links ) {
+            foreach ( $links as $link ) {
+                $attrType = $link->getAttribute( 'type' );
+                if ( strlen( trim( $attrType ) ) == 0 ) {
+                    continue;
+                }
+                $href = $link->getAttribute( 'href' );
+                if ( strlen( trim( $href ) ) == 0 ) {
+                    continue;
+                }
+
+                $types = [ 'application/rss+xml', 'application/atom+xml' ];
+                $attrType = trim( $attrType );
+                if ( in_array( $attrType, $types ) ) {
+                    return strtolower( trim( $href ) );
+                }
+            }
+        }
+        return '';
     }
 }

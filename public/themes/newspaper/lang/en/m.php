@@ -75,6 +75,7 @@ return [
     'Your feeds' => 'Your feeds',
     'Add new feed' => 'Add new feed',
     'Url' => 'Url',
+    'Website or feed url' => 'Website or feed url',
     'Private?' => 'Private?',
     'Your feeds will be automatically updated by a cron job scheduled to run every hour.' => 'Your feeds will be automatically updated by a cron job scheduled to run every hour.',
     'No feeds found. Why not add one?' => 'No feeds found. Why not add one?',
@@ -100,6 +101,8 @@ return [
     'Feed updated.' => 'Feed updated.',
     'My Feeds' => 'My Feeds',
     'Tags:' => 'Tags:',
-    '' => '',
+    'No posts in this feed.' => 'No posts in this feed.',
+    'No feeds found in this category.' => 'No feeds found in this category',
+    'Is feed url?' => 'Is feed url?',
     '' => '',
 ];
