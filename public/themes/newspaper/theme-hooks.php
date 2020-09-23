@@ -7,6 +7,7 @@ use App\Helpers\UserNotices;
 use App\Helpers\Util;
 use App\Http\Controllers\NewspaperAdminController;
 use App\Menu;
+use App\Newspaper\NewspaperUserFeeds;
 use App\Options;
 use App\Post;
 use App\PostMeta;
@@ -50,6 +51,10 @@ add_action( 'contentpress/site/head', function () {
     ScriptsManager::enqueueStylesheet( 'bootstrap.css', $theme->url( 'assets/vendor/bootstrap/bootstrap.min.css' ) );
     ScriptsManager::enqueueStylesheet( 'theme-styles.css', $theme->url( 'assets/dist/css/theme-styles.css' ) . $qv );
     ScriptsManager::enqueueStylesheet( 'theme-overrides.css', $theme->url( 'assets/css/theme-overrides.css' ) . $qv );
+
+    if ( np_userCustomHomeEnabled() ) {
+        ScriptsManager::enqueueStylesheet( 'user-custom-feeds.css', $theme->url( 'assets/css/user-custom-feeds.css' ) . $qv );
+    }
 
     ScriptsManager::enqueueHeadScript( 'jquery.js', $theme->url( 'assets/vendor/jquery.min.js' ) );
     ScriptsManager::enqueueHeadScript( 'popper.js', $theme->url( 'assets/vendor/popper/popper.min.js' ) );
@@ -124,13 +129,13 @@ add_filter( 'contentpress/body-class', function ( $classes = [] ) {
  * Add custom menu items to the main menu
  */
 add_action( 'contentpress/menu::main-menu/before', function ( Menu $menu ) {
-    echo '<div class="topnav bg-light text-dark">';
+//    echo '<div class="topnav bg-dark text-light">';
     $activeClass = ( Route::is( 'app.home' ) ? 'active' : '' );
     echo '<a href="' . route( 'app.home' ) . '" class="menu-item ' . $activeClass . '">' . esc_attr( __( 'np::m.Home' ) ) . '</a>';
 } );
 add_action( 'contentpress/menu::main-menu/after', function ( Menu $menu ) {
     echo '<a href="#" class="icon btn-toggle-nav js-toggle-menu" title="' . esc_attr( __( 'np::m.Toggle menu' ) ) . '">&#9776;</a>';
-    echo '</div>';
+//    echo '</div>';
 } );
 add_action( 'contentpress/menu::main-menu', function ( Menu $menu ) {
     //#! Render the link to the tags page
@@ -144,7 +149,7 @@ add_action( 'contentpress/menu::main-menu', function ( Menu $menu ) {
         ?>
         <div class="has-submenu <?php esc_attr_e( $activeClass ); ?>">
             <button class="show-submenu">
-                <?php esc_html_e( __( 'a.Categories' ) ); ?>
+                <?php esc_html_e( __( 'np::m.Categories' ) ); ?>
                 <i class="fa fa-caret-down"></i>
             </button>
             <div class="submenu-content">
@@ -161,10 +166,32 @@ add_action( 'contentpress/menu::main-menu', function ( Menu $menu ) {
     }
 
     //#! Inject link to user's custom home if the feature is enabled
-    if ( defined( 'NPFR_PLUGIN_DIR_NAME' ) && np_userCustomHomeEnabled() ) {
-        echo '<a href="' . esc_attr( route( 'app.my_feeds' ) ) . '">';
-        echo esc_html( __( 'np::m.My Feeds' ) );
-        echo '</a>';
+    if ( np_userCustomHomeEnabled() ) {
+        $activeClass = ( Str::containsAll( url()->current(), [ route( 'app.my_feeds' ) ] ) ? 'active' : '' );
+        $categories = NewspaperUserFeeds::getUserCategories();
+        ?>
+        <div class="has-submenu <?php esc_attr_e( $activeClass ); ?>">
+            <button class="show-submenu">
+                <?php esc_html_e( __( 'np::m.My Feeds' ) ); ?>
+                <i class="fa fa-caret-down"></i>
+            </button>
+            <div class="submenu-content">
+                <?php
+                $activeClass = ( Route::is( 'app.my_feeds' ) ? 'active' : '' );
+                ?>
+                <a href="<?php esc_attr_e( route( 'app.my_feeds' ) ); ?>" class="menu-item <?php esc_attr_e( $activeClass ); ?>"><?php esc_attr_e( __( 'np::m.Home' ) ); ?></a>
+                <?php
+                foreach ( $categories as $categoryID => $info ) {
+                    $category = $info[ 'category' ];
+                    $numFeeds = $info[ 'count' ];
+                    $url = route( 'app.my_feeds.category', $category->slug );
+                    $activeClass = ( Str::containsAll( url()->current(), [ $url ] ) ? 'active' : '' );
+                    echo '<a href="' . esc_attr( $url ) . '" class="menu-item ' . esc_attr( $activeClass ) . '">' . $category->name . ' (' . $numFeeds . ')</a>';
+                }
+                ?>
+            </div>
+        </div>
+        <?php
     }
 } );
 //</editor-fold desc=":: MAIN MENU ::">

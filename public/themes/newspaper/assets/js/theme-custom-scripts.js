@@ -39,20 +39,23 @@ jQuery( function ($) {
     };
 
     //#! Various places
-    // $( '.masonry-grid' ).masonry( {
-    //     // options
-    //     itemSelector: '.masonry-item',
-    //     columnWidth: '.grid-sizer',
-    //     percentPosition: true,
-    // } );
+    $( '.masonry-grid.js-masonry-init' ).masonry( {
+        // options
+        itemSelector: '.masonry-item',
+        columnWidth: '.grid-sizer',
+        percentPosition: true,
+    } );
 
     //#! Singular: Related posts carousel
     var relatedPostsCarousel = $( '.related-posts' );
     if ( relatedPostsCarousel && relatedPostsCarousel.length ) {
-        var carousel = createSiemaCarousel( relatedPostsCarousel, '.siema-slider', {
-            768: 2,
-            1024: 3,
-        }, false );
+        $.each(relatedPostsCarousel, function(i, el){
+            var carousel = createSiemaCarousel( $(el), '.siema-slider', {
+                768: 2,
+                1024: 3,
+            }, false );
+        });
+
     }
 
     //#! Filter search results

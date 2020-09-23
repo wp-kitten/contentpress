@@ -320,4 +320,5 @@ class NewspaperHelper
         }
         return $default;
     }
+
 }

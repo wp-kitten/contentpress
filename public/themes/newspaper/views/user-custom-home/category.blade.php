@@ -18,18 +18,21 @@
                     @if(empty($feeds))
                         @include('partials.no-content', ['class' => 'info', 'text' => __('np::m.No feeds found in this category.')])
                     @else
-                        @foreach($feeds as $feed)
-                            <p>
-                                <a href="#">{{$feed->url}}</a>
-                            </p>
-                        @endforeach
+                        <p class="uh-category-list">
+                            @foreach($feeds as $feed)
+                                <a href="{{route('app.my_feeds.feed', [ 'category_slug' => $category->slug, 'feed_hash' => $feed->hash])}}"
+                                   class="category-item">
+                                    {{App\Helpers\Util::getDomain($feed->url)}}
+                                </a>
+                            @endforeach
+                        </p>
                     @endif
                 </div>
 
                 {{-- SIDEBAR --}}
                 <div class="col-md-3 d-none d-md-block d-lg-block">
                     <aside class="site-sidebar">
-{{--                        @include('components.user-feeds-sidebar', [--}}
+{{--                        @include('user-custom-home.category-sidebar', [--}}
 {{--                            'newspaperHelper' => $newspaperHelper,--}}
 {{--                            'categories' => $categories,--}}
 {{--                        ])--}}

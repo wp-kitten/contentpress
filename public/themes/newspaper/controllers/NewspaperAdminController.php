@@ -420,8 +420,8 @@ class NewspaperAdminController extends AdminControllerBase
         $postTypeID = PostType::where( 'name', 'post' )->first()->id;
         $userID = cp_get_current_user_id();
 
-        //#! Create the category if it doesn't exist
-        $subcat = Category::where( 'slug', Str::slug( $categoryName ) )
+        //#! Check to see whether the category exists
+        $subcat = Category::where( 'name', strtolower( $categoryName ) )
             ->where( 'language_id', $defaultLanguageID )
             ->where( 'post_type_id', $postTypeID )
             ->where( 'category_id', $parentCategory->id )
@@ -432,9 +432,13 @@ class NewspaperAdminController extends AdminControllerBase
         }
 
         //#! Create
+        $slug = Str::slug( $categoryName );
+        if ( !Util::isUniqueCategorySlug( $slug, $defaultLanguageID, $postTypeID ) ) {
+            $slug = $slug . '-' . time();
+        }
         $subcat = Category::create( [
             'name' => strtolower( $categoryName ),
-            'slug' => Str::slug( $categoryName ),
+            'slug' => $slug,
             'language_id' => $defaultLanguageID,
             'post_type_id' => $postTypeID,
             'category_id' => $parentCategory->id,

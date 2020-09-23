@@ -2,6 +2,7 @@
 
 use App\CommentStatuses;
 use App\Feed;
+use App\Http\Controllers\NewspaperAdminController;
 use App\Options;
 use App\Post;
 use App\PostComments;
@@ -14,6 +15,7 @@ define( 'NP_THEME_DIR_NAME', basename( dirname( __FILE__ ) ) );
 
 require_once( NP_THEME_DIR_PATH . '/src/AdsManager.php' );
 require_once( NP_THEME_DIR_PATH . '/src/NewspaperHelper.php' );
+require_once( NP_THEME_DIR_PATH . '/src/NewspaperUserFeeds.php' );
 require_once( NP_THEME_DIR_PATH . '/controllers/NewspaperAdminController.php' );
 require_once( NP_THEME_DIR_PATH . '/controllers/NewspaperThemeController.php' );
 require_once( NP_THEME_DIR_PATH . '/controllers/NewspaperAjaxController.php' );
@@ -221,13 +223,19 @@ function np_isUserFeed( int $feedID, string $specialCategorySlug = NPFR_CATEGORY
  */
 function np_userCustomHomeEnabled()
 {
+    if ( !defined( 'NPFR_PLUGIN_DIR_NAME' ) ) {
+        return false;
+    }
     $userRegistrationOpen = ( new Settings() )->getSetting( 'user_registration_open' );
     if ( $userRegistrationOpen ) {
-        $themeOptions = ( new Options() )->getOption( \App\Http\Controllers\NewspaperAdminController::THEME_OPTIONS_OPT_NAME, [] );
+        $themeOptions = ( new Options() )->getOption( NewspaperAdminController::THEME_OPTIONS_OPT_NAME, [] );
         if ( !isset( $themeOptions[ 'general' ] ) ) {
             return false;
         }
-        return ( is_array( $themeOptions[ 'general' ] ) && isset( $themeOptions[ 'general' ][ 'enable_user_custom_home' ] ) );
+        return ( is_array( $themeOptions[ 'general' ] ) && isset( $themeOptions[ 'general' ][ 'enable_user_custom_home' ] )
+            ? $themeOptions[ 'general' ][ 'enable_user_custom_home' ]
+            : false
+        );
     }
     return false;
 }

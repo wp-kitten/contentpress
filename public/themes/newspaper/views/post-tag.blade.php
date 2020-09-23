@@ -39,7 +39,7 @@
                             @if(!$posts || ! $posts->count())
                                 @include('partials.no-content', ['class' => 'info', 'text' => __('np::m.No posts under this tag.')])
                             @else
-                                <div class="row masonry-grid">
+                                <div class="row masonry-grid js-masonry-init">
                                     <!-- The sizing element for columnWidth -->
                                     <div class="grid-sizer col-xs-12 col-sm-6 col-md-4"></div>
                                     @foreach($posts as $post)

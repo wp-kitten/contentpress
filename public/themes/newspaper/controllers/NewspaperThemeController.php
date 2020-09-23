@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\Feed;
 use App\Helpers\CPML;
+use App\Newspaper\NewspaperHelper;
+use App\Newspaper\NewspaperUserFeeds;
 use App\Newspaper\User as NpUser;
 use App\Post;
 use App\PostStatus;
@@ -309,24 +311,10 @@ class NewspaperThemeController extends SiteController
     public function userCustomHome()
     {
         $userID = cp_get_current_user_id();
-        $feeds = NpUser::find( $userID )->feeds()->get();
-        $categories = [];
-        if ( !empty( $feeds ) ) {
-            foreach ( $feeds as $feed ) {
-                $category = $feed->category()->first();
-                if ( !isset( $categories[ $category->id ] ) ) {
-                    $categories[ $category->id ] = [
-                        'category' => $category,
-                        'count' => 0,
-                    ];
-                }
-                $categories[ $category->id ][ 'count' ]++;
-            }
-        }
+        $categories = NewspaperUserFeeds::getUserCategories( $userID );
 
         return view( 'user-custom-home/home' )->with( [
             'user_id' => $userID,
-            'feeds' => $feeds,
             'categories' => $categories,
         ] );
     }
@@ -340,6 +328,7 @@ class NewspaperThemeController extends SiteController
             ->where( 'language_id', cp_get_frontend_user_language_id() )
             ->where( 'post_type_id', PostType::where( 'name', 'post' )->first()->id )
             ->first();
+
         if ( !$category ) {
             return view( '404' );
         }
@@ -355,7 +344,32 @@ class NewspaperThemeController extends SiteController
         return view( 'user-custom-home/category' )->with( [
             'category' => $category,
             'parent_category' => $parentCategory,
-            'feeds' => Feed::where( 'user_id', cp_get_current_user_id() )->where('category_id', $category->id)->get(),
+            'feeds' => Feed::where( 'user_id', cp_get_current_user_id() )->where( 'category_id', $category->id )->get(),
+        ] );
+    }
+
+    public function userCustomHomeFeedView( string $category_slug, string $feed_hash )
+    {
+        $category = null;
+        $posts = [];
+        $feed = null;
+        $feeds = Feed::where( 'hash', $feed_hash )->get();
+        if ( $feeds ) {
+            foreach ( $feeds as $_feed ) {
+                $cat = $_feed->category()->first();
+                if ( $cat && $cat->slug == $category_slug ) {
+                    $feed = $_feed;
+                    $category = $cat;
+                    $posts = $cat->posts()->latest()->paginate( $this->settings->getSetting( 'posts_per_page' ) );
+                    break;
+                }
+            }
+        }
+
+        return view( 'user-custom-home/feed' )->with( [
+            'posts' => $posts,
+            'category' => $category,
+            'feed' => $feed,
         ] );
     }
 }

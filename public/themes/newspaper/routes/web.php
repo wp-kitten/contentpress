@@ -53,6 +53,9 @@ if ( defined( 'NPFR_PLUGIN_DIR_NAME' ) && np_userCustomHomeEnabled() ) {
     Route::get( "my-feeds/{category_slug}", "NewspaperThemeController@userCustomHomeCategoryView" )
         ->middleware( [ 'auth', 'active_user', 'under_maintenance' ] )
         ->name( "app.my_feeds.category" );
+    Route::get( "my-feeds/{category_slug}/{feed_hash}", "NewspaperThemeController@userCustomHomeFeedView" )
+        ->middleware( [ 'auth', 'active_user', 'under_maintenance' ] )
+        ->name( "app.my_feeds.feed" );
 }
 
 /*

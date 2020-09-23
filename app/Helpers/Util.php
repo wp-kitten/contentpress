@@ -374,11 +374,15 @@ class Util
     /**
      * Retrieve the domain from the specified url
      * @param string $url
+     * @param bool|true $stripWWW
      * @return string
      */
-    public static function getDomain( string $url ) : string
+    public static function getDomain( string $url, $stripWWW = true ): string
     {
         $domain = parse_url( $url, PHP_URL_HOST );
+        if ( $stripWWW ) {
+            $domain = str_ireplace( 'www.', '', $domain );
+        }
         return ( is_string( $domain ) ? $domain : '' );
     }
 }

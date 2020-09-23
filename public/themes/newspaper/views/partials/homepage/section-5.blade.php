@@ -27,11 +27,6 @@
                 <article class="hentry-loop special mb-3">
                     <header class="hentry-header">
                         {!! $newspaperHelper->getPostImageOrPlaceholder($post, '', 'image-responsive', ['alt' => $post->title]) !!}
-                        <div class="hentry-category bg-danger">
-                            <a href={{cp_get_category_link($category)}} class="text-light">
-                                {!! $category->name !!}
-                            </a>
-                        </div>
                         <h4 class="hentry-title">
                             <a href={{cp_get_permalink($post)}} class="text-info">
                                 {!! cp_ellipsis($post->title, 50) !!}

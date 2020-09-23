@@ -1,0 +1,18 @@
+.uh-category-list {}
+.uh-category-list .category-item {
+    display:inline-block;
+    padding: 5px 12px;
+    border: solid 1px #ddd;
+    background: #f5f2f2;
+    color: #1a1a1a;
+    margin: 5px;
+    font-size: 12px;
+}
+.uh-category-list .category-item:first-of-type { margin-left: 0;}
+.uh-category-list .category-item:last-of-type { margin-right: 0;}
+.uh-category-list .category-item:active,
+.uh-category-list .category-item:focus,
+.uh-category-list .category-item:hover {
+    background: #fff;
+    text-decoration: none;
+}

@@ -66,7 +66,7 @@
                     </div>
 
                     {{-- POSTS GRID --}}
-                    <div class="row masonry-grid">
+                    <div class="row masonry-grid js-masonry-init">
                         <!-- The sizing element for columnWidth -->
                         <div class="grid-sizer col-xs-12 col-sm-6 col-md-4"></div>
                         @forelse($posts as $post)
