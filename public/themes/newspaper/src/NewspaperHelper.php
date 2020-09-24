@@ -7,7 +7,6 @@ use App\Helpers\CPML;
 use App\Helpers\ImageHelper;
 use App\Http\Controllers\NewspaperAdminController;
 use App\Post;
-use App\PostMeta;
 use App\PostStatus;
 use App\PostType;
 use App\Settings;
@@ -15,7 +14,12 @@ use Illuminate\Support\Arr;
 
 class NewspaperHelper
 {
-    public function getTopCategories()
+    /**
+     * Retrieve top categories
+     * @param int $limit The number of categories to retrieve. An empty value will retrieve them all
+     * @return mixed
+     */
+    public function getTopCategories( int $limit = 0 )
     {
         $query = Category::where( 'category_id', null )
             ->where( 'language_id', CPML::getDefaultLanguageID() )
@@ -30,8 +34,13 @@ class NewspaperHelper
                 } );
             }
         }
-        $query = $query->orderBy( 'name', 'ASC' )->get();
-        return $query;
+        $query = $query->orderBy( 'name', 'ASC' );
+
+        if ( !empty( $limit ) ) {
+            $query = $query->limit( $limit );
+        }
+
+        return $query->get();
     }
 
     public function getPostStatusPublishID()

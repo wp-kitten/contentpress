@@ -139,12 +139,15 @@ add_action( 'contentpress/menu::main-menu/after', function ( Menu $menu ) {
 //    echo '</div>';
 } );
 add_action( 'contentpress/menu::main-menu', function ( Menu $menu ) {
+
+    $nh = new NewspaperHelper();
+
     //#! Render the link to the tags page
     $activeClass = ( Route::is( 'post.tags' ) ? 'active' : '' );
     echo '<a href="' . route( 'post.tags' ) . '" class="menu-item ' . esc_attr( $activeClass ) . '">' . __( 'np::m.Tags' ) . '</a>';
 
     //#! Render main categories (latest, limit 10)
-    $categories = App\Category::where( 'language_id', cp_get_frontend_user_language_id() )->where( 'category_id', null )->latest()->limit( 10 )->get();
+    $categories = $nh->getTopCategories( 12 );
     if ( $categories ) {
         $activeClass = ( Str::containsAll( url()->current(), [ 'categories/' ] ) ? 'active' : '' );
         ?>
