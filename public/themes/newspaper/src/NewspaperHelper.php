@@ -82,29 +82,28 @@ class NewspaperHelper
             $number = $settingsClass->getSetting( 'posts_per_page', 10 );
         }
 
-        $privateCatID = 0;
         $subcategories = [];
+        $postStatus = PostStatus::where( 'name', 'publish' )->first();
+        $postType = PostType::where( 'name', 'post' )->first();
 
         if ( defined( 'NPFR_CATEGORY_PRIVATE' ) ) {
-            $privateCat = npfrGetCategoryPrivate();
-            $privateCatID = $privateCat->id;
-            $subcategories = Arr::pluck( $privateCat->childrenCategories, 'id' );
+            if ( $privateCat = npfrGetCategoryPrivate() ) {
+                $subcategories = array_merge( [ $privateCat->id ], Arr::pluck( $privateCat->childrenCategories, 'id' ) );
+            }
         }
 
-        $query = Post::with( [ 'categories' => function ( $query ) use ( $privateCatID, $subcategories ) {
-            $query->whereNotIn( 'categories.id', [ $privateCatID, ...$subcategories ] );
+        return Post::with( [ 'categories' => function ( $query ) use ( $subcategories ) {
+            $query->whereNotIn( 'categories.id', $subcategories );
         } ] )
-            ->whereDoesntHave( 'categories', function ( $query ) use ( $privateCatID, $subcategories ) {
-                $query->whereIn( 'categories.id', [ $privateCatID, ...$subcategories ] );
+            ->whereDoesntHave( 'categories', function ( $query ) use ( $subcategories ) {
+                $query->whereIn( 'categories.id', $subcategories );
             } )
-            ->where( 'post_status_id', PostStatus::where( 'name', 'publish' )->first()->id )
-            ->where( 'post_type_id', PostType::where( 'name', 'post' )->first()->id )
+            ->where( 'post_status_id', $postStatus->id )
+            ->where( 'post_type_id', $postType->id )
             ->whereDate( 'created_at', '>', now()->subMonth()->toDateString() )
             ->limit( $number )
             ->inRandomOrder()
             ->get();
-
-        return $query;
     }
 
     public static function printSocialMetaTags()

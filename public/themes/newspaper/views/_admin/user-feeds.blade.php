@@ -122,7 +122,7 @@
                                 @endforelse
                             </ul>
                         </div>
-                        
+
                         {!! $feeds->render() !!}
                     @else
                         <div class="bs-component">
