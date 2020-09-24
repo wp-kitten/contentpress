@@ -23,9 +23,24 @@ function npfrImportingContent()
     return ( $option && $option->value >= time() );
 }
 
+/**
+ * Retrieve the top categories (categories without parent) excluding the custom ones: Public & Private
+ * @return mixed
+ */
 function npfrGetTopCategories()
 {
-    return Category::where( 'category_id', null )
+    $query = Category::where( 'category_id', null );
+
+    $publicCat = npfrGetCategoryPublic();
+    $privateCat = npfrGetCategoryPrivate();
+
+    if ( $publicCat && $privateCat ) {
+        $query = $query->where( function ( $q ) use ( $publicCat, $privateCat ) {
+            return $q->whereNotIn( 'id', [ $publicCat->id, $privateCat->id ] );
+        } );
+    }
+
+    return $query
         ->where( 'language_id', CPML::getDefaultLanguageID() )
         ->where( 'post_type_id', PostType::where( 'name', 'post' )->first()->id )
         ->orderBy( 'name', 'ASC' )
