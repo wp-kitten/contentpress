@@ -51,6 +51,21 @@
 
     @yield('content')
 
+    {{--// Registration CTA --}}
+    @if(Route::has( 'register' ) && ! cp_is_user_logged_in())
+        <section class="register-cta text-center mt-5 pt-5 pb-5">
+            <div class="container">
+                <header>
+                    <h4 class="title">{{__('np::m.My Feeds')}}</h4>
+                </header>
+                <div>
+                    <p class="mb-0 mt-3 text">{!! __('np::m.<a href=":register_link">Register</a> now and customize your feeds!', ['register_link' => route('register')]) !!}</p>
+                    <p class="mb-0 mt-3 text">{!! __("np::m.This is a limited time offer so you'd better take advantage of it while it's still free!") !!}</p>
+                </div>
+            </div>
+        </section>
+    @endif
+
     @include('partials.site-footer')
 
     @cp_footer()

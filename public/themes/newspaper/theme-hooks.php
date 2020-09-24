@@ -166,7 +166,7 @@ add_action( 'contentpress/menu::main-menu', function ( Menu $menu ) {
     }
 
     //#! Inject link to user's custom home if the feature is enabled
-    if ( np_userCustomHomeEnabled() ) {
+    if ( cp_is_user_logged_in() && np_userCustomHomeEnabled() ) {
         $activeClass = ( Str::containsAll( url()->current(), [ route( 'app.my_feeds' ) ] ) ? 'active' : '' );
         $categories = NewspaperUserFeeds::getUserCategories();
         ?>

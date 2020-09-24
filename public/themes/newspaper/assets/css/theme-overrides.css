@@ -173,3 +173,12 @@ h1, h2, h3, h4, h5, h6 {
 .custom-scroll::-webkit-scrollbar-thumb {
     background: #d8d8d8;
 }
+
+/* My Feeds - Registration CTA */
+.register-cta { background: #f8f8f8; }
+.register-cta .title { line-height: 2;}
+.register-cta .text { font-size: 1rem; }
+.register-cta .text a { color: #cc0000; }
+.register-cta .text a:active,
+.register-cta .text a:focus,
+.register-cta .text a:hover { color: #cc4343; }

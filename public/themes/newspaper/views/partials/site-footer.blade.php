@@ -1,4 +1,4 @@
-<footer class="site-footer text-light mt-3">
+<footer class="site-footer text-light">
 
     <div class="container">
         <div class="row">
