@@ -7,6 +7,7 @@ use App\Helpers\UserNotices;
 use App\Helpers\Util;
 use App\Http\Controllers\NewspaperAdminController;
 use App\Menu;
+use App\Newspaper\NewspaperHelper;
 use App\Newspaper\NewspaperUserFeeds;
 use App\Options;
 use App\Post;
@@ -437,5 +438,17 @@ add_action( 'contentpress/admin/sidebar/menu/users', function () {
                 <?php
             }
         }
+    }
+} );
+
+/*
+ * Triggered after the plugin finishes importing content
+ * -- updates the option storing the number of posts
+ */
+add_action( 'newspaper-feed-reader/import-complete', function () {
+    $cache = app( 'cp.cache' );
+    if ( $cache ) {
+        $nh = new NewspaperHelper();
+        $cache->set( 'np_num_posts', $nh->getCountNumPosts() );
     }
 } );

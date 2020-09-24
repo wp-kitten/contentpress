@@ -36,7 +36,7 @@ Route::get( "admin/feed-reader/feeds", function () {
     return view( 'npfr_index' )->with( [
         'feeds' => $feeds,
         'numFeeds' => $numFeeds,
-        'categories' => cpfrGetCategoriesTree(),
+        'categories' => npfrGetCategoriesTree(),
     ] );
 } )->middleware( [ 'web', 'auth', 'active_user' ] )->name( "admin.feed_reader.feeds.all" );
 
@@ -49,7 +49,7 @@ Route::get( "admin/feed-reader/feeds/edit/{id}", function ( $id ) {
     }
     return view( 'npfr_edit' )->with( [
         'feed' => Feed::findOrFail( $id ),
-        'categories' => cpfrGetCategoriesTree(),
+        'categories' => npfrGetCategoriesTree(),
     ] );
 } )->middleware( [ 'web', 'auth', 'active_user' ] )->name( "admin.feed_reader.feeds.edit" );
 
@@ -330,7 +330,7 @@ Route::post( 'admin/feed-reader/feeds/import', function () {
     }
 
     //#! Check to see whether or not we're already importing
-    if ( cpfrImportingContent() ) {
+    if ( npfrImportingContent() ) {
         return redirect()->back()->with( 'message', [
             'class' => 'danger',
             'text' => __( 'npfr::m.Cannot start a new import process. Timeout not expired yet.' ),

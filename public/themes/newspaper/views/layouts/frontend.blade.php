@@ -49,22 +49,34 @@
 
     @include('partials.site-header')
 
-    @yield('content')
+    <section class="mb-5">
+        @yield('content')
+    </section>
 
     {{--// Registration CTA --}}
-    @if(Route::has( 'register' ) && ! cp_is_user_logged_in())
-        <section class="register-cta text-center mt-5 pt-5 pb-5">
-            <div class="container">
-                <header>
-                    <h4 class="title">{{__('np::m.My Feeds')}}</h4>
-                </header>
-                <div>
-                    <p class="mb-0 mt-3 text">{!! __('np::m.<a href=":register_link">Register</a> now and customize your feeds!', ['register_link' => route('register')]) !!}</p>
-                    <p class="mb-0 mt-3 text">{!! __("np::m.This is a limited time offer so you'd better take advantage of it while it's still free!") !!}</p>
+    @guest
+        @php
+            $showCTA = false;
+            if(Route::has( 'register' ) && np_userCustomHomeEnabled()){
+                if(Route::is('app.home')){
+                    $showCTA = true;
+                }
+            }
+        @endphp
+        @if($showCTA)
+            <section class="register-cta text-center mt-5 pt-5 pb-5">
+                <div class="container">
+                    <header>
+                        <h4 class="title">{{__('np::m.My Feeds')}}</h4>
+                    </header>
+                    <div>
+                        <p class="mb-0 mt-3 text">{!! __('np::m.<a href=":register_link">Register</a> now and customize your feeds!', ['register_link' => route('register')]) !!}</p>
+                        <p class="mb-0 mt-3 text">{!! __("np::m.This is a limited time offer so you'd better take advantage of it while it's still free!") !!}</p>
+                    </div>
                 </div>
-            </div>
-        </section>
-    @endif
+            </section>
+        @endif
+    @endguest
 
     @include('partials.site-footer')
 

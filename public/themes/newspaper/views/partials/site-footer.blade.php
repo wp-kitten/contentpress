@@ -14,7 +14,7 @@
                                 d-flex
                                 flex-wrap justify-content-center align-items-center align-content-center
                                 flex-md-wrap justify-content-md-end align-items-md-end align-content-md-end">
-                                    {!! cp_menu('footer-menu-1') !!}
+                                    @php cp_menu('footer-menu-1') @endphp
                                 </ul>
                             </nav>
                         @endif
@@ -26,7 +26,7 @@
                                 d-flex
                                 flex-wrap justify-content-center align-items-center align-content-center
                                 flex-md-wrap justify-content-md-end align-items-md-end align-content-md-end">
-                                    {!! cp_menu('footer-menu-2') !!}
+                                    @php cp_menu('footer-menu-2') @endphp
                                 </ul>
                             </nav>
                         @endif
@@ -40,9 +40,20 @@
             <div class="col-12">
                 <div class="copyright mt-3 pb-2">
                     <div class="d-flex pt-1
-                                justify-content-center align-items-center align-content-center
-                                justify-content-md-end align-items-md-end align-content-md-end">
+                                justify-content-center align-items-center align-content-center flex-column
+                                flex-md-row justify-content-md-between align-items-md-between align-content-md-between">
                         <small>{!! __('np::m.Copyright &copy;2020 ContentPress') !!}</small>
+
+                        @php
+                            $cache = app('cp.cache');
+                            $numPosts = $cache->get('np_num_posts');
+                            if(! $numPosts){
+                                $nh = new \App\Newspaper\NewspaperHelper();
+                                $numPosts = $nh->getCountNumPosts();
+                                $cache->set('np_num_posts', $numPosts);
+                            }
+                        @endphp
+                        <small>{!! __('np::m.Posts: :num_posts', ['num_posts' => $numPosts]) !!}</small>
                     </div>
                 </div>
             </div>

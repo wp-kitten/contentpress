@@ -16,10 +16,10 @@ use Illuminate\Support\Facades\Artisan;
 |
 */
 //#! Cron job: every hour
-//#! 0	*	*	*	* /usr/local/bin/php -q /home/appvyxhr5zi6/public_html/demo.contentpress.news/artisan npfr_import_feeds >> /dev/null 2>&1
+//#! 0	*	*	*	* /usr/local/bin/php -q /home/appvyxhr5zi6/public_html/artisan npfr_import_feeds >> /dev/null 2>&1
 Artisan::command( 'npfr_import_feeds', function () {
     //#! Check to see whether or not we're already importing
-    if ( cpfrImportingContent() ) {
+    if ( npfrImportingContent() ) {
 //        logger( 'Cannot start a new import process. Timeout not expired yet.' );
         return 0;
     }

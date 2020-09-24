@@ -321,4 +321,15 @@ class NewspaperHelper
         return $default;
     }
 
+    /**
+     * Retrieve the number of published posts
+     * @return mixed
+     */
+    public function getCountNumPosts()
+    {
+        return Post::where( 'translated_post_id', null )
+            ->where( 'post_type_id', PostType::where( 'name', 'post' )->first()->id )
+            ->where( 'post_status_id', PostStatus::where( 'name', 'publish' )->first()->id )
+            ->count();
+    }
 }

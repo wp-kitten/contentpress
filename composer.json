@@ -9,18 +9,18 @@
     "license": "MIT",
     "require": {
         "php": "^7.3",
+        "ext-dom": "*",
+        "ext-exif": "*",
         "ext-gd": "*",
         "ext-json": "*",
+        "ext-libxml": "*",
         "ext-zip": "*",
         "fideloper/proxy": "^4.4.0",
         "fruitcake/laravel-cors": "^v2.0.1",
         "guzzlehttp/guzzle": "^6.5.5",
         "laravel/framework": "^7.24",
         "laravel/tinker": "^v2.4.2",
-        "laravel/ui": "^v2.2.0",
-        "ext-dom": "*",
-        "ext-libxml": "*",
-        "ext-exif": "*"
+        "laravel/ui": "^v2.2.0"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.8",

@@ -106,5 +106,6 @@ return [
     'Is feed url?' => 'Is feed url?',
     '<a href=":register_link">Register</a> now and customize your feeds!' => '<a href=":register_link">Register</a> now and customize your feeds!',
     "This is a limited time offer so you'd better take advantage of it while it's still free!" => "This is a limited time offer so you'd better take advantage of it while it's still free!",
+    'Posts: :num_posts' => 'Posts: :num_posts',
     '' => '',
 ];

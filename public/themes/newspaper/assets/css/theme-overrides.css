@@ -109,7 +109,7 @@ h1, h2, h3, h4, h5, h6 {
     height: 100%;
     width: 0;
     position: fixed;
-    z-index: 3;
+    z-index: 4;
     top: 0;
     right: 0;
     background-color: #fff;

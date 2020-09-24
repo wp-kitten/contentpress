@@ -15,7 +15,7 @@ if ( !defined( 'NPFR_PLUGIN_DIR_NAME' ) ) {
  * Check to see whether the import process has started
  * @return bool
  */
-function cpfrImportingContent()
+function npfrImportingContent()
 {
     //#! Check to see whether or not we're already importing
     $options = ( new Options() );
@@ -23,7 +23,7 @@ function cpfrImportingContent()
     return ( $option && $option->value >= time() );
 }
 
-function cpfrGetTopCategories()
+function npfrGetTopCategories()
 {
     return Category::where( 'category_id', null )
         ->where( 'language_id', CPML::getDefaultLanguageID() )
@@ -37,7 +37,7 @@ function cpfrGetTopCategories()
  * @param Category $category
  * @return array
  */
-function cpfrGetSubCategoriesTree( Category $category )
+function npfrGetSubCategoriesTree( Category $category )
 {
     static $out = [];
 
@@ -51,20 +51,20 @@ function cpfrGetSubCategoriesTree( Category $category )
     return $out;
 }
 
-function cpfrGetCategoriesTree()
+function npfrGetCategoriesTree()
 {
-    $categories = cpfrGetTopCategories();
+    $categories = npfrGetTopCategories();
     $out = [];
     if ( !$categories || $categories->count() == 0 ) {
         return $out;
     }
     foreach ( $categories as $category ) {
-        $out = cpfrGetSubCategoriesTree( $category );
+        $out = npfrGetSubCategoriesTree( $category );
     }
     return $out;
 }
 
-function getAdminBaseController()
+function npfrGetAdminBaseController()
 {
     return new AdminControllerBase();
 }
