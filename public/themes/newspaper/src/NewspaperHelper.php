@@ -11,18 +11,27 @@ use App\PostMeta;
 use App\PostStatus;
 use App\PostType;
 use App\Settings;
-use Carbon\Carbon;
 use Illuminate\Support\Arr;
 
 class NewspaperHelper
 {
     public function getTopCategories()
     {
-        return Category::where( 'category_id', null )
+        $query = Category::where( 'category_id', null )
             ->where( 'language_id', CPML::getDefaultLanguageID() )
-            ->where( 'post_type_id', PostType::where( 'name', 'post' )->first()->id )
-            ->orderBy( 'name', 'ASC' )
-            ->get();
+            ->where( 'post_type_id', PostType::where( 'name', 'post' )->first()->id );
+
+        if ( defined( 'NPFR_CATEGORY_PUBLIC' ) ) {
+            $publicCat = npfrGetCategoryPublic();
+            $privateCat = npfrGetCategoryPrivate();
+            if ( $publicCat && $privateCat ) {
+                $query = $query->where( function ( $q ) use ( $publicCat, $privateCat ) {
+                    return $q->whereNotIn( 'id', [ $publicCat->id, $privateCat->id ] );
+                } );
+            }
+        }
+        $query = $query->orderBy( 'name', 'ASC' )->get();
+        return $query;
     }
 
     public function getPostStatusPublishID()
@@ -52,52 +61,8 @@ class NewspaperHelper
     }
 
     /**
-     * Retrieve a random post
-     * @param bool|false $hasFeaturedImage Whether the post should have a featured image
-     * @return Post|null
-     */
-    public function get_random_post( $hasFeaturedImage = false )
-    {
-        $post = null;
-        $found = false;
-        $postStatusPublish = PostStatus::where( 'name', 'publish' )->first();
-        $iterations = 0;
-        $maxIterations = 5;
-
-        while ( !$found ) {
-            if ( $iterations >= $maxIterations ) {
-                break;
-            }
-            if ( $hasFeaturedImage ) {
-                $pm = PostMeta::where( 'meta_name', '_post_image' )->where( 'meta_value', '!=', '' )->inRandomOrder()->limit( 1 )->first();
-                if ( !$pm ) {
-                    return null;
-                }
-                if ( $pm->post() ) {
-                    $thePost = $pm->post()->first();
-                    if ( $thePost->post_status_id == $postStatusPublish->id ) {
-                        $found = true;
-                        $post = $thePost;
-                    }
-                }
-            }
-            else {
-                $thePost = Post::inRandomOrder()
-                    ->where( 'post_status_id', $postStatusPublish->id )
-                    ->limit( 1 )
-                    ->first();
-                if ( $thePost ) {
-                    $found = true;
-                    $post = $thePost;
-                }
-            }
-            $iterations++;
-        }
-        return $post;
-    }
-
-    /**
      * Retrieve a collection of randomly selected posts (Selects only posts published this month)
+     * Excludes posts from the "Private" category
      * @param int $number
      * @return mixed
      */
@@ -107,12 +72,30 @@ class NewspaperHelper
             $settingsClass = new Settings();
             $number = $settingsClass->getSetting( 'posts_per_page', 10 );
         }
-        return Post::where( 'post_status_id', PostStatus::where( 'name', 'publish' )->first()->id )
-            ->where( 'post_type_id', ( new PostType() )->where( 'name', 'post' )->first()->id )
-            ->whereDate( 'created_at', '>', Carbon::now()->subMonth() )
+
+        $privateCatID = 0;
+        $subcategories = [];
+
+        if ( defined( 'NPFR_CATEGORY_PRIVATE' ) ) {
+            $privateCat = npfrGetCategoryPrivate();
+            $privateCatID = $privateCat->id;
+            $subcategories = Arr::pluck( $privateCat->childrenCategories, 'id' );
+        }
+
+        $query = Post::with( [ 'categories' => function ( $query ) use ( $privateCatID, $subcategories ) {
+            $query->whereNotIn( 'categories.id', [ $privateCatID, ...$subcategories ] );
+        } ] )
+            ->whereDoesntHave( 'categories', function ( $query ) use ( $privateCatID, $subcategories ) {
+                $query->whereIn( 'categories.id', [ $privateCatID, ...$subcategories ] );
+            } )
+            ->where( 'post_status_id', PostStatus::where( 'name', 'publish' )->first()->id )
+            ->where( 'post_type_id', PostType::where( 'name', 'post' )->first()->id )
+            ->whereDate( 'created_at', '>', now()->subMonth()->toDateString() )
             ->limit( $number )
             ->inRandomOrder()
             ->get();
+
+        return $query;
     }
 
     public static function printSocialMetaTags()

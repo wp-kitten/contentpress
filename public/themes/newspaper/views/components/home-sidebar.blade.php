@@ -50,7 +50,7 @@
     </div>
     <div class="widget-content">
         <ul class="list-unstyled mt-3 posts-list">
-            @if(count($posts))
+            @if($posts && $posts->count())
                 @foreach($posts as $post)
                     <li class="mb-3">
                         {!! $newspaperHelper->getPostImageOrPlaceholder($post, '', 'image-responsive rounded', ['alt' => $post->title]) !!}
