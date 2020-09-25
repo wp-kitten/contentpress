@@ -1,6 +1,10 @@
 @php
-    $isOwnProfile = ($user->id == cp_get_current_user()->getAuthIdentifier());
+    /**@var \Illuminate\Auth\Authenticatable|\App\User $auth_user*/
+    /**@var \App\User $user*/
+    $isOwnProfile = ($user->id == $auth_user->getAuthIdentifier());
     $userImageUrl = cp_get_user_profile_image_url($user->id);
+    $isAuthUserSuperAdmin = $auth_user->isInRole([\App\Role::ROLE_SUPER_ADMIN]);
+    $isAuthUserAdmin = $auth_user->isInRole([\App\Role::ROLE_ADMIN]);
 @endphp
 
 @extends('admin.layouts.base')
@@ -19,14 +23,16 @@
                         {{__('a.Your profile')}}
                     @else
                         {{__('a.User profile')}}
-                    @endif</h1>
+                    @endif
+                </h1>
             </div>
         </div>
     </div>
 
     @include('admin.partials.notices')
 
-    @if($user->is_super_admin && !$isOwnProfile)
+    {{--// Make sure the current suer can edit super admin roles --}}
+    @if(!$isOwnProfile && ($user->isInRole([\App\Role::ROLE_SUPER_ADMIN]) && !$isAuthUserSuperAdmin))
         <div class="bs-component">
             <div class="alert alert-warning">
                 {{__('a.You are not allowed to perform this action.')}}
@@ -38,7 +44,7 @@
                 <div class="tile">
                     <div class="card-body">
                         <h4 class="tile-title">
-                            @if($user->id == cp_get_current_user()->getAuthIdentifier())
+                            @if($isOwnProfile)
                                 {{__('a.Edit your profile')}}
                             @else
                                 {{__('a.Edit user profile')}}
@@ -65,14 +71,19 @@
                                 <label for="role">{{__('a.Role')}}</label>
                                 @if(cp_current_user_can('promote_users'))
                                     <select class="form-control border" name="role" id="role">
+                                        {{--// Administrators cannot promote users to super admin role --}}
                                         @foreach($roles as $role)
+                                            @if(!$isAuthUserSuperAdmin && ($role->name == \App\Role::ROLE_SUPER_ADMIN))
+                                                @continue
+                                            @endif
+
                                             @php $selected = ($role->id == $user->role->id ? 'selected="selected"' : ''); @endphp
-                                            <option value="{{ $role->id }}" {!! $selected !!}>{{ ucfirst($role->name) }}
+                                            <option value="{{ $role->id }}" {!! $selected !!}>{{ ucwords(str_replace(['-','_'], ' ', $role->name)) }}
                                             </option>
                                         @endforeach
                                     </select>
                                 @else
-                                    <p class="">{{ucfirst(cp_get_current_user()->role->name)}}</p>
+                                    <p class="">{{ucwords(str_replace(['-','_'], ' ', $role->name))}}</p>
                                 @endif
                             </div>
 

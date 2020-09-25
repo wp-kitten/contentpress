@@ -2,7 +2,6 @@
     @if( session('message'))
         <div class="bs-component">
             <div class="alert alert-{{session('message.class')}}">
-                <i class="mdi mdi-window-close js-close-alert" data-dismiss="alert" aria-label="Close"></i>
                 <span>{{session('message.text')}}</span>
             </div>
         </div>
@@ -12,7 +11,6 @@
         @foreach ($errors->all() as $error)
             <div class="bs-component">
                 <div class="alert alert-danger">
-                    <i class="mdi mdi-window-close js-close-alert" data-dismiss="alert" aria-label="Close"></i>
                     <span>{{$error}}</span>
                 </div>
             </div>

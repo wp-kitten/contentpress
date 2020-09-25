@@ -27,6 +27,9 @@ class AdminControllerBase extends Controller
         if ( empty( $message ) ) {
             $message = __( 'You are not allowed to perform this action.' );
         }
-        return view( 'admin.forbidden' )->with( 'message', $message );
+        return view( 'admin.forbidden' )->with( 'message', [
+            'class' => 'danger',
+            'text' => $message,
+        ] );
     }
 }

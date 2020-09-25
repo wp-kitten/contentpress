@@ -5,7 +5,6 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\CPML;
 use App\Helpers\MetaFields;
 use App\Helpers\ScriptsManager;
-use App\Helpers\Util;
 use App\Role;
 use App\User;
 use App\UserMeta;
@@ -24,7 +23,9 @@ class UsersController extends AdminControllerBase
 
     public function index()
     {
-        if ( !cp_current_user_can( 'list_users' ) ) {
+        $authUser = $this->current_user();
+
+        if ( !$authUser->can( 'list_users' ) ) {
             return $this->_forbidden();
         }
 
@@ -38,13 +39,13 @@ class UsersController extends AdminControllerBase
         return view( 'admin.users.index' )->with( [
             'admins' => $admins,
             'users' => $users,
-            'current_user' => cp_get_current_user(),
+            'current_user' => $authUser,
         ] );
     }
 
     public function showCreatePage()
     {
-        if ( !cp_current_user_can( 'create_users' ) ) {
+        if ( !$this->current_user()->can( 'create_users' ) ) {
             return $this->_forbidden();
         }
 
@@ -57,10 +58,21 @@ class UsersController extends AdminControllerBase
 
     public function showEditPage( $id )
     {
-        //#! Only the admin can update other users
-        if ( !cp_current_user_can( 'administrator' ) ) {
-            //#! Users can only update their own profile
-            if ( $this->current_user()->getAuthIdentifier() != $id ) {
+        $currentUser = User::findOrFail( $id );
+        $isUserSuperAdmin = $currentUser->isInRole( [ Role::ROLE_SUPER_ADMIN ] );
+
+        $authUser = cp_get_current_user();
+        $isOwnProfile = ( $currentUser->id == $authUser->getAuthIdentifier() );
+        $isAuthUserSuperAdmin = $authUser->isInRole( [ Role::ROLE_SUPER_ADMIN ] );
+        $isAuthUserAdmin = $authUser->isInRole( [ Role::ROLE_ADMIN ] );
+
+        //#! If the edited user is super admin and the current user is not
+        if ( !$isOwnProfile ) {
+            if ( $isUserSuperAdmin && !$isAuthUserSuperAdmin ) {
+                return $this->_forbidden();
+            }
+            //#! Only administrators can edit others' profiles
+            elseif ( !$isAuthUserAdmin ) {
                 return $this->_forbidden();
             }
         }
@@ -88,12 +100,15 @@ class UsersController extends AdminControllerBase
             'roles' => Role::all(),
             'meta_fields' => MetaFields::getAll( $this->userMeta, 'user_id', $id, CPML::getDefaultLanguageID() ),
             'default_role_id' => $this->settings->getSetting( 'default_user_role' ),
+            'auth_user' => cp_get_current_user(),
         ] );
     }
 
     public function __insert()
     {
-        if ( !cp_current_user_can( 'create_users' ) ) {
+        $authUser = $this->current_user();
+
+        if ( !$authUser->can( 'create_users' ) ) {
             return $this->_forbidden();
         }
 
@@ -111,7 +126,7 @@ class UsersController extends AdminControllerBase
         $user->name = $this->request->name;
         $user->email = $this->request->email;
         $user->password = bcrypt( $this->request->password );
-        if ( cp_current_user_can( 'promote_users' ) ) {
+        if ( $authUser->can( 'promote_users' ) ) {
             $user->role_id = $this->request->role;
         }
         else {
@@ -128,7 +143,7 @@ class UsersController extends AdminControllerBase
 
     public function __delete( $id )
     {
-        if ( !cp_current_user_can( 'delete_users' ) ) {
+        if ( !$this->current_user()->can( 'delete_users' ) ) {
             return $this->_forbidden();
         }
 
@@ -167,7 +182,7 @@ class UsersController extends AdminControllerBase
 
     public function __block( $id )
     {
-        if ( !cp_current_user_can( 'block_users' ) ) {
+        if ( !$this->current_user()->can( 'block_users' ) ) {
             return $this->_forbidden();
         }
 
@@ -191,7 +206,7 @@ class UsersController extends AdminControllerBase
 
     public function __unblock( $id )
     {
-        if ( !cp_current_user_can( 'block_users' ) ) {
+        if ( !$this->current_user()->can( 'block_users' ) ) {
             return $this->_forbidden();
         }
 
@@ -215,26 +230,35 @@ class UsersController extends AdminControllerBase
 
     public function __update()
     {
-        $isOwnProfile = ( $this->current_user()->getAuthIdentifier() == $this->request->user_id );
+        $currentUser = User::findOrFail( $this->request->user_id );
+        $isUserSuperAdmin = $currentUser->isInRole( [ Role::ROLE_SUPER_ADMIN ] );
 
-        //#! Only the admin can update other users
-        //#! Other users can only update their own profile
-        if ( !cp_current_user_can( 'edit_users' ) && !$isOwnProfile ) {
-            return $this->_forbidden();
-        }
+        $authUser = $this->current_user();
+        $isOwnProfile = ( $currentUser->id == $authUser->getAuthIdentifier() );
+        $isAuthUserSuperAdmin = $authUser->isInRole( [ Role::ROLE_SUPER_ADMIN ] );
+        $isAuthUserAdmin = $authUser->isInRole( [ Role::ROLE_ADMIN ] );
 
-        $user = User::find( $this->request->user_id );
-
-        //#! If the edited user is a super admin and the current user is not
-        if ( $user->is_super_admin && !$isOwnProfile ) {
-            return $this->_forbidden();
-        }
-
-        if ( !$user ) {
-            return redirect()->back()->with( 'message', [
-                'class' => 'danger', // success or danger on error
-                'text' => __( 'a.User not found.' ),
-            ] );
+        //#! If the edited user is super admin and the current user is not
+        if ( !$isOwnProfile ) {
+            if ( $isUserSuperAdmin && !$isAuthUserSuperAdmin ) {
+                return redirect()->back()->with( 'message', [
+                    'class' => 'danger', // success or danger on error
+                    'text' => __( 'a.You are not allowed to perform this action.' ),
+                ] );
+            }
+            //#! Only administrators can edit others' profiles
+            elseif ( !$isAuthUserAdmin ) {
+                return redirect()->back()->with( 'message', [
+                    'class' => 'danger', // success or danger on error
+                    'text' => __( 'a.You are not allowed to perform this action.' ),
+                ] );
+            }
+            elseif ( !$authUser->can( 'edit_users' ) ) {
+                return redirect()->back()->with( 'message', [
+                    'class' => 'danger', // success or danger on error
+                    'text' => __( 'a.You are not allowed to perform this action.' ),
+                ] );
+            }
         }
 
         $this->validate( $this->request, [
@@ -247,19 +271,28 @@ class UsersController extends AdminControllerBase
 //            'blocked' => 'required|in:0,1'
         ] );
 
-        $user->name = $this->request->name;
-        $user->display_name = $this->request->display_name;
-        $user->email = $this->request->email;
-        $user->password = bcrypt( $this->request->password );
+        $currentUser->name = $this->request->name;
+        $currentUser->display_name = $this->request->display_name;
+        $currentUser->email = $this->request->email;
+        $currentUser->password = bcrypt( $this->request->password );
 
-        if ( cp_current_user_can( 'promote_users' ) ) {
-            $user->role_id = $this->request->role;
+        if ( $authUser->can( 'promote_users' ) && $this->request->has( 'role' ) ) {
+            //#! If the selected role is super admin then the current user must be super admin
+            if ( $this->request->role == Role::where( 'name', Role::ROLE_SUPER_ADMIN )->first()->id ) {
+                if ( !$isUserSuperAdmin ) {
+                    return redirect()->back()->with( 'message', [
+                        'class' => 'danger', // success or danger on error
+                        'text' => __( 'a.You are not allowed to perform this action.' ),
+                    ] );
+                }
+            }
+            $currentUser->role_id = $this->request->role;
         }
 
-        if ( cp_current_user_can( 'block_users' ) ) {
-            $user->is_blocked = $this->request->blocked;
+        if ( $authUser->can( 'block_users' ) ) {
+            $currentUser->is_blocked = $this->request->blocked;
         }
-        $user->update();
+        $currentUser->update();
 
         return redirect()->back()->with( 'message', [
             'class' => 'success', // success or danger on error
@@ -269,29 +302,34 @@ class UsersController extends AdminControllerBase
 
     public function __updateProfile( $id )
     {
-        $isOwnProfile = ( $this->current_user()->getAuthIdentifier() == $id );
+        $currentUser = User::findOrFail( $id );
+        $isUserSuperAdmin = $currentUser->isInRole( [ Role::ROLE_SUPER_ADMIN ] );
 
-        //#! Only the admin can update other users
-        //#! Other users can only update their own profile
-        if ( !cp_current_user_can( 'edit_users' ) && !$isOwnProfile ) {
-            return $this->_forbidden();
-        }
+        $authUser = $this->current_user();
+        $isOwnProfile = ( $id == $authUser->getAuthIdentifier() );
+        $isAuthUserSuperAdmin = $authUser->isInRole( [ Role::ROLE_SUPER_ADMIN ] );
+        $isAuthUserAdmin = $authUser->isInRole( [ Role::ROLE_ADMIN ] );
 
-        $user = User::find( $id );
-
-        if ( !$user ) {
-            return redirect()->back()->with( 'message', [
-                'class' => 'danger', // success or danger on error
-                'text' => __( 'a.User not found.' ),
-            ] );
-        }
-
-        //#! If the edited user is a super admin and the current user is not
-        if ( $user->is_super_admin && !$isOwnProfile ) {
-            return redirect()->back()->with( 'message', [
-                'class' => 'danger', // success or danger on error
-                'text' => __( 'a.You are not allowed to perform this action.' ),
-            ] );
+        if ( !$isOwnProfile ) {
+            if ( $isUserSuperAdmin && !$isAuthUserSuperAdmin ) {
+                return redirect()->back()->with( 'message', [
+                    'class' => 'danger', // success or danger on error
+                    'text' => __( 'a.You are not allowed to perform this action.' ),
+                ] );
+            }
+            //#! Only administrators can edit others' profiles
+            elseif ( !$isAuthUserAdmin ) {
+                return redirect()->back()->with( 'message', [
+                    'class' => 'danger', // success or danger on error
+                    'text' => __( 'a.You are not allowed to perform this action.' ),
+                ] );
+            }
+            elseif ( !$authUser->can( 'edit_users' ) ) {
+                return redirect()->back()->with( 'message', [
+                    'class' => 'danger', // success or danger on error
+                    'text' => __( 'a.You are not allowed to perform this action.' ),
+                ] );
+            }
         }
 
         //#! Website url
@@ -302,7 +340,7 @@ class UsersController extends AdminControllerBase
                 'text' => __( 'a.The website url is not valid.' ),
             ] );
         }
-        $meta = UserMeta::where( 'user_id', $user->id )
+        $meta = UserMeta::where( 'user_id', $currentUser->id )
             ->where( 'language_id', CPML::getDefaultLanguageID() )
             ->where( 'meta_name', '_website_url' )
             ->first();
@@ -312,7 +350,7 @@ class UsersController extends AdminControllerBase
         }
         else {
             UserMeta::create( [
-                'user_id' => $user->id,
+                'user_id' => $currentUser->id,
                 'language_id' => CPML::getDefaultLanguageID(),
                 'meta_name' => '_website_url',
                 'meta_value' => $websiteUrl,
@@ -322,11 +360,11 @@ class UsersController extends AdminControllerBase
         //#! User bio
         $userBio = $this->request->user_profile_bio;
 
-        if ( !cp_current_user_can( 'unfiltered_html' ) ) {
+        if ( !$authUser->can( 'unfiltered_html' ) ) {
             $userBio = strip_tags( $userBio );
         }
 
-        $meta = UserMeta::where( 'user_id', $user->id )
+        $meta = UserMeta::where( 'user_id', $currentUser->id )
             ->where( 'language_id', CPML::getDefaultLanguageID() )
             ->where( 'meta_name', '_user_bio' )
             ->first();
@@ -336,7 +374,7 @@ class UsersController extends AdminControllerBase
         }
         else {
             UserMeta::create( [
-                'user_id' => $user->id,
+                'user_id' => $currentUser->id,
                 'language_id' => CPML::getDefaultLanguageID(),
                 'meta_name' => '_user_bio',
                 'meta_value' => $userBio,
