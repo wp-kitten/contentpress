@@ -10,6 +10,7 @@ use App\Role;
 use App\User;
 use App\UserMeta;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
 
 class UsersController extends AdminControllerBase
@@ -27,8 +28,17 @@ class UsersController extends AdminControllerBase
             return $this->_forbidden();
         }
 
+        $admins = User::whereIn( 'role_id', [
+            Role::where( 'name', Role::ROLE_SUPER_ADMIN )->first()->id,
+            Role::where( 'name', Role::ROLE_ADMIN )->first()->id,
+        ] )->get();
+        $adminUsersID = Arr::pluck( $admins, 'id' );
+        $users = User::latest()->whereNotIn( 'id', $adminUsersID )->paginate( 10 );
+
         return view( 'admin.users.index' )->with( [
-            'users' => User::latest()->paginate( 10 ),
+            'admins' => $admins,
+            'users' => $users,
+            'current_user' => cp_get_current_user(),
         ] );
     }
 
