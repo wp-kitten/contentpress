@@ -331,7 +331,14 @@ class FeedImporter
 
         $content = trim( $postData[ 'content' ] );
         $content = mb_convert_encoding( $content, 'utf-8', 'auto' );
-        $content = wp_kses_post( $content );
+
+        //#! Remove links from content
+        global $allowedposttags;
+        $allowedTags = $allowedposttags;
+        if ( isset( $allowedTags[ 'a' ] ) ) {
+            unset( $allowedTags[ 'a' ] );
+        }
+        $content = wp_kses( $content, $allowedTags );
         $excerpt = wp_html_excerpt( $content, 180 );
 
         $r = false;
