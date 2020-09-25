@@ -78,12 +78,12 @@
                                             @endif
 
                                             @php $selected = ($role->id == $user->role->id ? 'selected="selected"' : ''); @endphp
-                                            <option value="{{ $role->id }}" {!! $selected !!}>{{ ucwords(str_replace(['-','_'], ' ', $role->name)) }}
+                                            <option value="{{ $role->id }}" {!! $selected !!}>{{ $role->display_name }}
                                             </option>
                                         @endforeach
                                     </select>
                                 @else
-                                    <p class="">{{ucwords(str_replace(['-','_'], ' ', $role->name))}}</p>
+                                    <p class="">{{$role->display_name}}</p>
                                 @endif
                             </div>
 

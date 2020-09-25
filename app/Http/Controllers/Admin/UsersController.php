@@ -143,7 +143,9 @@ class UsersController extends AdminControllerBase
 
     public function __delete( $id )
     {
-        if ( !$this->current_user()->can( 'delete_users' ) ) {
+        $authUser = $this->current_user();
+
+        if ( !$authUser->can( 'delete_users' ) ) {
             return $this->_forbidden();
         }
 
@@ -156,8 +158,8 @@ class UsersController extends AdminControllerBase
             ] );
         }
 
-        // If the user is super administrator, prevent this action
-        if ( $user->is_super_admin ) {
+        // Super administrators cannot be deleted
+        if ( $user->isInRole( [ Role::ROLE_SUPER_ADMIN ] ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger', // success or danger on error
                 'text' => __( 'a.The super admin user cannot be deleted.' ),

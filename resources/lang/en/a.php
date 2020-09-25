@@ -457,4 +457,5 @@ return [
     'An error occurred while trying to clear the application cache: :error' => 'An error occurred while trying to clear the application cache: :error',
     'The application cache has been cleared.' => 'The application cache has been cleared.',
     'Clear app cache' => 'Clear app cache',
+    'Forbidden' => 'Forbidden',
 ];

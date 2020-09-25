@@ -1,8 +1,10 @@
 @php
-    $canAddUsers = cp_current_user_can('create_users');
-    $canEditUsers = cp_current_user_can('edit_users');
-    $canDeleteUsers = cp_current_user_can('delete_users');
-    $canBlockUsers = cp_current_user_can('block_users');
+    $authUser = cp_get_current_user();
+    $canAddUsers = $authUser->can('create_users');
+    $canEditUsers = $authUser->can('edit_users');
+    $canDeleteUsers = $authUser->can('delete_users');
+    $canBlockUsers = $authUser->can('block_users');
+    $isAuthUserSuperAdmin = $authUser->isInRole([\App\Role::ROLE_SUPER_ADMIN]);
 @endphp
 @extends('admin.layouts.base')
 
@@ -56,9 +58,12 @@
                                     <label for="role">{{__('a.Role')}}</label>
                                     <select class="form-control" name="role" id="role">
                                         @foreach($roles as $role)
+                                            @if(!$isAuthUserSuperAdmin && ($role->name == \App\Role::ROLE_SUPER_ADMIN))
+                                                @continue
+                                            @endif
                                             @php $selected = ($role->id == $default_role_id ? 'selected="selected"' : ''); @endphp
-                                            <option value="{{ $role->id }}" {!! $selected !!}>{{ ucfirst($role->name)
-                                                }}
+                                            <option value="{{ $role->id }}" {!! $selected !!}>
+                                                {{ $role->display_name }}
                                             </option>
                                         @endforeach
                                     </select>

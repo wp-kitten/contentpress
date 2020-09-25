@@ -12,7 +12,7 @@ class Role extends Model
      * @var array
      */
     protected $fillable = [
-        'name', 'description', 'created_at', 'updated_at',
+        'name', 'display_name', 'description', 'created_at', 'updated_at',
     ];
 
     const ROLE_SUPER_ADMIN = 'super_admin';

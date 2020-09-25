@@ -55,7 +55,7 @@
                                     <tr>
                                         <td class="text-primary">{{ $user->name }}</td>
                                         <td>{{ $user->display_name }}</td>
-                                        <td class="text-info">{{ $user->role->name }}</td>
+                                        <td class="text-info">{{ $user->role->display_name }}</td>
                                         <td>{{ $user->email }}</td>
                                         <td class="text-center">{{ $user->is_blocked ? __('a.Yes') : __('a.No') }}</td>
                                         <td class="text-center">
@@ -123,7 +123,7 @@
                                 <tr>
                                     <td class="text-primary">{{ $user->name }}</td>
                                     <td>{{ $user->display_name }}</td>
-                                    <td class="text-info">{{ $user->role->name }}</td>
+                                    <td class="text-info">{{ $user->role->display_name }}</td>
                                     <td>{{ $user->email }}</td>
                                     <td class="text-center">{{ $user->is_blocked ? __('a.Yes') : __('a.No') }}</td>
                                     <td class="text-center">
