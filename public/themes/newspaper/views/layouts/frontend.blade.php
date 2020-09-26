@@ -7,7 +7,6 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="{{env('APP_CHARSET', 'utf-8')}}"/>
-    <meta http-equiv="Content-Type" content="text/html; charset={{env('APP_CHARSET', 'utf-8')}}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- CSRF Token -->
