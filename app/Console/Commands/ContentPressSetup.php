@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
-class CotentPressSetup extends Command
+class ContentPressSetup extends Command
 {
     /**
      * The name and signature of the console command.
@@ -51,6 +51,6 @@ class CotentPressSetup extends Command
             Artisan::call( 'migrate --seed' );
             $this->line( '== Done ==' );
         }
-        return;
+        return 1;
     }
 }

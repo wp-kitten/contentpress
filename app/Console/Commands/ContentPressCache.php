@@ -44,7 +44,6 @@ class ContentPressCache extends Command
         Artisan::call('config:clear');
         Artisan::call('view:clear');
         $this->line( '== Done ==' );
-
-        return;
+        return 1;
     }
 }
