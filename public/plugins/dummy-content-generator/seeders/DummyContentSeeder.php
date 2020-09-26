@@ -1,11 +1,11 @@
 <?php
+
 namespace Database\Seeders;
 
-use App\Models\Category;
-use App\Models\CategoryMeta;
 use App\Helpers\CPML;
 use App\Helpers\MetaFields;
-use App\Helpers\Util;
+use App\Models\Category;
+use App\Models\CategoryMeta;
 use App\Models\Post;
 use App\Models\PostMeta;
 use App\Models\PostStatus;
@@ -24,6 +24,7 @@ class DummyContentSeeder extends Seeder
     public function run()
     {
         $postTypeID = PostType::where( 'name', 'post' )->first()->id;
+        $postTypePageID = PostType::where( 'name', 'page' )->first()->id;
         $languageID = CPML::getDefaultLanguageID();
 
         //#! Create categories and add meta fields
@@ -97,20 +98,26 @@ class DummyContentSeeder extends Seeder
         $pages = [ 'Home', 'Blog', 'About', 'Contact', 'Thank you', 'Cookie policy', 'Privacy policy' ];
         $postTypeId = PostType::where( 'name', 'page' )->first()->id;
         foreach ( $pages as $title ) {
-            Post::create( [
-                'title' => Str::title( $title ),
-                'slug' => Str::slug( $title ),
-                'content' => '',
-                'user_id' => $currentUserID,
-                'language_id' => $defaultLanguageID,
-                'post_type_id' => $postTypeId,
-                'post_status_id' => $postStatusID,
-            ] );
+            $title = Str::title( $title );
+            $slug = Str::slug( $title );
+            $exists = Post::where( 'slug', $slug )->where( 'post_type_id', $postTypePageID )->first();
+            if ( !$exists ) {
+                Post::create( [
+                    'title' => $title,
+                    'slug' => $slug,
+                    'content' => '',
+                    'user_id' => $currentUserID,
+                    'language_id' => $defaultLanguageID,
+                    'post_type_id' => $postTypeId,
+                    'post_status_id' => $postStatusID,
+                ] );
+            }
         }
 
         //#! Posts
-        $posts = [
-            'Hello World!' => [
+        $postInfo = [
+            'title' => 'Contrary to popular belief, Lorem Ipsum is not simply random text',
+            'data' => [
                 'category_id' => Category::where( 'name', 'General' )->first()->id,
                 'tag_id' => Tag::where( 'name', 'General' )->first()->id,
                 'content' => '<h2>What is Lorem Ipsum?</h2>
@@ -121,46 +128,50 @@ class DummyContentSeeder extends Seeder
 <h2>Why do we use it?</h2>
 <p>It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using \'Content here, content here\', making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for \'lorem ipsum\' will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).</p>
 <h2>Where can I get some?</h2>
-<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>
-<p>&nbsp;</p>',
-                'excerpt' => 'Contrary to popular belief, Lorem Ipsum is not simply random text. It has roots in a piece of classical Latin literature',
+<p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which don\'t look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isn\'t anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.</p>',
+                'excerpt' => 'Contrary to popular belief, Lorem Ipsum is not simply random text.',
                 'comments_enabled' => true,
             ],
         ];
         $postTypeId = PostType::where( 'name', 'post' )->first()->id;
 
-        foreach ( $posts as $title => $info ) {
+        $numPosts = 50;
+        while ( $numPosts > 0 ) {
+            $title = $postInfo[ 'title' ] . ' #' . $numPosts;
             $post = Post::create( [
                 'title' => Str::title( $title ),
-                'slug' => Str::slug( $title ),
-                'content' => $info[ 'content' ],
-                'excerpt' => $info[ 'excerpt' ],
+                'slug' => Str::slug( $title . ' ' . $numPosts ),
+                'content' => $postInfo[ 'data' ][ 'content' ],
+                'excerpt' => $postInfo[ 'data' ][ 'excerpt' ],
                 'user_id' => $currentUserID,
                 'language_id' => $defaultLanguageID,
                 'post_type_id' => $postTypeId,
                 'post_status_id' => $postStatusID,
             ] );
+
             if ( $post ) {
                 //#! Update post meta
                 if ( cp_current_user_can( 'manage_custom_fields' ) ) {
                     if ( $meta = MetaFields::getInstance( new PostMeta(), 'post_id', $post->id, '_comments_enabled', $defaultLanguageID ) ) {
-                        $meta->meta_value = $info[ 'comments_enabled' ];
+                        $meta->meta_value = $postInfo[ 'data' ][ 'comments_enabled' ];
                         $meta->update();
                     }
                     else {
-                        MetaFields::add( new PostMeta(), 'post_id', $post->id, '_comments_enabled', $info[ 'comments_enabled' ], $defaultLanguageID );
+                        MetaFields::add( new PostMeta(), 'post_id', $post->id, '_comments_enabled', $postInfo[ 'data' ][ 'comments_enabled' ], $defaultLanguageID );
                     }
                 }
 
                 //#! Set category & tag
                 if ( cp_current_user_can( 'manage_taxonomies' ) ) {
                     $post->categories()->detach();
-                    $post->categories()->attach( $info[ 'category_id' ] );
+                    $post->categories()->attach( [ $postInfo[ 'data' ][ 'category_id' ] ] );
 
                     $post->tags()->detach();
-                    $post->tags()->attach( $info[ 'tag_id' ] );
+                    $post->tags()->attach( [ $postInfo[ 'data' ][ 'tag_id' ] ] );
                 }
+                $numPosts--;
             }
+            usleep( 800 );
         }
     }
 }

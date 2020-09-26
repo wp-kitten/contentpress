@@ -1,0 +1,46 @@
+.cpdt-site-footer {
+    background-color: #3776b7;
+
+    .footer-content-wrap {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        align-content: space-between;
+        justify-content: space-between;
+        padding: 1rem 0 0 0;
+
+        @media(max-width: 767px) {
+            flex-direction: column;
+            align-content: center;
+            justify-content: center;
+        }
+
+        .logo {
+        }
+        a {
+            color: #f2f2f2;
+            transition: all 0.2s linear;
+
+            &:active,
+            &:focus,
+            &:hover {
+                color: #020625;
+            }
+        }
+
+        .footer-menu-nav {
+
+            .footer-menu-wrap {
+                li {
+                    display: inline-block;
+                    margin: 0 5px;
+
+                    &:last-of-type {
+                        margin-right: 0
+                    }
+
+                }
+            }
+        }
+    }
+}

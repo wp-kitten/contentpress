@@ -16,8 +16,6 @@ use Illuminate\Support\Facades\Route;
 //#! Override the default route
 Route::get( "/", "DefaultThemeController@index" )->name( "app.home" );
 
-Route::get( "categories", "DefaultThemeController@categories" )->name( "blog.categories" );
-
 //#! Required in CategoriesWalker.. if not defined admin/post-type/category fails to load
 Route::get( "categories/{slug}", "DefaultThemeController@category" )->name( "blog.category" );
 

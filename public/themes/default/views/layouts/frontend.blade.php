@@ -6,7 +6,6 @@
 <html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
 <head>
     <meta charset="{{env('APP_CHARSET', 'utf-8')}}"/>
-    <meta http-equiv="Content-Type" content="text/html; charset={{env('APP_CHARSET', 'utf-8')}}"/>
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
 
     <!-- CSRF Token -->
@@ -18,18 +17,22 @@
         <title>{{ config('app.name', 'ContentPress') }}</title>
     @endif
 
-<!-- Fonts -->
+    <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com"/>
 
-    {{contentpressHead()}}
+    @livewireStyles
+    @cp_head()
 </head>
 <body class="{{cp_body_classes()}}">
-{{do_action('contentpress/after_body_open')}}
+    {{do_action('contentpress/after_body_open')}}
 
+    @include('inc.site-header')
 
-@yield('content')
+    @yield('content')
 
+    @include('inc.site-footer')
 
-{{contentpressFooter()}}
+    @livewireScripts
+    @cp_footer()
 </body>
 </html>

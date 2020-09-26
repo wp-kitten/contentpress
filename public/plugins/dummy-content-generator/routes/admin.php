@@ -38,7 +38,7 @@ Route::post( 'admin/dummy-content-generator/generate', function () {
     catch ( Exception $e ) {
         return redirect()->back()->with( 'message', [
             'class' => 'danger',
-            'text' => __( 'dcg::m.An error occurred while executing the seeder class.' ),
+            'text' => __( 'dcg::m.An error occurred while executing the seeder class: '.$e->getMessage() ),
         ] );
     }
 

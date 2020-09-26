@@ -6,6 +6,7 @@ use App\Helpers\Cache;
 use App\Helpers\ContentPressCheckForUpdates;
 use App\Helpers\CPML;
 use App\Helpers\PluginsManager;
+use App\Helpers\Theme;
 use App\Helpers\ThemesManager;
 use App\Models\Options;
 use Illuminate\Pagination\Paginator;
@@ -22,11 +23,29 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        /**
+         * Retrieve the reference to the instance of the internal ContentPressCheckForUpdates class
+         * @return ContentPressCheckForUpdates
+         */
         $this->app->bind( 'cp.updater', function ( $app ) {
             return new ContentPressCheckForUpdates();
         } );
+
+        /**
+         * Retrieve the reference to the instance of the internal Cache class
+         * @return Cache
+         */
         $this->app->bind( 'cp.cache', function ( $app ) {
             return new Cache( $app );
+        } );
+
+        /**
+         * Retrieve the reference to the instance of the active theme
+         * @return Theme
+         */
+        $this->app->bind( 'cp.theme', function ( $app ) {
+            $tm = ThemesManager::getInstance();
+            return $tm->getActiveTheme();
         } );
     }
 
