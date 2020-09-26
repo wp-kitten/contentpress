@@ -1,7 +1,7 @@
 <?php
 
-use App\Options;
-use App\PostType;
+use App\Models\Options;
+use App\Models\PostType;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Schema;
 

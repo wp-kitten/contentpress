@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\CPML;
 use App\Helpers\ScriptsManager;
 use App\Helpers\Util;
-use App\MediaFile;
+use App\Models\MediaFile;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;

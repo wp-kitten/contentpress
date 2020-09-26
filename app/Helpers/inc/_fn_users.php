@@ -4,8 +4,8 @@
  */
 
 use App\Helpers\CPML;
-use App\User;
-use App\UserMeta;
+use App\Models\User;
+use App\Models\UserMeta;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Support\Facades\File;
 

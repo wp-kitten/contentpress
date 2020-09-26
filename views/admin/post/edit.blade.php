@@ -1,5 +1,5 @@
 @php
-    $optionsClass = new App\Options();
+    $optionsClass = new App\Models\Options();
 
 //{{-- GET THE CUSTOM OPTIONS --}}
     $allowCategories = $optionsClass->getOption("post_type_{$__post_type->name}_allow_categories", true);
@@ -239,7 +239,7 @@
 
     @include('admin.partials.meta-fields', [
         'meta_fields' => $meta_fields,
-        'model' => App\PostMeta::class,
+        'model' => App\Models\PostMeta::class,
         'language_id' => $post->language_id,
         'fk_name' => 'post_id',
         'fk_value' => $post->id,

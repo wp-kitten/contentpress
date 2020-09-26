@@ -1,11 +1,11 @@
 {{--
 The template to display the front page or the blog page depending on what is set in Settings > Reading
 --}}
-@inject('settings', App\Settings)
+@inject('settings', App\Models\Settings)
 @php
      //#! Check what we need to display on homepage
 
-    /**@var App\Settings $settings*/
+    /**@var App\Models\Settings $settings*/
 
     $thePage = null;
 
@@ -13,14 +13,14 @@ The template to display the front page or the blog page depending on what is set
     //#! Specific page
     if ( 'page' == $showOnFront ) {
         $pageOnFront = $settings->getSetting( 'page_on_front', 0 );
-        if ( $page = App\Post::find( $pageOnFront ) ) {
+        if ( $page = App\Models\Post::find( $pageOnFront ) ) {
             $thePage = $page;
         }
     }
     //#! Blog
     else {
         $blogPage = $settings->getSetting( 'blog_page', 0 );
-        if ( $blogPage && $page = App\Post::find( $blogPage ) ) {
+        if ( $blogPage && $page = App\Models\Post::find( $blogPage ) ) {
             $thePage = $page;
         }
     }

@@ -5,8 +5,8 @@
  */
 
 use App\Helpers\ScriptsManager;
-use App\Post;
-use App\PostComments;
+use App\Models\Post;
+use App\Models\PostComments;
 
 add_action( 'contentpress/admin/head', function () {
     ScriptsManager::enqueueHeadScript( 'admin-js', asset( '_admin/js/admin.js' ) );

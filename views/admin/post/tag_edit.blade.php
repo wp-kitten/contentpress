@@ -1,6 +1,6 @@
 @php
-    $languageClass = new App\Language();
-    $optionsClass = new App\Options();
+    $languageClass = new App\Models\Language();
+    $optionsClass = new App\Models\Options();
     $isMultiLanguage = (count($enabled_languages) > 1);
 @endphp
 
@@ -81,7 +81,7 @@
                                     $currentLanguageID = $languageClass->getID($languageCode);
                                     $currentLanguageName = $languageClass->getNameFrom($languageCode);
 
-                                    $transTag = App\Tag::where('language_id', $currentLanguageID)
+                                    $transTag = App\Models\Tag::where('language_id', $currentLanguageID)
                                                     ->where('post_type_id', $__post_type->id)
                                                     ->where('translated_tag_id', $tag->id)
                                                     ->first();

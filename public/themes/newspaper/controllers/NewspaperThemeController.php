@@ -2,16 +2,16 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
+use App\Models\Category;
 use App\Feed;
 use App\Helpers\CPML;
 use App\Newspaper\NewspaperHelper;
 use App\Newspaper\NewspaperUserFeeds;
 use App\Newspaper\User as NpUser;
-use App\Post;
-use App\PostStatus;
-use App\PostType;
-use App\Tag;
+use App\Models\Post;
+use App\Models\PostStatus;
+use App\Models\PostType;
+use App\Models\Tag;
 use Carbon\Carbon;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Http\RedirectResponse;

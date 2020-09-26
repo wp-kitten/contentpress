@@ -5,10 +5,10 @@
     col 1, col 2
         5 x small posts
 --}}
-@inject('postStatus', App\PostStatus)
+@inject('postStatus', App\Models\PostStatus)
 @php
     /**@var App\Newspaper\NewspaperHelper $newspaperHelper*/
-    /**@var App\Post $post */
+    /**@var App\Models\Post $post */
 
     $cacheKey = "home-section-4-{$category->id}";
     $posts = $cache->get($cacheKey);

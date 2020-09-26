@@ -1,5 +1,5 @@
 @php
-    /**@var App\Post $post*/
+    /**@var App\Models\Post $post*/
     $postCategory = $post->categories()->first();
     if(! $postCategory){
         return;

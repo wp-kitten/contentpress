@@ -3,9 +3,9 @@
         $entries = [];
         $categories = $newspaperHelper->getTopCategories();
         $posts = $newspaperHelper->getRandomPosts(5);
-        $tags = App\Tag::latest()->limit(100)->get();
+        $tags = App\Models\Tag::latest()->limit(100)->get();
         if($categories){
-            $postStatusPublishID = (new App\PostStatus())->where('name', 'publish')->first()->id;
+            $postStatusPublishID = (new App\Models\PostStatus())->where('name', 'publish')->first()->id;
             foreach($categories as $category){
                 $numPosts = $newspaperHelper->categoryTreeCountPosts($category);
                 if( ! empty($numPosts)){

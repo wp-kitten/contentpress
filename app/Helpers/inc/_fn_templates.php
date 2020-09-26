@@ -3,15 +3,15 @@
  * This file stores all functions related to templates
  */
 
-use App\Category;
+use App\Models\Category;
 use App\Helpers\CPML;
-use App\Post;
-use App\PostComments;
-use App\PostStatus;
-use App\PostType;
-use App\Settings;
-use App\Tag;
-use App\User;
+use App\Models\Post;
+use App\Models\PostComments;
+use App\Models\PostStatus;
+use App\Models\PostType;
+use App\Models\Settings;
+use App\Models\Tag;
+use App\Models\User;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\DB;
@@ -264,9 +264,9 @@ function cp_post_classes( array $classes = [] ): string
 }
 
 /**
- * Retrieve the instance of an App\Post if $postID is specified otherwise the current App\Post if viewing a singular template
+ * Retrieve the instance of an App\Models\Post if $postID is specified otherwise the current App\Models\Post if viewing a singular template
  * @param null|int $postID
- * @return App\Post|null
+ * @return App\Models\Post|null
  */
 function cp_get_post( $postID = null ): ?Post
 {

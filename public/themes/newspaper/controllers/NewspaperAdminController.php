@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers;
 
-use App\Category;
-use App\CategoryMeta;
+use App\Models\Category;
+use App\Models\CategoryMeta;
 use App\Feed;
 use App\Helpers\CPML;
 use App\Helpers\Util;
 use App\Http\Controllers\Admin\AdminControllerBase;
 use App\Newspaper\NewspaperHelper;
-use App\Options;
-use App\PostType;
+use App\Models\Options;
+use App\Models\PostType;
 use DOMDocument;
 use Illuminate\Support\Str;
 

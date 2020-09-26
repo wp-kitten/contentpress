@@ -3,8 +3,8 @@
 use App\Feed;
 use App\Helpers\FeedImporter;
 use App\Helpers\UserNotices;
-use App\Options;
-use App\Settings;
+use App\Models\Options;
+use App\Models\Settings;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Route;

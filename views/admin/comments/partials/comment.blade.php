@@ -20,7 +20,7 @@
         <div class="comment-content-wrap">
             @if(cp_is_reply($comment))
                 @php
-                    $parentComment = App\PostComments::find($comment->comment_id);
+                    $parentComment = App\Models\PostComments::find($comment->comment_id);
                     $commentUrl = '<a href="'.cp_get_comment_url($parentComment).'">'.cp_get_comment_author_name($parentComment).'</a>';
                 @endphp
                 <span class="d-block mb-3">{!! __('a.In reply to :comment_link.', [ 'comment_link' => $commentUrl]) !!}</span>

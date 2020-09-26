@@ -3,9 +3,9 @@
 namespace App\Listeners;
 
 use App\Events\UserRegisteredEvent;
-use App\Language;
-use App\Role;
-use App\UserMeta;
+use App\Models\Language;
+use App\Models\Role;
+use App\Models\UserMeta;
 
 class UserRegisteredListener
 {

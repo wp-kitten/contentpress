@@ -177,7 +177,7 @@
                                                         @elseif('category' == $type->name)
                                                             <ul class="list-unstyled mt-2 category-list js-scrollable-list custom-scroll">
                                                                 @php
-                                                                    $categories = App\Category::where('language_id', App\Helpers\CPML::getDefaultLanguageID())->get();
+                                                                    $categories = App\Models\Category::where('language_id', App\Helpers\CPML::getDefaultLanguageID())->get();
                                                                 @endphp
                                                                 @foreach($categories as $category)
                                                                     <li class="list-item">
@@ -203,7 +203,7 @@
                                                         @else
                                                             <ul class="list-unstyled mt-2 posts-list js-scrollable-list custom-scroll">
                                                                 @php
-                                                                    $entries = App\Post::where('post_type_id', App\PostType::where('name', $type->name)->first()->id)
+                                                                    $entries = App\Models\Post::where('post_type_id', App\Models\PostType::where('name', $type->name)->first()->id)
                                                                                 ->where('language_id', App\Helpers\CPML::getDefaultLanguageID())
                                                                                 ->get();
                                                                 @endphp

@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\PostComments;
+use App\Models\PostComments;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Pagination\LengthAwarePaginator;
 

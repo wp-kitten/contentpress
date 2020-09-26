@@ -1,7 +1,7 @@
 {{--
     Display the Under Maintenance page
 --}}
-@inject('settings', App\Settings)
+@inject('settings', App\Models\Settings)
 @extends('layouts.frontend')
 
 @section('title')
@@ -11,7 +11,7 @@
 @section('content')
 
     @php
-        /**@var App\Settings $settings*/
+        /**@var App\Models\Settings $settings*/
 
         if(! isset($title) || empty($title)){
             $title =  $settings->getSetting('under_maintenance_page_title');

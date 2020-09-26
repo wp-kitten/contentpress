@@ -3,8 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Helpers\CPML;
-use App\Post;
-use App\PostStatus;
+use App\Models\Post;
+use App\Models\PostStatus;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\View\Factory;
 use Illuminate\Http\RedirectResponse;

@@ -2,7 +2,7 @@
 
 namespace App\Helpers\Menu;
 
-use App\Menu;
+use App\Models\Menu;
 
 interface IMenuBuilder
 {

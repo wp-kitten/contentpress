@@ -2,11 +2,11 @@
     The template to display a user's custom feeds
 --}}
 @inject('newspaperHelper',App\Newspaper\NewspaperHelper)
-@inject('postStatus',App\PostStatus)
+@inject('postStatus',App\Models\PostStatus)
 @extends('layouts.frontend')
 @php
     /**@var App\Newspaper\NewspaperHelper $newspaperHelper*/
-    /**@var App\PostStatus $postStatus */
+    /**@var App\Models\PostStatus $postStatus */
 
     $postStatusID = $postStatus->where('name', 'publish')->first()->id;
 @endphp

@@ -1,8 +1,8 @@
 @extends('admin.layouts.base')
 @php
-    /**@var \Illuminate\Auth\Authenticatable|\App\User $current_user*/
-    $isAuthUserSuperAdmin = $current_user->isInRole([\App\Role::ROLE_SUPER_ADMIN]);
-    $isAuthUserAdmin = $current_user->isInRole([\App\Role::ROLE_ADMIN]);
+    /**@var \Illuminate\Auth\Authenticatable|\App\Models\User $current_user*/
+    $isAuthUserSuperAdmin = $current_user->isInRole([\App\Models\Role::ROLE_SUPER_ADMIN]);
+    $isAuthUserAdmin = $current_user->isInRole([\App\Models\Role::ROLE_ADMIN]);
 @endphp
 
 @section('page-title')
@@ -47,9 +47,9 @@
                             <tbody>
                                 @foreach($admins as $user)
                                     @php
-                                        /**@var App\user $user*/
+                                        /**@var App\Models\User $user*/
                                         $isUserAdmin = cp_user_can($user, 'administrator');
-                                        $isUserSuperAdmin = $user->isInRole([\App\Role::ROLE_SUPER_ADMIN]);
+                                        $isUserSuperAdmin = $user->isInRole([\App\Models\Role::ROLE_SUPER_ADMIN]);
                                         $isOwnProfile = ($current_user->getAuthIdentifier() == $user->id);
                                     @endphp
                                     <tr>
@@ -115,9 +115,9 @@
                         <tbody>
                             @forelse($users as $user)
                                 @php
-                                    /**@var App\user $user*/
+                                    /**@var App\Models\User $user*/
                                     $isUserAdmin = cp_user_can($user, 'administrator');
-                                    $isUserSuperAdmin = $user->isInRole([\App\Role::ROLE_SUPER_ADMIN]);
+                                    $isUserSuperAdmin = $user->isInRole([\App\Models\Role::ROLE_SUPER_ADMIN]);
                                     $isOwnProfile = ($current_user->getAuthIdentifier() == $user->id);
                                 @endphp
                                 <tr>

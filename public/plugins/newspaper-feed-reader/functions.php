@@ -1,10 +1,10 @@
 <?php
 
-use App\Category;
+use App\Models\Category;
 use App\Helpers\CPML;
 use App\Http\Controllers\Admin\AdminControllerBase;
-use App\Options;
-use App\PostType;
+use App\Models\Options;
+use App\Models\PostType;
 use Illuminate\Support\Arr;
 
 if ( !defined( 'NPFR_PLUGIN_DIR_NAME' ) ) {

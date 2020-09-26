@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Options;
+use App\Models\Options;
 use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Contracts\Routing\UrlGenerator;
 use Illuminate\Support\Facades\File;
@@ -143,7 +143,22 @@ class ThemesManager
      */
     public function saveActiveTheme( $themeDirName )
     {
-        $this->optionsClass->addOption( self::ACTIVE_THEME_NAME_OPT_NAME, $themeDirName );
+        if ( $this->optionsClass ) {
+            $this->optionsClass->addOption( self::ACTIVE_THEME_NAME_OPT_NAME, $themeDirName );
+        }
+        else {
+            $option = Options::where( 'name', self::ACTIVE_THEME_NAME_OPT_NAME )->first();
+            if ( $option ) {
+                $option->value = $themeDirName;
+                $option->update();
+            }
+            else {
+                Options::create( [
+                    'name' => self::ACTIVE_THEME_NAME_OPT_NAME,
+                    'value' => $themeDirName,
+                ] );
+            }
+        }
     }
 
     /**

@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Options;
+use App\Models\Options;
 
 abstract class ContentPressUpdaterAbstract
 {

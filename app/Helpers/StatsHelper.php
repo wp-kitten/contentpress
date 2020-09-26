@@ -2,11 +2,11 @@
 
 namespace App\Helpers;
 
-use App\CommentStatuses;
-use App\Options;
-use App\Post;
-use App\PostComments;
-use App\User;
+use App\Models\CommentStatuses;
+use App\Models\Options;
+use App\Models\Post;
+use App\Models\PostComments;
+use App\Models\User;
 
 /**
  * Class StatsHelper

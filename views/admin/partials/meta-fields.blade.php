@@ -1,6 +1,6 @@
 {{--
 Required param: $meta_fields
-Required param: $model. Ex: App\UserMeta::class
+Required param: $model. Ex: App\Models\UserMeta::class
 Required param: $language_id
 Required param: $fk_name
 Required param: $fk_value

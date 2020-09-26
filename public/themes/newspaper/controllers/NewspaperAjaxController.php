@@ -5,9 +5,9 @@ namespace App\Http\Controllers;
 use App\Helpers\Cache;
 use App\Newspaper\AdsManager;
 use App\Newspaper\NewspaperHelper;
-use App\Post;
-use App\PostStatus;
-use App\PostType;
+use App\Models\Post;
+use App\Models\PostStatus;
+use App\Models\PostType;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 

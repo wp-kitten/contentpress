@@ -2,12 +2,12 @@
 
 namespace App\Helpers\Menu;
 
-use App\Category;
+use App\Models\Category;
 use App\Helpers\Menu\Traits\MenuInfo;
-use App\Menu;
-use App\MenuItemMeta;
-use App\MenuItemType;
-use App\Post;
+use App\Models\Menu;
+use App\Models\MenuItemMeta;
+use App\Models\MenuItemType;
+use App\Models\Post;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 

@@ -1,6 +1,6 @@
 @php
-    $languageClass = new App\Language();
-    $optionsClass = new App\Options();
+    $languageClass = new App\Models\Language();
+    $optionsClass = new App\Models\Options();
     $isMultiLanguage = cp_is_multilingual();
 
     $categoryImageInfo = cp_get_category_image_info($category->id, $category->language_id);
@@ -119,7 +119,7 @@
 
         @include('admin.partials.meta-fields', [
                 'meta_fields' => $meta_fields,
-                'model' => App\CategoryMeta::class,
+                'model' => App\Models\CategoryMeta::class,
                 'language_id' => $category->language_id,
                 'fk_name' => 'category_id',
                 'fk_value' => $category->id,

@@ -2,13 +2,13 @@
 
 namespace App\Helpers;
 
-use App\Category;
-use App\Language;
-use App\Options;
-use App\Post;
-use App\PostType;
-use App\Settings;
-use App\Tag;
+use App\Models\Category;
+use App\Models\Language;
+use App\Models\Options;
+use App\Models\Post;
+use App\Models\PostType;
+use App\Models\Settings;
+use App\Models\Tag;
 
 /**
  * Class CPML

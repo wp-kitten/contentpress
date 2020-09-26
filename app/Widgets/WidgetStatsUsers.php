@@ -5,7 +5,7 @@ namespace App\Widgets;
 use App\Helpers\ScriptsManager;
 use App\Helpers\StatsHelper;
 use App\Helpers\Util;
-use App\User;
+use App\Models\User;
 
 /**
  * Class WidgetStatsUsers

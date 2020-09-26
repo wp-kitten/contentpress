@@ -1,6 +1,6 @@
 @php
-    $languageClass = new App\Language();
-    $optionsClass = new App\Options();
+    $languageClass = new App\Models\Language();
+    $optionsClass = new App\Models\Options();
     $isMultiLanguage = (count($enabled_languages) > 1);
 @endphp
 

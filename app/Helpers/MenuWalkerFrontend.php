@@ -2,13 +2,13 @@
 
 namespace App\Helpers;
 
-use App\Category;
+use App\Models\Category;
 use App\Helpers\Menu\DropdownMenuBuilder;
 use App\Helpers\Menu\MegaMenuBuilder;
 use App\Helpers\Menu\MenuBuilderBasic;
-use App\Menu;
-use App\MenuItem;
-use App\Options;
+use App\Models\Menu;
+use App\Models\MenuItem;
+use App\Models\Options;
 
 class MenuWalkerFrontend implements IMenuWalker
 {

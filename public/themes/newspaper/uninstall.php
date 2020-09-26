@@ -6,7 +6,7 @@
 //#! Delete theme options
 
 use App\Http\Controllers\NewspaperAdminController;
-use App\Options;
+use App\Models\Options;
 
 require_once( dirname( __FILE__ ) . '/controllers/NewspaperAdminController.php' );
 

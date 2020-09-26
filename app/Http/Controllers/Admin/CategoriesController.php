@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Category;
-use App\CategoryMeta;
+use App\Models\Category;
+use App\Models\CategoryMeta;
 use App\Helpers\CategoriesWalker;
 use App\Helpers\CPML;
 use App\Helpers\MetaFields;
 use App\Helpers\ScriptsManager;
 use App\Helpers\Util;
-use App\Language;
-use App\Options;
+use App\Models\Language;
+use App\Models\Options;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;

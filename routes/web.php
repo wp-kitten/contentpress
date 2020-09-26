@@ -12,8 +12,8 @@
 */
 
 use App\Helpers\ThemesManager;
-use App\PostType;
-use App\Settings;
+use App\Models\PostType;
+use App\Models\Settings;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Route;

@@ -7,7 +7,8 @@ use App\Helpers\ContentPressCheckForUpdates;
 use App\Helpers\CPML;
 use App\Helpers\PluginsManager;
 use App\Helpers\ThemesManager;
-use App\Options;
+use App\Models\Options;
+use Illuminate\Pagination\Paginator;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
@@ -37,6 +38,8 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Schema::defaultStringLength( 191 );
+
+        Paginator::useBootstrap();
 
         PluginsManager::getInstance();
         ThemesManager::getInstance();

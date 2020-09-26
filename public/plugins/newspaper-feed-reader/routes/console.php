@@ -2,7 +2,7 @@
 
 use App\Feed;
 use App\Helpers\FeedImporter;
-use App\Options;
+use App\Models\Options;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Artisan;
 

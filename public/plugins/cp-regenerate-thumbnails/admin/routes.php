@@ -1,6 +1,6 @@
 <?php
 
-use App\MediaFile;
+use App\Models\MediaFile;
 use Illuminate\Support\Facades\Route;
 
 /*

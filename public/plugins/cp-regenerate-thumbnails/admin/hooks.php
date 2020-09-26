@@ -2,7 +2,7 @@
 
 use App\Helpers\MenuHelper;
 use App\Helpers\ScriptsManager;
-use App\MediaFile;
+use App\Models\MediaFile;
 
 if ( !defined( 'CPRT_PLUGIN' ) ) {
     exit;

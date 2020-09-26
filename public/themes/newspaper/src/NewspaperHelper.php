@@ -2,14 +2,14 @@
 
 namespace App\Newspaper;
 
-use App\Category;
+use App\Models\Category;
 use App\Helpers\CPML;
 use App\Helpers\ImageHelper;
 use App\Http\Controllers\NewspaperAdminController;
-use App\Post;
-use App\PostStatus;
-use App\PostType;
-use App\Settings;
+use App\Models\Post;
+use App\Models\PostStatus;
+use App\Models\PostType;
+use App\Models\Settings;
 use Illuminate\Support\Arr;
 
 class NewspaperHelper

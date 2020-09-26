@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Options;
+use App\Models\Options;
 use Illuminate\Support\Facades\Http;
 
 /**

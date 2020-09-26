@@ -2,8 +2,8 @@
 
 use App\Helpers\ScriptsManager;
 use App\Http\Controllers\Admin\AjaxController;
-use App\Post;
-use App\PostMeta;
+use App\Models\Post;
+use App\Models\PostMeta;
 
 add_action( 'contentpress/plugin/activated', function ( $pluginDirName, $pluginInfo ) {
 //    logger( 'Plugin '.$pluginInfo->name.' activated!' );

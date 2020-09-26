@@ -1,8 +1,8 @@
 {{-- ADMIN SIDEBAR MENU --}}
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
 
-@inject('language', App\Language)
-@inject('optionsClass', App\Options)
+@inject('language', App\Models\Language)
+@inject('optionsClass', App\Models\Options)
 
 @php
     $languages = $language->all();
@@ -11,7 +11,7 @@
 
     $currentUser = cp_get_current_user();
     $userImage = cp_get_user_profile_image_url($currentUser->getAuthIdentifier());
-    $postTypes = App\PostType::where('language_id', App\Helpers\CPML::getDefaultLanguageID())->get();
+    $postTypes = App\Models\PostType::where('language_id', App\Helpers\CPML::getDefaultLanguageID())->get();
 
     //#! Edit user profile text
     $profileLinkText = __('a.Your profile');

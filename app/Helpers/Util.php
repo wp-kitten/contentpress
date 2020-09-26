@@ -2,14 +2,14 @@
 
 namespace App\Helpers;
 
-use App\Category;
-use App\Language;
-use App\MenuItemType;
-use App\Post;
-use App\PostStatus;
-use App\PostType;
-use App\Settings;
-use App\Tag;
+use App\Models\Category;
+use App\Models\Language;
+use App\Models\MenuItemType;
+use App\Models\Post;
+use App\Models\PostStatus;
+use App\Models\PostType;
+use App\Models\Settings;
+use App\Models\Tag;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;

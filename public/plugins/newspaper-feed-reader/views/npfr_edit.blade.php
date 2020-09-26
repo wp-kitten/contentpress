@@ -1,4 +1,4 @@
-@inject('catModel', App\Category)
+@inject('catModel', App\Models\Category)
 @extends('admin.layouts.base')
 
 @section('page-title')

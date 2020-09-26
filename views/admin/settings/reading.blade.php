@@ -1,6 +1,6 @@
 @php
-    $languageClass = new App\Language();
-    $optionsClass = new App\Options();
+    $languageClass = new App\Models\Language();
+    $optionsClass = new App\Models\Options();
 
 @endphp
 

@@ -4,13 +4,13 @@ namespace App\Helpers;
 
 use App\Feed;
 use App\Helpers\Syndication\FeedReader;
-use App\MediaFile;
-use App\Post;
-use App\PostMeta;
-use App\PostStatus;
-use App\PostType;
-use App\Role;
-use App\Tag;
+use App\Models\MediaFile;
+use App\Models\Post;
+use App\Models\PostMeta;
+use App\Models\PostStatus;
+use App\Models\PostType;
+use App\Models\Role;
+use App\Models\Tag;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 

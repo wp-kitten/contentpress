@@ -2,17 +2,17 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\CommentStatuses;
+use App\Models\CommentStatuses;
 use App\Helpers\CPML;
 use App\Helpers\ScriptsManager;
 use App\Helpers\Util;
-use App\Language;
-use App\Options;
-use App\Post;
-use App\PostStatus;
-use App\PostType;
-use App\Role;
-use App\Settings;
+use App\Models\Language;
+use App\Models\Options;
+use App\Models\Post;
+use App\Models\PostStatus;
+use App\Models\PostType;
+use App\Models\Role;
+use App\Models\Settings;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 

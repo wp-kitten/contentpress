@@ -5,9 +5,9 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\CPML;
 use App\Helpers\MetaFields;
 use App\Helpers\ScriptsManager;
-use App\Role;
-use App\User;
-use App\UserMeta;
+use App\Models\Role;
+use App\Models\User;
+use App\Models\UserMeta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\File;
@@ -34,7 +34,7 @@ class UsersController extends AdminControllerBase
             Role::where( 'name', Role::ROLE_ADMIN )->first()->id,
         ] )->get();
         $adminUsersID = Arr::pluck( $admins, 'id' );
-        $users = User::latest()->whereNotIn( 'id', $adminUsersID )->paginate( 10 );
+        $users = User::latest()->whereNotIn( 'id', $adminUsersID )->paginate( $this->settings->getSetting( 'posts_per_page' ) );
 
         return view( 'admin.users.index' )->with( [
             'admins' => $admins,

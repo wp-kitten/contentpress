@@ -2,10 +2,10 @@
 
 namespace App\Helpers\Menu\Traits;
 
-use App\Category;
-use App\MenuItemMeta;
-use App\MenuItemType;
-use App\Post;
+use App\Models\Category;
+use App\Models\MenuItemMeta;
+use App\Models\MenuItemType;
+use App\Models\Post;
 
 trait MenuInfo
 {

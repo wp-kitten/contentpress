@@ -18,7 +18,7 @@ This document lists all hooks registered by the application and the order they'r
 * contentpress/admin/head
 * contentpress/admin/footer
 * contentpress/post/deleted ($postID)
-* contentpress/post/new (App\Post $post)
+* contentpress/post/new (App\Models\Post $post)
 * contentpress/post/actions ($postID)
 * contentpress/comment/status_changed (PostComments $comment, $oldStatusID)
 * contentpress/enqueue_text_editor () -> cp_enqueue_text_editor_scripts()

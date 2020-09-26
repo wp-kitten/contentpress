@@ -5,9 +5,9 @@
     $latestNews = $cacheClass->get($cacheKey, '');
     if( empty( $latestNews ) )
     {
-        $latestNews = App\Post::where( 'language_id', cp_get_frontend_user_language_id() )
-                    ->where( 'post_status_id', App\PostStatus::where( 'name', 'publish' )->first()->id )
-                    ->where( 'post_type_id', App\PostType::where('name', 'post')->first()->id )
+        $latestNews = App\Models\Post::where( 'language_id', cp_get_frontend_user_language_id() )
+                    ->where( 'post_status_id', App\Models\PostStatus::where( 'name', 'publish' )->first()->id )
+                    ->where( 'post_type_id', App\Models\PostType::where('name', 'post')->first()->id )
                     //#! Only include results from within the last month
                     ->whereDate( 'created_at', '>', Carbon\Carbon::now()->subMonth() )
                     ->inRandomOrder()

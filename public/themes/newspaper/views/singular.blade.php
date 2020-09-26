@@ -5,7 +5,7 @@
 @extends('layouts.frontend')
 @php
     /**@var App\Newspaper\NewspaperHelper $newspaperHelper*/
-    /**@var App\Post $post*/
+    /**@var App\Models\Post $post*/
 
     $categories = $newspaperHelper->getTopCategories();
     $collection = collect([]);

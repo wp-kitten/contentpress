@@ -5,8 +5,8 @@ use App\Helpers\ImageHelper;
 use App\Helpers\ImageResizeHelper;
 use App\Helpers\MediaHelper;
 use App\Http\Controllers\Admin\AjaxController;
-use App\MediaFile;
-use App\MediaFileMeta;
+use App\Models\MediaFile;
+use App\Models\MediaFileMeta;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 

@@ -4,8 +4,8 @@
 --}}
 @php
     /**@var App\Newspaper\NewspaperHelper $newspaperHelper*/
-    /**@var App\Post $post */
-    /**@var App\Category $category */
+    /**@var App\Models\Post $post */
+    /**@var App\Models\Category $category */
     $cacheKey = "home-section-7-{$category->id}";
     $posts = $cache->get($cacheKey);
     if( ! $posts ) {

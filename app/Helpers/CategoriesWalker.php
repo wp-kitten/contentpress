@@ -2,8 +2,8 @@
 
 namespace App\Helpers;
 
-use App\Category;
-use App\PostType;
+use App\Models\Category;
+use App\Models\PostType;
 
 class CategoriesWalker
 {

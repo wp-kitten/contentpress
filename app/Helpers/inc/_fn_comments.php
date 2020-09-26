@@ -1,9 +1,9 @@
 <?php
 
-use App\CommentStatuses;
-use App\Post;
-use App\PostComments;
-use App\Settings;
+use App\Models\CommentStatuses;
+use App\Models\Post;
+use App\Models\PostComments;
+use App\Models\Settings;
 
 function cp_comments_open( ?Post $post )
 {

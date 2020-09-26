@@ -1,4 +1,4 @@
-@inject('languageClass', App\Language)
+@inject('languageClass', App\Models\Language)
 @php
     $crtLanguageCode = App\Helpers\CPML::getBackendUserLanguageCode();
     $enabledLanguages = App\Helpers\CPML::getLanguages();

@@ -2,9 +2,9 @@
 
 namespace App\Helpers;
 
-use App\Settings;
+use App\Models\Settings;
 use Illuminate\Foundation\Application;
-use App\Cache as CacheModel;
+use App\Models\Cache as CacheModel;
 use Illuminate\Support\Facades\Schema;
 
 /**

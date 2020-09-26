@@ -1,15 +1,16 @@
 <?php
+namespace Database\Seeders;
 
-use App\Category;
-use App\CategoryMeta;
+use App\Models\Category;
+use App\Models\CategoryMeta;
 use App\Helpers\CPML;
 use App\Helpers\MetaFields;
 use App\Helpers\Util;
-use App\Post;
-use App\PostMeta;
-use App\PostStatus;
-use App\PostType;
-use App\Tag;
+use App\Models\Post;
+use App\Models\PostMeta;
+use App\Models\PostStatus;
+use App\Models\PostType;
+use App\Models\Tag;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 

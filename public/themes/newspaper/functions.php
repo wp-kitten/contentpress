@@ -1,12 +1,12 @@
 <?php
 
-use App\CommentStatuses;
+use App\Models\CommentStatuses;
 use App\Feed;
 use App\Http\Controllers\NewspaperAdminController;
-use App\Options;
-use App\Post;
-use App\PostComments;
-use App\Settings;
+use App\Models\Options;
+use App\Models\Post;
+use App\Models\PostComments;
+use App\Models\Settings;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Routing\Controller;
 

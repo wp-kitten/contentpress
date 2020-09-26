@@ -3,13 +3,13 @@
  * This file stores all functions related to meta
  */
 
-use App\Category;
+use App\Models\Category;
 use App\Helpers\CPML;
 use App\Helpers\ImageHelper;
 use App\Helpers\MediaHelper;
-use App\MediaFile;
-use App\Post;
-use App\PostMeta;
+use App\Models\MediaFile;
+use App\Models\Post;
+use App\Models\PostMeta;
 
 function cp_get_category_image_url( $categoryID, $languageID = 0 )
 {
@@ -61,7 +61,7 @@ function cp_post_has_featured_image( Post $post )
 
 /**
  * Retrieve the post's featured image (with srcset)
- * @param App\Post $post
+ * @param App\Models\Post $post
  * @param string $pictureClass
  * @param string $imageClass
  * @param array $imageAttrs The list of attributes to set for the image tag

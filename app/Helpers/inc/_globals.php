@@ -1,6 +1,6 @@
 <?php
 
-use App\Post;
+use App\Models\Post;
 
 /**
  * The current version of the application

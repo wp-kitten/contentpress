@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\CPML;
 use App\Helpers\MenuWalkerBackend;
 use App\Helpers\ScriptsManager;
-use App\Menu;
+use App\Models\Menu;
 use Illuminate\Support\Str;
 
 class MenuController extends AdminControllerBase

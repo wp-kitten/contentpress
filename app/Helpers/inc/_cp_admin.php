@@ -1,7 +1,7 @@
 <?php
 
 use App\Helpers\MediaHelper;
-use App\MediaFile;
+use App\Models\MediaFile;
 use Illuminate\Database\Eloquent\Model;
 
 /**

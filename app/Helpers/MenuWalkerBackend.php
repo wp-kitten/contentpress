@@ -2,12 +2,12 @@
 
 namespace App\Helpers;
 
-use App\Category;
-use App\Menu;
-use App\MenuItem;
-use App\MenuItemMeta;
-use App\MenuItemType;
-use App\Post;
+use App\Models\Category;
+use App\Models\Menu;
+use App\Models\MenuItem;
+use App\Models\MenuItemMeta;
+use App\Models\MenuItemType;
+use App\Models\Post;
 
 class MenuWalkerBackend implements IMenuWalker
 {

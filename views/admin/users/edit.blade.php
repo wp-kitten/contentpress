@@ -1,10 +1,10 @@
 @php
-    /**@var \Illuminate\Auth\Authenticatable|\App\User $auth_user*/
-    /**@var \App\User $user*/
+    /**@var \Illuminate\Auth\Authenticatable|\App\Models\User $auth_user*/
+    /**@var \App\Models\User $user*/
     $isOwnProfile = ($user->id == $auth_user->getAuthIdentifier());
     $userImageUrl = cp_get_user_profile_image_url($user->id);
-    $isAuthUserSuperAdmin = $auth_user->isInRole([\App\Role::ROLE_SUPER_ADMIN]);
-    $isAuthUserAdmin = $auth_user->isInRole([\App\Role::ROLE_ADMIN]);
+    $isAuthUserSuperAdmin = $auth_user->isInRole([\App\Models\Role::ROLE_SUPER_ADMIN]);
+    $isAuthUserAdmin = $auth_user->isInRole([\App\Models\Role::ROLE_ADMIN]);
 @endphp
 
 @extends('admin.layouts.base')
@@ -32,7 +32,7 @@
     @include('admin.partials.notices')
 
     {{--// Make sure the current suer can edit super admin roles --}}
-    @if(!$isOwnProfile && ($user->isInRole([\App\Role::ROLE_SUPER_ADMIN]) && !$isAuthUserSuperAdmin))
+    @if(!$isOwnProfile && ($user->isInRole([\App\Models\Role::ROLE_SUPER_ADMIN]) && !$isAuthUserSuperAdmin))
         <div class="bs-component">
             <div class="alert alert-warning">
                 {{__('a.You are not allowed to perform this action.')}}
@@ -73,7 +73,7 @@
                                     <select class="form-control border" name="role" id="role">
                                         {{--// Administrators cannot promote users to super admin role --}}
                                         @foreach($roles as $role)
-                                            @if(!$isAuthUserSuperAdmin && ($role->name == \App\Role::ROLE_SUPER_ADMIN))
+                                            @if(!$isAuthUserSuperAdmin && ($role->name == \App\Models\Role::ROLE_SUPER_ADMIN))
                                                 @continue
                                             @endif
 
@@ -183,7 +183,7 @@
         {{-- @requires capability: manage_custom_fields --}}
         @include('admin.partials.meta-fields', [
             'meta_fields' => $meta_fields,
-            'model' => App\UserMeta::class,
+            'model' => App\Models\UserMeta::class,
             'language_id' => App\Helpers\CPML::getDefaultLanguageID(),
             'fk_name' => 'user_id',
             'fk_value' => $user->id,

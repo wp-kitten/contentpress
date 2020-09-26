@@ -2,8 +2,8 @@
 
 namespace App\Helpers;
 
-use App\MediaFile;
-use App\MediaFileMeta;
+use App\Models\MediaFile;
+use App\Models\MediaFileMeta;
 use Illuminate\Database\Eloquent\Model;
 
 class ImageHelper

@@ -1,12 +1,12 @@
 @inject('newspaperHelper',App\Newspaper\NewspaperHelper)
-@inject('postStatus', App\PostStatus)
-@inject('catModel', App\Category)
+@inject('postStatus', App\Models\PostStatus)
+@inject('catModel', App\Models\Category)
 @extends('layouts.frontend')
 
 @php
     /**@var App\Newspaper\NewspaperHelper $newspaperHelper*/
-    /**@var App\PostStatus $postStatus */
-    /**@var App\Category $catModel */
+    /**@var App\Models\PostStatus $postStatus */
+    /**@var App\Models\Category $catModel */
 
     $postStatusID = $postStatus->where('name', 'publish')->first()->id;
 

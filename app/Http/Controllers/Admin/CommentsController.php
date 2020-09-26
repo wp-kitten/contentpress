@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\CommentStatuses;
+use App\Models\CommentStatuses;
 use App\Helpers\ScriptsManager;
-use App\Post;
-use App\PostComments;
-use App\User;
+use App\Models\Post;
+use App\Models\PostComments;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;

@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Util;
-use App\Language;
-use App\Options;
-use App\Tag;
+use App\Models\Language;
+use App\Models\Options;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
 

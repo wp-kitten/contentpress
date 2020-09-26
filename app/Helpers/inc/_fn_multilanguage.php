@@ -1,7 +1,7 @@
 <?php
 
 use App\Helpers\CPML;
-use App\Language;
+use App\Models\Language;
 
 if ( !defined( 'CONTENTPRESS_VERSION' ) ) {
     exit;

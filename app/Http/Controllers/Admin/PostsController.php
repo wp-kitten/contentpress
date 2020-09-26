@@ -2,15 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Category;
+use App\Models\Category;
 use App\Helpers\MetaFields;
 use App\Helpers\ScriptsManager;
-use App\Language;
-use App\Post;
-use App\PostMeta;
-use App\PostStatus;
-use App\PostType;
-use App\Tag;
+use App\Models\Language;
+use App\Models\Post;
+use App\Models\PostMeta;
+use App\Models\PostStatus;
+use App\Models\PostType;
+use App\Models\Tag;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;

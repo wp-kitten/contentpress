@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Link;
+use App\Models\Link;
 use Illuminate\Support\Str;
 
 class LinksController extends AdminControllerBase

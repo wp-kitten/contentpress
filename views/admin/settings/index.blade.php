@@ -1,4 +1,4 @@
-@inject('languageClass', App\Language)
+@inject('languageClass', App\Models\Language)
 
 @extends('admin.layouts.base')
 

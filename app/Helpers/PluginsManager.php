@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Options;
+use App\Models\Options;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Schema;
 
@@ -32,7 +32,7 @@ class PluginsManager
     private $pluginsDir = '';
 
     /**
-     * Stores the reference to the instance of the App\Options class
+     * Stores the reference to the instance of the App\Models\Options class
      * @var Options|null
      */
     private $optionsClass = null;

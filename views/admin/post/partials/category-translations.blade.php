@@ -1,4 +1,4 @@
-@inject('languageClass', App\Language)
+@inject('languageClass', App\Models\Language)
 <table class="table table-bordered">
     <thead>
     <tr>

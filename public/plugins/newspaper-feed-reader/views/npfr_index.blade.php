@@ -1,4 +1,4 @@
-@inject('catModel', App\Category)
+@inject('catModel', App\Models\Category)
 @extends('admin.layouts.base')
 
 @section('page-title')
@@ -25,7 +25,7 @@
                         </form>
                     @endif
 
-                    @if(! App\Category::where('name', \Illuminate\Support\Str::title('Romania'))->first())
+                    @if(! App\Models\Category::where('name', \Illuminate\Support\Str::title('Romania'))->first())
                         <a class="btn btn-dark d-none d-inline-block" href="#"
                            onclick="event.preventDefault(); document.getElementById('cpfr-import-default-content').submit();"
                            title="{{__('npfr::m.Creates the default pages, categories & feed urls')}}">

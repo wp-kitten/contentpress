@@ -1,7 +1,7 @@
 <?php
 
-use App\Post;
-use App\PostMeta;
+use App\Models\Post;
+use App\Models\PostMeta;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Str;
 
