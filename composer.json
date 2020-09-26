@@ -20,7 +20,8 @@
         "guzzlehttp/guzzle": "^7.0.1",
         "laravel/framework": "^8.0",
         "laravel/tinker": "^v2.4",
-        "laravel/ui": "^v3.0"
+        "laravel/ui": "^v3.0",
+        "livewire/livewire": "^2.2"
     },
     "require-dev": {
         "barryvdh/laravel-ide-helper": "^2.8",
