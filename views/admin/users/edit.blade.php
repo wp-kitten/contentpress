@@ -31,8 +31,15 @@
 
     @include('admin.partials.notices')
 
-    {{--// Make sure the current suer can edit super admin roles --}}
-    @if(!$isOwnProfile && ($user->isInRole([\App\Models\Role::ROLE_SUPER_ADMIN]) && !$isAuthUserSuperAdmin))
+    {{--// Make sure the current user can edit super admin roles --}}
+    @if(!$isOwnProfile && !$auth_user->can( 'edit_users' ))
+        <div class="bs-component">
+            <div class="alert alert-warning">
+                {{__('a.You are not allowed to perform this action.')}}
+            </div>
+        </div>
+    {{--// If edited user is super admin then the current user must be super admin as well --}}
+    @elseif($user->isInRole( [ \App\Models\Role::ROLE_SUPER_ADMIN ] ) && ! $isAuthUserSuperAdmin)
         <div class="bs-component">
             <div class="alert alert-warning">
                 {{__('a.You are not allowed to perform this action.')}}
@@ -88,15 +95,17 @@
                             </div>
 
                             @if(cp_current_user_can('block_users'))
-                                <div class="form-group">
-                                    <label for="blocked">{{__('a.Blocked') }}</label>
-                                    <select class="form-control border" name="blocked" id="blocked">
-                                        <option value="1" @if($user->is_blocked) selected @endif>{{__('a.Yes')}}
-                                        </option>
-                                        <option value="0" @if(!$user->is_blocked) selected @endif>{{__('a.No')}}
-                                        </option>
-                                    </select>
-                                </div>
+                                @if( ! $isOwnProfile && ($isAuthUserSuperAdmin || $isAuthUserAdmin))
+                                    <div class="form-group">
+                                        <label for="blocked">{{__('a.Blocked') }}</label>
+                                        <select class="form-control border" name="blocked" id="blocked">
+                                            <option value="1" @if($user->is_blocked) selected @endif>{{__('a.Yes')}}
+                                            </option>
+                                            <option value="0" @if(!$user->is_blocked) selected @endif>{{__('a.No')}}
+                                            </option>
+                                        </select>
+                                    </div>
+                                @endif
                             @endif
 
                             <button type="submit" class="btn btn-primary mr-2">{{__('a.Update')}}</button>

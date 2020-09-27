@@ -59,22 +59,19 @@ class UsersController extends AdminControllerBase
     public function showEditPage( $id )
     {
         $currentUser = User::findOrFail( $id );
-        $isUserSuperAdmin = $currentUser->isInRole( [ Role::ROLE_SUPER_ADMIN ] );
+        $isUserSuperAdmin = $currentUser->isInRole( Role::ROLE_SUPER_ADMIN );
 
         $authUser = cp_get_current_user();
         $isOwnProfile = ( $currentUser->id == $authUser->getAuthIdentifier() );
-        $isAuthUserSuperAdmin = $authUser->isInRole( [ Role::ROLE_SUPER_ADMIN ] );
-        $isAuthUserAdmin = $authUser->isInRole( [ Role::ROLE_ADMIN ] );
+        $isAuthUserSuperAdmin = $authUser->isInRole( Role::ROLE_SUPER_ADMIN );
 
         //#! If the edited user is super admin and the current user is not
-        if ( !$isOwnProfile ) {
-            if ( $isUserSuperAdmin && !$isAuthUserSuperAdmin ) {
-                return $this->_forbidden();
-            }
-            //#! Only administrators can edit others' profiles
-            elseif ( !$isAuthUserAdmin ) {
-                return $this->_forbidden();
-            }
+        if ( !$isOwnProfile && !$authUser->can( 'edit_users' ) ) {
+            return $this->_forbidden();
+        }
+        //#! If edited user is super admin then the current user must be super admin as well
+        elseif ( $isUserSuperAdmin && !$isAuthUserSuperAdmin ) {
+            return $this->_forbidden();
         }
 
         ScriptsManager::enqueueStylesheet( 'dropify.min.css', asset( 'vendor/dropify/css/dropify.min.css' ) );
@@ -130,7 +127,10 @@ class UsersController extends AdminControllerBase
             $user->role_id = $this->request->role;
         }
         else {
-            $user->role_id = Role::where( 'name', Role::ROLE_MEMBER )->first()->id;
+            $defaultUserRole = $this->settings->getSetting( 'default_user_role', 0 );
+            //#! Ensure the role exists
+            Role::findOrFail( $defaultUserRole );
+            $user->role_id = $defaultUserRole;
         }
         $user->display_name = $this->request->display_name;
         $user->save();
@@ -233,26 +233,19 @@ class UsersController extends AdminControllerBase
     public function __update()
     {
         $currentUser = User::findOrFail( $this->request->user_id );
-        $isUserSuperAdmin = $currentUser->isInRole( [ Role::ROLE_SUPER_ADMIN ] );
+        $isUserSuperAdmin = $currentUser->isInRole( Role::ROLE_SUPER_ADMIN );
 
         $authUser = $this->current_user();
         $isOwnProfile = ( $currentUser->id == $authUser->getAuthIdentifier() );
-        $isAuthUserSuperAdmin = $authUser->isInRole( [ Role::ROLE_SUPER_ADMIN ] );
-        $isAuthUserAdmin = $authUser->isInRole( [ Role::ROLE_ADMIN ] );
+        $isAuthUserSuperAdmin = $authUser->isInRole( Role::ROLE_SUPER_ADMIN );
+        $isAuthUserAdmin = $authUser->isInRole( Role::ROLE_ADMIN );
 
         //#! If the edited user is super admin and the current user is not
         if ( !$isOwnProfile ) {
             if ( $isUserSuperAdmin && !$isAuthUserSuperAdmin ) {
                 return redirect()->back()->with( 'message', [
                     'class' => 'danger', // success or danger on error
-                    'text' => __( 'a.You are not allowed to perform this action.' ),
-                ] );
-            }
-            //#! Only administrators can edit others' profiles
-            elseif ( !$isAuthUserAdmin ) {
-                return redirect()->back()->with( 'message', [
-                    'class' => 'danger', // success or danger on error
-                    'text' => __( 'a.You are not allowed to perform this action.' ),
+                    'text' => __( 'a.You are not allowed to perform this action.2' ),
                 ] );
             }
             elseif ( !$authUser->can( 'edit_users' ) ) {
@@ -291,7 +284,7 @@ class UsersController extends AdminControllerBase
             $currentUser->role_id = $this->request->role;
         }
 
-        if ( $authUser->can( 'block_users' ) ) {
+        if ( $this->request->has( 'blocked' ) && $authUser->can( 'block_users' ) ) {
             $currentUser->is_blocked = $this->request->blocked;
         }
         $currentUser->update();
@@ -305,22 +298,14 @@ class UsersController extends AdminControllerBase
     public function __updateProfile( $id )
     {
         $currentUser = User::findOrFail( $id );
-        $isUserSuperAdmin = $currentUser->isInRole( [ Role::ROLE_SUPER_ADMIN ] );
+        $isUserSuperAdmin = $currentUser->isInRole( Role::ROLE_SUPER_ADMIN );
 
         $authUser = $this->current_user();
         $isOwnProfile = ( $id == $authUser->getAuthIdentifier() );
-        $isAuthUserSuperAdmin = $authUser->isInRole( [ Role::ROLE_SUPER_ADMIN ] );
-        $isAuthUserAdmin = $authUser->isInRole( [ Role::ROLE_ADMIN ] );
+        $isAuthUserSuperAdmin = $authUser->isInRole( Role::ROLE_SUPER_ADMIN );
 
         if ( !$isOwnProfile ) {
             if ( $isUserSuperAdmin && !$isAuthUserSuperAdmin ) {
-                return redirect()->back()->with( 'message', [
-                    'class' => 'danger', // success or danger on error
-                    'text' => __( 'a.You are not allowed to perform this action.' ),
-                ] );
-            }
-            //#! Only administrators can edit others' profiles
-            elseif ( !$isAuthUserAdmin ) {
                 return redirect()->back()->with( 'message', [
                     'class' => 'danger', // success or danger on error
                     'text' => __( 'a.You are not allowed to perform this action.' ),
