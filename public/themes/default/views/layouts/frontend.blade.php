@@ -20,7 +20,6 @@
     <!-- Fonts -->
     <link rel="dns-prefetch" href="//fonts.gstatic.com"/>
 
-    @livewireStyles
     @cp_head()
 </head>
 <body class="{{cp_body_classes()}}">
@@ -32,7 +31,6 @@
 
     @include('inc.site-footer')
 
-    @livewireScripts
     @cp_footer()
 </body>
 </html>

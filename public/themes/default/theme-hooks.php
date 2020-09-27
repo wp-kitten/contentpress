@@ -14,12 +14,11 @@ add_filter( 'contentpress/register_view_paths', function ( $paths = [] ) {
 /**
  * Register the path to the translation file that will be used depending on the current locale
  */
-add_action( 'contentpress/app/loaded', function () {
-    cp_register_language_file( 'cpdt', path_combine(
-        DEFAULT_THEME_DIR_PATH,
-        'lang'
-    ) );
-} );
+cp_register_language_file( 'cpdt', path_combine(
+    DEFAULT_THEME_DIR_PATH,
+    'lang'
+) );
+
 
 /*
  * Load|output resources in the head tag
@@ -84,6 +83,6 @@ add_action( 'contentpress/post/footer', function ( $post ) {
  * Filter classes applied to the <body> tag
  */
 add_filter( 'contentpress/body-class', function ( $classes = [] ) {
-    //...
+    $classes[] = 'theme-default';
     return $classes;
 } );

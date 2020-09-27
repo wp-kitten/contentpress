@@ -107,6 +107,7 @@
         <div class="section-wrap mt-4 mb-4">
             <div class="container">
                 <div class="row">
+
                     <div class="col-sm-12 col-md-9">
                         <header>
                             <h3 class="section-title">{{__('cpdt::m.Section :n', ['n' => 5])}}</h3>
@@ -132,8 +133,10 @@
                             @endif
                         </div>
                     </div>
+
+                    {{-- SIDEBAR --}}
                     <div class="col-sm-12 col-md-3">
-                        @livewire('blog-sidebar')
+                        @include('inc.blog-sidebar')
                     </div>
 
                 </div>

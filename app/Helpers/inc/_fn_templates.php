@@ -3,8 +3,8 @@
  * This file stores all functions related to templates
  */
 
-use App\Models\Category;
 use App\Helpers\CPML;
+use App\Models\Category;
 use App\Models\Post;
 use App\Models\PostComments;
 use App\Models\PostStatus;
@@ -172,12 +172,12 @@ function cp_search_form( $placeholderText = 'Search', $searchButtonText = 'Searc
 }
 
 /**
- * Retrieve the search query
+ * Retrieve the sanitized search query
  * @return mixed|string
  */
 function cp_get_search_query(): string
 {
-    return ( \request()->has( 's' ) ? \request()->get( 's' ) : '' );
+    return wp_kses( \request()->get( 's', '' ), [] );
 }
 
 /**

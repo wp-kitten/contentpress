@@ -8,6 +8,8 @@
 
 body {
   background-color: #f5f4f4;
+  font-size: 0.9rem;
+  line-height: 1;
 }
 
 img,
@@ -59,6 +61,18 @@ a.bg-danger:hover {
   color: #fff;
 }
 
+.alert p {
+  margin-bottom: 0 !important;
+}
+
+.search-form .search-field {
+  padding: 0.25rem;
+}
+
+.search-form .search-button {
+  padding: 7px;
+}
+
 .site-page {
   margin-top: 2rem;
 }
@@ -82,8 +96,8 @@ a.bg-danger:hover {
 .loop-post .article-content .entry-title {
   margin: 0 0;
   padding: 0 0;
-  line-height: 1.6;
-  font-size: 1.7rem;
+  line-height: 1.3;
+  font-size: 1rem;
 }
 
 .related-posts {
@@ -95,6 +109,29 @@ a.bg-danger:hover {
   align-items: center;
   align-content: center;
   justify-content: center;
+}
+
+.page-404 .page-content-wrap,
+.page-500 .page-content-wrap,
+.page-under-maintenance .page-content-wrap {
+  padding: 50px 0 200px 0;
+}
+
+.page-404 .page-content-wrap .title,
+.page-500 .page-content-wrap .title,
+.page-under-maintenance .page-content-wrap .title {
+  font-size: 12rem;
+}
+
+.page-404 .page-content-wrap .subtitle,
+.page-500 .page-content-wrap .subtitle,
+.page-under-maintenance .page-content-wrap .subtitle {
+  margin-top: 3rem;
+  font-size: 2rem;
+}
+
+.page-under-maintenance .title {
+  font-size: 6rem !important;
 }
 
 .blog-sidebar .widget {
@@ -115,8 +152,8 @@ a.bg-danger:hover {
 }
 
 .blog-sidebar .widget-categories .widget-content .categories-list li a {
-  font-size: 1.4rem;
-  line-height: 1.4;
+  font-size: 1rem;
+  line-height: 1;
 }
 
 .blog-sidebar .widget-tags .widget-content .tags-list li {
@@ -125,7 +162,7 @@ a.bg-danger:hover {
 }
 
 .blog-sidebar .widget-tags .widget-content .tags-list li a {
-  font-size: 1.4rem;
+  font-size: 1rem;
   line-height: 1.7;
   word-break: break-word;
   margin-right: 7px;
@@ -170,5 +207,11 @@ a.bg-danger:hover {
 
 .cpdt-site-footer .footer-content-wrap .footer-menu-nav .footer-menu-wrap li:last-of-type {
   margin-right: 0;
+}
+
+.page-login .page-content-wrap,
+.page-reset-password .page-content-wrap,
+.page-register .page-content-wrap {
+  padding: 50px 0 150px 0;
 }
 

@@ -209,4 +209,54 @@ class DefaultThemeController extends SiteController
         ] );
     }
 
+    public function search()
+    {
+        $postType = PostType::where( 'name', '!=', 'page' )->get();
+
+        $s = cp_get_search_query();
+
+        if ( !$postType || empty( $s ) ) {
+            return view( 'search' )->with( [
+                'posts' => null,
+                'numResults' => 0,
+                'order' => 'desc',
+            ] );
+        }
+
+        $postTypesArray = Arr::pluck( $postType, 'id' );
+
+        //#! Filters
+        $order = $this->request->get( 'order' );
+        if ( empty( $order ) ) {
+            $order = 'desc';
+        }
+        else {
+            $order = strtolower( wp_kses( $order, [] ) );
+            $order = ( in_array( $order, [ 'asc', 'desc' ] ) ? $order : 'desc' );
+        }
+
+        $posts = Post::where( 'language_id', cp_get_frontend_user_language_id() )
+            ->where( 'post_status_id', PostStatus::where( 'name', 'publish' )->first()->id )
+            ->whereIn( 'post_type_id', $postTypesArray )
+            ->where( function ( $query ) use ( $s ) {
+                return
+                    $query->where( 'title', 'LIKE', '%' . $s . '%' )
+                        ->orWhere( 'content', 'LIKE', '%' . $s . '%' )
+                        ->orWhere( 'excerpt', 'LIKE', '%' . $s . '%' );
+            } )
+            //#! Only include results from within the last month
+            ->whereDate( 'created_at', '>', now()->subMonth()->toDateString() )
+            ->orderBy( 'id', $order );
+
+        $numResults = $posts->count();
+
+        $posts = $posts->paginate( $this->settings->getSetting( 'posts_per_page', 12 ) );
+
+        return view( 'search' )->with( [
+            'posts' => $posts,
+            'numResults' => $numResults,
+            'order' => $order,
+        ] );
+    }
+
 }

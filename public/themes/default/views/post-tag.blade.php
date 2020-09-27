@@ -5,9 +5,6 @@
 @extends('layouts.frontend')
 
 @inject('themeHelper', App\DefaultTheme\ThemeHelper)
-@php
-    /**@var \App\DefaultTheme\ThemeHelper $themeHelper*/
-@endphp
 
 @section('title')
     <title>{!! $tag->name !!}</title>
@@ -73,12 +70,9 @@
                 </div>
 
                 {{-- SIDEBAR --}}
-                <div class="col-md-3">
-                    <aside class="site-sidebar">
-                        @livewire('blog-sidebar')
-                    </aside>
+                <div class="col-sm-12 col-md-3">
+                    @include('inc.blog-sidebar')
                 </div>
-
             </div>
         </div>
 

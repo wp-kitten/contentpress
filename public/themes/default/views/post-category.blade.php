@@ -85,8 +85,8 @@
                 </div>
 
                 {{-- SIDEBAR --}}
-                <div class="col-md-3">
-                    @livewire('blog-sidebar')
+                <div class="col-sm-12 col-md-3">
+                    @include('inc.blog-sidebar')
                 </div>
 
             </div>

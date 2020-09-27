@@ -3,7 +3,7 @@
 .image-responsive { max-width: 100%;}
 
 //
-body { background-color: #f5f4f4; }
+body { background-color: #f5f4f4; font-size: 0.9rem; line-height: 1; }
 img, a {border: none 0; outline: none;}
 
 
@@ -36,4 +36,10 @@ a.bg-danger {
         background-color: #73161e;
         color: #fff;
     }
+}
+
+.alert p { margin-bottom: 0 !important; }
+.search-form {
+    .search-field { padding: 0.25rem; }
+    .search-button { padding: 7px;}
 }
