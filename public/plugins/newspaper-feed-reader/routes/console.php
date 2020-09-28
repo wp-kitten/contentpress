@@ -1,6 +1,6 @@
 <?php
 
-use App\Feed;
+use App\Models\Feed;
 use App\Helpers\FeedImporter;
 use App\Models\Options;
 use Illuminate\Support\Arr;

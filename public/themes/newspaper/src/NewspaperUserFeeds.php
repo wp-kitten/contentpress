@@ -2,7 +2,7 @@
 
 namespace App\Newspaper;
 
-use App\Feed;
+use App\Models\Feed;
 use App\Newspaper\User as NpUser;
 use Illuminate\Support\Collection;
 

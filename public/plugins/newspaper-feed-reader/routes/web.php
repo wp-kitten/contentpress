@@ -1,6 +1,6 @@
 <?php
 
-use App\Feed;
+use App\Models\Feed;
 use App\Helpers\FeedImporter;
 use App\Helpers\UserNotices;
 use App\Models\Options;

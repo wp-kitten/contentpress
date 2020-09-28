@@ -2,7 +2,7 @@
 
 namespace App\Newspaper;
 
-use App\Feed;
+use App\Models\Feed;
 use Illuminate\Database\Eloquent\Model;
 
 class User extends Model

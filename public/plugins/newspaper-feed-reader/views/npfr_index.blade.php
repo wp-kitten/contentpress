@@ -60,7 +60,7 @@
                             <select id="cat-name-field" name="id" class="selectize-control">
                                 @forelse($categories as $categoryID => $subcategories)
                                     @php
-                                        $cat = $catModel->find($categoryID);
+                                        $cat = App\Models\Category::find($categoryID);
                                         if( empty( $subcategories ) ) {
                                             echo '<option value="'.esc_attr($categoryID).'">'.$cat->name.'</option>';
                                         }
@@ -68,7 +68,7 @@
                                             echo '<optgroup label="'.$cat->name.'">';
                                             echo '<option value="'.esc_attr($categoryID).'">'.$cat->name.'</option>';
                                             foreach($subcategories as $subcategoryID){
-                                                $subcat = $catModel->find($subcategoryID);
+                                                $subcat = App\Models\Category::find($subcategoryID);
                                                 echo '<option value="'.esc_attr($subcategoryID).'">'.$subcat->name.'</option>';
                                             }
                                             echo '</optgroup>';

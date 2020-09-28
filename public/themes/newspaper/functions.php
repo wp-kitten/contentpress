@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\CommentStatuses;
-use App\Feed;
+use App\Models\Feed;
 use App\Http\Controllers\NewspaperAdminController;
 use App\Models\Options;
 use App\Models\Post;

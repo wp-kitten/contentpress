@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\CategoryMeta;
-use App\Feed;
+use App\Models\Feed;
 use App\Helpers\CPML;
 use App\Helpers\Util;
 use App\Http\Controllers\Admin\AdminControllerBase;

@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
-use App\Feed;
+use App\Models\Feed;
 use App\Helpers\CPML;
 use App\Newspaper\NewspaperUserFeeds;
 use App\Models\Post;

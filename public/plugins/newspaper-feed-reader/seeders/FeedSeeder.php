@@ -3,7 +3,7 @@ namespace Database\Seeders;
 
 use App\Models\Category;
 use App\Models\CategoryMeta;
-use App\Feed;
+use App\Models\Feed;
 use App\Helpers\CPML;
 use App\Models\Post;
 use App\Models\PostMeta;

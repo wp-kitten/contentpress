@@ -2,7 +2,7 @@
 
 namespace App\Helpers;
 
-use App\Feed;
+use App\Models\Feed;
 use App\Helpers\Syndication\FeedReader;
 use App\Models\MediaFile;
 use App\Models\Post;
