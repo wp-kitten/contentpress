@@ -115,8 +115,11 @@ class Theme
         //#! Load the parent theme first
         $parentTheme = $this->getParentTheme();
         if ( $parentTheme ) {
-            $parentTheme->load();
-            do_action( 'contentpress/theme/activated', $this );
+            //#! Load parent theme's files
+            $functionsFile = path_combine( $parentTheme->getDirPath(), 'functions.php' );
+            if ( File::isFile( $functionsFile ) ) {
+                require_once( $functionsFile );
+            }
         }
 
         //#! Load theme's files
@@ -125,9 +128,7 @@ class Theme
             require_once( $functionsFile );
         }
 
-        if ( !$parentTheme ) {
-            do_action( 'contentpress/theme/activated', $this );
-        }
+        do_action( 'contentpress/theme/activated', $this );
     }
 
     /**
@@ -204,7 +205,7 @@ class Theme
         $themeInfoFile = path_combine( $this->_dirPath, 'theme.json' );
         $themeFunctionsFile = path_combine( $this->_dirPath, 'functions.php' );
         if ( !File::isFile( $themeInfoFile ) ) {
-            $this->_errors[] = __( 'a. The theme :name is not valid, the :file is missing.', [
+            $this->_errors[] = __( 'a.The theme :name is not valid, the :file is missing.', [
                 'name' => $themeDirName,
                 'file' => $themeInfoFile,
             ] );
@@ -213,15 +214,24 @@ class Theme
             //! Ensure the theme.json file is valid
             $themeInfoFileData = $this->getThemeData();
             if ( empty( $themeInfoFileData ) ) {
-                $this->_errors[] = __( 'a. The theme :name is not valid, the :file is not properly formatted or it misses entries.', [
+                $this->_errors[] = __( 'a.The theme :name is not valid, the :file is not properly formatted or it misses entries.', [
                     'name' => $themeDirName,
                     'file' => $themeInfoFile,
                 ] );
             }
+            //#! If this is a child theme, make sure it doesn't extend a child theme
+            elseif($parentTheme = $this->getParentTheme()) {
+                if ( $parentTheme && $parentTheme->isChildTheme() ) {
+                    $this->_errors[] = __( 'a.Invalid theme: :name must not extend another child theme: :theme', [
+                        'name' => $themeInfoFileData[ 'display_name' ],
+                        'theme' => $parentTheme->get( 'display_name' ),
+                    ] );
+                }
+            }
         }
 
         if ( !File::isFile( $themeFunctionsFile ) ) {
-            $this->_errors[] = __( 'a. The theme :name is not valid, the :file is missing.', [
+            $this->_errors[] = __( 'a.The theme :name is not valid, the :file is missing.', [
                 'name' => $themeDirName,
                 'file' => $themeFunctionsFile,
             ] );

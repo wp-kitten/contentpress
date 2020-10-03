@@ -75,8 +75,7 @@ class ThemesController extends AdminControllerBase
 
         //#! On Activate, ensure the parent theme exists if $themeName is a child theme
         if ( $activeTheme->isChildTheme() ) {
-            $parent = $activeTheme->getParentTheme();
-            if ( !$parent->parentThemeDirExists() ) {
+            if ( !$activeTheme->parentThemeDirExists() ) {
                 return redirect()->back()->with( 'message', [
                     'class' => 'danger',
                     'text' => __( 'a.An error occurred. The theme you are trying to activate is missing its parent theme.' ),

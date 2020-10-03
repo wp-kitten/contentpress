@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Events\AppLoadedEvent;
 use App\Helpers\Cache;
 use App\Helpers\ContentPressCheckForUpdates;
 use App\Helpers\CPML;
@@ -59,9 +60,6 @@ class AppServiceProvider extends ServiceProvider
         Schema::defaultStringLength( 191 );
 
         Paginator::useBootstrap();
-
-        PluginsManager::getInstance();
-        ThemesManager::getInstance();
 
         if ( Schema::hasTable( 'options' ) ) {
             if ( cp_is_multilingual() ) {

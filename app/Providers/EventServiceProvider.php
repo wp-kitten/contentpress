@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Events\AppLoadedEvent;
 use App\Events\UserRegisteredEvent;
+use App\Listeners\AppLoadedListener;
 use App\Listeners\UserRegisteredListener;
 use App\Listeners\UserWelcomeEmailListener;
 use Illuminate\Auth\Events\Registered;
@@ -24,6 +26,9 @@ class EventServiceProvider extends ServiceProvider
             UserRegisteredListener::class,
             UserWelcomeEmailListener::class,
         ],
+        AppLoadedEvent::class => [
+            AppLoadedListener::class,
+        ],
     ];
 
     /**
@@ -35,5 +40,15 @@ class EventServiceProvider extends ServiceProvider
     {
         parent::boot();
         //
+    }
+
+    /**
+     * Determine if events and listeners should be automatically discovered.
+     *
+     * @return bool
+     */
+    public function shouldDiscoverEvents()
+    {
+        return true;
     }
 }

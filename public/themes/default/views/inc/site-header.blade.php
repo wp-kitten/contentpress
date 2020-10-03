@@ -2,7 +2,11 @@
     <div class="container">
         <div class="row">
             <div class="col-sm-12 col-md-4">
-                <h1 class="logo">{{env('APP_NAME', 'ContentPress')}}</h1>
+                <h1 class="logo">
+                    <a href="{{route('app.home')}}">
+                        {{env('APP_NAME', 'ContentPress')}}
+                    </a>
+                </h1>
             </div>
             <div class="col-sm-12 col-md-8">
                 {{--// Maybe show ad space here --}}

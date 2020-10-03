@@ -458,4 +458,6 @@ return [
     'The application cache has been cleared.' => 'The application cache has been cleared.',
     'Clear app cache' => 'Clear app cache',
     'Forbidden' => 'Forbidden',
+    'Invalid theme: :name must not extend another child theme: :theme' => 'Invalid theme: :name must not extend another child theme: :theme',
+    'An error occurred. The theme you are trying to activate is missing its parent theme.' => 'An error occurred. The theme you are trying to activate is missing its parent theme.',
 ];

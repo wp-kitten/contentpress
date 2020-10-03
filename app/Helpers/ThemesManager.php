@@ -280,14 +280,11 @@ class ThemesManager
             }
         }
 
-        //#! Attempt to instantiate the default theme
+        //#! Attempt to activate the default theme
         $defaultTheme = new Theme( env( 'DEFAULT_THEME_NAME', 'default' ) );
         if ( $defaultTheme->isValid() ) {
-
-            //#! Activate the default theme
             $defaultTheme->load();
             $this->_activeTheme = $defaultTheme;
-
             return true;
         }
 
