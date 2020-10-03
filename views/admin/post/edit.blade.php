@@ -69,12 +69,7 @@
                                         @if($post_statuses)
                                             <select id="post_status" class="form-control border">
                                                 @foreach($post_statuses as $entry)
-                                                    @php
-                                                        if($entry->name == $current_post_status){
-                                                            $selected = 'selected="selected"';
-                                                        }
-                                                        else { $selected = ''; }
-                                                    @endphp
+                                                    @php $selected = ($entry->name == $current_post_status ? 'selected' : ''); @endphp
                                                     <option value="{{$entry->id}}" {!! $selected !!}>
                                                         {{$entry->display_name}}
                                                     </option>

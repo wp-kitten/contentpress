@@ -146,7 +146,6 @@ class PostsController extends AdminControllerBase
 
             'post_statuses' => PostStatus::all(),
             'default_post_status' => $this->settings->getSetting( 'default_post_status' ),
-            'current_post_status' => $post->post_status->name,
 
             'categories' => Category::where( 'language_id', $post->language_id )->where( 'post_type_id', $this->_postType->id )->get(),
 
@@ -199,7 +198,6 @@ class PostsController extends AdminControllerBase
             'language_name' => $this->language->getNameFrom( $post->language_id ),
 
             'post_statuses' => PostStatus::all(),
-            'default_post_status' => $this->settings->getSetting( 'default_post_status' ),
             'current_post_status' => $post->post_status->name,
 
             'categories' => Category::where( 'language_id', $post->language_id )->where( 'post_type_id', $this->_postType->id )->get(),
