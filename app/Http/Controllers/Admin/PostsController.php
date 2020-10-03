@@ -202,7 +202,7 @@ class PostsController extends AdminControllerBase
             'default_post_status' => $this->settings->getSetting( 'default_post_status' ),
             'current_post_status' => $post->post_status->name,
 
-            'categories' => $post->categories,
+            'categories' => Category::where( 'language_id', $post->language_id )->where( 'post_type_id', $this->_postType->id )->get(),
             'post_categories' => $postCategories,
 
             'tags' => $post->tags,
