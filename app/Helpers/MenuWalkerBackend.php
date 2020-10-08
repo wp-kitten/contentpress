@@ -112,11 +112,21 @@ class MenuWalkerBackend implements IMenuWalker
                             data-type="<?php esc_attr_e( $type->name ); ?>"
                             data-title="<?php esc_attr_e( $title ); ?>"
                             data-url="<?php esc_attr_e( $meta[ 'url' ] ); ?>"
-                            class="list-item">
-                            <p>
-                                <?php esc_html_e( $title ); ?>
-                                <a href="#" class="js-btn-remove" data-target="<?php echo $type->name . $menuItemID; ?>" title="<?php esc_attr_e( __( 'a.Delete' ) ); ?>"><?php echo '&times;'; ?></a
-                            </p>
+                            class="dd-item">
+                            <?php
+                            if ( !empty( $menuItemData[ 'items' ] ) ) {
+                                ?>
+                                <button class="dd-collapse" data-action="collapse" type="button"><?php esc_html_e( __( 'a.Collapse' ) ); ?></button>
+                                <button class="dd-expand" data-action="expand" type="button"><?php esc_html_e( __( 'a.Expand' ) ); ?></button>
+                                <?php
+                            }
+                            ?>
+                            <a href="#" class="js-btn-remove" title="<?php esc_attr_e( __( 'a.Delete' ) ); ?>">
+                                <?php echo '&times;'; ?>
+                            </a>
+                            <div class="dd-handle">
+                                <span class="dd-content"><?php esc_html_e( $title ); ?></span>
+                            </div>
                             <?php
                             $this->__renderSubmenus( $menuItemData[ 'items' ] );
                             ?>
@@ -133,11 +143,21 @@ class MenuWalkerBackend implements IMenuWalker
                         data-menu-item-id="<?php esc_attr_e( $menuItemID ); ?>"
                         data-selector="<?php esc_attr_e( $type->name . $menuItemID ); ?>"
                         data-type="<?php esc_attr_e( $type->name ); ?>"
-                        class="list-item">
-                        <p>
-                            <?php esc_html_e( $category->name ); ?>
-                            <a href="#" class="js-btn-remove" data-target="<?php echo $type->name . $menuItemID; ?>" title="<?php esc_attr_e( __( 'a.Delete' ) ); ?>"><?php echo '&times;'; ?></a
-                        </p>
+                        class="dd-item">
+                        <?php
+                        if ( !empty( $menuItemData[ 'items' ] ) ) {
+                            ?>
+                            <button class="dd-collapse" data-action="collapse" type="button"><?php esc_html_e( __( 'a.Collapse' ) ); ?></button>
+                            <button class="dd-expand" data-action="expand" type="button"><?php esc_html_e( __( 'a.Expand' ) ); ?></button>
+                            <?php
+                        }
+                        ?>
+                        <a href="#" class="js-btn-remove" title="<?php esc_attr_e( __( 'a.Delete' ) ); ?>">
+                            <?php echo '&times;'; ?>
+                        </a>
+                        <div class="dd-handle">
+                            <span class="dd-content"><?php esc_html_e( $category->name ); ?></span>
+                        </div>
                         <?php
                         $this->__renderSubmenus( $menuItemData[ 'items' ] );
                         ?>
@@ -154,11 +174,21 @@ class MenuWalkerBackend implements IMenuWalker
                         data-menu-item-id="<?php esc_attr_e( $menuItemID ); ?>"
                         data-selector="<?php esc_attr_e( $type->name . $menuItemID ); ?>"
                         data-type="<?php esc_attr_e( $type->name ); ?>"
-                        class="list-item">
-                        <p>
-                            <?php esc_html_e( $post->title ); ?>
-                            <a href="#" class="js-btn-remove" data-target="<?php echo $type->name . $menuItemID; ?>" title="<?php esc_attr_e( __( 'a.Delete' ) ); ?>"><?php echo '&times;'; ?></a
-                        </p>
+                        class="dd-item">
+                        <?php
+                        if ( !empty( $menuItemData[ 'items' ] ) ) {
+                            ?>
+                            <button class="dd-collapse" data-action="collapse" type="button"><?php esc_html_e( __( 'a.Collapse' ) ); ?></button>
+                            <button class="dd-expand" data-action="expand" type="button"><?php esc_html_e( __( 'a.Expand' ) ); ?></button>
+                            <?php
+                        }
+                        ?>
+                        <a href="#" class="js-btn-remove" title="<?php esc_attr_e( __( 'a.Delete' ) ); ?>">
+                            <?php echo '&times;'; ?>
+                        </a>
+                        <div class="dd-handle">
+                            <span class="dd-content"><?php esc_html_e( $post->title ); ?></span>
+                        </div>
                         <?php
                         $this->__renderSubmenus( $menuItemData[ 'items' ] );
                         ?>
@@ -171,15 +201,11 @@ class MenuWalkerBackend implements IMenuWalker
 
     private function __renderSubmenus( $menuItemData )
     {
-        ?>
-        <ul class="list-unstyled mt-2 mb-2 submenu-list">
-            <?php
-            if ( !empty( $menuItemData ) ) {
-                $this->outputHtml( $menuItemData );
-            }
-            ?>
-        </ul>
-        <?php
+        if ( !empty( $menuItemData ) ) {
+            echo '<ul class="dd-list">';
+            $this->outputHtml( $menuItemData );
+            echo '</ul>';
+        }
     }
 
     //#! Process each first level menu item and recurse into it for children
@@ -194,7 +220,7 @@ class MenuWalkerBackend implements IMenuWalker
     {
         $data = [];
         $children = $this->__getChildren( $menuItemID );
-        if ( $children->count() > 0 ) {
+        if ( $children && $children->count() ) {
             foreach ( $children as $child ) {
                 if ( !isset( $data[ $child->id ] ) ) {
                     $data[ $child->id ] = [];

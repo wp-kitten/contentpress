@@ -102,10 +102,10 @@
             } );
             return false;
         }
-
     </script>
 
     {{cp_admin_head()}}
+    @yield('head-scripts')
 </head>
 <body class="app sidebar-mini">
 

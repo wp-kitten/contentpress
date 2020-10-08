@@ -864,6 +864,7 @@ class AjaxController extends Controller
         if ( !$menu ) {
             return $this->responseError( __( 'a.The menu was not found.' ) );
         }
+
         $this->__emptyMenu( $menuID );
 
         if ( !empty( $menuItems ) ) {

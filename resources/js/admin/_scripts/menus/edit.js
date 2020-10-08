@@ -7,113 +7,70 @@ if ( !pageLocale ) {
     throw new Error( 'MenuLocale locale not loaded.' );
 }
 
-/* Sortable menu items */
+//#! nestable v2
+//#! https://github.com/RamonSmit/Nestable2
 jQuery( function ($) {
     "use strict";
 
-    //#! vars
-    let menuList = $( '#list-1' ),
-        btnAddToMenu = $( '.js-btn-add-to-menu' ),
-        btnAddCustomToMenu = $( '.js-custom-add-to-menu-button' ),
-        btnSaveMenu = $( '.js-btn-save-menu' ),
-        emptyMenuItem = $( '.menu-empty' ),
-        __ACTION_ADD__ = 'x0000',
-        __ACTION_REMOVE__ = 'x0001'
-    ;
+    const MenuBuilder = {
+        __ACTION_ADD__: 'x0000',
+        __ACTION_REMOVE__: 'x0001',
+        // the element storing be nestable list (.dd)
+        __nestable: null,
+        __btnSaveMenu: null,
+        __placeholder: null,
+        __btnAddToMenu: null,
+        __btnCustomAddToMenu: null,
 
-    /**
-     * Stores the last ID used for custom entries
-     * @type {number}
-     * @internal
-     * @private
-     */
-    let _lastCustomMenuItemID = 1000;
+        init() {
+            this.__nestable = $( '.dd' );
+            this.__btnSaveMenu = $( '.js-btn-save-menu' );
+            this.__placeholder = $( '.menu-empty' );
+            this.__btnAddToMenu = $( '.js-btn-add-to-menu' );
+            this.__btnCustomAddToMenu = $( '.js-custom-add-to-menu-button' );
 
-    //#! Helpers
-    const UIHelper = {
-
-        initMainSortable() {
-            $( ".js-menu-list" ).sortable( {
-                placeholder: "ui-state-highlight",
-                connectWith: '.submenu-list',
-                forcePlaceholderSize: true,
-                forceHelperSize: true,
-                tolerance: "pointer",
-                start: function (event, ui) {
-                    $( 'body' ).addClass( 'dragging' );
-                },
-                stop: function (event, ui) {
-                    $( 'body' ).removeClass( 'dragging' );
-                    btnSaveMenu.removeClass( 'no-click disabled' );
-                },
-            } ).disableSelection();
-
+            this.__initNestable();
+            this.updateSaveButtonState( this.__ACTION_ADD__, false );
+            this.__setupListeners();
         },
 
-        initConnectedSortable() {
-            const submenuLists = $( ".submenu-list" );
-            submenuLists.sortable( {
-                placeholder: "ui-state-highlight",
-                connectWith: '.submenu-list,.js-menu-list',
-                forcePlaceholderSize: true,
-                forceHelperSize: true,
-                tolerance: "pointer",
-                start: function (event, ui) {
-                    $( 'body' ).addClass( 'dragging' );
-                },
-                stop: function (event, ui) {
-                    $( 'body' ).removeClass( 'dragging' );
-                    btnSaveMenu.removeClass( 'no-click disabled' );
-                },
-            } ).disableSelection();
-        },
+        __initNestable() {
+            const $this = this;
 
-        updateSaveButtonState(action, enable = true) {
-            if ( action === __ACTION_ADD__ ) {
-                emptyMenuItem.hide();
-                btnSaveMenu.removeClass( 'hidden' );
-            }
+            this.__nestable.nestable( {
+                maxDepth: 20,
+                scroll: true,
+                callback: function (l, e) {
+                    // l is the main container
+                    // e is the element that was moved
 
-            if ( !UIHelper.__hasMenuItems() ) {
-                if ( !enable ) {
-                    btnSaveMenu.addClass( 'hidden' );
+                    console.info( $( e ).attr( 'data-id' ) );
+
+                    //#! Enable the Save Menu button
+                    $this.updateSaveButtonState( $this.__ACTION_ADD__ );
                 }
-                emptyMenuItem.show();
-            }
-
-            if ( enable ) {
-                btnSaveMenu.removeClass( 'no-click disabled' );
-            }
-            else {
-                btnSaveMenu.addClass( 'no-click disabled' );
-            }
+            } );
         },
 
         __hasMenuItems() {
-            const c = menuList.find( '.list-item' );
+            const c = this.__nestable.find( '.dd-item' );
             return ( c && c.length >= 1 );
         },
 
-        __removeMenuItem(ev, $element) {
-            ev.preventDefault();
-            ev.stopPropagation();
-
-            if ( confirm( pageLocale.confirm_delete_item ) ) {
-                //#! Get the target
-                const targetID = $element.attr( 'data-target' );
-                if ( typeof ( targetID ) !== 'undefined' ) {
-                    menuList.find( '.list-item[data-selector="' + targetID + '"]' ).remove();
-                    UIHelper.updateSaveButtonState( __ACTION_REMOVE__, true );
+        __bindClickMenuItemRemove() {
+            const $this = this;
+            $( '.js-btn-remove', $this.__nestable ).on( 'click', function (ev) {
+                ev.preventDefault();
+                ev.stopPropagation();
+                if ( confirm( pageLocale.confirm_delete_item ) ) {
+                    const target = $( ev.target ).parents( '.dd-item' ).first();
+                    if ( target ) {
+                        target.addClass( 'js-deleted hidden' );
+                        $this.updateSaveButtonState( $this.__ACTION_REMOVE__, true );
+                    }
                 }
-            }
-        },
-
-        __setupDynamicListeners() {
-            $.each( $( '.js-btn-remove', menuList ), function (ix, el) {
-                $( el ).off( 'click' ).on( 'click', function (ev) {
-                    UIHelper.__removeMenuItem( ev, $( el ) );
-                } );
             } );
+
         },
 
         __resetChecked(target) {
@@ -128,72 +85,146 @@ jQuery( function ($) {
             }
         },
 
-        __saveMenu(ev) {
-            const menuItems = UIHelper.__menuToArray();
-            const loader = $( '#menu-items-sortable .js-ajax-loader' );
+        __setupListeners() {
+            const $this = this;
 
-            btnSaveMenu.addClass( 'no-click' );
-            loader.removeClass( 'hidden' );
+            if ( this.__hasMenuItems() ) {
+                this.__bindClickMenuItemRemove();
+            }
 
-            let ajaxData = {
-                url: locale.ajax.url,
-                method: 'POST',
-                async: true,
-                timeout: 29000,
-                data: {
-                    action: 'menu_save',
-                    menu_id: pageLocale.menu_id,
-                    menu_items: menuItems,
-                    [locale.nonce_name]: locale.nonce_value,
-                },
-            };
+            //#! [POST, PAGE, CATEGORY, ETC] Add to menu button on click (posts, pages, categories.. but Custom)
+            this.__btnAddToMenu.on( 'click', function (ev) {
+                ev.preventDefault();
+                const self = $( this );
+                const target = $( '.collapse.show ' + self.attr( 'data-target' ) );
+                if ( typeof ( target ) !== 'undefined' ) {
+                    let selectedEntries = target.find( '.js-check-input:checked' );
+                    $.each( selectedEntries, function (ix, el) {
+                        let entry = $( el ),
+                            dataID = entry.val(),
+                            dataType = entry.attr( 'data-type' ),
+                            dataMenuItemID = entry.attr( 'data-menu-item-id' ),
+                            dataTitle = entry.attr( 'data-title' ),
+                            dataSelector = dataType + dataID;
 
-            $.ajax( ajaxData )
-                .done( function (r) {
-                    if ( r ) {
-                        if ( r.success ) {
-                            if ( r.data ) {
-                                showToast( r.data, 'success' );
+                        $this.__nestable.nestable( 'add', {
+                            "id": dataID,
+                            "selector": dataSelector,
+                            "menu-item-id": dataMenuItemID,
+                            "type": dataType,
+                            "children": []
+                        } );
+                        //#! Update the inner content (text + remove button)
+                        const theElement = $( '[data-id="' + dataID + '"]' );
+                        const ddHandle = $( '.dd-handle', theElement );
+                        $( '> .dd-content', ddHandle ).html( dataTitle );
+                        $( '<a href="#" class="js-btn-remove" title="' + pageLocale.delete_text_title + '">' + pageLocale.delete_text + '</a>' )
+                            .insertBefore( ddHandle );
+                    } );
+                    if ( selectedEntries.length >= 1 ) {
+                        $this.updateSaveButtonState( $this.__ACTION_ADD__ );
+                        $this.__bindClickMenuItemRemove();
+                        $this.__resetChecked( target );
+                    }
+                }
+            } );
+
+            //#! [CUSTOM] Add to menu button on click (Custom entries)
+            this.__btnCustomAddToMenu.on( 'click', function (ev) {
+                ev.preventDefault();
+
+                let dataTitle = $( '#menu-item-title' ).val(),
+                    dataUrl = $( '#menu-item-url' ).val(),
+                    dataType = $( '#menu-item-data-type' ).val(),
+                    dataID = $this.__uniqueID(),
+                    dataSelector = dataType + dataID;
+
+                if ( !dataTitle || dataTitle.length < 1 ) {
+                    return false;
+                }
+                if ( !dataUrl || dataUrl.length < 1 ) {
+                    return false;
+                }
+
+                $this.__nestable.nestable( 'add', {
+                    "id": dataID,
+                    "selector": dataSelector,
+                    "menu-item-id": 0,
+                    "type": dataType,
+                    "title": dataTitle,
+                    "url": dataUrl,
+                    "children": []
+                } );
+                //#! Update the inner content (text + remove button)
+                const theElement = $( '[data-id="' + dataID + '"]' );
+                const ddHandle = $( '.dd-handle', theElement );
+                $( '> .dd-content', ddHandle ).html( dataTitle );
+                $( '<a href="#" class="js-btn-remove" title="' + pageLocale.delete_text_title + '">' + pageLocale.delete_text + '</a>' )
+                    .insertBefore( ddHandle );
+
+                $this.updateSaveButtonState( $this.__ACTION_ADD__ );
+                $this.__bindClickMenuItemRemove();
+            } );
+
+            //#! [SAVE MENU]
+            this.__btnSaveMenu.on( 'click', function (ev) {
+                const self = $( this );
+                const menuItems = $this.__menuToArray( $this );
+                const loader = $( '#menu-items-sortable .js-ajax-loader' );
+
+                self.addClass( 'no-click' );
+                loader.removeClass( 'hidden' );
+
+                let ajaxData = {
+                    url: locale.ajax.url,
+                    method: 'POST',
+                    async: true,
+                    timeout: 29000,
+                    data: {
+                        action: 'menu_save',
+                        menu_id: pageLocale.menu_id,
+                        menu_items: menuItems,
+                        [locale.nonce_name]: locale.nonce_value,
+                    },
+                };
+
+                $.ajax( ajaxData )
+                    .done( function (r) {
+                        if ( r ) {
+                            if ( r.success ) {
+                                if ( r.data ) {
+                                    showToast( r.data, 'success' );
+                                }
+                                else {
+                                    showToast( locale.ajax.empty_response, 'warning' );
+                                }
                             }
                             else {
-                                showToast( locale.ajax.empty_response, 'warning' );
+                                if ( r.data ) {
+                                    showToast( r.data, 'warning' );
+                                }
+                                else {
+                                    showToast( locale.ajax.empty_response, 'warning' );
+                                }
                             }
                         }
                         else {
-                            if ( r.data ) {
-                                showToast( r.data, 'warning' );
-                            }
-                            else {
-                                showToast( locale.ajax.empty_response, 'warning' );
-                            }
+                            showToast( locale.ajax.no_response, 'warning' );
                         }
-                    }
-                    else {
-                        showToast( locale.ajax.no_response, 'warning' );
-                    }
-                } )
-                .fail( function (x, s, e) {
-                    showToast( e, 'error' );
-                } )
-                .always( function () {
-                    //! Hide the save button if there are no menu items
-                    UIHelper.updateSaveButtonState( __ACTION_REMOVE__, false );
-                    loader.addClass( 'hidden' );
-                } );
+                    } )
+                    .fail( function (x, s, e) {
+                        showToast( e, 'error' );
+                    } )
+                    .always( function () {
+                        $this.updateSaveButtonState( $this.__ACTION_ADD__ );
+                        loader.addClass( 'hidden' );
+                    } );
+            } );
         },
 
         //#! Retrieve the menu data as a list to send to server
-        __menuToArray() {
-            const parentIds = menuList.sortable( 'toArray', {
-                //#! the attribute to look for
-                attribute: 'data-selector',
-                //#! The key to extract
-                key: 'data-id',
-                //#! The RegExp expression allowing to determine how to split the data in key-value. In this case it's just the value
-                expression: /(.+)/
-            } );
-
-            const mainMenuItems = $( '>.list-item', $( '.js-menu-list' ) );
+        __menuToArray($this) {
+            const mainMenuItems = $( '>.dd-list > .dd-item:not(.js-deleted)', $this.__nestable );
 
             let itemData = {};
             $.each( mainMenuItems, function (i, el) {
@@ -205,22 +236,22 @@ jQuery( function ($) {
                     id: $item.attr( 'data-id' ),
                     type: type,
                     selector: dataSelector,
-                    menuItemId: $item.attr('data-menu-item-id'),
+                    menuItemId: $item.attr( 'data-menu-item-id' ),
                     children: [],
                 };
                 if ( 'custom' === type ) {
                     itemData[i]['title'] = $item.attr( 'data-title' );
                     itemData[i]['url'] = $item.attr( 'data-url' );
                 }
-                itemData[i]['children'] = UIHelper.__getChildren( $item );
+                itemData[i]['children'] = $this.__getChildren( $this, $item );
             } );
             return itemData;
         },
 
         //#! Recursively build submenu items
-        __getChildren($menuItem) {
+        __getChildren($this, $menuItem) {
             let _result = [];
-            let children = $( '> .submenu-list > li', $menuItem );
+            let children = $( '>.dd-list >.dd-item:not(.js-deleted)', $menuItem );
             if ( children.length > 0 ) {
                 $.each( children, function (i, el) {
                     let child = $( el );
@@ -230,8 +261,8 @@ jQuery( function ($) {
                         id: child.attr( 'data-id' ),
                         type: type,
                         selector: dataSelector,
-                        menuItemId: child.attr('data-menu-item-id'),
-                        children: UIHelper.__getChildren( child ),
+                        menuItemId: child.attr( 'data-menu-item-id' ),
+                        children: $this.__getChildren( $this, child ),
                     };
                     if ( 'custom' === type ) {
                         _result[i]['title'] = child.attr( 'data-title' );
@@ -240,63 +271,39 @@ jQuery( function ($) {
                 } );
             }
             return _result;
-        }
+        },
+
+        __uniqueID() {
+            // Math.random should be unique because of its seeding algorithm.
+            // Convert it to base 36 (numbers + letters), and grab the first 9 characters
+            // after the decimal.
+            return '_' + Math.random().toString( 36 ).substr( 2, 9 );
+        },
+
+        updateSaveButtonState(action, enable = true) {
+            if ( action === this.__ACTION_ADD__ ) {
+                this.__placeholder.hide();
+                this.__btnSaveMenu.removeClass( 'hidden' );
+            }
+
+            if ( !this.__hasMenuItems() ) {
+                if ( !enable ) {
+                    this.__btnSaveMenu.addClass( 'hidden' );
+                }
+                this.__placeholder.show();
+            }
+
+            if ( enable ) {
+                this.__btnSaveMenu.removeClass( 'no-click disabled' );
+            }
+            else {
+                this.__btnSaveMenu.addClass( 'no-click disabled' );
+            }
+        },
+
     };
 
-    //[[ OnLoad ===================================================
-    UIHelper.initMainSortable();
-    UIHelper.initConnectedSortable();
-    UIHelper.updateSaveButtonState( __ACTION_ADD__, false );
-    UIHelper.__setupDynamicListeners();
-
-    //! Event listeners
-    btnSaveMenu.on( 'click', UIHelper.__saveMenu );
-
-    //#! Add entries to menu (post types & categories), except custom menu items
-    btnAddToMenu.on( 'click', function (ev) {
-        const self = $( this ),
-            target = $( '.collapse.show ' + self.attr( 'data-target' ) );
-        if ( typeof ( target ) !== 'undefined' ) {
-            let selectedEntries = target.find( '.js-check-input:checked' );
-            $.each( selectedEntries, function (ix, el) {
-                let entry = $( el ),
-                    dataID = entry.val(),
-                    dataType = entry.attr( 'data-type' ),
-                    dataMenuItemID = entry.attr( 'data-menu-item-id' ),
-                    dataTitle = entry.attr( 'data-title' ),
-                    dataSelector = dataType + dataID;
-
-                menuList.append( '<li data-selector="' + dataSelector + '" data-id="' + dataID + '" data-menu-item-id="' + dataMenuItemID + '" data-type="' + dataType + '" class="list-item"><p>' + dataTitle + '<a href="#" class="js-btn-remove" data-target="' + dataSelector + '" title="' + pageLocale.delete_text_title + '">' + pageLocale.delete_text + '</a></p><ul class="list-unstyled submenu-list"></ul></li>' );
-            } );
-            if ( selectedEntries.length >= 1 ) {
-                UIHelper.updateSaveButtonState( __ACTION_ADD__ );
-                UIHelper.__setupDynamicListeners();
-                UIHelper.__resetChecked( target );
-                UIHelper.initConnectedSortable();
-            }
-        }
-    } );
-
-    //#! Add custom entries to menu
-    btnAddCustomToMenu.on( 'click', function (ev) {
-        let title = $( '#menu-item-title' ).val(),
-            url = $( '#menu-item-url' ).val(),
-            type = $( '#menu-item-data-type' ).val(),
-            id = _lastCustomMenuItemID + 1,
-            dataSelector = type + id;
-
-        if ( !title || title.length < 1 ) {
-            return false;
-        }
-        if ( !url || url.length < 1 ) {
-            return false;
-        }
-
-        menuList.append( '<li data-selector="' + dataSelector + '" data-id="' + id + '" data-menu-item-id="0" data-type="' + type + '" data-title="' + title + '" data-url="' + url + '" class="list-item"><p>' + title + '<a href="#" class="js-btn-remove" data-target="' + dataSelector + '" title="' + pageLocale.delete_text_title + '">' + pageLocale.delete_text + '</a></p><ul class="list-unstyled submenu-list"></ul></li>' );
-
-        UIHelper.updateSaveButtonState( __ACTION_ADD__ );
-        UIHelper.__setupDynamicListeners();
-    } );
+    MenuBuilder.init();
 } );
 
 /* Menu name */
@@ -309,7 +316,7 @@ jQuery( function ($) {
         ev.preventDefault();
 
         const self = $( this );
-        const form = $('#form-menu-name');
+        const form = $( '#form-menu-name' );
         const nameField = $( '.name-field', form );
         if ( !nameField || !nameField.val().length > 0 ) {
             return false;
@@ -418,7 +425,6 @@ jQuery( function ($) {
     } );
 } );
 
-
 /* Accordion */
 jQuery( function ($) {
     "use strict";
@@ -428,14 +434,14 @@ jQuery( function ($) {
     $( '.js-trigger' ).on( 'click', function (ev) {
         ev.preventDefault();
 
-        const self = $(this);
-        const icon = self.next('.js-sign');
+        const self = $( this );
+        const icon = self.next( '.js-sign' );
 
-        if(self.hasClass('collapsed')){
-            icon.removeClass('fa-plus').addClass('fa-minus');
+        if ( self.hasClass( 'collapsed' ) ) {
+            icon.removeClass( 'fa-plus' ).addClass( 'fa-minus' );
         }
         else {
-            icon.removeClass('fa-minus').addClass('fa-plus');
+            icon.removeClass( 'fa-minus' ).addClass( 'fa-plus' );
         }
     } );
 } );
