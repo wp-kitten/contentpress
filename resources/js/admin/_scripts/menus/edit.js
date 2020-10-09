@@ -15,11 +15,15 @@ jQuery( function ($) {
     const MenuBuilder = {
         __ACTION_ADD__: 'x0000',
         __ACTION_REMOVE__: 'x0001',
-        // the element storing be nestable list (.dd)
+        //#! The reference to the element storing the nestable list (.dd)
         __nestable: null,
+        //#! The reference to the Save menu button
         __btnSaveMenu: null,
+        //#! The reference to the element showing the "no menu items" text
         __placeholder: null,
+        //#! The reference to the Add to menu button (post, pages, categories...)
         __btnAddToMenu: null,
+        //#! The reference to the custom Add to menu button (custom menu item)
         __btnCustomAddToMenu: null,
 
         init() {
@@ -36,7 +40,6 @@ jQuery( function ($) {
 
         __initNestable() {
             const $this = this;
-
             this.__nestable.nestable( {
                 maxDepth: 20,
                 scroll: true,
@@ -59,7 +62,7 @@ jQuery( function ($) {
 
         __bindClickMenuItemRemove() {
             const $this = this;
-            $( '.js-btn-remove', $this.__nestable ).on( 'click', function (ev) {
+            $( '.js-btn-remove', $this.__nestable ).off('click').on( 'click', function (ev) {
                 ev.preventDefault();
                 ev.stopPropagation();
                 if ( confirm( pageLocale.confirm_delete_item ) ) {
@@ -70,7 +73,25 @@ jQuery( function ($) {
                     }
                 }
             } );
+        },
 
+        __bindCollapsible() {
+            $( '.dd-collapse', this.__nestable ).on( 'click', function (ev) {
+                ev.stopPropagation();
+                ev.preventDefault();
+                var parent = $( this ).parents( '.dd-item' ).first();
+                if ( parent ) {
+                    parent.addClass( 'dd-collapsed' );
+                }
+            } );
+            $( '.dd-expand', this.__nestable ).on( 'click', function (ev) {
+                ev.stopPropagation();
+                ev.preventDefault();
+                var parent = $( this ).parents( '.dd-item' ).first();
+                if ( parent ) {
+                    parent.removeClass( 'dd-collapsed' );
+                }
+            } );
         },
 
         __resetChecked(target) {
@@ -90,6 +111,7 @@ jQuery( function ($) {
 
             if ( this.__hasMenuItems() ) {
                 this.__bindClickMenuItemRemove();
+                this.__bindCollapsible();
             }
 
             //#! [POST, PAGE, CATEGORY, ETC] Add to menu button on click (posts, pages, categories.. but Custom)
@@ -117,7 +139,7 @@ jQuery( function ($) {
                         //#! Update the inner content (text + remove button)
                         const theElement = $( '[data-id="' + dataID + '"]' );
                         const ddHandle = $( '.dd-handle', theElement );
-                        $( '> .dd-content', ddHandle ).html( dataTitle );
+                        $( '> .dd-content', ddHandle ).attr('title', dataTitle).html( dataTitle );
                         $( '<a href="#" class="js-btn-remove" title="' + pageLocale.delete_text_title + '">' + pageLocale.delete_text + '</a>' )
                             .insertBefore( ddHandle );
                     } );
@@ -158,7 +180,7 @@ jQuery( function ($) {
                 //#! Update the inner content (text + remove button)
                 const theElement = $( '[data-id="' + dataID + '"]' );
                 const ddHandle = $( '.dd-handle', theElement );
-                $( '> .dd-content', ddHandle ).html( dataTitle );
+                $( '> .dd-content', ddHandle ).attr('title', dataTitle).html( dataTitle );
                 $( '<a href="#" class="js-btn-remove" title="' + pageLocale.delete_text_title + '">' + pageLocale.delete_text + '</a>' )
                     .insertBefore( ddHandle );
 
@@ -225,7 +247,6 @@ jQuery( function ($) {
         //#! Retrieve the menu data as a list to send to server
         __menuToArray($this) {
             const mainMenuItems = $( '>.dd-list > .dd-item:not(.js-deleted)', $this.__nestable );
-
             let itemData = {};
             $.each( mainMenuItems, function (i, el) {
                 const $item = $( el );

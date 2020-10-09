@@ -125,7 +125,7 @@ class MenuWalkerBackend implements IMenuWalker
                                 <?php echo '&times;'; ?>
                             </a>
                             <div class="dd-handle">
-                                <span class="dd-content"><?php esc_html_e( $title ); ?></span>
+                                <span class="dd-content" title="<?php esc_attr_e( $title ); ?>"><?php esc_html_e( $title ); ?></span>
                             </div>
                             <?php
                             $this->__renderSubmenus( $menuItemData[ 'items' ] );
@@ -156,7 +156,7 @@ class MenuWalkerBackend implements IMenuWalker
                             <?php echo '&times;'; ?>
                         </a>
                         <div class="dd-handle">
-                            <span class="dd-content"><?php esc_html_e( $category->name ); ?></span>
+                            <span class="dd-content" title="<?php esc_attr_e( $category->name ); ?>"><?php esc_html_e( $category->name ); ?></span>
                         </div>
                         <?php
                         $this->__renderSubmenus( $menuItemData[ 'items' ] );
@@ -187,7 +187,7 @@ class MenuWalkerBackend implements IMenuWalker
                             <?php echo '&times;'; ?>
                         </a>
                         <div class="dd-handle">
-                            <span class="dd-content"><?php esc_html_e( $post->title ); ?></span>
+                            <span class="dd-content" title="<?php esc_attr_e( $post->title ); ?>"><?php esc_html_e( $post->title ); ?></span>
                         </div>
                         <?php
                         $this->__renderSubmenus( $menuItemData[ 'items' ] );
