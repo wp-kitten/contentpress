@@ -12,8 +12,8 @@ define( 'CONTENTPRESS_VERSION', '0.3' );
  * Holds the url to the api server
  * @var string
  */
-//define( 'CONTENTPRESS_API_URL', 'http://api.contentpress.news.test/api' );
-define( 'CONTENTPRESS_API_URL', '' );
+define( 'CONTENTPRESS_API_URL', 'http://api.contentpress.news/api' );
+
 
 /**
  * 4 digits year

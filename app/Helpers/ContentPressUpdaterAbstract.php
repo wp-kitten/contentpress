@@ -39,9 +39,9 @@ abstract class ContentPressUpdaterAbstract
      * @param string $resourceFileName The name of the resource's (theme or plugin) directory
      * @return mixed
      */
-    abstract function update( $resourceFileName );
+    abstract function update( string $resourceFileName );
 
-    abstract function exists( $resourceFileName );
+    abstract function exists( string $resourceFileName );
 
-    abstract function getInfo( $resourceFileName );
+    abstract function getInfo( string $resourceFileName );
 }

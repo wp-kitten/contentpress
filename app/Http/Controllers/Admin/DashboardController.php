@@ -153,7 +153,11 @@ class DashboardController extends AdminControllerBase
         }
 
         //#! Download content locally
-        $fileSavePath = public_path( 'uploads/tmp/contentpress.zip' );
+        $saveDirPath = public_path( 'uploads/tmp' );
+        if ( !File::isDirectory( $saveDirPath ) ) {
+            File::makeDirectory( $saveDirPath, 775, true );
+        }
+        $fileSavePath = path_combine( $saveDirPath, 'contentpress.zip' );
         if ( !File::put( $fileSavePath, $response ) ) {
             Util::setUnderMaintenance( false );
             return redirect()->route( 'admin.dashboard.updates' )->with( 'message', [
