@@ -3,7 +3,7 @@
 
 /**
  * A helper file for Laravel, to provide autocomplete information to your IDE
- * Generated for Laravel 8.6.0.
+ * Generated for Laravel 8.8.0.
  *
  * This file should not be included in your code, only analyzed by your IDE!
  *
@@ -13951,7 +13951,7 @@
                     /**
          * Start a component rendering process.
          *
-         * @param \Illuminate\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string $view
+         * @param \Illuminate\Contracts\View\View|\Illuminate\Contracts\Support\Htmlable|\Closure|string $view
          * @param array $data
          * @return void 
          * @static 
@@ -14649,6 +14649,16 @@
         {
                         /** @var \Livewire\LivewireManager $instance */
                         return $instance->component($alias, $viewClass);
+        }
+                    /**
+         * 
+         *
+         * @static 
+         */ 
+        public static function getAlias($class, $default = null)
+        {
+                        /** @var \Livewire\LivewireManager $instance */
+                        return $instance->getAlias($class, $default);
         }
                     /**
          * 
