@@ -460,4 +460,6 @@ return [
     'Forbidden' => 'Forbidden',
     'Invalid theme: :name must not extend another child theme: :theme' => 'Invalid theme: :name must not extend another child theme: :theme',
     'An error occurred. The theme you are trying to activate is missing its parent theme.' => 'An error occurred. The theme you are trying to activate is missing its parent theme.',
+    'Empty' => 'Empty',
+    'Are you sure you want to delete all items from this menu?' => 'Are you sure you want to delete all items from this menu?',
 ];

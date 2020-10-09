@@ -59,12 +59,13 @@ class MenuController extends AdminControllerBase
         ScriptsManager::enqueueStylesheet( 'menus-index.css', asset( '_admin/css/menus/index.css' ) );
 
         ScriptsManager::localizeScript( 'menus-edit-scripts', 'MenuLocale', [
-            'confirm_delete_item' => __( 'a.Are you sure you want to delete this menu item?' ),
             'delete_text' => '&times;',
             'delete_text_title' => __( 'a.Delete' ),
             'menu_id' => $id,
-            'confirm_delete' => __( 'a.Are you sure you want to delete this menu?' ),
             'text_options_saved' => __( 'a.Options saved.' ),
+            'confirm_delete_item' => __( 'a.Are you sure you want to delete this menu item?' ),
+            'confirm_empty_menu' => __( 'a.Are you sure you want to delete all items from this menu?' ),
+            'confirm_delete' => __( 'a.Are you sure you want to delete this menu?' ),
         ] );
 
         ScriptsManager::enqueueFooterScript( 'jquery-ui-js', asset( 'vendor/jquery-ui/jquery-ui.min.js' ) );

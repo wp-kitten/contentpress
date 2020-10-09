@@ -127,6 +127,7 @@
                                     </div>
 
                                     <div class="cp-form-footer-wrap mt-5">
+                                        <button type="submit" class="btn btn-danger mr-2 js-btn-empty-menu">{{__('a.Empty')}}</button>
                                         <button type="submit" class="btn btn-primary hidden js-btn-save-menu">{{__('a.Save')}}</button>
                                         <div class="circle-loader js-ajax-loader hidden ml-3"></div>
                                     </div>

@@ -19,6 +19,8 @@ jQuery( function ($) {
         __nestable: null,
         //#! The reference to the Save menu button
         __btnSaveMenu: null,
+        //#! The reference to the Empty menu button
+        __btnEmptyMenu: null,
         //#! The reference to the element showing the "no menu items" text
         __placeholder: null,
         //#! The reference to the Add to menu button (post, pages, categories...)
@@ -29,6 +31,7 @@ jQuery( function ($) {
         init() {
             this.__nestable = $( '.dd' );
             this.__btnSaveMenu = $( '.js-btn-save-menu' );
+            this.__btnEmptyMenu = $( '.js-btn-empty-menu' );
             this.__placeholder = $( '.menu-empty' );
             this.__btnAddToMenu = $( '.js-btn-add-to-menu' );
             this.__btnCustomAddToMenu = $( '.js-custom-add-to-menu-button' );
@@ -62,7 +65,7 @@ jQuery( function ($) {
 
         __bindClickMenuItemRemove() {
             const $this = this;
-            $( '.js-btn-remove', $this.__nestable ).off('click').on( 'click', function (ev) {
+            $( '.js-btn-remove', $this.__nestable ).off( 'click' ).on( 'click', function (ev) {
                 ev.preventDefault();
                 ev.stopPropagation();
                 if ( confirm( pageLocale.confirm_delete_item ) ) {
@@ -139,7 +142,7 @@ jQuery( function ($) {
                         //#! Update the inner content (text + remove button)
                         const theElement = $( '[data-id="' + dataID + '"]' );
                         const ddHandle = $( '.dd-handle', theElement );
-                        $( '> .dd-content', ddHandle ).attr('title', dataTitle).html( dataTitle );
+                        $( '> .dd-content', ddHandle ).attr( 'title', dataTitle ).html( dataTitle );
                         $( '<a href="#" class="js-btn-remove" title="' + pageLocale.delete_text_title + '">' + pageLocale.delete_text + '</a>' )
                             .insertBefore( ddHandle );
                     } );
@@ -180,7 +183,7 @@ jQuery( function ($) {
                 //#! Update the inner content (text + remove button)
                 const theElement = $( '[data-id="' + dataID + '"]' );
                 const ddHandle = $( '.dd-handle', theElement );
-                $( '> .dd-content', ddHandle ).attr('title', dataTitle).html( dataTitle );
+                $( '> .dd-content', ddHandle ).attr( 'title', dataTitle ).html( dataTitle );
                 $( '<a href="#" class="js-btn-remove" title="' + pageLocale.delete_text_title + '">' + pageLocale.delete_text + '</a>' )
                     .insertBefore( ddHandle );
 
@@ -241,6 +244,15 @@ jQuery( function ($) {
                         $this.updateSaveButtonState( $this.__ACTION_ADD__ );
                         loader.addClass( 'hidden' );
                     } );
+            } );
+
+            //#! [EMPTY MENU]
+            this.__btnEmptyMenu.on( 'click', function (ev) {
+                ev.preventDefault();
+                if ( confirm( pageLocale.confirm_empty_menu ) ) {
+                    $this.__nestable.html( '' );
+                    $this.updateSaveButtonState( $this.__ACTION_REMOVE__, true );
+                }
             } );
         },
 
