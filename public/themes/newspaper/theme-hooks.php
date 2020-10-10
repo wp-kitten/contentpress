@@ -327,7 +327,7 @@ function np_activate_theme_plugins()
 {
     $pluginsManager = PluginsManager::getInstance();
 
-    if ( $pluginsManager->exists( 'newspaper-feed-reader' ) ) {
+    if ( $pluginsManager->exists( 'cp-newspaper-feed-reader' ) ) {
         return;
     }
 
