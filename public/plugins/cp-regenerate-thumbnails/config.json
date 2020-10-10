@@ -1,6 +1,6 @@
 {
     "name": "cp-regenerate-thumbnails",
-    "display_name": "ContentPress Regenerate Thumbnails",
+    "display_name": "[ContentPress] Regenerate Thumbnails",
     "description": "Regenerate thumbnails with one click.",
     "version": "0.1",
     "authors": [
@@ -10,7 +10,7 @@
         }
     ],
     "contributors": [],
-    "page_url": "http://example.com/plugin-page-url",
+    "page_url": "https://github.com/wp-kitten/cp-regenerate-thumbnails",
     "update_url": "",
     "autoload": "index.php",
     "thumbnail": "thumb.png"

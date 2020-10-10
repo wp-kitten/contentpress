@@ -9,10 +9,15 @@ use App\Models\Post;
 define( 'CONTENTPRESS_VERSION', '0.4' );
 
 /**
- * Holds the url to the api server
+ * Holds the url to the api server endpoint
  * @var string
  */
 define( 'CONTENTPRESS_API_URL', 'http://api.contentpress.news/api' );
+/**
+ * Stores the HTTP path to the marketplace site
+ * @var string
+ */
+define( 'CONTENTPRESS_MARKETPLACE_URL', 'http://api.contentpress.news' );
 
 
 /**

@@ -5,6 +5,7 @@
         }
     }
 
+    /**@var \App\Helpers\PluginsManager $pluginsManager*/
     $isActive = $pluginsManager->isActivePlugin($pluginDirName);
     $hasUpdate = false;
     $canDelete = false;

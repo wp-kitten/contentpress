@@ -215,6 +215,9 @@
                         <li>
                             <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.plugins.add')}}" href="{{route('admin.plugins.add')}}">{{__('a.Add new')}}</a>
                         </li>
+                        <li>
+                            <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.plugins.marketplace')}}" href="{{route('admin.plugins.marketplace')}}">{{__('a.Marketplace')}}</a>
+                        </li>
                     @endif
 
                     {!! do_action('contentpress/admin/sidebar/menu/plugins') !!}

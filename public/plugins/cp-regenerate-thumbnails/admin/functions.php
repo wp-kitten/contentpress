@@ -10,7 +10,7 @@ use App\Models\MediaFileMeta;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\File;
 
-if ( !defined( 'CPRT_PLUGIN' ) ) {
+if ( !defined( 'CPRT_PLUGIN_DIR_NAME' ) ) {
     exit;
 }
 

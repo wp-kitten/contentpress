@@ -46,6 +46,8 @@
     text-shadow: 0 0 .25em rgba(255, 255, 255, .3);
 }
 
+.image-responsive { max-width:100%; }
+
 @import "_admin/globals";
 @import "_admin/ajax-loader";
 @import "_admin/forms";

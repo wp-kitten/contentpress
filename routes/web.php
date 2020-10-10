@@ -142,6 +142,8 @@ Route::group(
     Route::post( "plugins/activate", [ "uses" => "PluginsController@__activatePlugins" ] )->name( "admin.plugins.activate__post" );
     Route::get( "plugins/deactivate/{plugin_dir_name}", [ "uses" => "PluginsController@__deactivatePlugin__GET" ] )->name( "admin.plugins.deactivate__get" );
     Route::post( "plugins/deactivate", [ "uses" => "PluginsController@__deactivatePlugins__POST" ] )->name( "admin.plugins.deactivate__post" );
+    Route::get( "plugins/marketplace", [ "uses" => "PluginsController@__viewMarketplace" ] )->name( "admin.plugins.marketplace" );
+    Route::post( "plugins/marketplace/install/{plugin_dir_name}/{version}", [ "uses" => "PluginsController@__marketplaceInstallPlugin" ] )->name( "admin.plugins.marketplace.install" );
 
     //#! Themes
     Route::get( "themes", [ "uses" => "ThemesController@index" ] )->name( "admin.themes.all" );

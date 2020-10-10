@@ -4,7 +4,7 @@ use App\Helpers\MenuHelper;
 use App\Helpers\ScriptsManager;
 use App\Models\MediaFile;
 
-if ( !defined( 'CPRT_PLUGIN' ) ) {
+if ( !defined( 'CPRT_PLUGIN_DIR_NAME' ) ) {
     exit;
 }
 
@@ -12,14 +12,14 @@ if ( !defined( 'CPRT_PLUGIN' ) ) {
 add_filter( 'contentpress/register_view_paths', 'cprt_register_view_paths', 20 );
 function cprt_register_view_paths( $paths = [] )
 {
-    $viewPath = path_combine( public_path( 'plugins' ), CPRT_PLUGIN_DIR, 'views' );
+    $viewPath = path_combine( public_path( 'plugins' ), CPRT_PLUGIN_DIR_NAME, 'views' );
     if ( !in_array( $viewPath, $paths ) ) {
         array_push( $paths, $viewPath );
     }
     return $paths;
 }
 
-//
+//#! Add the sidebar menu entry
 add_action( 'contentpress/admin/sidebar/menu/media', function () {
     if ( cp_current_user_can( 'list_media' ) ) {
         ?>
@@ -37,7 +37,7 @@ add_action( 'contentpress/admin/sidebar/menu/media', function () {
  * Register the path to the translation file that will be used depending on the current locale
  */
 add_action( 'contentpress/app/loaded', function () {
-    cp_register_language_file( 'cprt', path_combine( public_path( 'plugins' ), CPRT_PLUGIN_DIR, 'lang' ) );
+    cp_register_language_file( 'cprt', path_combine( public_path( 'plugins' ), CPRT_PLUGIN_DIR_NAME, 'lang' ) );
 } );
 
 $mediaFiles = MediaFile::all();
@@ -55,6 +55,6 @@ add_action( 'contentpress/admin/head', function () use ( $mediaFilesArray ) {
             'files' => $mediaFilesArray,
             'text_completed' => esc_js( __( 'cprt::m.Done!' ) ),
         ] );
-        ScriptsManager::enqueueFooterScript( 'regenerate-thumbnails.js', cp_plugin_url( CPRT_PLUGIN_DIR, 'assets/regenerate-thumbnails.js' ) );
+        ScriptsManager::enqueueFooterScript( 'regenerate-thumbnails.js', cp_plugin_url( CPRT_PLUGIN_DIR_NAME, 'assets/regenerate-thumbnails.js' ) );
     }
 }, 20 );

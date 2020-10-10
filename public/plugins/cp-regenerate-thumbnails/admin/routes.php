@@ -11,5 +11,7 @@ Route::get( 'admin/media/regenerate-thumbnails', function () {
     return view( 'cprt_regenerate_thumbnails' )->with( [
         'count' => MediaFile::count(),
     ] );
-} )->middleware( [ 'web', 'auth', 'active_user' ] )->name( 'admin.media.regenerate_thumbnails' );
+} )
+    ->middleware( [ 'web', 'auth', 'active_user' ] )
+    ->name( 'admin.media.regenerate_thumbnails' );
 

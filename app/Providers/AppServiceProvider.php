@@ -2,11 +2,9 @@
 
 namespace App\Providers;
 
-use App\Events\AppLoadedEvent;
 use App\Helpers\Cache;
 use App\Helpers\ContentPressCheckForUpdates;
 use App\Helpers\CPML;
-use App\Helpers\PluginsManager;
 use App\Helpers\Theme;
 use App\Helpers\ThemesManager;
 use App\Models\Options;

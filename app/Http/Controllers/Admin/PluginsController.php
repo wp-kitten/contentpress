@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Helpers\Cache;
+use App\Helpers\Marketplace;
 use App\Helpers\PluginsManager;
 use App\Helpers\ScriptsManager;
 use Illuminate\Support\Facades\Http;
@@ -51,7 +52,7 @@ class PluginsController extends AdminControllerBase
         $defaultPlugins = $cache->get( 'cp_default_plugins', [] ); // get from cache
 
         if ( empty( $defaultPlugins ) ) {
-            if( '' != CONTENTPRESS_API_URL ) {
+            if ( '' != CONTENTPRESS_API_URL ) {
                 $response = Http::get( CONTENTPRESS_API_URL . '/plugins', [ 'verify' => false ] )->json();
                 if ( is_array( $response ) && isset( $response[ 'data' ] ) ) {
                     $defaultPlugins = $response[ 'data' ];
@@ -177,6 +178,56 @@ class PluginsController extends AdminControllerBase
         return redirect()->back()->with( 'message', [
             'class' => 'success',
             'text' => $m,
+        ] );
+    }
+
+    public function __viewMarketplace()
+    {
+        $plugins = ( new Marketplace() )->getPlugins();
+        return view( 'admin.plugins.marketplace' )->with( [
+            'pluginsManager' => PluginsManager::getInstance(),
+            'plugins' => $plugins,
+        ] );
+    }
+
+    public function __marketplaceInstallPlugin( $plugin_dir_name, $version )
+    {
+        if ( empty( $plugin_dir_name ) || empty( $version ) ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => __( 'a.Invalid request: some values are missing.' ),
+            ] );
+        }
+        elseif ( !cp_current_user_can( 'install_plugins' ) ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => __( 'a.You are not allowed to perform this action.' ),
+            ] );
+        }
+        elseif ( !cp_current_user_can( 'activate_plugins' ) ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => __( 'a.You are not allowed to perform this action.' ),
+            ] );
+        }
+
+        try {
+            if ( $installed = ( new Marketplace() )->installPlugin( $plugin_dir_name, $version ) ) {
+                do_action( 'contentpress/plugin/activate', $plugin_dir_name );
+            }
+        }
+        catch ( \Exception $e ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => $e->getMessage(),
+            ] );
+        }
+
+        $pluginInfo = $this->pluginsManager->getPluginInfo( $plugin_dir_name );
+
+        return redirect()->back()->with( 'message', [
+            'class' => 'success',
+            'text' => __( 'a.The plugin :name has been successfully installed and activated.', [ 'name' => $pluginInfo->display_name ] ),
         ] );
     }
 }
