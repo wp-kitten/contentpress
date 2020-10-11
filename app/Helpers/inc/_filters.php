@@ -32,10 +32,6 @@ function __contentpress_dashboard_widgets( $widgets = [] )
         $widgets[ 'section-2' ][ 'App\\Widgets\\WidgetStatsUsers' ] = 'widget_stats_users';
 
         $widgets[ 'section-3' ][ 'App\\Widgets\\WidgetStatsPosts' ] = 'widget_stats_posts';
-
-        $widgets[ 'section-4' ][ 'App\\Widgets\\WidgetStatsComments' ] = 'widget_stats_comments';
-        $widgets[ 'section-4' ][ 'App\\Widgets\\WidgetStatsPendingComments' ] = 'widget_stats_pending_comments';
-        $widgets[ 'section-4' ][ 'App\\Widgets\\WidgetStatsSpamComments' ] = 'widget_stats_spam_comments';
     }
 
     return $widgets;
