@@ -3,6 +3,8 @@
 /public/storage
 /public/uploads
 /public/img
+/public/plugins
+/public/themes
 /storage/*.key
 /vendor
 /.idea
