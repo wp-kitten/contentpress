@@ -173,6 +173,7 @@ class ThemesManager
      * Scan the themes directory and update cache
      * @param bool|false $silent Whether to display the user notice if there is an error
      * @return bool
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function rebuildCache( $silent = true ): bool
     {
@@ -208,6 +209,7 @@ class ThemesManager
      * Check to see whether the specified uploaded theme is a valid theme
      * @param string $uploadDirPath
      * @return array
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function checkThemeUploadDir( string $uploadDirPath ): array
     {
@@ -308,6 +310,7 @@ class ThemesManager
 
     /**
      * @return bool
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     private function __checkInstalledThemes()
     {

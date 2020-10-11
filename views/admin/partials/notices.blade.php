@@ -18,7 +18,11 @@
     @endif
 @endif
 
-@php $userNotices = App\Helpers\UserNotices::getInstance()->getAll(); @endphp
+@php
+    $notices = App\Helpers\UserNotices::getInstance();
+    $userNotices = $notices->getAll();
+    $notices->removeAll();
+@endphp
 @if($userNotices)
     @foreach($userNotices as $notice)
         <div class="bs-component">

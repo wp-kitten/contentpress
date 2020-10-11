@@ -72,6 +72,7 @@ class Theme
     /**
      * Check to see whether the theme is valid
      * @return bool
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function isValid()
     {
@@ -199,6 +200,7 @@ class Theme
     /**
      * Check to see whether or not the specified theme has a valid file structure
      * @return array
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     private function __checkTheme(): array
     {

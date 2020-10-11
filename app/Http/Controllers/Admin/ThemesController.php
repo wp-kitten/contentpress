@@ -6,6 +6,7 @@ use App\Helpers\Marketplace;
 use App\Helpers\ScriptsManager;
 use App\Helpers\Theme;
 use App\Helpers\ThemesManager;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\File;
 
 class ThemesController extends AdminControllerBase
@@ -130,6 +131,11 @@ class ThemesController extends AdminControllerBase
         }
         //#! Delete theme's files
         if ( File::deleteDirectory( $theme->getDirPath() ) ) {
+            try {
+                $this->themesManager->rebuildCache( true );
+            }
+            catch ( FileNotFoundException $e ) {
+            }
             do_action( 'contentpress/theme_deleted', $themeDirName );
             return redirect()->back()->with( 'message', [
                 'class' => 'success',

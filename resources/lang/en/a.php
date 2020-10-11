@@ -473,5 +473,7 @@ return [
     'Visit theme site' => 'Visit theme site',
     'The installed theme is not valid.' => 'The installed theme is not valid.',
     'The theme :name has been successfully installed.' => 'The theme :name has been successfully installed.',
+    'The theme :name is not valid, the :file is missing.' => 'The theme :name is not valid, the :file is missing.',
+    'The theme :name is not valid, the :file is not properly formatted or it misses entries.' => 'The theme :name is not valid, the :file is not properly formatted or it misses entries.',
     '' => '',
 ];
