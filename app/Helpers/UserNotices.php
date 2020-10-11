@@ -11,6 +11,11 @@ namespace App\Helpers;
 class UserNotices
 {
     /**
+     * The name of the session variable that will be used to store the flash messages
+     */
+    const SESSION_NAME = 'cp_user_notices';
+
+    /**
      * @var array
      */
     private $notices = [];
@@ -50,17 +55,19 @@ class UserNotices
                 'type' => $type,
                 'content' => $message,
             ] );
+            session()->flash( self::SESSION_NAME, $this->notices );
         }
     }
 
     public function getAll()
     {
-        return $this->notices;
+        return session()->get( self::SESSION_NAME );
     }
 
     public function removeAll()
     {
         $this->notices = [];
+        session()->remove( self::SESSION_NAME );
         return $this;
     }
 

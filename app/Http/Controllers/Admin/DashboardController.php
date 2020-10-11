@@ -6,6 +6,9 @@ use App\Helpers\PluginsManager;
 use App\Helpers\PluginUpdater;
 use App\Helpers\ScriptsManager;
 use App\Helpers\StatsHelper;
+use App\Helpers\Theme;
+use App\Helpers\ThemeUpdater;
+use App\Helpers\UserNotices;
 use App\Helpers\Util;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\App;
@@ -98,7 +101,7 @@ class DashboardController extends AdminControllerBase
             $updatesInfo[ 'core' ] = [];
         }
 
-        $errors = [];
+        $errors = UserNotices::getInstance()->getAll();
         return redirect()->route( 'admin.dashboard.updates' )->with( [
             'plugins' => ( isset( $updatesInfo[ 'plugins' ] ) ? $updatesInfo[ 'plugins' ] : [] ),
             'themes' => ( isset( $updatesInfo[ 'themes' ] ) ? $updatesInfo[ 'themes' ] : [] ),
@@ -121,6 +124,25 @@ class DashboardController extends AdminControllerBase
         if ( $result ) {
             $class = 'success';
             $m = __( 'a.:plugin_name has been updated.', [ 'plugin_name' => $pluginName ] );
+        }
+
+        return redirect()->route( 'admin.dashboard.updates' )->with( 'message', [
+            'class' => $class,
+            'text' => $m,
+        ] );
+    }
+
+    public function __update_theme( $file_name )
+    {
+        $updater = new ThemeUpdater();
+        $theme = new Theme( $file_name );
+        $result = $updater->update( $file_name );
+
+        $class = 'warning';
+        $m = __( 'a.An error occurred and the theme :name could not be updated.', [ 'name' => $theme->get( 'display_name' ) ] );
+        if ( $result ) {
+            $class = 'success';
+            $m = __( 'a.:theme_name has been updated.', [ 'theme_name' => $theme->get( 'display_name' ) ] );
         }
 
         return redirect()->route( 'admin.dashboard.updates' )->with( 'message', [

@@ -104,6 +104,7 @@ class ContentPressCheckForUpdates
 
             $result = $this->__checkThemeForUpdate( $name, $url );
             if ( !$result ) {
+                //#! No update available
                 continue;
             }
             if ( $result[ 'success' ] ) {
@@ -120,8 +121,9 @@ class ContentPressCheckForUpdates
 
         //#! Render error
         if ( !empty( $errors ) ) {
+            $userNotices = UserNotices::getInstance();
             foreach ( $errors as $source => $msgs ) {
-                UserNotices::getInstance()->addNotice( 'warning', implode( '<br/>', $msgs ) );
+                $userNotices->addNotice( 'warning', '<p>[' . $source . ']</p>' . implode( '<br/>', $msgs ) );
             }
         }
 
@@ -167,7 +169,7 @@ class ContentPressCheckForUpdates
         return [
             'success' => false,
             'code' => ( isset( $response[ 'code' ] ) ? $response[ 'code' ] : 404 ),
-            'errors' => ( isset( $response[ 'errors' ] ) ? $response[ 'errors' ] : [] ),
+            'errors' => ( isset( $response[ 'data' ][ 'errors' ] ) ? $response[ 'data' ][ 'errors' ] : [] ),
         ];
     }
 
@@ -197,7 +199,7 @@ class ContentPressCheckForUpdates
 
         //@see: https://laravel.com/docs/7.x/http-client
         $response = Http::asForm()->post( $url, $args )->json();
-        if ( isset( $response[ 'code' ] ) && $response[ 'code' ] == 200 ) {
+        if ( isset( $response[ 'code' ] ) && $response[ 'code' ] == 200 && isset( $response[ 'data' ][ 'version' ] ) ) {
             $theme = new Theme( $name );
             $themeInfo = $theme->getThemeData();
             if ( version_compare( $themeInfo[ 'version' ], $response[ 'data' ][ 'version' ], '<' ) ) {
@@ -206,11 +208,12 @@ class ContentPressCheckForUpdates
                     'data' => $response[ 'data' ],
                 ];
             }
+            return false;
         }
         return [
             'success' => false,
             'code' => ( isset( $response[ 'code' ] ) ? $response[ 'code' ] : 404 ),
-            'errors' => ( isset( $response[ 'errors' ] ) ? $response[ 'errors' ] : [] ),
+            'errors' => ( isset( $response[ 'data' ][ 'errors' ] ) ? $response[ 'data' ][ 'errors' ] : [] ),
         ];
     }
 
@@ -221,7 +224,7 @@ class ContentPressCheckForUpdates
      */
     private function __checkCoreForUpdate()
     {
-        if( '' == CONTENTPRESS_API_URL ) {
+        if ( '' == CONTENTPRESS_API_URL ) {
             return false;
         }
 
