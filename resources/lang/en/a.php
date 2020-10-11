@@ -475,5 +475,9 @@ return [
     'The theme :name has been successfully installed.' => 'The theme :name has been successfully installed.',
     'The theme :name is not valid, the :file is missing.' => 'The theme :name is not valid, the :file is missing.',
     'The theme :name is not valid, the :file is not properly formatted or it misses entries.' => 'The theme :name is not valid, the :file is not properly formatted or it misses entries.',
+    'Select All' => 'Select All',
+    'No entries selected.' => 'No entries selected.',
+    'Entries deleted.' => 'Entries deleted.',
+    'Some entries could not be deleted.' => 'Some entries could not be deleted.',
     '' => '',
 ];

@@ -173,5 +173,65 @@ jQuery( '.js-btn-form-filters-clear' ).on( 'click', function (e) {
 } );
 //</editor-fold desc="clear-filters">
 
+//<editor-fold desc=":: MULTIPLE POSTS DELETE ::">
+jQuery( function ($) {
+    "use strict";
+    const chkSender = $( '.js-select-all-posts' );
+    if ( chkSender ) {
+        const theForm = $( '.' + chkSender.data( 'targetForm' ) );
+        const targetCheckboxesClass = chkSender.data( 'targetCheckbox' );
+        const checkboxes = $( '.' + targetCheckboxesClass, theForm );
+        const submitButton = $( '.' + chkSender.data( 'targetButton' ), theForm );
+        let selected = [];
+        let numSelected = 0;
+
+        const getSelected = function () {
+            return $( '.' + targetCheckboxesClass + ':checked', theForm );
+        };
+        const showSubmitButton = function () {
+            submitButton.removeClass( 'hidden' );
+        };
+        const hideSubmitButton = function () {
+            submitButton.addClass( 'hidden' );
+        };
+        const selectAll = function () {
+            checkboxes.prop( 'checked', true );
+            showSubmitButton();
+            selected = getSelected();
+            numSelected = selected.length;
+        };
+        const deselectAll = function () {
+            checkboxes.prop( 'checked', false );
+            hideSubmitButton();
+            numSelected = 0;
+            selected = [];
+        };
+
+        selected = getSelected();
+        numSelected = selected.length;
+
+        if ( numSelected >= 1 ) {
+            showSubmitButton();
+        }
+
+        chkSender.on( 'change', function (ev) {
+            ( this.checked ? selectAll() : deselectAll() );
+        } );
+
+        checkboxes.on( 'change', function (ev) {
+            if ( this.checked ) {
+                showSubmitButton();
+                numSelected += 1;
+            }
+            else {
+                numSelected -= 1;
+                if ( numSelected <= 0 ) {
+                    hideSubmitButton();
+                }
+            }
+        } );
+    }
+} );
+//</editor-fold desc=":: MULTIPLE POSTS DELETE ::">
 
 

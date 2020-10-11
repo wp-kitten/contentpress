@@ -2,16 +2,15 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Category;
 use App\Helpers\MetaFields;
 use App\Helpers\ScriptsManager;
+use App\Models\Category;
 use App\Models\Language;
 use App\Models\Post;
 use App\Models\PostMeta;
 use App\Models\PostStatus;
 use App\Models\PostType;
 use App\Models\Tag;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
@@ -79,6 +78,17 @@ class PostsController extends AdminControllerBase
         $postsQuery->orderBy( 'created_at', $sort );
 
         $perPage = ( $this->request->has( '_paginate' ) && !empty( $this->request->get( '_paginate' ) ) ? $this->request->_paginate : 10 );
+
+        //#! If search
+        if ( $this->request->has( 's' ) ) {
+            $search = wp_kses( $this->request->get( 's' ), [] );
+            $postsQuery->where( function ( $query ) use ( $search ) {
+                $query->where( 'title', 'LIKE', '%' . $search . '%' )
+                    ->orWhere( 'content', 'LIKE', '%' . $search . '%' )
+                    ->orWhere( 'excerpt', 'LIKE', '%' . $search . '%' );
+            } );
+        }
+
         $posts = $postsQuery->paginate( $perPage );
 
         return view( 'admin.post.index' )->with( [
@@ -343,7 +353,7 @@ class PostsController extends AdminControllerBase
             return $this->_forbidden( 'The specified post type was not found' );
         }
 
-        if ( !cp_current_user_can( [ 'administrator', 'contributor' ] ) ) {
+        if ( !cp_current_user_can( [ 'delete_posts', 'delete_others_posts', 'delete_private_posts', 'delete_published_posts' ] ) ) {
             return $this->_forbidden();
         }
 
@@ -354,6 +364,29 @@ class PostsController extends AdminControllerBase
             ] );
         }
 
+        if ( $this->__deletePost( $id ) ) {
+            do_action( 'contentpress/post/deleted', $id );
+
+            return redirect()->back()->with( 'message', [
+                'class' => 'success',
+                'text' => __( 'a.Post deleted.' ),
+            ] );
+        }
+
+        return redirect()->back()->with( 'message', [
+            'class' => 'danger',
+            'text' => __( 'a.The specified post could not be deleted.' ),
+        ] );
+    }
+
+    /**
+     * Helper method to delete a post
+     * @param int $id The post id
+     * @return int
+     * @internal
+     */
+    private function __deletePost( int $id )
+    {
         //#! Delete the featured image if any & also of all translations (if any)
         //[::1] Get translations
         $posts = Post::where( 'translated_post_id', $id )->get();
@@ -391,21 +424,43 @@ class PostsController extends AdminControllerBase
                 }
             }
         }
-        //=====
 
-        $result = Post::destroy( $id );
-        if ( $result ) {
+        return Post::destroy( $id );
+    }
 
-            do_action( 'contentpress/post/deleted', $id );
+    public function __deleteMultiple()
+    {
+        if ( !$this->_postType ) {
+            return $this->_forbidden( 'The specified post type was not found' );
+        }
 
+        if ( !cp_current_user_can( [ 'delete_posts', 'delete_others_posts', 'delete_private_posts', 'delete_published_posts' ] ) ) {
+            return $this->_forbidden();
+        }
+        $posts = $this->request->get( 'posts', [] );
+        if ( empty( $posts ) ) {
             return redirect()->back()->with( 'message', [
-                'class' => 'success',
-                'text' => __( 'a.Post deleted.' ),
+                'class' => 'danger',
+                'text' => __( 'a.No entries selected' ),
+            ] );
+        }
+
+        $hasError = false;
+        foreach ( $posts as $postID ) {
+            if ( !$this->__deletePost( $postID ) ) {
+                $hasError = true;
+            }
+        }
+
+        if ( $hasError ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => __( 'a.Some entries could not be deleted.' ),
             ] );
         }
         return redirect()->back()->with( 'message', [
-            'class' => 'danger',
-            'text' => __( 'a.The specified post could not be deleted.' ),
+            'class' => 'success',
+            'text' => __( 'a.Entries deleted.' ),
         ] );
     }
 }
