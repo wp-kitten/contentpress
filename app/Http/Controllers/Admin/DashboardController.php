@@ -225,7 +225,7 @@ class DashboardController extends AdminControllerBase
             File::deleteDirectory( $uploadsDir, true );
 
             //#! Reinstall
-            Artisan::call( 'cp:setup', [
+            Artisan::call( 'cp:install', [
                 '--n' => true,
                 '--s' => true,
             ] );
