@@ -251,6 +251,17 @@ class ThemesManager
     }
 
     /**
+     * Check to see whether the specified theme directory exists
+     * @param string $themeDirName
+     * @return bool
+     */
+    public function exists( string $themeDirName ): bool
+    {
+        $dirPath = path_combine( $this->themesDir, $themeDirName );
+        return File::isDirectory( $dirPath );
+    }
+
+    /**
      * Check the themes directory for existence. Attempts to create it if missing
      */
     private function __checkThemesDir(): bool
@@ -281,7 +292,7 @@ class ThemesManager
         }
 
         //#! Attempt to activate the default theme
-        $defaultTheme = new Theme( env( 'DEFAULT_THEME_NAME', 'default' ) );
+        $defaultTheme = new Theme( env( 'DEFAULT_THEME_NAME', 'contentpress-default-theme' ) );
         if ( $defaultTheme->isValid() ) {
             $defaultTheme->load();
             $this->_activeTheme = $defaultTheme;
@@ -310,6 +321,9 @@ class ThemesManager
         }
 
         foreach ( $installedThemes as $themeDirName ) {
+            if ( !$this->exists( $themeDirName ) ) {
+                continue;
+            }
             $theme = new Theme( $themeDirName );
             if ( $theme->isValid() ) {
                 $this->_installedThemes[] = $themeDirName;

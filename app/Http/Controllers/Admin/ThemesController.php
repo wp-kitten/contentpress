@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
+use App\Helpers\Marketplace;
 use App\Helpers\ScriptsManager;
 use App\Helpers\Theme;
+use App\Helpers\ThemesManager;
 use Illuminate\Support\Facades\File;
 
 class ThemesController extends AdminControllerBase
@@ -140,4 +142,52 @@ class ThemesController extends AdminControllerBase
             'text' => __( 'a.An error occurred while trying to delete the theme.' ),
         ] );
     }
+
+    public function __viewMarketplace()
+    {
+        return view( 'admin.themes.marketplace' )->with( [
+            'themesManager' => ThemesManager::getInstance(),
+            'themes' => ( new Marketplace() )->getThemes(),
+            'currentTheme' => $this->themesManager->getActiveTheme(),
+        ] );
+    }
+
+    public function __marketplaceInstallTheme( $theme_dir_name, $version )
+    {
+        if ( empty( $theme_dir_name ) || empty( $version ) ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => __( 'a.Invalid request: some values are missing.' ),
+            ] );
+        }
+        elseif ( !cp_current_user_can( 'install_themes' ) ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => __( 'a.You are not allowed to perform this action.' ),
+            ] );
+        }
+        elseif ( !cp_current_user_can( 'switch_themes' ) ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => __( 'a.You are not allowed to perform this action.' ),
+            ] );
+        }
+
+        try {
+            ( new Marketplace() )->installTheme( $theme_dir_name, $version );
+        }
+        catch ( \Exception $e ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => $e->getMessage(),
+            ] );
+        }
+
+        $theme = new Theme( $theme_dir_name );
+        return redirect()->back()->with( 'message', [
+            'class' => 'success',
+            'text' => __( 'a.The theme :name has been successfully installed.', [ 'name' => $theme->get( 'display_name' ) ] ),
+        ] );
+    }
+
 }

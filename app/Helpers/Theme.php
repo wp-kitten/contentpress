@@ -57,6 +57,7 @@ class Theme
     /**
      * Retrieve the theme info stored in the theme.json file
      * @return array
+     * @throws \Illuminate\Contracts\Filesystem\FileNotFoundException
      */
     public function getThemeData()
     {

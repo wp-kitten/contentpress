@@ -470,6 +470,8 @@ return [
     'An error occurred while contacting the API server.' => 'An error occurred while contacting the API server.',
     'The installed plugin is not valid.' => 'The installed plugin is not valid.',
     'The plugin :name has been successfully installed and activated.' => 'The plugin :name has been successfully installed and activated.',
-    '' => '',
+    'Visit theme site' => 'Visit theme site',
+    'The installed theme is not valid.' => 'The installed theme is not valid.',
+    'The theme :name has been successfully installed.' => 'The theme :name has been successfully installed.',
     '' => '',
 ];

@@ -8,39 +8,57 @@ use Illuminate\Support\Facades\Http;
 class Marketplace
 {
     /**
-     * Stores the list of plugins retrieved from the api
-     * @var array
+     * Stores the reference to the instance of the Cache class
+     * @var Cache
      */
-    private $plugins = [];
+    private $cache;
 
+    /**
+     * Marketplace constructor.
+     */
     public function __construct()
     {
+        $this->cache = app( 'cp.cache' );
         $this->getPlugins();
+        $this->getThemes();
     }
 
     public function getPlugins()
     {
         //#! Check cache first
         $cacheName = 'api-marketplace-plugins';
-        /**
-         * @var Cache $cache
-         */
-        $cache = app( 'cp.cache' );
-        $plugins = $cache->get( $cacheName, [] );
+        $data = $this->cache->get( $cacheName, [] );
 
-        if ( empty( $plugins ) ) {
+        if ( empty( $data ) ) {
             //#! Get from API
             $url = path_combine( CONTENTPRESS_API_URL, 'plugins' );
             $response = Http::get( $url )->json();
             if ( empty( $response ) || empty( $response[ 'data' ] ) ) {
                 return [];
             }
-            $plugins = $response[ 'data' ];
-            $cache->set( $cacheName, $plugins );
+            $data = $response[ 'data' ];
+            $this->cache->set( $cacheName, $data );
         }
+        return $data;
+    }
 
-        $this->plugins = $plugins;
-        return $this->plugins;
+    public function getThemes()
+    {
+        //#! Check cache first
+        $cacheName = 'api-marketplace-themes';
+        $data = $this->cache->get( $cacheName, [] );
+
+        if ( empty( $data ) ) {
+            //#! Get from API
+            $url = path_combine( CONTENTPRESS_API_URL, 'themes' );
+            $response = Http::get( $url )->json();
+            if ( empty( $response ) || empty( $response[ 'data' ] ) ) {
+                return [];
+            }
+            $data = $response[ 'data' ];
+            $this->cache->set( $cacheName, $data );
+        }
+        return $data;
     }
 
     /**
@@ -86,6 +104,55 @@ class Marketplace
             if ( false === $pluginInfo ) {
                 File::deleteDirectory( $pluginDestDirPath );
                 throw new \Exception( __( 'a.The installed plugin is not valid.' ) );
+            }
+        }
+        return true;
+    }
+
+    /**
+     * Download and install a theme from the marketplace
+     * @param string $themeDirName
+     * @param string|float $themeVersion
+     * @return bool
+     * @throws \Exception
+     */
+    public function installTheme( string $themeDirName, $themeVersion )
+    {
+        $url = path_combine( CONTENTPRESS_API_URL, 'get_theme', $themeDirName, $themeVersion );
+        $response = Http::get( $url );
+        if ( empty( $response ) ) {
+            throw new \Exception( __( 'a.An error occurred while contacting the API server.' ) );
+        }
+
+        //#! Make the temp dir
+        $tmpDirPath = public_path( 'uploads/tmp/' . $themeDirName );
+        if ( !File::isDirectory( $tmpDirPath ) ) {
+            File::makeDirectory( $tmpDirPath, 0777, true );
+        }
+        $archiveFilePath = path_combine( $tmpDirPath, "{$themeDirName}.zip" );
+        File::put( $archiveFilePath, $response );
+
+        //#! Extract the archive
+        $zip = new \ZipArchive();
+        if ( $zip->open( $archiveFilePath ) ) {
+            $zip->extractTo( $tmpDirPath );
+            $zip->close();
+
+            $themesManager = ThemesManager::getInstance();
+
+            //#! Move the extracted dir to themes
+            //#! Get the directory inside the uploads/tmp/$archiveName
+            $themeTmpDirPath = path_combine( $tmpDirPath, $themeDirName );
+            $saveDirPath = path_combine( $themesManager->getThemesDirectoryPath(), $themeDirName );
+            File::moveDirectory( $themeTmpDirPath, $saveDirPath );
+            File::deleteDirectory( $tmpDirPath );
+
+            //#! Validate the uploaded theme
+            $theme = new Theme( $themeDirName );
+            $themeInfo = $theme->getThemeData();
+            if ( empty( $themeInfo ) ) {
+                File::deleteDirectory( $saveDirPath );
+                throw new \Exception( __( 'a.The installed theme is not valid.' ) );
             }
         }
         return true;

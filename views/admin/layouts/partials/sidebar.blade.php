@@ -242,6 +242,9 @@
                         <li>
                             <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.themes.add')}}" href="{{route('admin.themes.add')}}">{{__('a.Add new')}}</a>
                         </li>
+                        <li>
+                            <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.themes.marketplace')}}" href="{{route('admin.themes.marketplace')}}">{{__('a.Marketplace')}}</a>
+                        </li>
                     @endif
 
                     {!! do_action('contentpress/admin/sidebar/menu/themes') !!}

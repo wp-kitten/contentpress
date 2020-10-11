@@ -150,6 +150,8 @@ Route::group(
     Route::get( "themes/add", [ "uses" => "ThemesController@renderAddView" ] )->name( "admin.themes.add" );
     Route::get( "themes/activate/{theme_name}", [ "uses" => "ThemesController@__activate" ] )->name( "admin.themes.activate" );
     Route::get( "themes/delete/{theme_name}", [ "uses" => "ThemesController@__delete" ] )->name( "admin.themes.delete" );
+    Route::get( "themes/marketplace", [ "uses" => "ThemesController@__viewMarketplace" ] )->name( "admin.themes.marketplace" );
+    Route::post( "themes/marketplace/install/{theme_dir_name}/{version}", [ "uses" => "ThemesController@__marketplaceInstallTheme" ] )->name( "admin.themes.marketplace.install" );
 
     //#! Media
     Route::get( "media", [ "uses" => "MediaController@index" ] )->name( "admin.media.all" );
