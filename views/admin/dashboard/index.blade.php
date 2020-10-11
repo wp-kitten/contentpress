@@ -10,8 +10,9 @@
             <div>
                 <h1>{{__('a.Dashboard')}}</h1>
             </div>
-            @if(cp_current_user_can('edit_dashboard'))
-                <ul class="list-unstyled list-inline mb-0">
+
+            <ul class="list-unstyled list-inline mb-0">
+                @if(cp_current_user_can('super_admin'))
                     <li class="">
                         <a href="#" class="btn btn-danger mr-3"
                            data-confirm="{{__('a.Are you really sure you want to reinstall the application? This will erase everything.')}}"
@@ -20,6 +21,8 @@
                             @csrf
                         </form>
                     </li>
+                @endif
+                @if(cp_current_user_can('administrator'))
                     <li class="">
                         <a href="#" class="btn btn-danger mr-5"
                            data-confirm="{{__('a.Are you really sure you want to clear the application cache?')}}"
@@ -36,11 +39,13 @@
                             @csrf
                         </form>
                     </li>
+                @endif
+                @if(cp_current_user_can('edit_dashboard'))
                     <li class="">
                         <a class="btn btn-primary mr-0 ml-3" href="{{route('admin.dashboard.edit')}}">{{__('a.Edit')}}</a>
                     </li>
-                </ul>
-            @endif
+                @endif
+            </ul>
         </div>
     </div>
 
