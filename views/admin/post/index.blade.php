@@ -35,7 +35,7 @@
             </div>
 
             <div class="ml-auto mr-5">
-                <form class="form-inline" method="get" action="{{route("{$baseRoute}.search")}}">
+                <form class="form-inline" method="get" action="{{route("{$baseRoute}.all")}}">
                     @csrf
                     <div class="form-group">
                         <label for="input_post_title" class="hidden">{{__('a.Search')}}</label>

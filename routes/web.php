@@ -184,7 +184,6 @@ Route::group(
 
             //#! Post types
             Route::get( "{$postType->name}", [ "uses" => "PostsController@index" ] )->name( "{$baseRoute}.all" );
-            Route::get( "{$postType->name}/{search?}", [ "uses" => "PostsController@__search" ] )->name( "{$baseRoute}.search" );
             Route::get( "{$postType->name}/new/{id?}", [ "uses" => "PostsController@showCreatePage" ] )->name( "{$baseRoute}.new" );
             Route::get( "{$postType->name}/edit/{id}", [ "uses" => "PostsController@showEditPage" ] )->name( "{$baseRoute}.edit" );
             Route::get( "{$postType->name}/translate/{id}/{code}/{new_post_id?}", [ "uses" => "PostsController@showTranslatePage" ] )->name( "{$baseRoute}.translate" );
