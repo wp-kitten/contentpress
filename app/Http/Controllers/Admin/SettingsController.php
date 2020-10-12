@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\CommentStatuses;
 use App\Helpers\CPML;
 use App\Helpers\ScriptsManager;
 use App\Helpers\Util;
+use App\Models\CommentStatuses;
 use App\Models\Language;
 use App\Models\Options;
 use App\Models\Post;
@@ -14,6 +14,7 @@ use App\Models\PostType;
 use App\Models\Role;
 use App\Models\Settings;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
 
 class SettingsController extends AdminControllerBase
@@ -555,6 +556,136 @@ class SettingsController extends AdminControllerBase
         return redirect()->back()->with( 'message', [
             'class' => 'success',
             'text' => __( 'a.Settings updated' ),
+        ] );
+    }
+
+    //#! POST
+    public function __addLanguage()
+    {
+        if ( !cp_current_user_can( 'manage_options' ) ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => __( 'a.You are not allowed to perform this action' ),
+            ] );
+        }
+
+        $this->request->validate( [
+            'language_code' => 'required|max:2',
+            'language_name' => 'required|max:50',
+        ] );
+
+        $code = strtolower( wp_kses( $this->request->get( 'language_code' ), [] ) );
+        $name = Str::title( wp_kses( $this->request->get( 'language_name' ), [] ) );
+
+        $entry = Language::where( 'code', $code )->first();
+
+        //#! Update
+        if ( $entry ) {
+            $entry->name = $name;
+            $updated = $entry->update();
+            if ( !$updated ) {
+                return redirect()->back()->with( 'message', [
+                    'class' => 'danger',
+                    'text' => __( 'a.The language could not be updated.' ),
+                ] );
+            }
+            return redirect()->back()->with( 'message', [
+                'class' => 'success',
+                'text' => __( 'a.The language has been updated.' ),
+            ] );
+        }
+        //#! Insert
+        $created = Language::create( [
+            'code' => $code,
+            'name' => $name,
+        ] );
+        if ( !$created ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => __( 'a.The language could not be added.' ),
+            ] );
+        }
+
+        //#! Create the language directory if it doesn't exist and copy the files from the default language's directory
+        $defaultLanguage = $this->settings->getSetting( 'default_language', 'en' );
+        $sourceLangDir = resource_path( "lang/{$defaultLanguage}" );
+        try {
+            if ( File::isDirectory( $sourceLangDir ) ) {
+                $destLangDir = resource_path( "lang/{$code}" );
+                File::copyDirectory( $sourceLangDir, $destLangDir );
+            }
+        }
+        catch ( \Exception $e ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => __( 'a.The language has been added but the language directory could not be created.' ),
+            ] );
+        }
+
+        return redirect()->back()->with( 'message', [
+            'class' => 'success',
+            'text' => __( 'a.The language has been added.' ),
+        ] );
+    }
+
+    public function __deleteLanguage( $id )
+    {
+        if ( !cp_current_user_can( 'manage_options' ) ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => __( 'a.You are not allowed to perform this action' ),
+            ] );
+        }
+
+        $entry = Language::findOrFail( $id );
+        $languageCode = $entry->code;
+
+        if ( $this->settings->getSetting( 'default_language' ) == $languageCode ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => __( 'a.You cannot delete the language set as default.' ),
+            ] );
+        }
+
+        $deleted = $entry->delete();
+        if ( !$deleted ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => __( 'a.The language could not be deleted.' ),
+            ] );
+        }
+
+        //#! Attempt to delete the language directory
+        try {
+            $languageDir = resource_path( "lang/{$languageCode}" );
+            if ( File::isDirectory( $languageDir ) ) {
+                File::deleteDirectory( $languageDir, false );
+            }
+        }
+        catch ( \Exception $e ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'warning',
+                'text' => __( "a.The language has been deleted but an error occurred and the language directory couldn't be deleted." ),
+            ] );
+        }
+
+        //#! Remove from option
+        $updateOption = false;
+        $enabledLanguages = $this->options->getOption( 'enabled_languages', [] );
+        foreach ( $enabledLanguages as $i => $code ) {
+            if ( $code == $languageCode ) {
+                unset( $enabledLanguages[ $i ] );
+                $updateOption = true;
+                break;
+            }
+        }
+        if ( $updateOption ) {
+            $this->options->addOption( 'enabled_languages', $enabledLanguages );
+        }
+
+        return redirect()->back()->with( 'message', [
+            'class' => 'success',
+            'text' => __( 'a.The language has been deleted.' ),
         ] );
     }
 

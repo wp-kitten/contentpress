@@ -129,6 +129,8 @@ Route::group(
 
     Route::post( "settings/general/update", [ "uses" => "SettingsController@__updateSettings" ] )->name( "admin.settings.general.update" );
     Route::post( "settings/languages/update", [ "uses" => "SettingsController@__updateLanguages" ] )->name( "admin.settings.languages.update" );
+    Route::post( "settings/languages/add", [ "uses" => "SettingsController@__addLanguage" ] )->name( "admin.settings.languages.add" );
+    Route::post( "settings/languages/delete/{id}", [ "uses" => "SettingsController@__deleteLanguage" ] )->name( "admin.settings.languages.delete" );
     Route::post( "settings/reading/update", [ "uses" => "SettingsController@__updateReadingSettings" ] )->name( "admin.settings.reading.update" );
     Route::post( "settings/post_types/add", [ "uses" => "SettingsController@__insertPostType" ] )->name( "admin.settings.post_types.add" );
     Route::post( "settings/post_types/update/{id}", [ "uses" => "SettingsController@__updatePostTypeDefault" ] )->name( "admin.settings.post_types.update" );
