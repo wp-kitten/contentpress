@@ -214,9 +214,11 @@ class DashboardController extends AdminControllerBase
         //#! Delete temp file
         File::delete( $fileSavePath );
 
-        //#! Clear app + internal cache
-        Artisan::call( 'cp:cache' );
-        app()->get( 'cp.cache' )->clear();
+        //#! Trigger the post-install actions
+        Artisan::call( 'cp:post-install', [
+            //#! Do not delete the uploads directory
+            '--d' => false,
+        ] );
 
         //#! Remove website from under maintenance
         Util::setUnderMaintenance( false );
@@ -230,17 +232,16 @@ class DashboardController extends AdminControllerBase
     public function __reinstallApp()
     {
         try {
-            //#! Clear cache
-            Artisan::call( 'cp:cache' );
-
-            //#! Delete all uploaded files
-            $uploadsDir = public_path( 'uploads' );
-            File::deleteDirectory( $uploadsDir, true );
-
             //#! Reinstall
             Artisan::call( 'cp:install', [
                 '--n' => true,
                 '--s' => true,
+            ] );
+
+            //#! Trigger the post-install actions
+            Artisan::call( 'cp:post-install', [
+                //#! Delete the uploads directory
+                '--d' => true,
             ] );
         }
         catch ( \Exception $e ) {
