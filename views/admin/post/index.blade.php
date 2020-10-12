@@ -152,7 +152,7 @@
                                         <thead>
                                             <tr>
                                                 <th style="padding: 0 .9375rem;vertical-align: top;">
-                                                    <label for="js-input-select-all">{{__('a.Select All')}}</label>
+                                                    <label for="js-input-select-all" class="hidden">{{__('a.Select All')}}</label>
                                                     <input id="js-input-select-all"
                                                            type="checkbox"
                                                            class="js-select-all-posts"
