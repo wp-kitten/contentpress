@@ -26,13 +26,17 @@
                 <input class="form-control cp-wide" id="post_title" type="text" value="{!! $post->title !!}" placeholder="{{__('a.Post title')}}"/>
             </div>
             <ul class="list-unstyled list-inline mb-0">
+
                 @if(cp_current_user_can('publish_posts'))
+                    <li class="mr-3">
+                        <a class="btn btn-primary d-block" href="{{route('admin.'.$__post_type->name.'.new')}}">{{__('a.New')}}</a>
+                    </li>
                     <li class="">
-                        <a href="#" class="btn btn-primary ml-4 js-save-post-button" id="js-btn-post-save">{{__('a.Save')}}</a>
+                        <a href="#" class="btn btn-primary ml-4 d-block js-save-post-button" id="js-btn-post-save">{{__('a.Save')}}</a>
                     </li>
                 @endif
                 <li>
-                    <a href="{{cp_get_post_view_url($post)}}" class="btn btn-primary ml-2 view-post-button" target="_blank" title="Preview{{__('a.Preview')}}">
+                    <a href="{{cp_get_post_view_url($post)}}" class="btn btn-primary ml-2 d-block view-post-button" target="_blank" title="Preview{{__('a.Preview')}}">
                         {{__('a.Preview')}}
                     </a>
                 </li>
