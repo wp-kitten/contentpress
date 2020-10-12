@@ -5,6 +5,7 @@ namespace App\Console\Commands;
 use App\Helpers\Marketplace;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\File;
 
 class ContentPressInstall extends Command
 {
@@ -45,6 +46,19 @@ class ContentPressInstall extends Command
 
             Artisan::call( 'migrate:fresh' );
             $this->line( '== Done ==' );
+
+            $this->line( '>>> Deleting uploads...' );
+            try {
+                $uploadsDirPath = public_path( 'uploads' );
+                if ( File::isDirectory( $uploadsDirPath ) ) {
+                    File::deleteDirectory( $uploadsDirPath );
+                }
+                File::makeDirectory( $uploadsDirPath );
+                $this->line( '>>> DONE...' );
+            }
+            catch ( \Exception $e ) {
+                $this->line( '== An error occurred: ' . $e->getMessage() . ' ==' );
+            }
         }
 
         //#! Seed
