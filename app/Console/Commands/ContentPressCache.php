@@ -38,11 +38,12 @@ class ContentPressCache extends Command
      */
     public function handle()
     {
-        $this->line('>>> Clearing all caches');
-        Artisan::call('cache:clear');
-        Artisan::call('route:clear');
-        Artisan::call('config:clear');
-        Artisan::call('view:clear');
+        $this->line( '>>> Clearing all caches' );
+        Artisan::call( 'cache:clear' );
+        Artisan::call( 'route:clear' );
+        Artisan::call( 'config:clear' );
+        Artisan::call( 'view:clear' );
+        Artisan::call( 'clear-compiled' );
         $this->line( '== Done ==' );
         return 1;
     }

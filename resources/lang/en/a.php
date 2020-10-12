@@ -479,5 +479,6 @@ return [
     'No entries selected.' => 'No entries selected.',
     'Entries deleted.' => 'Entries deleted.',
     'Some entries could not be deleted.' => 'Some entries could not be deleted.',
+    'An error occurred :error' => 'An error occurred :error',
     '' => '',
 ];

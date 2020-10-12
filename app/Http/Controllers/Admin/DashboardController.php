@@ -175,16 +175,25 @@ class DashboardController extends AdminControllerBase
         }
 
         //#! Download content locally
-        $saveDirPath = public_path( 'uploads/tmp' );
-        if ( !File::isDirectory( $saveDirPath ) ) {
-            File::makeDirectory( $saveDirPath, 775, true );
+        try {
+            $saveDirPath = public_path( 'uploads/tmp' );
+            if ( !File::isDirectory( $saveDirPath ) ) {
+                File::makeDirectory( $saveDirPath, 775, true );
+            }
+            $fileSavePath = path_combine( $saveDirPath, 'contentpress.zip' );
+            if ( !File::put( $fileSavePath, $response ) ) {
+                Util::setUnderMaintenance( false );
+                return redirect()->route( 'admin.dashboard.updates' )->with( 'message', [
+                    'class' => 'danger',
+                    'text' => __( 'a.An error occurred when trying to create the local download file. Check for permissions.' ),
+                ] );
+            }
         }
-        $fileSavePath = path_combine( $saveDirPath, 'contentpress.zip' );
-        if ( !File::put( $fileSavePath, $response ) ) {
+        catch ( \Exception $e ) {
             Util::setUnderMaintenance( false );
             return redirect()->route( 'admin.dashboard.updates' )->with( 'message', [
                 'class' => 'danger',
-                'text' => __( 'a.An error occurred when trying to create the local download file. Check for permissions.' ),
+                'text' => __( 'a.An error occurred :error', [ 'error' => $e->getMessage() ] ),
             ] );
         }
 
@@ -205,11 +214,15 @@ class DashboardController extends AdminControllerBase
         //#! Delete temp file
         File::delete( $fileSavePath );
 
+        //#! Clear app + internal cache
+        Artisan::call( 'cp:cache' );
+        app()->get( 'cp.cache' )->clear();
+
         //#! Remove website from under maintenance
         Util::setUnderMaintenance( false );
 
         return redirect()->route( 'admin.dashboard.updates' )->with( 'message', [
-            'class' => 'danger',
+            'class' => 'success',
             'text' => __( 'a.Core updated to version :version.', [ 'version' => $version ] ),
         ] );
     }
