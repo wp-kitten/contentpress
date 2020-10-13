@@ -151,7 +151,7 @@ class Theme
     public function get( string $key, $default = false )
     {
         if ( empty( $this->_data ) ) {
-            return $default;
+            $this->getThemeData();
         }
         return ( isset( $this->_data[ $key ] ) ? $this->_data[ $key ] : $default );
     }

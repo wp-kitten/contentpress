@@ -12,6 +12,7 @@
 */
 
 use App\Helpers\ThemesManager;
+use App\Http\Controllers\Admin\TranslationsController;
 use App\Models\PostType;
 use App\Models\Settings;
 use Illuminate\Support\Facades\Auth;
@@ -167,12 +168,21 @@ Route::group(
     Route::post( "media/update/{id}", [ "uses" => "MediaController@__update" ] )->name( "admin.media.update" );
     Route::post( "media/delete/{id}", [ "uses" => "MediaController@__delete" ] )->name( "admin.media.delete" );
 
+    //#! Menus
     Route::get( "menus", [ "uses" => "MenuController@index" ] )->name( "admin.menus.all" );
     Route::get( "menus/add", [ "uses" => "MenuController@showCreatePage" ] )->name( "admin.menus.add" );
     Route::get( "menus/edit/{id}", [ "uses" => "MenuController@showEditPage" ] )->name( "admin.menus.edit" );
     Route::post( "menus/create", [ "uses" => "MenuController@__insert" ] )->name( "admin.menus.create" );
     Route::post( "menus/update/{id}", [ "uses" => "MenuController@__update" ] )->name( "admin.menus.update" );
     Route::post( "menus/delete/{id}", [ "uses" => "MenuController@__delete" ] )->name( "admin.menus.delete" );
+
+    //#! Translations
+    Route::get( "translations", [ TranslationsController::class, "index" ] )->name( "admin.translations.core" );
+    Route::post( "translations/update", [ TranslationsController::class, "__updateTranslation" ] )->name( "admin.translations.update" );
+    Route::get( "translations/plugins", [ TranslationsController::class, "plugins" ] )->name( "admin.translations.plugins" );
+    Route::get( "translations/themes", [ TranslationsController::class, "themes" ] )->name( "admin.translations.themes" );
+    Route::post( "translations/plugins/create", [ TranslationsController::class, "__pluginCreateTranslation" ] )->name( "admin.translations.plugins.create" );
+    Route::post( "translations/themes/create", [ TranslationsController::class, "__themeCreateTranslation" ] )->name( "admin.translations.themes.create" );
 
     //#! Dynamic routes for custom post types
     //#! Must check for table existence because artisan migrate command will break here if the table is not found

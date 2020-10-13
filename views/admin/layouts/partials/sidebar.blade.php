@@ -304,6 +304,36 @@
             </li>
         @endif
 
+        @if(count($enabledLanguages) > 1 && cp_current_user_can('manage_translations'))
+            <li class="treeview {{App\Helpers\MenuHelper::activateMenuItem('admin.translations')}}">
+                <a class="app-menu__item" href="#" data-toggle="treeview">
+                    <i class="app-menu__icon fa fa-language"></i>
+                    <span class="app-menu__label">{{__('a.Translations')}}</span>
+                    <i class="treeview-indicator fa fa-angle-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.translations.core')}}"
+                           href="{{route('admin.translations.core')}}">
+                            {{__('a.Core')}}
+                        </a>
+                    </li>
+                    <li>
+                        <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.translations.plugins')}}"
+                           href="{{route('admin.translations.plugins')}}">
+                            {{__('a.Plugins')}}
+                        </a>
+                    </li>
+                    <li>
+                        <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.translations.themes')}}"
+                           href="{{route('admin.translations.themes')}}">
+                            {{__('a.Themes')}}
+                        </a>
+                    </li>
+                </ul>
+            </li>
+        @endif
+
         {{do_action('contentpress/admin/sidebar/menu')}}
     </ul>
 </aside>

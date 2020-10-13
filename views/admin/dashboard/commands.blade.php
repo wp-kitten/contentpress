@@ -8,7 +8,7 @@
     <div class="app-title">
         <div class="cp-flex cp-flex--center cp-flex--space-between">
             <div>
-                <h1>{{__('a.Commands')}}</h1>
+                <h1>{{__("a.Commands")}}</h1>
             </div>
         </div>
     </div>
@@ -25,7 +25,7 @@
                     </div>
                     <div class="content-section">
                         <p class="text-italic">
-                            {{__('a.This command will reinstall the current version of ContentPress.')}}
+                            {{__("a.This command will reinstall the current version of ContentPress.")}}
                         </p>
                         <p class="text-right">
                             <a href="#!"
@@ -105,7 +105,7 @@
                     </div>
                     <div class="content-section">
                         <p class="text-italic">
-                            {{__('a.This command will execute the "composer update" command which will update all composer dependencies. Tread carefully, it might have unwanted side effects.')}}
+                            {{__("a.This command will execute the \"composer update\" command which will update all composer dependencies. Tread carefully, it might have unwanted side effects.")}}
                         </p>
                         <p class="text-right">
                             <a href="#!"
@@ -129,7 +129,7 @@
                     </div>
                     <div class="content-section">
                         <p class="text-italic">
-                            {{__('a.This command will execute the "composer dumpautoload" command which will regenerate the optimized autoload files.')}}
+                            {{__("a.This command will execute the \"composer dumpautoload\" command which will regenerate the optimized autoload files.")}}
                         </p>
                         <p class="text-right">
                             <a href="#!"

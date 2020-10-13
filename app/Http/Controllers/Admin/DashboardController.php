@@ -39,6 +39,7 @@ class DashboardController extends AdminControllerBase
     {
         App::setLocale( $code );
         cp_set_user_meta( 'backend_user_current_language', $code );
+        session()->put( 'backend_user_current_language', $code );
         return redirect()->back();
     }
 

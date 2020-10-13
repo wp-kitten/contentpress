@@ -109,29 +109,30 @@
 </head>
 <body class="app sidebar-mini">
 
-<div class="app-wrapper">
-    @include('admin.layouts.partials.navbar')
+    <div class="app-wrapper">
+        @include('admin.layouts.partials.navbar')
 
-    @include('admin.layouts.partials.sidebar')
+        @include('admin.layouts.partials.sidebar')
 
-    <div class="app-content custom-scroll">
-        <div class="app-content-wrapper">
-            @yield('main')
-        </div>
-        @include('admin.layouts.partials.footer')
-    </div><!-- // main-panel -->
-</div>
+        <div class="app-content custom-scroll">
+            <div class="app-content-wrapper">
+                @yield('main')
+            </div>
+            @include('admin.layouts.partials.footer')
+        </div><!-- // main-panel -->
+    </div>
 
-<script src="{{asset('_admin/js/admin-heartbeat.js')}}"></script>
-<script src="{{asset('_admin/js/ContentPressTextEditor.js')}}"></script>
-<script src="{{asset('vendor/selectize.js/dist/js/standalone/selectize.min.js')}}"></script>
-<script src="{{asset('vendor/quill/quill.min.js')}}"></script>
-<script src="{{asset('vendor/admin-template/popper.min.js')}}"></script>
-<script src="{{asset('vendor/bootstrap/js/bootstrap.min.js')}}"></script>
-<script src="{{asset('vendor/admin-template/main.js')}}"></script>
-<script src="{{asset('vendor/admin-template/plugins/pace.min.js')}}"></script>
-<script src="{{asset('vendor/admin-template/plugins/chart.js')}}"></script>
+    <script src="{{asset('_admin/js/admin-heartbeat.js')}}"></script>
+    <script src="{{asset('_admin/js/ContentPressTextEditor.js')}}"></script>
+    <script src="{{asset('vendor/selectize.js/dist/js/standalone/selectize.min.js')}}"></script>
+    <script src="{{asset('vendor/quill/quill.min.js')}}"></script>
+    <script src="{{asset('vendor/admin-template/popper.min.js')}}"></script>
+    <script src="{{asset('vendor/bootstrap/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('vendor/admin-template/main.js')}}"></script>
+    <script src="{{asset('vendor/admin-template/plugins/pace.min.js')}}"></script>
+    <script src="{{asset('vendor/admin-template/plugins/chart.js')}}"></script>
 
-{{cp_admin_footer()}}
+    {{cp_admin_footer()}}
+    @yield('footer-scripts')
 </body>
 </html>

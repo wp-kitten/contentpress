@@ -19,7 +19,6 @@ define( 'CONTENTPRESS_API_URL', 'http://api.contentpress.news/api' );
  */
 define( 'CONTENTPRESS_MARKETPLACE_URL', 'http://api.contentpress.news' );
 
-
 /**
  * 4 digits year
  * @var string
@@ -38,6 +37,13 @@ define( 'CP_DAY_IN_SECONDS', 24 * CP_HOUR_IN_SECONDS );
 //#! Various response codes to be used (exclusively|optionally) for ajax requests
 define( 'TYPE_ERROR', 'X000000' );
 define( 'TYPE_SUCCESS', 'X000001' );
+
+/*
+ * Internal constants used mainly for translations
+ */
+define( 'CONTENTPRESS_TYPE_CORE', 'core' );
+define( 'CONTENTPRESS_TYPE_PLUGIN', 'plugin' );
+define( 'CONTENTPRESS_TYPE_THEME', 'theme' );
 
 /**
  * Global identifier to be used for forms

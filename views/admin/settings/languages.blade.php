@@ -22,6 +22,7 @@
             {{-- ENABLED LANGUAGES --}}
             <div class="col-sm-12 col-md-6">
                 <div class="tile">
+                    <h3 class="tile-title">{{__('a.Enabled languages')}}</h3>
                     <form class="" method="post" action="{{route('admin.settings.languages.update')}}">
                         <div class="form-group">
 
@@ -54,6 +55,7 @@
                                             <span class="text-description d-inline">{{$text}}</span>
                                         @else
                                             <a href="#"
+                                               class="ml-3 font-weight-bold text-danger"
                                                data-form-id="form-delete-language-{{$lang->id}}"
                                                data-confirm="{{__('a.Are you sure you want to delete this language?')}}"
                                                title="{{__('a.Delete')}}">&times;</a>
