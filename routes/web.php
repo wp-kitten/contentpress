@@ -174,12 +174,6 @@ Route::group(
     Route::post( "menus/update/{id}", [ "uses" => "MenuController@__update" ] )->name( "admin.menus.update" );
     Route::post( "menus/delete/{id}", [ "uses" => "MenuController@__delete" ] )->name( "admin.menus.delete" );
 
-    Route::get( "links", [ "uses" => "LinksController@index" ] )->name( "admin.links.all" );
-    Route::get( "links/edit/{id}", [ "uses" => "LinksController@showEditPage" ] )->name( "admin.links.edit" );
-    Route::post( "links/create", [ "uses" => "LinksController@__insert" ] )->name( "admin.links.create" );
-    Route::post( "links/update/{id}", [ "uses" => "LinksController@__update" ] )->name( "admin.links.update" );
-    Route::post( "links/delete/{id}", [ "uses" => "LinksController@__delete" ] )->name( "admin.links.delete" );
-
     //#! Dynamic routes for custom post types
     //#! Must check for table existence because artisan migrate command will break here if the table is not found
     if ( Schema::hasTable( 'post_types' ) ) {

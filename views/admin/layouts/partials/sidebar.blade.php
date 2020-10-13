@@ -188,24 +188,6 @@
             </li>
         @endif
 
-        {{-- LINKS --}}
-        @if(cp_current_user_can('manage_options'))
-            <li class="treeview {{App\Helpers\MenuHelper::activateMenuItem('admin.links')}}">
-                <a class="app-menu__item" href="#" data-toggle="treeview">
-                    <i class="app-menu__icon fa fa-link"></i>
-                    <span class="app-menu__label">{{__('a.Links')}}</span>
-                    <i class="treeview-indicator fa fa-angle-right"></i>
-                </a>
-                <ul class="treeview-menu">
-                    <li>
-                        <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.links.all')}}" href="{{route('admin.links.all')}}">{{__('a.Manage')}}</a>
-                    </li>
-
-                    {!! do_action('contentpress/admin/sidebar/menu/links') !!}
-                </ul>
-            </li>
-        @endif
-
         {{-- PLUGINS --}}
         @if(cp_current_user_can('list_plugins'))
             <li class="treeview {{App\Helpers\MenuHelper::activateMenuItem('admin.plugins')}}">
