@@ -10,6 +10,7 @@ use App\Helpers\Theme;
 use App\Helpers\ThemeUpdater;
 use App\Helpers\UserNotices;
 use App\Helpers\Util;
+use Illuminate\Http\Client\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Artisan;
@@ -34,7 +35,7 @@ class DashboardController extends AdminControllerBase
      * @param string $code
      * @return RedirectResponse
      */
-    public function lang( $code )
+    public function lang( string $code )
     {
         App::setLocale( $code );
         cp_set_user_meta( 'backend_user_current_language', $code );
@@ -61,8 +62,19 @@ class DashboardController extends AdminControllerBase
         return $this->_forbidden();
     }
 
+    public function showCommandsView()
+    {
+        return view( 'admin.dashboard.commands' );
+    }
+
     public function __refreshStats()
     {
+        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+            return redirect()->back()->with( [
+                'class' => 'success',
+                'text' => __( 'a.You are not allowed to perform this action.' ),
+            ] );
+        }
         StatsHelper::getInstance()->refreshStats();
         return redirect()->back()->with( [
             'class' => 'success',
@@ -83,6 +95,13 @@ class DashboardController extends AdminControllerBase
 
     public function __checkForUpdates()
     {
+        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+            return redirect()->back()->with( [
+                'class' => 'success',
+                'text' => __( 'a.You are not allowed to perform this action.' ),
+            ] );
+        }
+
         //#! Run the Updater
         app()->get( 'cp.updater' )->run();
 
@@ -109,8 +128,15 @@ class DashboardController extends AdminControllerBase
         ] );
     }
 
-    public function __update_plugin( $file_name )
+    public function __update_plugin( string $file_name )
     {
+        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+            return redirect()->back()->with( [
+                'class' => 'success',
+                'text' => __( 'a.You are not allowed to perform this action.' ),
+            ] );
+        }
+
         $pluginUpdater = new PluginUpdater();
 
         $pluginInfo = PluginsManager::getInstance()->getPluginInfo( $file_name );
@@ -132,8 +158,15 @@ class DashboardController extends AdminControllerBase
         ] );
     }
 
-    public function __update_theme( $file_name )
+    public function __update_theme( string $file_name )
     {
+        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+            return redirect()->back()->with( [
+                'class' => 'success',
+                'text' => __( 'a.You are not allowed to perform this action.' ),
+            ] );
+        }
+
         $updater = new ThemeUpdater();
         $theme = new Theme( $file_name );
         $result = $updater->update( $file_name );
@@ -151,8 +184,15 @@ class DashboardController extends AdminControllerBase
         ] );
     }
 
-    public function __update_core( $version )
+    public function __update_core( string $version )
     {
+        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+            return redirect()->back()->with( [
+                'class' => 'success',
+                'text' => __( 'a.You are not allowed to perform this action.' ),
+            ] );
+        }
+
         if ( empty( $version ) ) {
             return redirect()->route( 'admin.dashboard.updates' )->with( 'message', [
                 'class' => 'danger',
@@ -160,68 +200,21 @@ class DashboardController extends AdminControllerBase
             ] );
         }
 
-        //#! Put website under maintenance
-        Util::setUnderMaintenance( true );
-
-        //#! Get archive from api server
-        $response = Http::get( path_combine( CONTENTPRESS_API_URL, 'get_update/core', $version ) );
-
-        if ( empty( $response ) ) {
-            Util::setUnderMaintenance( false );
-            return redirect()->route( 'admin.dashboard.updates' )->with( 'message', [
-                'class' => 'danger',
-                'text' => __( 'a.There was no response from the api server.' ),
-            ] );
-        }
-
-        //#! Download content locally
         try {
-            $saveDirPath = public_path( 'uploads/tmp' );
-            if ( !File::isDirectory( $saveDirPath ) ) {
-                File::makeDirectory( $saveDirPath, 775, true );
-            }
-            $fileSavePath = path_combine( $saveDirPath, 'contentpress.zip' );
-            if ( !File::put( $fileSavePath, $response ) ) {
-                Util::setUnderMaintenance( false );
-                return redirect()->route( 'admin.dashboard.updates' )->with( 'message', [
-                    'class' => 'danger',
-                    'text' => __( 'a.An error occurred when trying to create the local download file. Check for permissions.' ),
-                ] );
-            }
+            //#! Put website from under maintenance
+            Util::setUnderMaintenance( true );
+
+            $this->__updateCore( $version );
+
+            //#! Remove website from under maintenance
+            Util::setUnderMaintenance( false );
         }
         catch ( \Exception $e ) {
-            Util::setUnderMaintenance( false );
             return redirect()->route( 'admin.dashboard.updates' )->with( 'message', [
                 'class' => 'danger',
-                'text' => __( 'a.An error occurred :error', [ 'error' => $e->getMessage() ] ),
+                'text' => __( 'a.An error occurred: :error', [ 'error' => $e->getMessage() ] ),
             ] );
         }
-
-        //#! Extract to root
-        $zip = new \ZipArchive();
-        if ( $zip->open( $fileSavePath ) !== false ) {
-            $zip->extractTo( base_path() );
-            $zip->close();
-        }
-        else {
-            Util::setUnderMaintenance( false );
-            return redirect()->route( 'admin.dashboard.updates' )->with( 'message', [
-                'class' => 'danger',
-                'text' => __( 'a.An error occurred when trying to extract the downloaded archive. Check for permissions.' ),
-            ] );
-        }
-
-        //#! Delete temp file
-        File::delete( $fileSavePath );
-
-        //#! Trigger the post-install actions
-        Artisan::call( 'cp:post-install', [
-            //#! Do not delete the uploads directory
-            '--d' => false,
-        ] );
-
-        //#! Remove website from under maintenance
-        Util::setUnderMaintenance( false );
 
         return redirect()->route( 'admin.dashboard.updates' )->with( 'message', [
             'class' => 'success',
@@ -229,10 +222,46 @@ class DashboardController extends AdminControllerBase
         ] );
     }
 
-    public function __reinstallApp()
+    public function __cmdReinstall()
     {
+        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+            return redirect()->back()->with( [
+                'class' => 'success',
+                'text' => __( 'a.You are not allowed to perform this action.' ),
+            ] );
+        }
+
         try {
-            //#! Reinstall
+            //#! Put website from under maintenance
+            Util::setUnderMaintenance( true );
+
+            $this->__updateCore( CONTENTPRESS_VERSION );
+
+            //#! Remove website from under maintenance
+            Util::setUnderMaintenance( false );
+        }
+        catch ( \Exception $e ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => __( 'a.An error occurred: :error', [ 'error' => $e->getMessage() ] ),
+            ] );
+        }
+        return redirect()->back()->with( 'message', [
+            'class' => 'success',
+            'text' => __( 'a.The application has been reset and the default data imported.' ),
+        ] );
+    }
+
+    public function __cmdReset()
+    {
+        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+            return redirect()->back()->with( [
+                'class' => 'success',
+                'text' => __( 'a.You are not allowed to perform this action.' ),
+            ] );
+        }
+
+        try {
             Artisan::call( 'cp:install', [
                 '--n' => true,
                 '--s' => true,
@@ -247,17 +276,24 @@ class DashboardController extends AdminControllerBase
         catch ( \Exception $e ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
-                'text' => __( 'a.An error occurred while trying to reinstall the application: :error', [ 'error' => $e->getMessage() ] ),
+                'text' => __( 'a.An error occurred while trying to reset the application: :error', [ 'error' => $e->getMessage() ] ),
             ] );
         }
         return redirect()->back()->with( 'message', [
             'class' => 'success',
-            'text' => __( 'a.The application has been reinstalled and the dummy data imported.' ),
+            'text' => __( 'a.The application has been reset and the default data imported.' ),
         ] );
     }
 
-    public function __clearAppCache()
+    public function __cmdClearAppCache()
     {
+        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+            return redirect()->back()->with( [
+                'class' => 'success',
+                'text' => __( 'a.You are not allowed to perform this action.' ),
+            ] );
+        }
+
         try {
             Artisan::call( 'cp:cache' );
         }
@@ -270,6 +306,113 @@ class DashboardController extends AdminControllerBase
         return redirect()->back()->with( 'message', [
             'class' => 'success',
             'text' => __( 'a.The application cache has been cleared.' ),
+        ] );
+    }
+
+    public function __cmdComposerUpdate()
+    {
+        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+            return redirect()->back()->with( [
+                'class' => 'success',
+                'text' => __( 'a.You are not allowed to perform this action.' ),
+            ] );
+        }
+
+        try {
+            Artisan::call( 'cp:composer', [
+                '--u' => true,
+                '--d' => true,
+            ] );
+        }
+        catch ( \Exception $e ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => __( 'a.An error occurred while executing "composer update": :error', [ 'error' => $e->getMessage() ] ),
+            ] );
+        }
+        return redirect()->back()->with( 'message', [
+            'class' => 'success',
+            'text' => __( 'a.Command executed successfully.' ),
+        ] );
+    }
+
+    public function __cmdComposerDumpAutoload()
+    {
+        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+            return redirect()->back()->with( [
+                'class' => 'success',
+                'text' => __( 'a.You are not allowed to perform this action.' ),
+            ] );
+        }
+
+        try {
+            Artisan::call( 'cp:composer', [
+                '--u' => false,
+                '--d' => true,
+            ] );
+        }
+        catch ( \Exception $e ) {
+            return redirect()->back()->with( 'message', [
+                'class' => 'danger',
+                'text' => __( 'a.An error occurred while executing "composer dumpautoload": :error', [ 'error' => $e->getMessage() ] ),
+            ] );
+        }
+        return redirect()->back()->with( 'message', [
+            'class' => 'success',
+            'text' => __( 'a.Command executed successfully.' ),
+        ] );
+    }
+
+    /**
+     * Helper method used to update or reinstall the core files
+     * @param string $version
+     * @throws \Exception
+     * @internal
+     */
+    private function __updateCore( string $version )
+    {
+        //#! Get archive from api server
+        $response = Http::get( path_combine( CONTENTPRESS_API_URL, 'get_update/core', $version ) );
+
+        if ( empty( $response ) ) {
+            throw new \Exception( __( 'a.There was no response from the api server.' ) );
+        }
+        elseif ( $response instanceof Response ) {
+            throw new \Exception( __( 'a.The specified ContentPress version was not found.' ) );
+        }
+
+        //#! Download content locally
+        try {
+            $saveDirPath = public_path( 'uploads/tmp' );
+            if ( !File::isDirectory( $saveDirPath ) ) {
+                File::makeDirectory( $saveDirPath, 775, true );
+            }
+            $fileSavePath = path_combine( $saveDirPath, 'contentpress.zip' );
+            if ( !File::put( $fileSavePath, $response ) ) {
+                throw new \Exception( __( 'a.An error occurred when trying to create the local download file. Check for permissions.' ) );
+            }
+        }
+        catch ( \Exception $e ) {
+            throw new \Exception( $e->getMessage() );
+        }
+
+        //#! Extract to root
+        $zip = new \ZipArchive();
+        if ( $zip->open( $fileSavePath ) !== false ) {
+            $zip->extractTo( base_path() );
+            $zip->close();
+        }
+        else {
+            throw new \Exception( __( 'a.An error occurred when trying to extract the downloaded archive. Check for permissions.' ) );
+        }
+
+        //#! Delete temp file
+        File::delete( $fileSavePath );
+
+        //#! Trigger the post-install actions
+        Artisan::call( 'cp:post-install', [
+            //#! Do not delete the uploads directory
+            '--d' => false,
         ] );
     }
 }

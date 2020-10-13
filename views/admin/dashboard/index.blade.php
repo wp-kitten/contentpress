@@ -12,25 +12,7 @@
             </div>
 
             <ul class="list-unstyled list-inline mb-0">
-                @if(cp_current_user_can('super_admin'))
-                    <li class="">
-                        <a href="#" class="btn btn-danger mr-3"
-                           data-confirm="{{__('a.Are you really sure you want to reinstall the application? This will erase everything.')}}"
-                           data-form-id="form-app-reinstall">{{__('a.Reinstall')}}</a>
-                        <form id="form-app-reinstall" action="{{route('admin.dashboard.reinstall_app')}}" method="post" class="hidden">
-                            @csrf
-                        </form>
-                    </li>
-                @endif
                 @if(cp_current_user_can('administrator'))
-                    <li class="">
-                        <a href="#" class="btn btn-danger mr-5"
-                           data-confirm="{{__('a.Are you really sure you want to clear the application cache?')}}"
-                           data-form-id="form-app-clear_cache">{{__('a.Clear app cache')}}</a>
-                        <form id="form-app-clear_cache" action="{{route('admin.dashboard.clear_cache')}}" method="post" class="hidden">
-                            @csrf
-                        </form>
-                    </li>
                     <li class="">
                         <a class="btn btn-primary"
                            href="{{route('admin.dashboard.refresh_stats')}}"

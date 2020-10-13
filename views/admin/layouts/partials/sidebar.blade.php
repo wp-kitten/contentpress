@@ -57,6 +57,14 @@
                     </li>
                 @endif
 
+                @if(cp_current_user_can(['super_admin', 'administrator']))
+                    <li>
+                        <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.dashboard.commands')}}" href="{{route('admin.dashboard.commands')}}">
+                            {{__('a.Commands')}}
+                        </a>
+                    </li>
+                @endif
+
                 {!! do_action('contentpress/admin/sidebar/menu/dashboard') !!}
             </ul>
         </li>

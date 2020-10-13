@@ -53,7 +53,7 @@ class ContentPressComposer extends Command
             }
         }
         catch ( \Exception $e ) {
-            $this->line( __( 'a.An error occurred :error', [ 'error' => $e->getMessage() ] ) );
+            $this->line( __( 'a.An error occurred: :error', [ 'error' => $e->getMessage() ] ) );
         }
         return 1;
     }

@@ -99,9 +99,13 @@ Route::group(
 
     Route::get( "/", [ "uses" => "DashboardController@index" ] )->name( "admin.dashboard" );
     Route::get( "dashboard_edit", [ "uses" => "DashboardController@showEditDashboardView" ] )->name( "admin.dashboard.edit" );
+    Route::get( "dashboard_commands", [ "uses" => "DashboardController@showCommandsView" ] )->name( "admin.dashboard.commands" );
     Route::post( "dashboard_refresh_stats", [ "uses" => "DashboardController@__refreshStats" ] )->name( "admin.dashboard.refresh_stats" );
-    Route::post( "reinstall-app", [ "uses" => "DashboardController@__reinstallApp" ] )->name( "admin.dashboard.reinstall_app" );
-    Route::post( "clear-cache", [ "uses" => "DashboardController@__clearAppCache" ] )->name( "admin.dashboard.clear_cache" );
+    Route::post( "dashboard_commands/reset", [ "uses" => "DashboardController@__cmdReset" ] )->name( "admin.dashboard.reset" );
+    Route::post( "dashboard_commands/reinstall", [ "uses" => "DashboardController@__cmdReinstall" ] )->name( "admin.dashboard.reinstall" );
+    Route::post( "dashboard_commands/clear-cache", [ "uses" => "DashboardController@__cmdClearAppCache" ] )->name( "admin.dashboard.clear_cache" );
+    Route::post( "dashboard_commands/composer-update", [ "uses" => "DashboardController@__cmdComposerUpdate" ] )->name( "admin.dashboard.composer_update" );
+    Route::post( "dashboard_commands/composer-dump", [ "uses" => "DashboardController@__cmdComposerDumpAutoload" ] )->name( "admin.dashboard.composer_dump" );
 
     Route::get( "updates", [ "uses" => "DashboardController@showUpdatesView" ] )->name( "admin.dashboard.updates" );
     Route::post( "updates/check", [ "uses" => "DashboardController@__checkForUpdates" ] )->name( "admin.dashboard.check_for_updates" );
