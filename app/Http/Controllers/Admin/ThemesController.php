@@ -151,6 +151,8 @@ class ThemesController extends AdminControllerBase
 
     public function __viewMarketplace()
     {
+        ScriptsManager::enqueueStylesheet( 'admin.themes-styles', asset( '_admin/css/themes/index.css' ) );
+
         return view( 'admin.themes.marketplace' )->with( [
             'themesManager' => ThemesManager::getInstance(),
             'themes' => ( new Marketplace() )->getThemes(),

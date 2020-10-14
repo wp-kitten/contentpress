@@ -30,4 +30,10 @@
             }
         }
     }
+
+    &.marketplace {
+        .title-sm {
+            font-size: 1rem !important;
+        }
+    }
 }

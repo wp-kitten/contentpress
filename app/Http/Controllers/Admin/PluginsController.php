@@ -183,6 +183,8 @@ class PluginsController extends AdminControllerBase
 
     public function __viewMarketplace()
     {
+        ScriptsManager::enqueueStylesheet( 'admin.plugins-styles', asset( '_admin/css/plugins/index.css' ) );
+
         $plugins = ( new Marketplace() )->getPlugins();
         return view( 'admin.plugins.marketplace' )->with( [
             'pluginsManager' => PluginsManager::getInstance(),
