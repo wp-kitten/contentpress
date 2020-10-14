@@ -230,4 +230,14 @@ class PluginsController extends AdminControllerBase
             'text' => __( 'a.The plugin :name has been successfully installed and activated.', [ 'name' => $pluginInfo->display_name ] ),
         ] );
     }
+
+    /**
+     * Clear the marketplace cache for plugins
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function refresh()
+    {
+        ( new Marketplace() )->clearCache( Marketplace::CACHE_KEY_PLUGINS );
+        return redirect()->route( 'admin.plugins.marketplace' );
+    }
 }

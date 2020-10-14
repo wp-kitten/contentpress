@@ -2,9 +2,9 @@
 
 namespace App\Helpers;
 
+use App\Models\Cache as CacheModel;
 use App\Models\Settings;
 use Illuminate\Foundation\Application;
-use App\Models\Cache as CacheModel;
 use Illuminate\Support\Facades\Schema;
 
 /**
@@ -55,12 +55,13 @@ class Cache
      * Check to see whether or not the Internal Cache system is enabled
      * @return bool
      */
-    public function isEnabled()
+    public function isEnabled(): bool
     {
         return $this->_enabled;
     }
 
     /**
+     * Retrieve the value of the specified cache entry
      * @param string $key
      * @param mixed $default
      * @return mixed
@@ -74,12 +75,12 @@ class Cache
     }
 
     /**
-     *
+     * Set a cache entry
      * @param string $key
      * @param mixed $value
      * @return $this
      */
-    public function set( string $key, $value = '' )
+    public function set( string $key, $value = '' ): Cache
     {
         if ( $this->_enabled ) {
             $this->_model->add( $key, $value );
@@ -88,13 +89,29 @@ class Cache
     }
 
     /**
-     * Deletes all entries from the cache table
+     * Delete all entries from the cache table
      * @return $this
      */
-    public function clear()
+    public function clear(): Cache
     {
         if ( $this->_enabled ) {
             $this->_model->clear();
+        }
+        return $this;
+    }
+
+    /**
+     * Delete a specific cache entry
+     * @param string $key
+     * @return $this
+     */
+    public function delete( string $key ): Cache
+    {
+        if ( $this->_enabled ) {
+            $entry = $this->_model->where( 'key', $key )->first();
+            if ( $entry && $entry->id ) {
+                $entry->delete();
+            }
         }
         return $this;
     }

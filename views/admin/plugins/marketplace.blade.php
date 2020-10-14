@@ -13,7 +13,7 @@
             @if(cp_current_user_can('install_plugins'))
                 <ul class="list-unstyled list-inline mb-0">
                     <li class="">
-                        <a href="{{route('admin.plugins.add')}}" class="btn btn-primary">{{__('a.Upload')}}</a>
+                        <a href="{{route('admin.plugins.marketplace.refresh')}}" class="btn btn-primary">{{__('a.Refresh')}}</a>
                     </li>
                 </ul>
             @endif

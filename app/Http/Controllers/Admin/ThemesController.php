@@ -196,4 +196,14 @@ class ThemesController extends AdminControllerBase
         ] );
     }
 
+    /**
+     * Clear the marketplace cache for themes
+     * @return \Illuminate\Http\RedirectResponse
+     */
+    public function refresh()
+    {
+        ( new Marketplace() )->clearCache( Marketplace::CACHE_KEY_THEMES );
+        return redirect()->route( 'admin.themes.marketplace' );
+    }
+
 }

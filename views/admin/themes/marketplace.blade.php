@@ -11,6 +11,13 @@
             <div>
                 <h1>{{__('a.Marketplace')}}</h1>
             </div>
+            @if(cp_current_user_can('install_themes'))
+                <ul class="list-unstyled list-inline mb-0">
+                    <li class="">
+                        <a href="{{route('admin.themes.marketplace.refresh')}}" class="btn btn-primary">{{__('a.Refresh')}}</a>
+                    </li>
+                </ul>
+            @endif
         </div>
     </div>
 

@@ -151,6 +151,7 @@ Route::group(
     Route::post( "plugins/deactivate", [ "uses" => "PluginsController@__deactivatePlugins__POST" ] )->name( "admin.plugins.deactivate__post" );
     Route::get( "plugins/marketplace", [ "uses" => "PluginsController@__viewMarketplace" ] )->name( "admin.plugins.marketplace" );
     Route::post( "plugins/marketplace/install/{plugin_dir_name}/{version}", [ "uses" => "PluginsController@__marketplaceInstallPlugin" ] )->name( "admin.plugins.marketplace.install" );
+    Route::get( "plugins/marketplace/refresh", [ "uses" => "PluginsController@refresh" ] )->name( "admin.plugins.marketplace.refresh" );
 
     //#! Themes
     Route::get( "themes", [ "uses" => "ThemesController@index" ] )->name( "admin.themes.all" );
@@ -159,6 +160,7 @@ Route::group(
     Route::get( "themes/delete/{theme_name}", [ "uses" => "ThemesController@__delete" ] )->name( "admin.themes.delete" );
     Route::get( "themes/marketplace", [ "uses" => "ThemesController@__viewMarketplace" ] )->name( "admin.themes.marketplace" );
     Route::post( "themes/marketplace/install/{theme_dir_name}/{version}", [ "uses" => "ThemesController@__marketplaceInstallTheme" ] )->name( "admin.themes.marketplace.install" );
+    Route::get( "themes/marketplace/refresh", [ "uses" => "ThemesController@refresh" ] )->name( "admin.themes.marketplace.refresh" );
 
     //#! Media
     Route::get( "media", [ "uses" => "MediaController@index" ] )->name( "admin.media.all" );

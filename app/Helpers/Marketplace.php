@@ -14,6 +14,17 @@ class Marketplace
     private $cache;
 
     /**
+     * The name of the cache entry storing the list of plugins retrieved from marketplace
+     * @var string
+     */
+    const CACHE_KEY_PLUGINS = 'api-marketplace-plugins';
+    /**
+     * The name of the cache entry storing the list of themes retrieved from marketplace
+     * @var string
+     */
+    const CACHE_KEY_THEMES = 'api-marketplace-themes';
+
+    /**
      * Marketplace constructor.
      */
     public function __construct()
@@ -23,12 +34,14 @@ class Marketplace
         $this->getThemes();
     }
 
+    /**
+     * Retrieve plugins
+     * @return array|mixed|string
+     */
     public function getPlugins()
     {
         //#! Check cache first
-        $cacheName = 'api-marketplace-plugins';
-        $data = $this->cache->get( $cacheName, [] );
-
+        $data = $this->cache->get( self::CACHE_KEY_PLUGINS, [] );
         if ( empty( $data ) ) {
             //#! Get from API
             $url = path_combine( CONTENTPRESS_API_URL, 'plugins' );
@@ -37,17 +50,19 @@ class Marketplace
                 return [];
             }
             $data = $response[ 'data' ];
-            $this->cache->set( $cacheName, $data );
+            $this->cache->set( self::CACHE_KEY_PLUGINS, $data );
         }
         return $data;
     }
 
+    /**
+     * Retrieve themes
+     * @return array|mixed|string
+     */
     public function getThemes()
     {
         //#! Check cache first
-        $cacheName = 'api-marketplace-themes';
-        $data = $this->cache->get( $cacheName, [] );
-
+        $data = $this->cache->get( self::CACHE_KEY_THEMES, [] );
         if ( empty( $data ) ) {
             //#! Get from API
             $url = path_combine( CONTENTPRESS_API_URL, 'themes' );
@@ -56,7 +71,7 @@ class Marketplace
                 return [];
             }
             $data = $response[ 'data' ];
-            $this->cache->set( $cacheName, $data );
+            $this->cache->set( self::CACHE_KEY_THEMES, $data );
         }
         return $data;
     }
@@ -156,5 +171,16 @@ class Marketplace
             }
         }
         return true;
+    }
+
+    /**
+     * Delete the specified cache
+     * @param string $key
+     * @return $this
+     */
+    public function clearCache( string $key = self::CACHE_KEY_PLUGINS ): Marketplace
+    {
+        $this->cache->delete( $key );
+        return $this;
     }
 }

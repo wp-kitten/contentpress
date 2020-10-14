@@ -531,7 +531,7 @@ return [
    "The plugin's directory name is missing." => "The plugin's directory name is missing.",
    "The plugin's default language directory was not found. Unable to create a new translation." => "The plugin's default language directory was not found. Unable to create a new translation.",
    "Select plugin" => "Select plugin",
-   "" => "",
+   "Refresh" => "Refresh",
    "" => "",
    "" => "",
    "" => "",
