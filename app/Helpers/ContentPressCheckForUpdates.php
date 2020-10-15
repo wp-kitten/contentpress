@@ -158,6 +158,17 @@ class ContentPressCheckForUpdates
         if ( isset( $response[ 'code' ] ) && $response[ 'code' ] == 200 ) {
             //#! Compare versions
             $pluginInfo = PluginsManager::getInstance()->getPluginInfo( $name );
+
+            if ( !$pluginInfo ) {
+                return false;
+            }
+            elseif ( !$pluginInfo->version ) {
+                return false;
+            }
+            elseif ( !isset( $response[ 'data' ][ 'version' ] ) ) {
+                return false;
+            }
+
             if ( version_compare( $pluginInfo->version, $response[ 'data' ][ 'version' ], '<' ) ) {
                 return [
                     'success' => true,
