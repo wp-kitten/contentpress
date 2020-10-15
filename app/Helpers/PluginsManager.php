@@ -171,7 +171,7 @@ class PluginsManager
     }
 
     /**
-     * Retrieve the plugin's information as an associated array from the plugin's configuration file
+     * Retrieve the plugin's information as an object from the plugin's configuration file
      * @param string $pluginDirName
      * @return bool|object
      */
