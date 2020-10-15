@@ -496,7 +496,7 @@ return [
     'The language has been deleted.' => 'The language has been deleted.',
     'You cannot delete the language set as default.' => 'You cannot delete the language set as default.',
     'The language has been added but the language directory could not be created.' => 'The language has been added but the language directory could not be created.',
-    'Commands' => 'Comenzi',
+    'Commands' => 'Commands',
     'This command will reset ContentPress to its default state. This means the database and the uploads directory will be wiped clean and the default data installed.' => 'This command will reset ContentPress to its default state. This means the database and the uploads directory will be wiped clean and the default data installed.',
     'Are you sure you want to reset the application? This action cannot be undone and it will wipe clean the database and the uploads directory!' => 'Are you sure you want to reset the application? This action cannot be undone and it will wipe clean the database and the uploads directory!',
     'An error occurred while trying to reset the application: :error' => 'An error occurred while trying to reset the application: :error',
