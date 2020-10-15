@@ -65,7 +65,9 @@ class DashboardController extends AdminControllerBase
 
     public function showCommandsView()
     {
-        return view( 'admin.dashboard.commands' );
+        return view( 'admin.dashboard.commands' )->with( [
+            'has_composer' => File::isFile( base_path( 'composer.json' ) ),
+        ] );
     }
 
     public function __refreshStats()

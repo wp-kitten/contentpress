@@ -95,7 +95,7 @@
         @endif
     </div>{{--// .row--}}
 
-    @if(cp_current_user_can('administrator'))
+    @if(cp_current_user_can('administrator') && $has_composer)
         <div class="row mt-3">
             {{-- COMPOSER UPDATE --}}
             <div class="col-sm-12 col-md-4">
