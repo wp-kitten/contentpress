@@ -274,7 +274,7 @@
             </ul>
         </li>
 
-        {{-- OPTIONS --}}
+        {{-- SETTINGS --}}
         @if(cp_current_user_can('manage_options'))
             <li class="treeview {{App\Helpers\MenuHelper::activateMenuItem('admin.settings')}}">
                 <a class="app-menu__item" href="#" data-toggle="treeview">
@@ -304,6 +304,7 @@
             </li>
         @endif
 
+        {{-- TRANSLATIONS --}}
         @if(count($enabledLanguages) > 1 && cp_current_user_can('manage_translations'))
             <li class="treeview {{App\Helpers\MenuHelper::activateMenuItem('admin.translations')}}">
                 <a class="app-menu__item" href="#" data-toggle="treeview">
