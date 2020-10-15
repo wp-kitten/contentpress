@@ -10,6 +10,7 @@
 /.idea
 .env
 .env.backup
+.env.prod
 .phpunit.result.cache
 Homestead.json
 Homestead.yaml
