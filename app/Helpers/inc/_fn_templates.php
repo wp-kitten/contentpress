@@ -95,12 +95,17 @@ function cp_get_comment_edit_link( Post $post, $commentID ): string
 /**
  * Retrieve the post's date
  * @param Post|PostComments $post
+ * @param bool $withTimestamp
  * @return false|string
  */
-function cp_the_date( $post ): string
+function cp_the_date( $post, $withTimestamp = false ): string
 {
     $settings = new Settings();
     $dateFormat = $settings->getSetting( 'date_format', 'M j, Y' );
+    if ( $withTimestamp ) {
+        $timeFormat = $settings->getSetting( 'time_format', 'H:i:s' );
+        $dateFormat = "{$dateFormat} @{$timeFormat}";
+    }
     return date( $dateFormat, strtotime( $post->created_at ) );
 }
 
@@ -166,7 +171,7 @@ function cp_search_form( $placeholderText = 'Search', $searchButtonText = 'Searc
         <input type="text" name="s" id="search-field-<?php esc_attr_e( $fid ); ?>" class="search-field"
                placeholder="<?php esc_attr_e( $placeholderText ); ?>"
                value="<?php esc_attr_e( cp_get_search_query() ); ?>"/>
-        <input type="submit" class="search-button" value="<?php esc_attr_e( $searchButtonText ); ?>"/>
+        <button type="submit" class="search-button"><?php echo $searchButtonText; ?></button>
     </form>
     <?php
 }
@@ -192,7 +197,7 @@ function cp_post_excerpt( $post, $showEllipsis = true )
 {
     $excerpt = apply_filters( 'contentpress/post/excerpt', $post->excerpt );
     if ( !empty( $excerpt ) && $showEllipsis ) {
-        $excerpt .= ' [...]';
+        $excerpt = trim( $excerpt ) . ' [...]';
     }
     return html_entity_decode( $excerpt, ENT_QUOTES );
 }
