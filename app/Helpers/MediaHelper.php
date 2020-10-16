@@ -41,7 +41,7 @@ class MediaHelper
     public function getUrl( string $filePath ): string
     {
         $basePath = str_ireplace( $this->uploadsDir, '', wp_normalize_path( $filePath ) );
-        return untrailingslashit( $this->uploadsUrl ) . '/' . $basePath;
+        return wp_normalize_path( untrailingslashit( $this->uploadsUrl ) . '/' . $basePath );
     }
 
     /**
