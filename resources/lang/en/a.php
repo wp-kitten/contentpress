@@ -532,7 +532,7 @@ return [
    "The plugin's default language directory was not found. Unable to create a new translation." => "The plugin's default language directory was not found. Unable to create a new translation.",
    "Select plugin" => "Select plugin",
    "Refresh" => "Refresh",
-   "" => "",
+   "Image uploaded" => "Image uploaded",
    "" => "",
    "" => "",
 ];

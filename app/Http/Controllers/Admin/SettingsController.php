@@ -575,7 +575,7 @@ class SettingsController extends AdminControllerBase
         ] );
 
         $code = strtolower( wp_kses( $this->request->get( 'language_code' ), [] ) );
-        $name = Str::title( wp_kses( $this->request->get( 'language_name' ), [] ) );
+        $name = ucfirst( wp_kses( $this->request->get( 'language_name' ), [] ) );
 
         $entry = Language::where( 'code', $code )->first();
 

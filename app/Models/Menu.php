@@ -45,7 +45,7 @@ class Menu extends Model
     {
         $slug = Str::slug( $menuName );
         if ( $v = $this->exists( $slug, $languageID ) ) {
-            $v->name = Str::title( $menuName );
+            $v->name = ucfirst( $menuName );
             $v->slug = $slug;
             $v->language_id = $languageID;
 
@@ -53,7 +53,7 @@ class Menu extends Model
         }
         else {
             $v = $this->create( [
-                'name' => Str::title( $menuName ),
+                'name' => ucfirst( $menuName ),
                 'slug' => $slug,
                 'language_id' => $languageID,
             ] );

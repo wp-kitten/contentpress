@@ -182,9 +182,9 @@
 
                                     <div class="form-group">
                                         <div class="quill-scrolling-container">
-                                            <div id="post_excerpt-editor">{!! $post->excerpt !!}</div>
+                                            <div id="post_excerpt-editor">{!! wp_kses_post($post->excerpt, []) !!}</div>
                                         </div>
-                                        <textarea id="post_excerpt" class="form-control hidden">{!! $post->excerpt !!}</textarea>
+                                        <textarea id="post_excerpt" class="form-control hidden">{!! wp_kses_post($post->excerpt, []) !!}</textarea>
                                     </div>
                                 </div>
                             </div>

@@ -137,7 +137,7 @@ class MediaController extends AdminControllerBase
             ] );
         }
 
-        $mediaFile->title = Str::title( strip_tags( $this->request->get( 'title' ) ) );
+        $mediaFile->title = ucfirst( strip_tags( $this->request->get( 'title' ) ) );
         $mediaFile->alt = strip_tags( $this->request->get( 'alt' ) );
         $mediaFile->caption = strip_tags( $this->request->get( 'caption' ) );
 

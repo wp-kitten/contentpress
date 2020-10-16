@@ -191,10 +191,10 @@ function cp_get_search_query(): string
 function cp_post_excerpt( $post, $showEllipsis = true )
 {
     $excerpt = apply_filters( 'contentpress/post/excerpt', $post->excerpt );
-    if ( $showEllipsis ) {
+    if ( !empty( $excerpt ) && $showEllipsis ) {
         $excerpt .= ' [...]';
     }
-    return $excerpt;
+    return html_entity_decode( $excerpt, ENT_QUOTES );
 }
 
 /**

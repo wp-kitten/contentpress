@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Models\Category;
 use App\Helpers\CPML;
 use App\Helpers\ImageHelper;
 use App\Helpers\MediaHelper;
@@ -10,6 +9,7 @@ use App\Helpers\MetaFields;
 use App\Helpers\Theme;
 use App\Helpers\Util;
 use App\Http\Controllers\Controller;
+use App\Models\Category;
 use App\Models\Language;
 use App\Models\MediaFile;
 use App\Models\Menu;
@@ -102,7 +102,18 @@ class AjaxController extends Controller
         $post_status = sanitize_text_field( $this->request->get( 'post_status' ) );
         $post_title = esc_html( $this->request->get( 'post_title' ) );
         $post_content = $this->request->get( 'post_content' );
-        $post_excerpt = esc_html( $this->request->get( 'post_excerpt' ) );
+        $post_excerpt = $this->request->get( 'post_excerpt' );
+
+        if ( !empty( $post_excerpt ) ) {
+            $post_excerpt = wp_strip_all_tags( $post_excerpt );
+            if ( strlen( $post_excerpt ) > 190 ) {
+                $post_excerpt = substr( $post_excerpt, 0, 190 );
+            }
+        }
+        else {
+            $post_excerpt = substr( wp_strip_all_tags( $post_content ), 0, 190 );
+        }
+
         $post_categories = $this->request->get( 'post_categories' );
         $post_tags = $this->request->get( 'post_tags' );
 
@@ -117,7 +128,7 @@ class AjaxController extends Controller
         $comments_enabled = intval( $this->request->comments_enabled );
 
         //#! Update post
-        $currentPost->title = Str::title( $post_title );
+        $currentPost->title = ucfirst( $post_title );
 
         $post_slug = Str::slug( $post_title );
         if ( !Util::isUniquePostSlug( $post_slug, $post_id ) ) {
@@ -240,8 +251,8 @@ class AjaxController extends Controller
         }
 
         $postType->name = Str::lower( $name );
-        $postType->display_name = Str::title( $displayName );
-        $postType->plural_name = Str::title( $pluralName );
+        $postType->display_name = ucfirst( $displayName );
+        $postType->plural_name = ucfirst( $pluralName );
         $postType->language_id = $languageID;
         $r = $postType->save();
 
@@ -294,14 +305,14 @@ class AjaxController extends Controller
         //#! Check these as well for existence
         $language_id = $this->request->get( 'language_id' );
         $post_status = $this->request->get( 'post_status' );
-        $post_title = $this->request->get( 'post_title' );
+        $post_title = esc_html( $this->request->get( 'post_title' ) );
         $post_content = $this->request->get( 'post_content' );
         $post_excerpt = $this->request->get( 'post_excerpt' );
         $post_categories = $this->request->get( 'post_categories' );
         $post_tags = $this->request->get( 'post_tags' );
 
         //#! Update post
-        $currentPost->title = Str::title( $post_title );
+        $currentPost->title = ucfirst( $post_title );
 
         $post_slug = Str::slug( $post_title );
         if ( !Util::isUniquePostSlug( $post_slug, $current_post_id ) ) {
@@ -374,7 +385,7 @@ class AjaxController extends Controller
         }
 
         $post_id = $this->request->get( 'post_id' );
-        $post_title = trim( $this->request->get( 'post_title' ) );
+        $post_title = esc_html( trim( $this->request->get( 'post_title' ) ) );
         $post_type = $this->request->get( 'post_type' );
 
         if ( empty( $post_id ) ) {
@@ -400,7 +411,7 @@ class AjaxController extends Controller
             $post_slug = Str::slug( $post_title . '-' . time() );
         }
 
-        $currentPost->title = Str::title( $post_title );
+        $currentPost->title = ucfirst( $post_title );
         $currentPost->slug = $post_slug;
 
         $r = $currentPost->update();
@@ -425,13 +436,14 @@ class AjaxController extends Controller
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
-        $post_title = $this->request->post_title;
+        $post_title = esc_html( $this->request->post_title );
         $post_content = $this->request->post_content;
 
         if ( empty( $post_title ) ) {
             return $this->responseError( __( 'a.The post title is required.' ) );
         }
 
+        $post_title = ucfirst( $post_title );
         $post_slug = Str::slug( $post_title );
         if ( !Util::isUniquePostSlug( $post_slug ) ) {
             $post_slug = Str::slug( $post_title . '-' . time() );
@@ -559,7 +571,7 @@ class AjaxController extends Controller
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
-        $name = $this->request->get( 'name' );
+        $name = esc_html( $this->request->get( 'name' ) );
         $language_id = $this->request->get( 'language_id' );
         $post_type_id = $this->request->get( 'post_type_id' );
 
@@ -573,6 +585,7 @@ class AjaxController extends Controller
             return $this->responseError( __( 'a.Please provide a post type id.' ) );
         }
 
+        $name = ucfirst( $name );
         $slug = Str::slug( $name );
         if ( !Util::isUniqueCategorySlug( $slug, $language_id, $post_type_id ) ) {
             $slug = Str::slug( $name . '-' . time() );
@@ -599,7 +612,7 @@ class AjaxController extends Controller
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
-        $name = $this->request->get( 'name' );
+        $name = esc_html( $this->request->get( 'name' ) );
         $language_id = $this->request->get( 'language_id' );
         $post_type_id = $this->request->get( 'post_type_id' );
 
@@ -613,6 +626,7 @@ class AjaxController extends Controller
             return $this->responseError( __( 'a.Please provide a post type id.' ) );
         }
 
+        $name = ucfirst( $name );
         $slug = Str::slug( $name );
         if ( !Util::isUniqueTagSlug( $slug, $language_id, $post_type_id ) ) {
             $slug = Str::slug( $name . '-' . time() );
@@ -910,7 +924,7 @@ class AjaxController extends Controller
             return $this->responseError( __( 'a.A menu with the same name already exists.' ) );
         }
         $menu->slug = $menuSlug;
-        $menu->name = Str::title( $menuName );
+        $menu->name = ucfirst( $menuName );
 
         $updated = $menu->update();
 
@@ -1249,7 +1263,7 @@ class AjaxController extends Controller
 
             try {
                 //#! Get the directory inside the uploads/tmp/$archiveName
-                $pluginTmpDirPath = path_combine( $tmpDirPath, $archiveName);
+                $pluginTmpDirPath = path_combine( $tmpDirPath, $archiveName );
 
                 //#! Move to the plugins directory
                 $pluginDestDirPath = path_combine( $this->pluginsManager->getPluginsDir(), $archiveName );

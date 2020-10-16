@@ -137,7 +137,7 @@ class MenuController extends AdminControllerBase
         ] );
 
         $menu = Menu::findOrFail( $id );
-        $menu->name = Str::title( $this->request->menu_name );
+        $menu->name = ucfirst( $this->request->menu_name );
         $menu->slug = Str::slug( $this->request->menu_name );
         $r = $menu->update();
 
