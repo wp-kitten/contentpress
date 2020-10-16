@@ -180,13 +180,13 @@ jQuery( function ($) {
     if ( chkSender ) {
         const theForm = $( '.' + chkSender.data( 'targetForm' ) );
         const targetCheckboxesClass = chkSender.data( 'targetCheckbox' );
-        const checkboxes = $( '.' + targetCheckboxesClass, theForm );
-        const submitButton = $( '.' + chkSender.data( 'targetButton' ), theForm );
+        const checkboxes = $( '.' + targetCheckboxesClass );
+        const submitButton = $( '.' + chkSender.data( 'targetButton' ) );
         let selected = [];
         let numSelected = 0;
 
         const getSelected = function () {
-            return $( '.' + targetCheckboxesClass + ':checked', theForm );
+            return $( '.' + targetCheckboxesClass + ':checked' );
         };
         const showSubmitButton = function () {
             submitButton.removeClass( 'hidden' );
@@ -213,6 +213,15 @@ jQuery( function ($) {
         if ( numSelected >= 1 ) {
             showSubmitButton();
         }
+
+        submitButton.on('click', function(ev){
+            const selected = getSelected();
+            if(selected.length >= 1){
+                const cloned = selected.clone();
+                theForm.append(cloned).trigger('submit');
+                return false;
+            }
+        });
 
         chkSender.on( 'change', function (ev) {
             ( this.checked ? selectAll() : deselectAll() );

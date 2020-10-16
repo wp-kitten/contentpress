@@ -146,163 +146,159 @@
 
                             <div class="table-responsive">
                                 {{-- POSTS LISTING --}}
-                                <form method="post" action="{{route("{$baseRoute}.delete_selected")}}" class="js-form-posts">
-                                    @csrf
-                                    <table class="table table-striped table-sm mb-5 posts">
-                                        <thead>
+                                <table class="table table-striped table-sm mb-5 posts">
+                                    <thead>
+                                        <tr>
+                                            <th style="padding: 0 .9375rem;vertical-align: top;">
+                                                <label for="js-input-select-all" class="hidden">{{__('a.Select All')}}</label>
+                                                <input id="js-input-select-all"
+                                                       type="checkbox"
+                                                       class="js-select-all-posts"
+                                                       data-target-form="js-form-posts-mass-delete"
+                                                       data-target-checkbox="js-chk-post"
+                                                       data-target-button="js-btn-delete-all-posts"/>
+                                            </th>
+                                            <th>{{__('a.Title')}}</th>
+                                            <th>{{__('a.Author')}}</th>
+
+                                            @if($allowCategories)
+                                                <th>{{__('a.Categories')}}</th>
+                                            @endif
+
+                                            @if($allowTags)
+                                                <th>{{__('a.Tags')}}</th>
+                                            @endif
+
+                                            @if($allowComments)
+                                                <th class="text-center">{{__('a.Comments')}}</th>
+                                            @endif
+
+                                            @if($isMultilingual)
+                                                @foreach($__languages as $code => $name)
+                                                    <th class="text-center">
+                                                        <i class="{{cp_get_flag_class($code)}}" title="{{$name}}"></i>
+                                                    </th>
+                                                @endforeach
+                                            @endif
+                                            <th>{{__('a.Date')}}</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        @foreach($posts as $post)
                                             <tr>
-                                                <th style="padding: 0 .9375rem;vertical-align: top;">
-                                                    <label for="js-input-select-all" class="hidden">{{__('a.Select All')}}</label>
-                                                    <input id="js-input-select-all"
-                                                           type="checkbox"
-                                                           class="js-select-all-posts"
-                                                           data-target-form="js-form-posts"
-                                                           data-target-checkbox="js-chk-post"
-                                                           data-target-button="js-btn-delete-all-posts"/>
-                                                </th>
-                                                <th>{{__('a.Title')}}</th>
-                                                <th>{{__('a.Author')}}</th>
+                                                <td>
+                                                    <input type="checkbox" class="js-chk-post" name="posts[]" value="{{$post->id}}"/>
+                                                </td>
+                                                <td class="post-title js-post-title-cell py-1">
+                                                    <p>
+                                                        <a class="post-title text-info js-editable"
+                                                           data-id="{{$post->id}}"
+                                                           data-post-type="{{$post->post_type->display_name}}"
+                                                           contenteditable="true"
+                                                           href="{{route("{$baseRoute}.edit", ['id' => $post->id])}}"
+                                                           title="{{__('a.Edit')}}">
+                                                            {{$post->title}}
+                                                        </a>
+                                                    </p>
+                                                    <div class="post-actions hidden">
+                                                        @if($isMultilingual)
+                                                            <a href="#"
+                                                               class="post-translations text-primary"
+                                                               data-toggle="modal"
+                                                               data-target="#modal-post-{{$post->id}}"
+                                                               title="{{__('a.Show translations')}}">{{__('a.Translations')}}</a>
+                                                        @endif
+
+                                                        <a href="{{cp_get_post_view_url($post)}}"
+                                                           class="post-preview text-primary"
+                                                           target="_blank"
+                                                           title="{{__('a.Preview')}}">
+                                                            {{__('a.Preview')}}
+                                                        </a>
+                                                        <a class="post-edit text-primary" href="{{route('admin.'.$__post_type->name.'.edit', ['id' => $post->id])}}">{{__('a.Edit')}}</a>
+                                                        <a href="{{route('admin.'.$__post_type->name.'.delete', ['id' => $post->id])}}"
+                                                           data-confirm="{{__('a.Are you sure you want to delete this post? All items associated with it will also be deleted.')}}"
+                                                           class="text-danger post-delete">{{__('a.Delete')}}</a>
+                                                        {!! do_action('contentpress/post/actions', $post->id) !!}
+                                                    </div>
+                                                </td>
+
+                                                <td class="post-author">
+                                                    <p>
+                                                        <a class="post-author text-primary" href="{{route('admin.users.edit', ['id' => $post->user->id])}}">{{$post->user->display_name}}</a>
+                                                    </p>
+                                                </td>
 
                                                 @if($allowCategories)
-                                                    <th>{{__('a.Categories')}}</th>
+                                                    <td class="post-categories">
+                                                        <p style="word-break: break-all;">
+                                                            @forelse($post->categories as $cat)
+                                                                <a class="post-category text-primary" href="{{route("{$baseRoute}.category.edit", ['id' => $cat->id])}}">{{$cat->name}}</a>
+                                                            @empty
+                                                            @endforelse
+                                                        </p>
+                                                    </td>
                                                 @endif
 
                                                 @if($allowTags)
-                                                    <th>{{__('a.Tags')}}</th>
+                                                    <td class="post-tags">
+                                                        <p style="word-break: break-all;">
+                                                            @forelse($post->tags as $tag)
+                                                                <a class="post-tag text-primary" href="{{route("{$baseRoute}.tag.edit", ['id' => $tag->id])}}">{{$tag->name}}</a>
+                                                            @empty
+                                                            @endforelse
+                                                        </p>
+                                                    </td>
                                                 @endif
 
                                                 @if($allowComments)
-                                                    <th class="text-center">{{__('a.Comments')}}</th>
+                                                    <td class="post-comments text-center">
+                                                        <p>
+                                                            <a href="{{route("admin.{$__post_type->name}".'.comment.all', ['post_id' => $post->id])}}"
+                                                               class="text-primary" title="{{__('a.View comments')}}">
+                                                                {{$post->post_comments()->count()}}
+                                                            </a>
+                                                        </p>
+                                                    </td>
                                                 @endif
 
                                                 @if($isMultilingual)
                                                     @foreach($__languages as $code => $name)
-                                                        <th class="text-center">
-                                                            <i class="{{cp_get_flag_class($code)}}" title="{{$name}}"></i>
-                                                        </th>
-                                                    @endforeach
-                                                @endif
-                                                <th>{{__('a.Date')}}</th>
-                                            </tr>
-                                        </thead>
-                                        <tbody>
-                                            @foreach($posts as $post)
-                                                <tr>
-                                                    <td>
-                                                        <input type="checkbox" class="js-chk-post" name="posts[]" value="{{$post->id}}"/>
-                                                    </td>
-                                                    <td class="post-title js-post-title-cell py-1">
-                                                        <p>
-                                                            <a class="post-title text-info js-editable"
-                                                               data-id="{{$post->id}}"
-                                                               data-post-type="{{$post->post_type->display_name}}"
-                                                               contenteditable="true"
-                                                               href="{{route("{$baseRoute}.edit", ['id' => $post->id])}}"
-                                                               title="{{__('a.Edit')}}">
-                                                                {{$post->title}}
-                                                            </a>
-                                                        </p>
-                                                        <div class="post-actions hidden">
-                                                            @if($isMultilingual)
-                                                                <a href="#"
-                                                                   class="post-translations text-primary"
-                                                                   data-toggle="modal"
-                                                                   data-target="#modal-post-{{$post->id}}"
-                                                                   title="{{__('a.Show translations')}}">{{__('a.Translations')}}</a>
-                                                            @endif
-
-                                                            <a href="{{cp_get_post_view_url($post)}}"
-                                                               class="post-preview text-primary"
-                                                               target="_blank"
-                                                               title="{{__('a.Preview')}}">
-                                                                {{__('a.Preview')}}
-                                                            </a>
-                                                            <a class="post-edit text-primary" href="{{route('admin.'.$__post_type->name.'.edit', ['id' => $post->id])}}">{{__('a.Edit')}}</a>
-                                                            <a href="{{route('admin.'.$__post_type->name.'.delete', ['id' => $post->id])}}"
-                                                               data-confirm="{{__('a.Are you sure you want to delete this post? All items associated with it will also be deleted.')}}"
-                                                               class="text-danger post-delete">{{__('a.Delete')}}</a>
-                                                            {{do_action('contentpress/post/actions', $post->id)}}
-                                                        </div>
-                                                    </td>
-
-                                                    <td class="post-author">
-                                                        <p>
-                                                            <a class="post-author text-primary" href="{{route('admin.users.edit', ['id' => $post->user->id])}}">{{$post->user->display_name}}</a>
-                                                        </p>
-                                                    </td>
-
-                                                    @if($allowCategories)
-                                                        <td class="post-categories">
-                                                            <p style="word-break: break-all;">
-                                                                @forelse($post->categories as $cat)
-                                                                    <a class="post-category text-primary" href="{{route("{$baseRoute}.category.edit", ['id' => $cat->id])}}">{{$cat->name}}</a>
-                                                                @empty
-                                                                @endforelse
-                                                            </p>
-                                                        </td>
-                                                    @endif
-
-                                                    @if($allowTags)
-                                                        <td class="post-tags">
-                                                            <p style="word-break: break-all;">
-                                                                @forelse($post->tags as $tag)
-                                                                    <a class="post-tag text-primary" href="{{route("{$baseRoute}.tag.edit", ['id' => $tag->id])}}">{{$tag->name}}</a>
-                                                                @empty
-                                                                @endforelse
-                                                            </p>
-                                                        </td>
-                                                    @endif
-
-                                                    @if($allowComments)
-                                                        <td class="post-comments text-center">
-                                                            <p>
-                                                                <a href="{{route("admin.{$__post_type->name}".'.comment.all', ['post_id' => $post->id])}}"
-                                                                   class="text-primary" title="{{__('a.View comments')}}">
-                                                                    {{$post->post_comments()->count()}}
+                                                        <td class="text-center">
+                                                            {{-- The default language is omitted by default --}}
+                                                            @if($translation = App\Helpers\CPML::getTranslatedPost($post->id, $code))
+                                                                <a href="{{cp_get_post_view_url($translation)}}" title="{{__('a.Click to preview')}}" target="_blank">
+                                                                    <i class="fa fa-check"></i>
                                                                 </a>
-                                                            </p>
-                                                        </td>
-                                                    @endif
-
-                                                    @if($isMultilingual)
-                                                        @foreach($__languages as $code => $name)
-                                                            <td class="text-center">
-                                                                {{-- The default language is omitted by default --}}
-                                                                @if($translation = App\Helpers\CPML::getTranslatedPost($post->id, $code))
-                                                                    <a href="{{cp_get_post_view_url($translation)}}" title="{{__('a.Click to preview')}}" target="_blank">
-                                                                        <i class="fa fa-check"></i>
-                                                                    </a>
-                                                                @else
-                                                                    <a href="{{route('admin.'.$__post_type->name.'.translate', [
+                                                            @else
+                                                                <a href="{{route('admin.'.$__post_type->name.'.translate', [
                                                                 'id' => $post->id,
                                                                 'code' => $code
                                                                 ])}}">
-                                                                        <i class="fa fa-plus"></i>
-                                                                    </a>
-                                                                @endif
-                                                            </td>
-                                                        @endforeach
-                                                    @endif
+                                                                    <i class="fa fa-plus"></i>
+                                                                </a>
+                                                            @endif
+                                                        </td>
+                                                    @endforeach
+                                                @endif
 
-                                                    <td class="post-date">
-                                                        <p class="post-status text-primary">
-                                                            {{$post->post_status->display_name}}
-                                                        </p>
-                                                        <p class="post-date text-primary">
-                                                            {{date($date_format, strtotime($post->updated_at))}}
-                                                        </p>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        </tbody>
-                                        <tfoot>
-                                            <tr>
-                                                <td colspan="">
-                                                    <button class="btn btn-danger js-btn-delete-all-posts hidden">{{__('a.Delete')}}</button>
+                                                <td class="post-date">
+                                                    <p class="post-status text-primary">
+                                                        {{$post->post_status->display_name}}
+                                                    </p>
+                                                    <p class="post-date text-primary">
+                                                        {{date($date_format, strtotime($post->updated_at))}}
+                                                    </p>
                                                 </td>
                                             </tr>
-                                        </tfoot>
-                                    </table>
+                                        @endforeach
+                                    </tbody>
+                                </table>
+                                <div>
+                                    <button class="btn btn-danger js-btn-delete-all-posts hidden">{{__('a.Delete')}}</button>
+                                </div>
+                                <form method="post" action="{{route("{$baseRoute}.delete_selected")}}" class="js-form-posts-mass-delete hidden">
+                                    @csrf
                                 </form>
 
                                 {{--# MODALS - TRANSLATIONS --}}
