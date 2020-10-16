@@ -7,6 +7,11 @@ use App\Models\Post;
  * @var float
  */
 define( 'CONTENTPRESS_VERSION', '0.6' );
+/**
+ * Holds the url to the ContentPress website
+ * @var string
+ */
+define( 'CONTENTPRESS_URL', 'http://contentpress.news' );
 
 /**
  * Holds the url to the api server endpoint
