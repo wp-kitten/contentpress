@@ -197,7 +197,7 @@
                                                            contenteditable="true"
                                                            href="{{route("{$baseRoute}.edit", ['id' => $post->id])}}"
                                                            title="{{__('a.Edit')}}">
-                                                            {{$post->title}}
+                                                            {!! $post->title !!}
                                                         </a>
                                                     </p>
                                                     <div class="post-actions hidden">
@@ -360,7 +360,7 @@
                                                                                         $title = __('a.Preview');
                                                                                     }
                                                                                 @endphp
-                                                                                <a href="{{$url}}" class="text-primary" title="{{$title}}">{{$translatedPost->title}}</a>
+                                                                                <a href="{{$url}}" class="text-primary" title="{{$title}}">{!! $translatedPost->title !!}</a>
                                                                             @endif
                                                                         </td>
                                                                         <td class="post-status">
