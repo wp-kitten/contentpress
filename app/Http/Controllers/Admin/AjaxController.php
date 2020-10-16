@@ -105,9 +105,9 @@ class AjaxController extends Controller
         $post_excerpt = $this->request->get( 'post_excerpt' );
 
         if ( !empty( $post_excerpt ) ) {
-            $post_excerpt = wp_strip_all_tags( $post_excerpt );
+            $post_excerpt = wp_kses_post( $post_excerpt );
             if ( strlen( $post_excerpt ) > 190 ) {
-                $post_excerpt = substr( $post_excerpt, 0, 190 );
+                $post_excerpt = substr( wp_strip_all_tags( $post_excerpt ), 0, 190 );
             }
         }
         else {
@@ -137,7 +137,7 @@ class AjaxController extends Controller
 
         $currentPost->slug = $post_slug;
         $currentPost->content = $post_content;
-        $currentPost->excerpt = ( !empty( $post_excerpt ) ? substr( $post_excerpt, 0, 190 ) : '' );
+        $currentPost->excerpt = $post_excerpt;
 
         $currentPost->user_id = auth()->user()->getAuthIdentifier();
         $currentPost->post_status_id = $post_status;
@@ -319,9 +319,19 @@ class AjaxController extends Controller
             $post_slug = Str::slug( $post_title . '-' . time() );
         }
 
+        if ( !empty( $post_excerpt ) ) {
+            $post_excerpt = wp_kses_post( $post_excerpt );
+            if ( strlen( $post_excerpt ) > 190 ) {
+                $post_excerpt = substr( wp_strip_all_tags( $post_excerpt ), 0, 190 );
+            }
+        }
+        else {
+            $post_excerpt = substr( wp_strip_all_tags( $post_content ), 0, 190 );
+        }
+
         $currentPost->slug = $post_slug;
         $currentPost->content = $post_content;
-        $currentPost->excerpt = ( !empty( $post_excerpt ) ? substr( $post_excerpt, 0, 190 ) : '' );
+        $currentPost->excerpt = $post_excerpt;
         $currentPost->translated_post_id = $parent_post_id;
         $currentPost->user_id = $this->current_user()->getAuthIdentifier();
         $currentPost->language_id = $language_id;
@@ -449,10 +459,13 @@ class AjaxController extends Controller
             $post_slug = Str::slug( $post_title . '-' . time() );
         }
 
+        $post_excerpt = substr( wp_strip_all_tags( $post_content ), 0, 190 );
+
         $r = Post::create( [
             'title' => $post_title,
             'slug' => $post_slug,
             'content' => $post_content,
+            'excerpt' => $post_excerpt,
             'user_id' => $this->current_user()->getAuthIdentifier(),
             'language_id' => CPML::getDefaultLanguageID(),
             'post_type_id' => PostType::where( 'name', 'post' )->first()->id,

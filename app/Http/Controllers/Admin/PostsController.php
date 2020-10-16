@@ -121,11 +121,13 @@ class PostsController extends AdminControllerBase
 
             //#! Otherwise create the post and redirect
             $title = __( "a.New" ) . ' ' . $this->_postType->name;
+            $content = __( 'a.Hello! This is a sample paragraph to get you started! You can use the integrated page builder and customize this page the way you want.' );
+            $excerpt = substr( wp_strip_all_tags( $content ), 0, 190 );
             $post = Post::create( [
-                'title' => $title,
+                'title' => ucfirst( $title ),
                 'slug' => Str::slug( $title . '-' . time() ),
-                'content' => '<p>' . __( 'a.Hello! This is a sample paragraph to get you started! You can use the integrated page builder and customize this page the way you want.' ) . '</p>',
-                'excerpt' => '',
+                'content' => '<p>' . $content . '</p>',
+                'excerpt' => $excerpt,
                 'user_id' => $this->current_user()->getAuthIdentifier(),
                 'language_id' => $defLangID,
                 'post_status_id' => PostStatus::where( 'name', 'autosave' )->first()->id,
