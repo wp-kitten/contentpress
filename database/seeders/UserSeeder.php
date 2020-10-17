@@ -18,13 +18,13 @@ class UserSeeder extends Seeder
     {
         //#! Super admin user
         User::create( [
-            'name' => 'kos',
-            'email' => 'kos@local.host',
+            'name' => 'Super Admin',
+            'email' => 'super-admin@local.host',
             'email_verified_at' => now(),
-            'password' => bcrypt( 'kos' ), // password
+            'password' => bcrypt( 'super-admin' ), // password
             'remember_token' => Str::random( 40 ),
             'role_id' => Role::where( 'name', Role::ROLE_SUPER_ADMIN )->first()->id,
-            'display_name' => 'Kos',
+            'display_name' => 'Super Admin',
         ] );
 
         //#! Admin user
