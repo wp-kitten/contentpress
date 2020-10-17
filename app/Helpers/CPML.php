@@ -199,8 +199,8 @@ class CPML
     public static function setFrontendLanguageCode( $code )
     {
         //#! Ensure this is a valid language code
-        $entry = Language::where( 'code', wp_kses($code, []) )->first();
-        if ( $entry ) {
+        $entry = Language::where( 'code', wp_kses( $code, [] ) )->first();
+        if ( $entry && $entry->id ) {
             app()->setLocale( $code );
             session()->put( 'frontend_user_language_code', $code );
             //#! If authenticated user, update their user meta field
