@@ -158,7 +158,7 @@ class CommentsWalker
         $replies = $this->__getReplies( $comment );
         if ( cp_is_admin() ) {
             if ( $replies ) {
-                echo '<ul class="bullet-line-list mt-4">';
+                echo '<ul class="list-unstyled">';
                 foreach ( $replies as $reply ) {
                     ?>
                     <li id="comment-<?php esc_attr_e( $reply->id ); ?>">

@@ -32,15 +32,18 @@ function cp_get_comments_count( ?Post $post )
     if ( !$post ) {
         return 0;
     }
+    if ( !cp_get_post_meta( $post, '_comments_enabled' ) ) {
+        return 0;
+    }
     return $post->post_comments->count();
 }
 
-function cp_comments_reply_form( ?Post $post )
+function cp_comments_reply_form( ?Post $post, string $commentFormViewPath = 'partials.comment_form' )
 {
     if ( !$post ) {
         return '';
     }
-    return view( 'partials.comment_form' )->with( [ 'post' => $post ] );
+    return view( $commentFormViewPath )->with( [ 'post' => $post ] );
 }
 
 function cp_get_comment_status_name( ?PostComments $comment )

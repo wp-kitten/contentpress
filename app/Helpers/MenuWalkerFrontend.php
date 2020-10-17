@@ -60,7 +60,7 @@ class MenuWalkerFrontend implements IMenuWalker
 
         $this->languageID = $languageID;
         $this->menu = $theMenu;
-        $this->displayAs = ( new Options() )->getOption( "menu-{$theMenu->id}-display-as", 'megamenu' );
+        $this->displayAs = ( new Options() )->getOption( "menu-{$theMenu->id}-display-as", 'basic' );
     }
 
     /**

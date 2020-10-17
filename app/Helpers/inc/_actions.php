@@ -40,24 +40,24 @@ function __contentpress_render_comment( PostComments $comment, $withReplies = tr
     $commentAuthorUrl = ( $commentUserID ? cp_get_user_meta( '_website_url', $commentUserID ) : $comment->author_url );
     ?>
     <div class="comment" id="comment-<?php esc_attr_e( $comment->id ); ?>">
-        <div class="comment-body flex disable-flex-xs flex-middle shadow-default">
-            <div class="author-vcard mr-30">
+        <div class="comment-body">
+            <div class="author-vcard mr-3">
                 <?php
                 if ( $commentUserID ) {
                     $authorImageUrl = cp_get_user_profile_image_url( $commentUserID );
                 }
                 else {
-                    $authorImageUrl = asset( 'themes/material/assets/img/blog/author.jpg' );
+                    $authorImageUrl = asset( 'images/placeholder-200.jpg' );
                 }
                 ?>
                 <img src="<?php esc_attr_e( $authorImageUrl ); ?>" class="img-circle" width="120" height="120" alt=""/>
             </div>
             <div class="comment-content">
-                <div class="comment-meta mb-10">
-                    <h4 class="fw400 mb-5">
+                <div class="comment-meta mb-1">
+                    <h4 class="mb-5">
                         <a href="<?php esc_attr_e( $commentAuthorUrl ); ?>" class="title-link"><?php esc_html_e( $commentAuthorName ); ?></a>
                     </h4>
-                    <time datetime="<?php esc_attr_e( $comment->created_at ); ?>" class="flex flex-middle fw300"><?php esc_html_e( cp_the_date( $comment ) ); ?></time>
+                    <time datetime="<?php esc_attr_e( $comment->created_at ); ?>" class=""><?php esc_html_e( cp_the_date( $comment ) ); ?></time>
                 </div>
                 <div class="comment-text">
                     <?php echo $comment->content; ?>
@@ -88,24 +88,24 @@ function __contentpress_render_comment_replies( PostComments $comment )
             $commentAuthorName = ( $commentUserID ? $reply->user->display_name : $reply->author_name );
             $commentAuthorUrl = ( $commentUserID ? cp_get_user_meta( '_website_url', $commentUserID ) : $reply->author_url );
             ?>
-            <div class="comment-body comment-reply flex disable-flex-xs flex-middle shadow-default">
-                <div class="author-vcard mr-30">
+            <div class="comment-body comment-reply">
+                <div class="author-vcard mr-3">
                     <?php
                     if ( $commentUserID ) {
                         $authorImageUrl = cp_get_user_profile_image_url( $commentUserID );
                     }
                     else {
-                        $authorImageUrl = asset( 'themes/material/assets/img/blog/author.jpg' );
+                        $authorImageUrl = asset( 'images/placeholder-200.jpg' );
                     }
                     ?>
                     <img src="<?php esc_attr_e( $authorImageUrl ); ?>" class="img-circle" width="120" height="120" alt=""/>
                 </div>
                 <div class="comment-content">
-                    <div class="comment-meta mb-10">
-                        <h4 class="fw400 mb-5">
+                    <div class="comment-meta mb-1">
+                        <h4 class="mb-5">
                             <a href="<?php esc_attr_e( $commentAuthorUrl ); ?>" class="title-link"><?php esc_html_e( $commentAuthorName ); ?></a>
                         </h4>
-                        <time datetime="<?php esc_attr_e( $reply->created_at ); ?>" class="flex flex-middle fw300"><?php esc_html_e( cp_the_date( $reply ) ); ?></time>
+                        <time datetime="<?php esc_attr_e( $reply->created_at ); ?>" class=""><?php esc_html_e( cp_the_date( $reply ) ); ?></time>
                     </div>
                     <div class="comment-text">
                         <?php echo $reply->content; ?>

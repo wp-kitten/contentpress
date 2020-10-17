@@ -8,7 +8,6 @@ use App\Models\Post;
 use App\Models\PostComments;
 use App\Models\User;
 use Illuminate\Http\Request;
-use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
 class CommentsController extends PostsController

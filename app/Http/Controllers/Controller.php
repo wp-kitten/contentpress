@@ -140,7 +140,7 @@ class Controller extends BaseController
     /**
      * Render the 404 template
      * @param array $data Data to send to the view
-     * @return Factory|View
+     * @return \Illuminate\Http\Response
      */
     public function _not_found( array $data = [] )
     {

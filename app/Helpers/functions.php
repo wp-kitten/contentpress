@@ -751,7 +751,6 @@ function cp_has_menu( $menuSlugOrID, $languageID = null )
  */
 function cp_menu( $menuSlugOrID )
 {
-
     if ( cp_is_under_maintenance() && !cp_current_user_can( 'administrator' ) ) {
         return;
     }

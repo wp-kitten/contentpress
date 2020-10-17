@@ -91,6 +91,7 @@ return [
     'Category not found.' => 'Category not found.',
     // Views dir
     'Edit Comment' => 'Edit Comment',
+    'Edit comment' => 'Edit comment',
     'Back' => 'Back',
     'Comment status' => 'Comment status',
     'Comment' => 'Comment',
