@@ -534,6 +534,6 @@ return [
    "Select plugin" => "Select plugin",
    "Refresh" => "Refresh",
    "Image uploaded" => "Image uploaded",
-   "" => "",
+   "Force check" => "Force check",
    "" => "",
 ];

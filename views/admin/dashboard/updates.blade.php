@@ -10,19 +10,27 @@
             <div>
                 <h1>{{__('a.Updates')}}</h1>
             </div>
-            @if(cp_current_user_can('edit_dashboard'))
+            @if(cp_current_user_can(['update_core', 'update_plugins', 'update_themes']))
                 <ul class="list-unstyled list-inline mb-0">
                     <li class="">
-                        @if(cp_current_user_can(['update_plugins', ['update_themes']]))
-                            <a class="btn btn-primary"
-                               href="#!"
-                               onclick="event.preventDefault(); document.getElementById('form-updates-check').submit();">
-                                {{__('a.Check for updates')}}
-                            </a>
-                            <form id="form-updates-check" action="{{route('admin.dashboard.check_for_updates')}}" method="post" class="hidden">
-                                @csrf
-                            </form>
-                        @endif
+                        <a class="btn btn-primary mr-3"
+                           href="#!"
+                           onclick="event.preventDefault(); document.getElementById('form-updates-force-check').submit();">
+                            {{__('a.Force check')}}
+                        </a>
+                        <form id="form-updates-force-check" action="{{route('admin.dashboard.force_check_for_updates')}}" method="post" class="hidden">
+                            @csrf
+                        </form>
+                    </li>
+                    <li class="">
+                        <a class="btn btn-primary"
+                           href="#!"
+                           onclick="event.preventDefault(); document.getElementById('form-updates-check').submit();">
+                            {{__('a.Check for updates')}}
+                        </a>
+                        <form id="form-updates-check" action="{{route('admin.dashboard.check_for_updates')}}" method="post" class="hidden">
+                            @csrf
+                        </form>
                     </li>
                 </ul>
             @endif

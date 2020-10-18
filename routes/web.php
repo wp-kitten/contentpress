@@ -110,6 +110,7 @@ Route::group(
 
     Route::get( "updates", [ "uses" => "DashboardController@showUpdatesView" ] )->name( "admin.dashboard.updates" );
     Route::post( "updates/check", [ "uses" => "DashboardController@__checkForUpdates" ] )->name( "admin.dashboard.check_for_updates" );
+    Route::post( "updates/force-check", [ "uses" => "DashboardController@__forceCheckForUpdates" ] )->name( "admin.dashboard.force_check_for_updates" );
     Route::post( "update/theme/{file_name}", [ "uses" => "DashboardController@__update_theme" ] )->name( "admin.dashboard.update.theme" );
     Route::post( "update/plugin/{file_name}", [ "uses" => "DashboardController@__update_plugin" ] )->name( "admin.dashboard.update.plugin" );
     Route::post( "update/core/{version}", [ "uses" => "DashboardController@__update_core" ] )->name( "admin.dashboard.update.core" );
