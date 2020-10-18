@@ -198,7 +198,7 @@ class SettingsController extends AdminControllerBase
         ];
         foreach ( $optionNames as $requestVar => $optionName ) {
             $opt = $this->options->where( 'name', $optionName )->first();
-            if ( $opt ) {
+            if ( $opt && $opt->id ) {
                 $opt->value = ( $request->has( $requestVar ) ? '1' : '0' );
                 $opt->update();
             }

@@ -6,6 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 
 interface IMetaFields
 {
+    const SECTION_USER = 'user';
+    const SECTION_POST = 'post';
+    const SECTION_CATEGORY = 'category';
+
     /**
      * Automatically regenerate protected meta fields
      *
@@ -15,7 +19,7 @@ interface IMetaFields
      * @param string $section The name of the section the custom field resides
      * @param int $languageID
      */
-    public static function generateProtectedMetaFields( Model $model, $fkName, $fkValue, $section = self::SECTION_USER, $languageID = 0 );
+    public static function generateProtectedMetaFields( Model $model, string $fkName, int $fkValue, string $section = self::SECTION_USER, int $languageID = 0 );
 
     /**
      * Check to see whether or not a specific meta field is protected
@@ -25,7 +29,7 @@ interface IMetaFields
      * @param string $metaFieldName
      * @return bool
      */
-    public static function isProtectedMetaField( Model $model, $section = self::SECTION_USER, $metaFieldName = '' );
+    public static function isProtectedMetaField( Model $model, string $section = self::SECTION_USER, string $metaFieldName = '' );
 
     /**
      * Retrieve the reference to the Model associated with the specified fields
@@ -38,7 +42,7 @@ interface IMetaFields
      * @param bool|mixed $defaultValue The value to return if the custom field doesn't exist
      * @return bool|Model
      */
-    public static function getInstance( Model $model, $fkName, $fkValue, $customFieldNameOrID, $languageID = 0, $defaultValue = false );
+    public static function getInstance( Model $model, string $fkName, int $fkValue, string $customFieldNameOrID, int $languageID = 0, $defaultValue = false );
 
     /**
      * Retrieve a specific custom field
@@ -51,7 +55,7 @@ interface IMetaFields
      * @param bool|mixed $defaultValue The value to return if the custom field doesn't exist
      * @return mixed
      */
-    public static function get( Model $model, $fkName, $fkValue, $customFieldName, $languageID = 0, $defaultValue = false );
+    public static function get( Model $model, string $fkName, int $fkValue, string $customFieldName, int $languageID = 0, $defaultValue = false );
 
     /**
      * Retrieve all custom fields matching the specified arguments
@@ -63,7 +67,7 @@ interface IMetaFields
      * @param bool|mixed $defaultValue The value to return if the custom field doesn't exist
      * @return mixed
      */
-    public static function getAll( Model $model, $fkName, $fkValue, $languageID = 0, $defaultValue = false );
+    public static function getAll( Model $model, string $fkName, int $fkValue, int $languageID = 0, $defaultValue = false );
 
     /**
      * Add a new custom field. This method assumes you have checked for existence
@@ -76,7 +80,7 @@ interface IMetaFields
      * @param int $languageID The language id. If omitted, the default language will be used
      * @return mixed
      */
-    public static function add( Model $model, $fkName, $fkValue, $customFieldName, $customFieldValue = '', $languageID = 0 );
+    public static function add( Model $model, string $fkName, int $fkValue, string $customFieldName, string $customFieldValue = '', int $languageID = 0 );
 
     /**
      * Update a custom field. This method assumes you have checked for existence
@@ -88,7 +92,7 @@ interface IMetaFields
      * @param int $languageID The language id. If omitted, the default language will be used
      * @return mixed
      */
-    public static function update( Model $model, $customFieldID, $customFieldName, $customFieldValue = '', $languageID = 0 );
+    public static function update( Model $model, int $customFieldID, string $customFieldName, string $customFieldValue = '', int $languageID = 0 );
 
     /**
      * Delete the specified custom field.
@@ -97,7 +101,7 @@ interface IMetaFields
      * @param int $customFieldID The ID of the custom field to update
      * @return mixed
      */
-    public static function delete( Model $model, $customFieldID );
+    public static function delete( Model $model, int $customFieldID );
 
     /**
      * Check to see whether or not the specified custom field $customFieldName already exists.
@@ -109,7 +113,7 @@ interface IMetaFields
      * @param int $languageID The language id. If omitted, the default language will be used
      * @return bool
      */
-    public static function exists( Model $model, $fkName, $fkValue, $customFieldName, $languageID = 0 );
+    public static function exists( Model $model, string $fkName, int $fkValue, string $customFieldName, int $languageID = 0 );
 
     /**
      * Check to see whether or not a given custom field exists by ID
@@ -117,5 +121,5 @@ interface IMetaFields
      * @param int $customFieldID The ID of the custom field
      * @return mixed
      */
-    public static function is( Model $model, $customFieldID );
+    public static function is( Model $model, int $customFieldID );
 }

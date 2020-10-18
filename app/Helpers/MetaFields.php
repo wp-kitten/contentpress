@@ -14,10 +14,6 @@ use Illuminate\Support\Arr;
  */
 class MetaFields implements IMetaFields
 {
-    const SECTION_USER = 'user';
-    const SECTION_POST = 'post';
-    const SECTION_CATEGORY = 'category';
-
     /*
     * Required meta fields, these will always be re-created if any of them are deleted
     */
@@ -45,12 +41,12 @@ class MetaFields implements IMetaFields
      * @param string $section The name of the section the custom field resides
      * @param int $languageID
      */
-    public static function generateProtectedMetaFields( Model $model, $fkName, $fkValue, $section = self::SECTION_USER, $languageID = 0 )
+    public static function generateProtectedMetaFields( Model $model, string $fkName, int $fkValue, string $section = self::SECTION_USER, $languageID = 0 )
     {
         $languageID = ( empty( $languageID ) ? CPML::getDefaultLanguageID() : $languageID );
 
-        $metaFields = ( isset( self::$_protectedMetaFields[$section] ) ? self::$_protectedMetaFields[$section] : null );
-        if ( ! $metaFields ) {
+        $metaFields = ( isset( self::$_protectedMetaFields[ $section ] ) ? self::$_protectedMetaFields[ $section ] : null );
+        if ( !$metaFields ) {
             return;
         }
 
@@ -59,7 +55,7 @@ class MetaFields implements IMetaFields
                 ->where( 'language_id', $languageID )
                 ->where( 'meta_name', $metaName )
                 ->first();
-            if ( ! $meta ) {
+            if ( !$meta ) {
                 $model->create( [
                     $fkName => $fkValue,
                     'language_id' => $languageID,
@@ -78,13 +74,13 @@ class MetaFields implements IMetaFields
      * @param string $metaFieldName
      * @return bool
      */
-    public static function isProtectedMetaField( Model $model, $section = self::SECTION_USER, $metaFieldName = '' )
+    public static function isProtectedMetaField( Model $model, string $section = self::SECTION_USER, string $metaFieldName = '' )
     {
         if ( empty( $metaFieldName ) ) {
             return false;
         }
 
-        return isset( self::$_protectedMetaFields[$section][$metaFieldName] );
+        return isset( self::$_protectedMetaFields[ $section ][ $metaFieldName ] );
     }
 
     /**
@@ -98,14 +94,14 @@ class MetaFields implements IMetaFields
      * @param bool|mixed $defaultValue The value to return if the custom field doesn't exist
      * @return bool|Model
      */
-    public static function getInstance( Model $model, $fkName, $fkValue, $customFieldNameOrID, $languageID = 0, $defaultValue = false )
+    public static function getInstance( Model $model, string $fkName, int $fkValue, string $customFieldNameOrID, int $languageID = 0, $defaultValue = false )
     {
         $languageID = ( empty( $languageID ) ? CPML::getDefaultLanguageID() : $languageID );
         $r = $model->where( $fkName, $fkValue )->where( 'language_id', $languageID )
             ->where( 'meta_name', self::getValidName( $customFieldNameOrID ) )
             ->orWhere( 'id', $customFieldNameOrID )
             ->first();
-        return ( $r ? $r : $defaultValue );
+        return ( $r && $r->id ? $r : $defaultValue );
     }
 
     /**
@@ -119,7 +115,7 @@ class MetaFields implements IMetaFields
      * @param bool|mixed $defaultValue The value to return if the custom field doesn't exist
      * @return mixed
      */
-    public static function get( Model $model, $fkName, $fkValue, $customFieldName, $languageID = 0, $defaultValue = false )
+    public static function get( Model $model, string $fkName, int $fkValue, string $customFieldName, int $languageID = 0, $defaultValue = false )
     {
         $languageID = ( empty( $languageID ) ? CPML::getDefaultLanguageID() : $languageID );
         $r = $model->where( $fkName, $fkValue )->where( 'language_id', $languageID )
@@ -142,7 +138,7 @@ class MetaFields implements IMetaFields
      * @param bool|mixed $defaultValue The value to return if the custom field doesn't exist
      * @return mixed
      */
-    public static function getAll( Model $model, $fkName, $fkValue, $languageID = 0, $defaultValue = false )
+    public static function getAll( Model $model, string $fkName, int $fkValue, int $languageID = 0, $defaultValue = false )
     {
         $languageID = ( empty( $languageID ) ? CPML::getDefaultLanguageID() : $languageID );
         return $model->where( $fkName, $fkValue )->where( 'language_id', $languageID )->get();
@@ -159,7 +155,7 @@ class MetaFields implements IMetaFields
      * @param int $languageID The language id. If omitted, the default language will be used
      * @return mixed
      */
-    public static function add( Model $model, $fkName, $fkValue, $customFieldName, $customFieldValue = '', $languageID = 0 )
+    public static function add( Model $model, string $fkName, int $fkValue, string $customFieldName, string $customFieldValue = '', int $languageID = 0 )
     {
         return $model->create( [
             $fkName => $fkValue,
@@ -179,11 +175,11 @@ class MetaFields implements IMetaFields
      * @param int $languageID The language id. If omitted, the default language will be used
      * @return mixed
      */
-    public static function update( Model $model, $customFieldID, $customFieldName, $customFieldValue = '', $languageID = 0 )
+    public static function update( Model $model, int $customFieldID, string $customFieldName, string $customFieldValue = '', int $languageID = 0 )
     {
         $meta = $model->find( $customFieldID );
 
-        if ( ! $meta ) {
+        if ( !$meta ) {
             return false;
         }
 
@@ -191,7 +187,7 @@ class MetaFields implements IMetaFields
             $meta->meta_name = self::getValidName( $customFieldName );
         }
         $meta->meta_value = $customFieldValue;
-        if ( ! empty( $languageID ) ) {
+        if ( !empty( $languageID ) ) {
             $meta->language_id = $languageID;
         }
         return $meta->update();
@@ -204,11 +200,11 @@ class MetaFields implements IMetaFields
      * @param int $customFieldID The ID of the custom field to update
      * @return mixed
      */
-    public static function delete( Model $model, $customFieldID )
+    public static function delete( Model $model, int $customFieldID )
     {
         $meta = $model->find( $customFieldID );
 
-        if ( ! $meta ) {
+        if ( !$meta ) {
             return false;
         }
 
@@ -231,7 +227,7 @@ class MetaFields implements IMetaFields
      * @param int $languageID The language id. If omitted, the default language will be used
      * @return bool
      */
-    public static function exists( Model $model, $fkName, $fkValue, $customFieldName, $languageID = 0 )
+    public static function exists( Model $model, string $fkName, int $fkValue, string $customFieldName, int $languageID = 0 )
     {
         $meta = self::get( $model, $fkName, $fkValue, $customFieldName, $languageID, false );
         return ( $meta != false );
@@ -243,7 +239,7 @@ class MetaFields implements IMetaFields
      * @param int $customFieldID The ID of the custom field
      * @return mixed
      */
-    public static function is( Model $model, $customFieldID )
+    public static function is( Model $model, int $customFieldID )
     {
         return $model->find( $customFieldID );
     }
@@ -254,7 +250,7 @@ class MetaFields implements IMetaFields
      * @param string $customFieldName The name of the custom field
      * @return string
      */
-    final static function getValidName( $customFieldName )
+    final static function getValidName( string $customFieldName )
     {
         $customFieldName = preg_replace( '/\s+/', '_', $customFieldName );
         return $customFieldName;
