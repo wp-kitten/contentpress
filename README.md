@@ -8,6 +8,9 @@ php artisan cp:install --n
 
 //#! DB structure + the default duumy data
 php artisan cp:install --n --s
+
+//#! Installs the ContentPress Default Theme
+php artisan cp:install --t
 ```
  
 
@@ -72,7 +75,7 @@ and it expects a JSON response in the following format:
         'version' => '1.3',
     ],
     'code' => 200,
-]
+];
 ```
 **Error**
 ```php
@@ -85,8 +88,5 @@ and it expects a JSON response in the following format:
         //...other errors here if necessary
     ],
     'code' => 404,
-]
+];
 ```
-
-
- 
