@@ -32,9 +32,6 @@ function cp_get_comments_count( ?Post $post )
     if ( !$post ) {
         return 0;
     }
-    if ( !cp_get_post_meta( $post, '_comments_enabled' ) ) {
-        return 0;
-    }
     return $post->post_comments->count();
 }
 
