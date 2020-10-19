@@ -131,6 +131,41 @@ class DashboardController extends AdminControllerBase
         ] );
     }
 
+    public function __forceCheckForUpdates()
+    {
+        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+            return redirect()->back()->with( [
+                'class' => 'success',
+                'text' => __( 'a.You are not allowed to perform this action.' ),
+            ] );
+        }
+
+        //#! Run the Updater
+        app()->get( 'cp.updater' )->run( true );
+
+        //#! Get the info from option: contentpress_updates
+        $updatesInfo = $this->options->getOption( 'contentpress_updates', [ 'plugins' => [], 'themes' => [], 'core' => [] ] );
+        if ( !is_array( $updatesInfo ) ) {
+            $updatesInfo = [ 'plugins' => [], 'themes' => [], 'core' => [] ];
+        }
+        if ( !isset( $updatesInfo[ 'plugins' ] ) ) {
+            $updatesInfo[ 'plugins' ] = [];
+        }
+        if ( !isset( $updatesInfo[ 'themes' ] ) ) {
+            $updatesInfo[ 'themes' ] = [];
+        }
+        if ( !isset( $updatesInfo[ 'core' ] ) ) {
+            $updatesInfo[ 'core' ] = [];
+        }
+
+        $errors = UserNotices::getInstance()->getAll();
+        return redirect()->route( 'admin.dashboard.updates' )->with( [
+            'plugins' => ( isset( $updatesInfo[ 'plugins' ] ) ? $updatesInfo[ 'plugins' ] : [] ),
+            'themes' => ( isset( $updatesInfo[ 'themes' ] ) ? $updatesInfo[ 'themes' ] : [] ),
+            'warnings' => $errors,
+        ] );
+    }
+
     public function __update_plugin( string $file_name )
     {
         if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {

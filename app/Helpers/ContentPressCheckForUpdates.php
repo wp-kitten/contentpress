@@ -30,8 +30,10 @@ class ContentPressCheckForUpdates
 
     /**
      * Check for updates.
+     *
+     * @param bool $force Whether to ignore the time limit interval
      */
-    public function run()
+    public function run( $force = false )
     {
         //#! Check and store info in option: contentpress_updates
         $updatesInfo = $this->options->getOption( 'contentpress_updates', [ 'last_check' => null, 'plugins' => [], 'themes' => [], 'core' => [] ] );
@@ -43,7 +45,7 @@ class ContentPressCheckForUpdates
         if ( !isset( $updatesInfo[ 'last_check' ] ) ) {
             $updatesInfo[ 'last_check' ] = null;
         }
-        if ( $updatesInfo[ 'last_check' ] ) {
+        if ( !$force && $updatesInfo[ 'last_check' ] ) {
             $expires = ( intval( $updatesInfo[ 'last_check' ] ) ) + intval( apply_filters( 'contentpress/admin/update-interval', CP_DAY_IN_SECONDS ) );
             //#! Not yet expired
             if ( $expires > time() ) {
