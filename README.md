@@ -6,7 +6,7 @@ WordPress-like application using the Laravel Framework.
 //#! Just the db structure
 php artisan cp:install --n
 
-//#! DB structure + the default duumy data
+//#! DB structure + the default dummy data
 php artisan cp:install --n --s
 
 //#! Installs the ContentPress Default Theme
