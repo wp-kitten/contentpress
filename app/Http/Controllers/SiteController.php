@@ -17,18 +17,26 @@ class SiteController extends Controller
     /**
      * Render the website's homepage.
      *
-     * @return View
+     * @return Application|Factory|\Illuminate\Contracts\View\View
      */
     public function index()
     {
         return view( 'index' );
     }
 
+    /**
+     * Render the 404 error page
+     * @return Application|Factory|\Illuminate\Contracts\View\View
+     */
     public function error404()
     {
         return view( '404' );
     }
 
+    /**
+     * Render the 500 error page
+     * @return Application|Factory|\Illuminate\Contracts\View\View
+     */
     public function error500()
     {
         return view( '500' );
@@ -37,7 +45,7 @@ class SiteController extends Controller
     /**
      * Display a post type based on the provided slug. The App Locale will be updated accordingly to the language the post is assigned to.
      * @param string $slug
-     * @return Application|Factory|RedirectResponse|Redirector|View
+     * @return Application|RedirectResponse|\Illuminate\Http\Response|Redirector
      */
     public function post_view( string $slug )
     {
@@ -128,7 +136,7 @@ class SiteController extends Controller
             return view( $postType )->with( [ 'page' => $thePost ] );
         }
 
-        //#! [::1] Check to see whether or not there is a specific template for this post type
+        //#! [::2] Check to see whether or not there is a specific template for this post type
         //#! Ex: views/singular-article.blade.php to render all post type article
         if ( view()->exists( 'singular-' . $postType ) ) {
             return view( 'singular-' . $postType )->with( [ 'page' => $thePost ] );

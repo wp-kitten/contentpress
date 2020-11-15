@@ -5,6 +5,7 @@ return [
     'Please specify the image width or height.' => 'Please specify the image width or height.',
     'The specified menu was not found.' => 'The specified menu was not found.',
     'Delete' => 'Delete',
+    'Post type added' => 'Post type added',
     'Are you sure you want to delete this menu item?' => 'Are you sure you want to delete this menu item?',
     'You are not allowed to perform this action.' => 'You are not allowed to perform this action.',
     'Menu updated.' => 'Menu updated.',
