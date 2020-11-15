@@ -33,6 +33,8 @@ class AppLoadedListener
             $uploadsDirPath,
             path_combine( $uploadsDirPath, 'files' ),
             path_combine( $uploadsDirPath, 'tmp' ),
+            path_combine( $uploadsDirPath, 'plugins' ),
+            path_combine( $uploadsDirPath, 'themes' ),
         ];
         try {
             foreach ( $appDirs as $dirPath ) {

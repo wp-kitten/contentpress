@@ -415,7 +415,7 @@ class DashboardController extends AdminControllerBase
         if ( empty( $response ) ) {
             throw new \Exception( __( 'a.There was no response from the api server.' ) );
         }
-        elseif ( $response instanceof Response ) {
+        elseif ( $response instanceof Response && !$response->successful() ) {
             throw new \Exception( __( 'a.The specified ContentPress version was not found.' ) );
         }
 

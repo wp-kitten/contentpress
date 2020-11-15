@@ -66,7 +66,7 @@ class ContentPressInstall extends Command
                 $this->line( '== Done ==' );
             }
             catch ( \Exception $e ) {
-                $this->line( '== An error occurred. Run this command again: php artisan cp:install --t ==' );
+                $this->line( '== An error occurred. Run this command again: php artisan cp:install --t' );
                 return 0;
             }
         }
