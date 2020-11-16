@@ -15,6 +15,7 @@ use App\Models\MediaFile;
 use App\Models\Menu;
 use App\Models\Options;
 use App\Models\Post;
+use App\Models\Role;
 use App\Models\Settings;
 use App\Models\User;
 use Illuminate\Support\Facades\Request;
@@ -788,4 +789,30 @@ function cp_ellipsis( string $string, int $maxLength = 50, string $textMore = '.
 function cp_cat_name( string $name ): string
 {
     return apply_filters( 'contentpress/category/name', $name );
+}
+
+/**
+ * Check to see whether the specified role name is a protected role
+ * @param string $roleName
+ * @return bool
+ */
+function cp_is_role_protected( string $roleName )
+{
+    return in_array( strtolower( $roleName ), [ Role::ROLE_SUPER_ADMIN, Role::ROLE_ADMIN, Role::ROLE_CONTRIBUTOR ] );
+}
+
+/**
+ * Filter the role name and prepare for insert into database
+ * @param string $roleName
+ * @return string|string[]|null
+ */
+function cp_filter_role_name( string $roleName )
+{
+    if ( empty( $roleName ) ) {
+        return $roleName;
+    }
+    $roleName = wp_kses( $roleName, [] );
+    $roleName = strtolower( $roleName );
+    $roleName = preg_replace( '/\s+/', '_', $roleName );
+    return $roleName;
 }

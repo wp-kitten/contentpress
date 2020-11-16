@@ -98,6 +98,7 @@ Route::group(
     //#! Switch language admin
     Route::get( "lang/{code}", [ "uses" => "DashboardController@lang" ] )->name( "admin.dashboard.lang_switch" );
 
+    //#! Dashboard
     Route::get( "/", [ "uses" => "DashboardController@index" ] )->name( "admin.dashboard" );
     Route::get( "dashboard_edit", [ "uses" => "DashboardController@showEditDashboardView" ] )->name( "admin.dashboard.edit" );
     Route::get( "dashboard_commands", [ "uses" => "DashboardController@showCommandsView" ] )->name( "admin.dashboard.commands" );
@@ -115,6 +116,7 @@ Route::group(
     Route::post( "update/plugin/{file_name}", [ "uses" => "DashboardController@__update_plugin" ] )->name( "admin.dashboard.update.plugin" );
     Route::post( "update/core/{version}", [ "uses" => "DashboardController@__update_core" ] )->name( "admin.dashboard.update.core" );
 
+    //#! Users
     Route::get( "users", [ "uses" => "UsersController@index" ] )->name( "admin.users.all" );
     Route::get( "users/add", [ "uses" => "UsersController@showCreatePage" ] )->name( "admin.users.add" );
     Route::get( "users/edit/{id}", [ "uses" => "UsersController@showEditPage" ] )->name( "admin.users.edit" )->middleware( 'password.confirm' );
@@ -125,6 +127,18 @@ Route::group(
     Route::post( "users/update", [ "uses" => "UsersController@__update" ] )->name( "admin.users.update" );
     Route::post( "users/profile/update/{id}", [ "uses" => "UsersController@__updateProfile" ] )->name( "admin.users.update_profile" );
 
+    //#! Roles & Capabilities
+    Route::get( "roles", [ "uses" => "RolesController@showRolesPage" ] )->name( "admin.roles.all" );
+    Route::get( "roles/edit/{id}", [ "uses" => "RolesController@showRoleEditPage" ] )->name( "admin.roles.edit" );
+    Route::post( "roles/update/{id}", [ "uses" => "RolesController@updateRole" ] )->name( "admin.roles.update" );
+    Route::get( "roles/add", [ "uses" => "RolesController@showRoleCreatePage" ] )->name( "admin.roles.add" );
+    Route::post( "roles/create", [ "uses" => "RolesController@createRole" ] )->name( "admin.roles.create" );
+    Route::post( "roles/delete/{id}", [ "uses" => "RolesController@deleteRole" ] )->name( "admin.roles.delete" );
+    Route::get( "roles/capabilities", [ "uses" => "RolesController@showCapabilitiesPage" ] )->name( "admin.roles.capabilities" );
+    Route::post( "roles/capabilities/update", [ "uses" => "RolesController@updateRoleCapabilities" ] )->name( "admin.roles.capabilities.update" );
+
+
+    //#! Settings
     Route::get( "settings", [ "uses" => "SettingsController@index" ] )->name( "admin.settings.all" );
     Route::get( "settings/languages", [ "uses" => "SettingsController@languages" ] )->name( "admin.settings.languages" );
     Route::get( "settings/reading", [ "uses" => "SettingsController@reading" ] )->name( "admin.settings.reading" );

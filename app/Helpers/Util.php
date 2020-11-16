@@ -199,7 +199,7 @@ class Util
      * @param string $string A pipe-delimited string.
      * @return string Either $string or everything before the last pipe.
      */
-    public static function cpRemoveLastBar( $string )
+    public static function cpRemoveLastBar( string $string )
     {
         $last_bar = strrpos( $string, '|' );
         if ( false === $last_bar ) {
@@ -355,7 +355,7 @@ class Util
      * @param Builder $eloquentBuilder
      * @return string
      */
-    public static function getQuery( $eloquentBuilder )
+    public static function getQuery( Builder $eloquentBuilder )
     {
         $query = str_replace( [ '?' ], [ '\'%s\'' ], $eloquentBuilder->toSql() );
         return vsprintf( $query, $eloquentBuilder->getBindings() );

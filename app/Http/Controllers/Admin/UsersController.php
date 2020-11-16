@@ -373,5 +373,4 @@ class UsersController extends AdminControllerBase
             'text' => __( 'a.Profile updated.' ),
         ] );
     }
-
 }

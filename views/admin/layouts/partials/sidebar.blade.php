@@ -274,6 +274,27 @@
             </ul>
         </li>
 
+        {{-- ROLES --}}
+        @if(cp_current_user_can('promote_users'))
+            <li class="treeview {{App\Helpers\MenuHelper::activateMenuItem('admin.roles')}}">
+                <a class="app-menu__item" href="#" data-toggle="treeview">
+                    <i class="app-menu__icon fa fa-user-tag"></i>
+                    <span class="app-menu__label">{{__('a.Roles')}}</span>
+                    <i class="treeview-indicator fa fa-angle-right"></i>
+                </a>
+                <ul class="treeview-menu">
+                    <li>
+                        <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.roles.all')}}" href="{{route('admin.roles.all')}}">{{__('a.Roles')}}</a>
+                    </li>
+                    <li>
+                        <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.roles.capabilities')}}" href="{{route('admin.roles.capabilities')}}">{{__('a.Capabilities')}}</a>
+                    </li>
+
+                    {!! do_action('contentpress/admin/sidebar/menu/roles') !!}
+                </ul>
+            </li>
+        @endif
+
         {{-- SETTINGS --}}
         @if(cp_current_user_can('manage_options'))
             <li class="treeview {{App\Helpers\MenuHelper::activateMenuItem('admin.settings')}}">
