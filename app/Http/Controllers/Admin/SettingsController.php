@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Helpers\CPML;
 use App\Helpers\ScriptsManager;
+use App\Helpers\Theme;
 use App\Helpers\Util;
 use App\Models\CommentStatuses;
 use App\Models\Language;
@@ -608,23 +609,45 @@ class SettingsController extends AdminControllerBase
 
         //#! Create the language directory if it doesn't exist and copy the files from the default language's directory
         $defaultLanguage = $this->settings->getSetting( 'default_language', 'en' );
-        $sourceLangDir = resource_path( "lang/{$defaultLanguage}" );
-        try {
-            if ( File::isDirectory( $sourceLangDir ) ) {
-                $destLangDir = resource_path( "lang/{$code}" );
-                File::copyDirectory( $sourceLangDir, $destLangDir );
+//        $sourceLangDir = resource_path( "lang/{$defaultLanguage}" );
+//        try {
+//            if ( File::isDirectory( $sourceLangDir ) ) {
+//                $destLangDir = resource_path( "lang/{$code}" );
+//                File::copyDirectory( $sourceLangDir, $destLangDir );
+//            }
+//        }
+//        catch ( \Exception $e ) {
+//            return redirect()->back()->with( 'message', [
+//                'class' => 'danger',
+//                'text' => __( 'a.The language has been added but the language directory could not be created.' ),
+//            ] );
+//        }
+
+        /**
+         * @var Theme $crtTheme
+         */
+        $crtTheme = app()->get( 'cp.theme' );
+
+        //#! [::1] [APP] Copy the default language dir to the new one
+        $result = $this->__appCopyLanguageDir( $defaultLanguage, $code );
+        if ( $result === true ) {
+            //#! [::2] [THEME] Copy the default language dir to the new one
+            $result = $this->__themeCopyLanguageDir( $crtTheme, $defaultLanguage, $code );
+            if ( $result === true ) {
+                return redirect()->back()->with( 'message', [
+                    'class' => 'success',
+                    'text' => __( 'a.The language has been added.' ),
+                ] );
             }
-        }
-        catch ( \Exception $e ) {
+
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
-                'text' => __( 'a.The language has been added but the language directory could not be created.' ),
+                'text' => $result,
             ] );
         }
-
         return redirect()->back()->with( 'message', [
-            'class' => 'success',
-            'text' => __( 'a.The language has been added.' ),
+            'class' => 'danger',
+            'text' => $result,
         ] );
     }
 
@@ -655,20 +678,6 @@ class SettingsController extends AdminControllerBase
             ] );
         }
 
-        //#! Attempt to delete the language directory
-        try {
-            $languageDir = resource_path( "lang/{$languageCode}" );
-            if ( File::isDirectory( $languageDir ) ) {
-                File::deleteDirectory( $languageDir, false );
-            }
-        }
-        catch ( \Exception $e ) {
-            return redirect()->back()->with( 'message', [
-                'class' => 'warning',
-                'text' => __( "a.The language has been deleted but an error occurred and the language directory couldn't be deleted." ),
-            ] );
-        }
-
         //#! Remove from option
         $updateOption = false;
         $enabledLanguages = $this->options->getOption( 'enabled_languages', [] );
@@ -681,6 +690,28 @@ class SettingsController extends AdminControllerBase
         }
         if ( $updateOption ) {
             $this->options->addOption( 'enabled_languages', $enabledLanguages );
+        }
+
+
+        //#! [::1] Attempt to delete the language directory from [root]/resources/lang
+        $result = $this->__appDeleteLanguageDir( $languageCode );
+        if ( $result === true ) {
+            //#! [::2] Attempt to delete the language directory from [current theme]/lang
+            $result = $this->__themeDeleteLanguageDir( $languageCode );
+            if ( $result !== true ) {
+                return redirect()->back()->with( 'message', [
+                    'class' => 'warning',
+//                'text' => __( "a.The language has been deleted but an error occurred and the language directory couldn't be deleted." ),
+                    'text' => $result,
+                ] );
+            }
+        }
+        else {
+            return redirect()->back()->with( 'message', [
+                'class' => 'warning',
+//                'text' => __( "a.The language has been deleted but an error occurred and the language directory couldn't be deleted." ),
+                'text' => $result,
+            ] );
         }
 
         return redirect()->back()->with( 'message', [
@@ -781,4 +812,93 @@ class SettingsController extends AdminControllerBase
         ] );
     }
 
+    private function __appCopyLanguageDir( $defaultLanguageCode, $newLanguageCode )
+    {
+        $sourceLangDir = resource_path( "lang/{$defaultLanguageCode}" );
+        try {
+            if ( File::isDirectory( $sourceLangDir ) ) {
+                $destLangDir = resource_path( "lang/{$newLanguageCode}" );
+                File::copyDirectory( $sourceLangDir, $destLangDir );
+            }
+        }
+        catch ( \Exception $e ) {
+            return $e->getMessage();
+        }
+        return true;
+    }
+
+    private function __appDeleteLanguageDir( $languageCode )
+    {
+        try {
+            $languageDir = resource_path( "lang/{$languageCode}" );
+            if ( File::isDirectory( $languageDir ) ) {
+                File::deleteDirectory( $languageDir, false );
+            }
+        }
+        catch ( \Exception $e ) {
+            return $e->getMessage();
+        }
+        return true;
+    }
+
+    /**
+     * @param Theme $theme
+     * @param $defaultLanguageCode
+     * @param $newLanguageCode
+     * @return bool|string
+     */
+    private function __themeCopyLanguageDir( Theme $theme, $defaultLanguageCode, $newLanguageCode )
+    {
+        $themeDirPath = untrailingslashit( $theme->getDirPath() );
+        $sourceLangDir = "{$themeDirPath}/lang/{$defaultLanguageCode}";
+
+        //#! If a parent theme
+        if ( File::isDirectory( $sourceLangDir ) ) {
+            try {
+                $destLangDir = "{$themeDirPath}/lang/{$newLanguageCode}";
+                File::copyDirectory( $sourceLangDir, $destLangDir );
+            }
+            catch ( \Exception $e ) {
+                return $e->getMessage();
+            }
+        }
+        //#! If this is a child theme
+        elseif ( $theme->isChildTheme() ) {
+            $parentTheme = $theme->getParentTheme();
+            $parentThemeDirPath = untrailingslashit( $parentTheme->getDirPath() );
+            $sourceLangDir = "{$parentThemeDirPath}/lang/{$defaultLanguageCode}";
+
+            if ( File::isDirectory( $sourceLangDir ) ) {
+                try {
+                    $themeDirPath = untrailingslashit( $theme->getDirPath() );
+                    $destLangDir = "{$themeDirPath}/lang/{$newLanguageCode}";
+                    File::copyDirectory( $sourceLangDir, $destLangDir );
+                }
+                catch ( \Exception $e ) {
+                    return $e->getMessage();
+                }
+            }
+        }
+        return true;
+    }
+
+    private function __themeDeleteLanguageDir( $languageCode )
+    {
+        $crtTheme = app()->get( 'cp.theme' );
+        $themeDirPath = untrailingslashit( $crtTheme->getDirPath() );
+        $sourceLangDir = "{$themeDirPath}/lang/{$languageCode}";
+
+        //#! If found in the current theme
+        if ( File::isDirectory( $sourceLangDir ) ) {
+            try {
+                if ( File::isDirectory( $sourceLangDir ) ) {
+                    File::deleteDirectory( $sourceLangDir, false );
+                }
+            }
+            catch ( \Exception $e ) {
+                return $e->getMessage();
+            }
+        }
+        return true;
+    }
 }
