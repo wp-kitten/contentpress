@@ -6,6 +6,7 @@ use App\Helpers\Cache;
 use App\Helpers\Marketplace;
 use App\Helpers\PluginsManager;
 use App\Helpers\ScriptsManager;
+use App\Models\Options;
 use Illuminate\Support\Facades\Http;
 
 class PluginsController extends AdminControllerBase
@@ -28,6 +29,7 @@ class PluginsController extends AdminControllerBase
             'pluginsManager' => PluginsManager::getInstance(),
             'all_plugins' => $this->pluginsManager->getAllPlugins(),
             'active_plugins' => PluginsManager::getInstance()->getActivePlugins(),
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 
@@ -64,6 +66,7 @@ class PluginsController extends AdminControllerBase
         return view( 'admin.plugins.add' )->with( [
             'plugins' => $defaultPlugins,
             'pluginsManager' => PluginsManager::getInstance(),
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 
@@ -189,6 +192,7 @@ class PluginsController extends AdminControllerBase
         return view( 'admin.plugins.marketplace' )->with( [
             'pluginsManager' => PluginsManager::getInstance(),
             'plugins' => $plugins,
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 

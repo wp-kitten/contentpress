@@ -6,6 +6,7 @@ use App\Helpers\CPML;
 use App\Helpers\ScriptsManager;
 use App\Helpers\Util;
 use App\Models\MediaFile;
+use App\Models\Options;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -39,6 +40,7 @@ class MediaController extends AdminControllerBase
 
         return view( 'admin.media.index' )->with( [
             'files' => $model->where( 'language_id', CPML::getDefaultLanguageID() )->paginate( $perPage ),
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 
@@ -58,7 +60,9 @@ class MediaController extends AdminControllerBase
         ] );
         ScriptsManager::enqueueFooterScript( 'media-add.js', asset( '_admin/js/media/add.js' ) );
 
-        return view( 'admin.media.add' );
+        return view( 'admin.media.add' )->with([
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
+        ]);
     }
 
     public function showEditView( $id )
@@ -77,6 +81,7 @@ class MediaController extends AdminControllerBase
 
         return view( 'admin.media.edit' )->with( [
             'file' => MediaFile::find( $id ),
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 
@@ -117,6 +122,7 @@ class MediaController extends AdminControllerBase
 
         return view( 'admin.media.search' )->with( [
             'files' => $results,
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 

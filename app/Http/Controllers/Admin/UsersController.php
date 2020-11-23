@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Helpers\CPML;
 use App\Helpers\MetaFields;
 use App\Helpers\ScriptsManager;
+use App\Models\Options;
 use App\Models\Role;
 use App\Models\User;
 use App\Models\UserMeta;
@@ -40,6 +41,7 @@ class UsersController extends AdminControllerBase
             'admins' => $admins,
             'users' => $users,
             'current_user' => $authUser,
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 
@@ -53,6 +55,7 @@ class UsersController extends AdminControllerBase
             'users' => User::paginate( 15 ),
             'roles' => Role::all(),
             'default_role_id' => $this->settings->getSetting( 'default_user_role' ),
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 
@@ -98,6 +101,7 @@ class UsersController extends AdminControllerBase
             'meta_fields' => MetaFields::getAll( $this->userMeta, 'user_id', $id, CPML::getDefaultLanguageID() ),
             'default_role_id' => $this->settings->getSetting( 'default_user_role' ),
             'auth_user' => cp_get_current_user(),
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 

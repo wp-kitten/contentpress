@@ -61,10 +61,6 @@ class AppServiceProvider extends ServiceProvider
 
         if ( Schema::hasTable( 'options' ) ) {
             if ( cp_is_multilingual() ) {
-                View::composer( '*', function ( $view ) {
-                    $view->with( 'enabled_languages', ( new Options() )->getEnabledLanguages() );
-                } );
-
                 $locale = cp_get_user_meta( 'backend_user_current_language' );
                 if ( empty( $locale ) ) {
                     $locale = CPML::getDefaultLanguageCode();

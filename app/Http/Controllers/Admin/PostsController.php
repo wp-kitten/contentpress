@@ -6,6 +6,7 @@ use App\Helpers\MetaFields;
 use App\Helpers\ScriptsManager;
 use App\Models\Category;
 use App\Models\Language;
+use App\Models\Options;
 use App\Models\Post;
 use App\Models\PostMeta;
 use App\Models\PostStatus;
@@ -170,6 +171,7 @@ class PostsController extends AdminControllerBase
             //#! Special entry
             //@required
             '__post_type' => $this->_postType,
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 
@@ -225,6 +227,7 @@ class PostsController extends AdminControllerBase
             //#! Special entry
             //@required
             '__post_type' => $this->_postType,
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 
@@ -346,6 +349,7 @@ class PostsController extends AdminControllerBase
             //#! Special entry
             //@required
             '__post_type' => $this->_postType,
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 

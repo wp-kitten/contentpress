@@ -35,6 +35,7 @@ class TranslationsController extends PostsController
             'edited_language_file' => $edited_fn,
             'edited_dir' => $edited_dirname,
             'translations_manager' => $translationsManager,
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 
@@ -64,6 +65,7 @@ class TranslationsController extends PostsController
             'edited_language_file' => $edited_fn,
             'edited_dir' => $edited_dirname,
             'translations_manager' => $translationsManager,
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 
@@ -93,6 +95,7 @@ class TranslationsController extends PostsController
             'edited_language_file' => $edited_fn,
             'edited_dir' => $edited_dirname,
             'translations_manager' => $translationsManager,
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 

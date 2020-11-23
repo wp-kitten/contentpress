@@ -10,6 +10,7 @@ use App\Helpers\Theme;
 use App\Helpers\ThemeUpdater;
 use App\Helpers\UserNotices;
 use App\Helpers\Util;
+use App\Models\Options;
 use Illuminate\Http\Client\Response;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\App;
@@ -25,6 +26,7 @@ class DashboardController extends AdminControllerBase
             ScriptsManager::enqueueFooterScript( 'dashboard-index.js', asset( '_admin/js/dashboard/index.js' ) );
             return view( 'admin.dashboard.index' )->with( [
                 'widgets' => cp_get_registered_dashboard_widgets(),
+                'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
             ] );
         }
         return $this->_forbidden();

@@ -50,6 +50,7 @@ class CategoriesController extends PostsController
             //#! Special entry
             //@required
             '__post_type' => $this->_postType,
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 

@@ -6,6 +6,7 @@ use App\Helpers\CPML;
 use App\Helpers\MenuWalkerBackend;
 use App\Helpers\ScriptsManager;
 use App\Models\Menu;
+use App\Models\Options;
 use Illuminate\Support\Str;
 
 class MenuController extends AdminControllerBase
@@ -24,6 +25,7 @@ class MenuController extends AdminControllerBase
 
         return view( 'admin.menu.index' )->with( [
             'menus' => Menu::where( 'language_id', cp_get_backend_user_language_id() )->get(),
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 
@@ -41,6 +43,7 @@ class MenuController extends AdminControllerBase
 
         return view( 'admin.menu.new' )->with( [
             'menus' => Menu::where( 'language_id', cp_get_backend_user_language_id() )->get(),
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 
@@ -85,6 +88,7 @@ class MenuController extends AdminControllerBase
             'menu' => Menu::where( 'id', $id )->where( 'language_id', $backendLanguageID )->first(),
             'walker' => $menuClass,
             'display_as' => $this->options->getOption( "menu-{$id}-display-as", 'megamenu' ),
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 

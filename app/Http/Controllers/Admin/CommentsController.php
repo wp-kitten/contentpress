@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Admin;
 
 use App\Models\CommentStatuses;
 use App\Helpers\ScriptsManager;
+use App\Models\Options;
 use App\Models\Post;
 use App\Models\PostComments;
 use App\Models\User;
@@ -142,6 +143,7 @@ class CommentsController extends PostsController
                 '_sort' => $filterSort,
                 '_paginate' => $filterPaginate,
             ],
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 
@@ -191,6 +193,7 @@ class CommentsController extends PostsController
             //#! Special entry
             //@required
             '__post_type' => $this->_postType,
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 

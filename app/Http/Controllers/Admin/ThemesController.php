@@ -6,6 +6,7 @@ use App\Helpers\Marketplace;
 use App\Helpers\ScriptsManager;
 use App\Helpers\Theme;
 use App\Helpers\ThemesManager;
+use App\Models\Options;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Support\Facades\File;
 
@@ -41,6 +42,7 @@ class ThemesController extends AdminControllerBase
         return view( 'admin.themes.index' )->with( [
             'themes' => $themes,
             'currentTheme' => $currentTheme,
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 
@@ -59,7 +61,9 @@ class ThemesController extends AdminControllerBase
         ] );
         ScriptsManager::enqueueFooterScript( 'themes-add.js', asset( '_admin/js/themes/add.js' ) );
 
-        return view( 'admin.themes.add' );
+        return view( 'admin.themes.add' )->with([
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
+        ]);
     }
 
     public function __activate( $themeDirName )
@@ -157,6 +161,7 @@ class ThemesController extends AdminControllerBase
             'themesManager' => ThemesManager::getInstance(),
             'themes' => ( new Marketplace() )->getThemes(),
             'currentTheme' => $this->themesManager->getActiveTheme(),
+            'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 
