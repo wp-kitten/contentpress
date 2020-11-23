@@ -90,7 +90,7 @@
                                         @endforeach
                                     </select>
                                 @else
-                                    <p class="">{{$role->display_name}}</p>
+                                    <p class="">{{$user->role->display_name}}</p>
                                 @endif
                             </div>
 

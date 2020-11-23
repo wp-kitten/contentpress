@@ -119,25 +119,35 @@ class UsersController extends AdminControllerBase
 //            'role' => 'required|exists:roles,id',
         ] );
 
-        $user = new User;
-        $user->name = $this->request->name;
-        $user->email = $this->request->email;
-        $user->password = bcrypt( $this->request->password );
+        $userData = [
+            'name' => $this->request->name,
+            'email' => $this->request->email,
+            'password' => bcrypt( $this->request->password ),
+            'display_name' => $this->request->display_name,
+        ];
         if ( $authUser->can( 'promote_users' ) ) {
-            $user->role_id = $this->request->role;
+            Role::findOrFail( $this->request->role );
+            $userData[ 'role_id' ] = $this->request->role;
         }
         else {
             $defaultUserRole = $this->settings->getSetting( 'default_user_role', 0 );
             //#! Ensure the role exists
             Role::findOrFail( $defaultUserRole );
-            $user->role_id = $defaultUserRole;
+            $userData[ 'role_id' ] = $defaultUserRole;
         }
-        $user->display_name = $this->request->display_name;
-        $user->save();
 
-        return redirect()->route( 'admin.users.all' )->with( 'message', [
-            'class' => 'success', // success or danger on error
-            'text' => __( 'a.User added.' ),
+        $created = User::create( $userData );
+
+        if ( $created && $created->id ) {
+            return redirect()->route( 'admin.users.all' )->with( 'message', [
+                'class' => 'success', // success or danger on error
+                'text' => __( 'a.User added.' ),
+            ] );
+        }
+
+        return redirect()->route( 'admin.users.all' )->withInput()->with( 'message', [
+            'class' => 'danger', // success or danger on error
+            'text' => __( 'a.An error occurred.' ),
         ] );
     }
 
