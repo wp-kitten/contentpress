@@ -94,11 +94,11 @@
 
                         <div class="form-group">
                             <label for="language_code">{{__('a.Language code')}}</label>
-                            <input type="text" id="language_code" name="language_code" maxlength="2" class="form-control" value="{{old('language_code')}}"/>
+                            <input type="text" id="language_code" name="language_code" maxlength="2" class="form-control" value="{{old('language_code')}}" placeholder="ro"/>
                         </div>
                         <div class="form-group">
                             <label for="language_name">{{__('a.Language name')}}</label>
-                            <input type="text" id="language_name" name="language_name" maxlength="50" class="form-control" value="{{old('language_name')}}"/>
+                            <input type="text" id="language_name" name="language_name" maxlength="50" class="form-control" value="{{old('language_name')}}" placeholder="Romanian"/>
                         </div>
 
                         <div class="form-group">
