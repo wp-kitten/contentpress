@@ -103,8 +103,8 @@ class MenuWalkerFrontend implements IMenuWalker
     {
         if ( $this->menu && ( $this->hasMenuItems() || has_action( 'contentpress/menu::' . $this->menu->slug ) ) ) {
             do_action( "contentpress/menu::{$this->menu->slug}/before", $this->menu );
-            if ( 'megamenu' == $this->displayAs ) {
 
+            if ( 'megamenu' == $this->displayAs ) {
                 $menu = new MegaMenuBuilder( $this->menu, $this->menuItems );
                 $menu->outputHtml();
             }
@@ -124,7 +124,9 @@ class MenuWalkerFrontend implements IMenuWalker
     }
 
     //<editor-fold desc=":: BUILD THE MENU TREE ::">
-    //#! Process each first level menu item and recurse into it for children
+    /**
+     * Process each first level menu item and recurse into it for children
+     */
     private function __processMenuItems()
     {
         foreach ( $this->menuItems as $menuItemID => $menuItemData ) {
@@ -132,6 +134,11 @@ class MenuWalkerFrontend implements IMenuWalker
         }
     }
 
+    /**
+     * Process all children of the specified $menuItemID and compact them to a custom list
+     * @param int $menuItemID
+     * @return array
+     */
     private function __processSubMenuItem( $menuItemID )
     {
         $data = [];
@@ -149,6 +156,11 @@ class MenuWalkerFrontend implements IMenuWalker
         return $data;
     }
 
+    /**
+     * Retrieve the children for the specified $menuItemID
+     * @param int $menuItemID
+     * @return mixed
+     */
     private function __getChildren( $menuItemID )
     {
         return MenuItem::where( 'menu_item_id', $menuItemID )->orderBy( 'menu_order', 'ASC' )->get();
