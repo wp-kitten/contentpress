@@ -81,10 +81,11 @@ class DropdownMenuBuilder implements IMenuBuilder
                 else {
                     $url = $meta[ 'url' ];
                 }
+                $activeClass = ( Str::containsAll( url()->current(), [ $url ] ) ? 'active' : '' );
 
                 if ( $cssClass == 'has-submenu' ) {
                     ?>
-                    <div class="<?php esc_attr_e( $cssClass ); ?>">
+                    <div class="<?php esc_attr_e( "{$cssClass} {$activeClass}" ); ?>">
                         <button class="show-submenu">
                             <?php esc_html_e( $title ); ?>
                             <i class="fa fa-caret-down"></i>
@@ -99,7 +100,7 @@ class DropdownMenuBuilder implements IMenuBuilder
                     <?php
                 }
                 else {
-                    echo '<a href="' . esc_attr( $url ) . '" class="' . esc_attr( $cssClass ) . '">' . esc_html( $title ) . '</a>';
+                    echo '<a href="' . esc_attr( $url ) . '" class="' . esc_attr( "{$cssClass} {$activeClass}" ) . '">' . esc_html( $title ) . '</a>';
                 }
             }
         }
