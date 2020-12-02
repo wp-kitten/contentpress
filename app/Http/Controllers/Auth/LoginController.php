@@ -35,6 +35,21 @@ class LoginController extends Controller
      */
     public function __construct()
     {
-        $this->middleware('guest')->except('logout');
+        $this->middleware( 'guest' )->except( 'logout' );
     }
+
+    /**
+     * Override the trait's method to customize the redirect path after a successful login
+     * @hooked contentpress/after-login/redirect-path
+     * @return mixed|string
+     */
+    public function redirectTo()
+    {
+        $user = auth()->user();
+        if ( !$user ) {
+            return $this->redirectTo;
+        }
+        return $this->redirectTo = apply_filters( 'contentpress/after-login/redirect-path', $user );
+    }
+
 }

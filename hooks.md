@@ -1,6 +1,6 @@
 #Hooks  (must be reviewed)
 
-This document lists all hooks registered by the application and the order they're executed.
+This document lists all hooks registered by the application, and the order they're executed.
 
 ### Frontend
 * contentpress/plugins/loaded
@@ -92,3 +92,7 @@ This document lists all hooks registered by the application and the order they'r
 * contentpress/body-class ($classes = [])
 * contentpress/post-class ($classes = [])
 * contentpress/social-icons ($icons, $userID)
+
+### Frontend Auth Filters
+* contentpress/after-login/redirect-path (\App\Models\User $user)
+    Use this filter to override the default redirect path after user login
