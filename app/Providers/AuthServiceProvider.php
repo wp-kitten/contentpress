@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Models\Capability;
 use App\Models\Role;
+use App\Models\User;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Gate;
 
@@ -28,28 +29,27 @@ class AuthServiceProvider extends ServiceProvider
         $this->registerPolicies();
 
         //#! Register user capabilities
-        //#! Accessible through auth()->user()->can('__capability__');
+        //#! Accessible through auth()->user()->can('__capability__'); or auth()->user()->can(ROLE_NAME);
         try {
-            //#! Helper capability to identify an administrator
-            Gate::define( 'super_admin', function ( $user ) {
-                return $user->isInRole( [ ROLE::ROLE_SUPER_ADMIN ] );
-            } );
-            Gate::define( 'administrator', function ( $user ) {
-                //#! include the super admin if applicable
-                $roles = [ ROLE::ROLE_ADMIN ];
-                if ( $user->can( 'super_admin' ) ) {
-                    $roles[] = Role::ROLE_SUPER_ADMIN;
-                }
-                return $user->isInRole( $roles );
-            } );
-            //#! Helper capability to identify a contributor
-            Gate::define( 'contributor', function ( $user ) {
-                return $user->isInRole( [ ROLE::ROLE_ADMIN ] );
-            } );
-            //#! Helper capability to identify a member
-            Gate::define( 'member', function ( $user ) {
-                return $user->isInRole( [ ROLE::ROLE_ADMIN ] );
-            } );
+            /*
+             * Add roles dynamically
+             */
+            $roles = Role::all();
+            foreach ( $roles as $role ) {
+                Gate::define( $role->name, function ( User $user ) use ( $role ) {
+                    /*
+                     * If administrator, the super admin automatically inherits their capabilities
+                     */
+                    if ( $role->name == Role::ROLE_ADMIN ) {
+                        $roles = [ ROLE::ROLE_ADMIN ];
+                        if ( $user->can( 'super_admin' ) ) {
+                            $roles[] = Role::ROLE_SUPER_ADMIN;
+                        }
+                        return $user->isInRole( $roles );
+                    }
+                    return $user->isInRole( $role->name );
+                } );
+            }
 
             //#! Dynamically set capabilities per user
             $capabilities = Capability::all();
