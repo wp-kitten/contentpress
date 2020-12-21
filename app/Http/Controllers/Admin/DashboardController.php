@@ -449,6 +449,11 @@ class DashboardController extends AdminControllerBase
         //#! Delete temp file
         File::delete( $fileSavePath );
 
+        //#! Update option
+        $updatesInfo = $this->options->getOption( 'contentpress_updates', [ 'last_check' => null, 'plugins' => [], 'themes' => [], 'core' => [] ] );
+        $updatesInfo[ 'core' ] = [];
+        $this->options->addOption( 'contentpress_updates', $updatesInfo );
+
         //#! Trigger the post-install actions
         Artisan::call( 'cp:post-install', [
             //#! Do not delete the uploads directory

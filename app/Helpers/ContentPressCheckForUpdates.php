@@ -63,7 +63,9 @@ class ContentPressCheckForUpdates
         //#! Check core for update
         $coreUpdateInfo = $this->__checkCoreForUpdate();
         if ( !empty( $coreUpdateInfo ) ) {
-            $updatesInfo[ 'core' ] = $coreUpdateInfo;
+            if ( version_compare( $coreUpdateInfo[ 'version' ], CONTENTPRESS_VERSION, '>' ) ) {
+                $updatesInfo[ 'core' ] = $coreUpdateInfo;
+            }
         }
 
         //#! Scan plugins and check for updates
