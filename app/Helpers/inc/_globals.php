@@ -6,7 +6,7 @@ use App\Models\Post;
  * The current version of the application
  * @var float
  */
-define( 'CONTENTPRESS_VERSION', '0.12' );
+define( 'CONTENTPRESS_VERSION', '0.13' );
 /**
  * Holds the url to the ContentPress website
  * @var string
