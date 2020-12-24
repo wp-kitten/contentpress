@@ -30,7 +30,7 @@
             <img class="app-sidebar__user-avatar" src="{{$userImage}}" alt="{{__('a.Profile image')}}" style="width:48px; height:48px;"/>
         @endif
         <div>
-            <p class="app-sidebar__user-name">{{ $currentUser->display_name }}</p>
+            <p class="app-sidebar__user-name">{{ cp_get_user_display_name( $currentUser ) }}</p>
             <p class="app-sidebar__user-designation">{{$currentUser->role->name}}</p>
         </div>
     </div>

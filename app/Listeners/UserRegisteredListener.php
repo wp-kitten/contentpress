@@ -5,6 +5,7 @@ namespace App\Listeners;
 use App\Events\UserRegisteredEvent;
 use App\Models\Language;
 use App\Models\Role;
+use App\Models\Settings;
 use App\Models\UserMeta;
 
 class UserRegisteredListener
@@ -61,6 +62,14 @@ class UserRegisteredListener
                 'user_id' => $user->id,
                 'language_id' => $languageID,
             ] );
+        }
+
+        //#! Update email_verified_at column if registration_verify_email option is disabled
+        $settings = new Settings();
+        if ( !$settings->getSetting( 'registration_verify_email', false ) ) {
+            //#! Update user email_verified_at column
+            $user->email_verified_at = now();
+            $user->update();
         }
     }
 }
