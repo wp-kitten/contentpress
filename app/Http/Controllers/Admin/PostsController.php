@@ -217,7 +217,7 @@ class PostsController extends AdminControllerBase
             'categories' => Category::where( 'language_id', $post->language_id )->where( 'post_type_id', $this->_postType->id )->get(),
             'post_categories' => $postCategories,
 
-            'tags' => $post->tags,
+            'tags' => Tag::where( 'language_id', $post->language_id )->where( 'post_type_id', $post->post_type_id )->get(),
             'post_tags' => $postTags,
 
             'meta_fields' => MetaFields::getAll( new PostMeta(), 'post_id', $id, $post->language_id ),
