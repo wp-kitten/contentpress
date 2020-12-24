@@ -558,5 +558,6 @@ return [
    "Toggle navigation" => "Toggle navigation",
    "Go to dashboard" => "Go to dashboard",
    "Home" => "Home",
+   "Post type deleted" => "Post type deleted",
    "" => "",
 ];
