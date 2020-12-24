@@ -4,6 +4,7 @@
  * ==============================================================================
  */
 
+use App\Helpers\AdminBar;
 use App\Helpers\ScriptsManager;
 use App\Models\Post;
 use App\Models\PostComments;
@@ -204,7 +205,7 @@ function contentPressTextEditorAfter()
  * ============================================
  */
 add_filter( 'contentpress/body-class', '__contentpress_body_class', 10, 1 );
-function __contentpress_body_class( $classes = [] )
+function __contentpress_body_class( $classes = [] ): array
 {
     array_push( $classes, 'contentpress' );
 
@@ -220,7 +221,7 @@ function __contentpress_body_class( $classes = [] )
 }
 
 add_filter( 'contentpress/post-class', '__contentpress_post_class', 10, 1 );
-function __contentpress_post_class( $classes = [] )
+function __contentpress_post_class( $classes = [] ): array
 {
     if ( cp_is_singular() || cp_is_page() ) {
         $post = cp_get_post();
@@ -229,4 +230,12 @@ function __contentpress_post_class( $classes = [] )
         }
     }
     return $classes;
+}
+
+add_action( 'contentpress/frontend/init', '__contentpress_admin_bar' );
+function __contentpress_admin_bar()
+{
+    if ( cp_is_user_logged_in() ) {
+        AdminBar::getInstance();
+    }
 }

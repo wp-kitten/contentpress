@@ -1,20 +1,25 @@
-#Hooks  (must be reviewed)
+# Hooks  (must be reviewed)
 
 This document lists all hooks registered by the application, and the order they're executed.
 
 ### Frontend
+
 * contentpress/plugins/loaded
 * contentpress/theme/loaded ($themeName)
 * contentpress/app/loaded
+* [since v0.12] contentpress/frontend/init (Must be manually added to the layout file before the <!doctype html>
+  declaration)
 
 ### Backend
+
 * contentpress/plugins/loaded
 * contentpress/theme/loaded
 * contentpress/admin/init
 * contentpress/app/loaded
-
+* [since v0.12] contentpress/backend/init
 
 ### Backend Action Hooks
+
 * contentpress/admin/head
 * contentpress/admin/footer
 * contentpress/post/deleted ($postID)
@@ -42,6 +47,7 @@ This document lists all hooks registered by the application, and the order they'
 * contentpress/admin/sidebar/menu/settings
 
 ### Frontend Action Hooks
+
 * contentpress/site/head
 * contentpress/site/footer
 * contentpress/submit_comment
@@ -55,9 +61,10 @@ This document lists all hooks registered by the application, and the order they'
 * contentpress/comment/render (PostComments $comment, $withReplies = true)
 * contentpress/comment/replies (PostComments $comment)
 * contentpress/comment/actions (PostComments $comment, $postID)
-
+* contentpress/after_body_open (Must be manually added to the layout file after the <body> tag)
 
 ### Backend Filter Hooks
+
 * ContentPress
     * contentpress::image-sizes ($imageSizes = [])
     * contentpress/the_post_editor_content ($postContent = '')
@@ -86,13 +93,22 @@ This document lists all hooks registered by the application, and the order they'
     * pre_kses ($string, $allowed_html, $allowed_protocols)
     * wp_kses_uri_attributes ($uri_attributes)
     * safe_style_css ($styleRules = [])
- 
 
 ### Frontend Filter Hooks
+
 * contentpress/body-class ($classes = [])
 * contentpress/post-class ($classes = [])
-* contentpress/social-icons ($icons, $userID)
+
 
 ### Frontend Auth Filters
+
 * contentpress/after-login/redirect-path (\App\Models\User $user)
-    Use this filter to override the default redirect path after user login
+  Use this filter to override the default redirect path after user login
+
+### Keep in mind
+
+----
+
+**contentpress/app/loaded**
+   * The **auth()->user()** is not yet available even if logged in. 
+   * Use the new **contentpress/frontend/init** or **contentpress/backend/init** actions instead if you need to access the current user's info.

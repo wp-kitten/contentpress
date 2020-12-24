@@ -1,3 +1,4 @@
+@php do_action('contentpress/backend/init') @endphp
 @php
     $locale = cp_get_user_meta( 'backend_user_current_language' );
     if( empty( $locale ) ) {

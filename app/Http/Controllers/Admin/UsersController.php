@@ -283,7 +283,9 @@ class UsersController extends AdminControllerBase
         $currentUser->name = $this->request->name;
         $currentUser->display_name = $this->request->display_name;
         $currentUser->email = $this->request->email;
-        $currentUser->password = bcrypt( $this->request->password );
+        if ( $this->request->has( 'password' ) && !empty( $this->request->password ) ) {
+            $currentUser->password = bcrypt( $this->request->password );
+        }
 
         if ( $authUser->can( 'promote_users' ) && $this->request->has( 'role' ) ) {
             //#! If the selected role is super admin then the current user must be super admin

@@ -2,7 +2,7 @@
 @inject('optionsClass', App\Models\Options)
 @inject('userClass', App\Models\User)
 @inject('roleClass', App\Models\Role)
-@inject('postStatusClass', App\Models\Role)
+@inject('postStatusClass', App\Models\PostStatus)
 @php
     $isMultilingual = cp_is_multilingual();
     $baseRoute = "admin.{$__post_type->name}";

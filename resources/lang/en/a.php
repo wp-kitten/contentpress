@@ -555,5 +555,9 @@ return [
    "Capabilities should be created from code since there is the only place they're used." => "Capabilities should be created from code since there is the only place they're used.",
    "Capability" => "Capability",
    "Capabilities updated." => "Capabilities updated.",
+   "Toggle navigation" => "Toggle navigation",
+   "Go to dashboard" => "Go to dashboard",
+   "Home" => "Home",
+   "Post type deleted" => "Post type deleted",
    "" => "",
 ];
