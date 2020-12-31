@@ -15,7 +15,7 @@
             @endif
 
             @php
-                $translation = App\Helpers\CPML::getTranslatedCategory($category->id, $languageClass->getID($languageCode))
+                $translation = App\Helpers\VPML::getTranslatedCategory($category->id, $languageClass->getID($languageCode))
             @endphp
 
             <tr>

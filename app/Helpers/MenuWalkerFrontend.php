@@ -43,7 +43,7 @@ class MenuWalkerFrontend implements IMenuWalker
     public function __construct( $menu, $languageID = null )
     {
         if ( empty( $languageID ) ) {
-            $languageID = CPML::getDefaultLanguageID();
+            $languageID = VPML::getDefaultLanguageID();
         }
         $menu = sanitize_file_name( $menu );
         $theMenu = Menu::where( 'language_id', $languageID )
@@ -101,8 +101,8 @@ class MenuWalkerFrontend implements IMenuWalker
      */
     public function outputHtml( array $menuItems = [] )
     {
-        if ( $this->menu && ( $this->hasMenuItems() || has_action( 'contentpress/menu::' . $this->menu->slug ) ) ) {
-            do_action( "contentpress/menu::{$this->menu->slug}/before", $this->menu );
+        if ( $this->menu && ( $this->hasMenuItems() || has_action( 'valpress/menu::' . $this->menu->slug ) ) ) {
+            do_action( "valpress/menu::{$this->menu->slug}/before", $this->menu );
 
             if ( 'megamenu' == $this->displayAs ) {
                 $menu = new MegaMenuBuilder( $this->menu, $this->menuItems );
@@ -117,9 +117,9 @@ class MenuWalkerFrontend implements IMenuWalker
                 $menu->outputHtml();
             }
 
-            do_action( 'contentpress/menu::' . esc_attr( $this->menu->slug ), $this->menu );
+            do_action( 'valpress/menu::' . esc_attr( $this->menu->slug ), $this->menu );
 
-            do_action( "contentpress/menu::{$this->menu->slug}/after", $this->menu );
+            do_action( "valpress/menu::{$this->menu->slug}/after", $this->menu );
         }
     }
 

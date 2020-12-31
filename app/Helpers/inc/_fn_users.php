@@ -3,7 +3,7 @@
  * This file stores all functions related to users
  */
 
-use App\Helpers\CPML;
+use App\Helpers\VPML;
 use App\Models\User;
 use App\Models\UserMeta;
 use Illuminate\Contracts\Auth\Authenticatable;
@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\File;
  * @param bool $matchAll Whether or not the current user must have all capabilities when provided as an array
  * @return bool
  */
-function cp_current_user_can( $capabilities, $matchAll = false )
+function cp_current_user_can( $capabilities, $matchAll = false ): bool
 {
     $user = cp_get_current_user();
 
@@ -50,7 +50,7 @@ function cp_current_user_can( $capabilities, $matchAll = false )
  * @param string $capability
  * @return bool
  */
-function cp_user_can( $user, $capability )
+function cp_user_can( $user, $capability ): bool
 {
 
     if ( $user instanceof User ) {
@@ -74,14 +74,14 @@ function cp_get_current_user()
 
 /**
  * Retrieve the ID of the current user
- * @return null|int
+ * @return int
  */
-function cp_get_current_user_id()
+function cp_get_current_user_id(): int
 {
     if ( $user = cp_get_current_user() ) {
         return $user->id;
     }
-    return null;
+    return 0;
 }
 
 function cp_is_user_logged_in()
@@ -89,7 +89,7 @@ function cp_is_user_logged_in()
     return ( $user = cp_get_current_user() );
 }
 
-function cp_get_user_profile_image_url( $userID, $languageID = null )
+function cp_get_user_profile_image_url( $userID, $languageID = null ): string
 {
     $user = User::find( $userID );
     if ( !$user ) {
@@ -99,7 +99,7 @@ function cp_get_user_profile_image_url( $userID, $languageID = null )
     $userMeta = $user->user_metas->where( 'meta_name', '_profile_image' );
 
     if ( empty( $languageID ) ) {
-        $languageID = CPML::getDefaultLanguageID();
+        $languageID = VPML::getDefaultLanguageID();
     }
 
     $userMeta = $userMeta->where( 'language_id', $languageID )->first();
@@ -141,7 +141,7 @@ function cp_get_user_meta( $meta_name, $userID = null, $languageID = null, $defa
     return $defaultValue;
 }
 
-function cp_set_user_meta( $meta_name, $meta_value = null, $userID = null, $languageID = null )
+function cp_set_user_meta( $meta_name, $meta_value = null, $userID = null, $languageID = null ): bool
 {
     if ( !cp_is_user_logged_in() ) {
         return false;
@@ -175,7 +175,7 @@ function cp_set_user_meta( $meta_name, $meta_value = null, $userID = null, $lang
     return true;
 }
 
-function cp_get_user_display_name( User $user )
+function cp_get_user_display_name( User $user ): string
 {
     if ( empty( $user->display_name ) ) {
         return $user->name;

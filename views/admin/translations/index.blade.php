@@ -51,7 +51,7 @@
                                         <ul class="list-unstyled">
                                             @php
                                                 /**@var \App\Helpers\TranslationManager $translations_manager*/
-                                                  $files = $translations_manager->getFiles($langCode, CONTENTPRESS_TYPE_CORE);
+                                                  $files = $translations_manager->getFiles($langCode, VALPRESS_TYPE_CORE);
                                             @endphp
                                             @foreach($files as $splFileInfo)
                                                 @php
@@ -65,7 +65,7 @@
                                                 @endphp
                                                 <li>
                                                     <a href="{{route('admin.translations.core', [
-                                                                    'type' => CONTENTPRESS_TYPE_CORE,
+                                                                    'type' => VALPRESS_TYPE_CORE,
                                                                     'code' => $langCode,
                                                                     'fn'=> $fn
                                                                 ])}}" class="{{$activeClass}}">

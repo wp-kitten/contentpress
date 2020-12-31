@@ -1,9 +1,9 @@
 <?php
 
-use App\Helpers\CPML;
+use App\Helpers\VPML;
 use App\Models\Language;
 
-if ( !defined( 'CONTENTPRESS_VERSION' ) ) {
+if ( !defined( 'VALPRESS_VERSION' ) ) {
     exit;
 }
 
@@ -13,7 +13,7 @@ if ( !defined( 'CONTENTPRESS_VERSION' ) ) {
  */
 function cp_is_multilingual(): bool
 {
-    return CPML::isMultilingual();
+    return VPML::isMultilingual();
 }
 
 /**
@@ -21,7 +21,7 @@ function cp_is_multilingual(): bool
  * @param string $langCode
  * @return string
  */
-function cp_get_flag_class( $langCode ): string
+function cp_get_flag_class( string $langCode ): string
 {
     //#! Since the vendor we use for flags doesn't have a flag for "en"...
     if ( 'en' == $langCode ) {
@@ -46,7 +46,7 @@ function cp_get_language( $idCode )
  */
 function cp_get_backend_user_language_id(): int
 {
-    $languageCode = CPML::getBackendUserLanguageCode();
+    $languageCode = VPML::getBackendUserLanguageCode();
     $languageID = ( new Language() )->getID( $languageCode );
     return $languageID;
 }
@@ -57,7 +57,7 @@ function cp_get_backend_user_language_id(): int
  */
 function cp_get_frontend_user_language_id(): int
 {
-    $languageCode = CPML::getFrontendLanguageCode();
+    $languageCode = VPML::getFrontendLanguageCode();
     $languageID = ( new Language() )->getID( $languageCode );
     return $languageID;
 }

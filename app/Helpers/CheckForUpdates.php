@@ -6,12 +6,12 @@ use App\Models\Options;
 use Illuminate\Support\Facades\Http;
 
 /**
- * Class ContentPressCheckForUpdates
+ * Class CheckForUpdates
  * @package App\Helpers
  *
  * Helper class used internally to check for available updates for the application, themes and plugins
  */
-class ContentPressCheckForUpdates
+class CheckForUpdates
 {
     /**
      * @var Options|null
@@ -35,8 +35,8 @@ class ContentPressCheckForUpdates
      */
     public function run( $force = false )
     {
-        //#! Check and store info in option: contentpress_updates
-        $updatesInfo = $this->options->getOption( 'contentpress_updates', [ 'last_check' => null, 'plugins' => [], 'themes' => [], 'core' => [] ] );
+        //#! Check and store info in option: valpress_updates
+        $updatesInfo = $this->options->getOption( 'valpress_updates', [ 'last_check' => null, 'plugins' => [], 'themes' => [], 'core' => [] ] );
         if ( !is_array( $updatesInfo ) ) {
             $updatesInfo = [ 'plugins' => [], 'themes' => [], 'core' => [] ];
         }
@@ -46,7 +46,7 @@ class ContentPressCheckForUpdates
             $updatesInfo[ 'last_check' ] = null;
         }
         if ( !$force && $updatesInfo[ 'last_check' ] ) {
-            $expires = ( intval( $updatesInfo[ 'last_check' ] ) ) + intval( apply_filters( 'contentpress/admin/update-interval', CP_DAY_IN_SECONDS ) );
+            $expires = ( intval( $updatesInfo[ 'last_check' ] ) ) + intval( apply_filters( 'valpress/admin/update-interval', CP_DAY_IN_SECONDS ) );
             //#! Not yet expired
             if ( $expires > time() ) {
                 return;
@@ -63,7 +63,7 @@ class ContentPressCheckForUpdates
         //#! Check core for update
         $coreUpdateInfo = $this->__checkCoreForUpdate();
         if ( !empty( $coreUpdateInfo ) ) {
-            if ( version_compare( $coreUpdateInfo[ 'version' ], CONTENTPRESS_VERSION, '>' ) ) {
+            if ( version_compare( $coreUpdateInfo[ 'version' ], VALPRESS_VERSION, '>' ) ) {
                 $updatesInfo[ 'core' ] = $coreUpdateInfo;
             }
         }
@@ -132,7 +132,7 @@ class ContentPressCheckForUpdates
         }
 
         $updatesInfo[ 'last_check' ] = time();
-        $this->options->addOption( 'contentpress_updates', $updatesInfo );
+        $this->options->addOption( 'valpress_updates', $updatesInfo );
     }
 
     /**
@@ -141,7 +141,7 @@ class ContentPressCheckForUpdates
      * @param string $url The URL to check for plugin updates
      *
      * @return bool|array Boolean false on error, array on success
-     * @uses filter 'contentpress/plugin/check-for-update/args'
+     * @uses filter 'valpress/plugin/check-for-update/args'
      */
     private function __checkPluginForUpdate( string $name, string $url )
     {
@@ -151,7 +151,7 @@ class ContentPressCheckForUpdates
 
         //#! Allows developers to inject other required fields such as authentication
         //#! Expected return: associative array ( ex: key => value )
-        $args = \apply_filters( 'contentpress/plugin/check-for-update/args', $name );
+        $args = \apply_filters( 'valpress/plugin/check-for-update/args', $name );
         if ( !is_array( $args ) ) {
             $args = [
                 'name' => $name,
@@ -195,7 +195,7 @@ class ContentPressCheckForUpdates
      * @param string $url The URL to check for theme updates
      *
      * @return bool|array Boolean false on error, array on success
-     * @uses filter 'contentpress/theme/check-for-update/args'
+     * @uses filter 'valpress/theme/check-for-update/args'
      */
     private function __checkThemeForUpdate( string $name, string $url )
     {
@@ -205,7 +205,7 @@ class ContentPressCheckForUpdates
 
         //#! Allows developers to inject other required fields such as authentication
         //#! Expected return: associative array ( ex: key => value )
-        $args = \apply_filters( 'contentpress/theme/check-for-update/args', $name );
+        $args = \apply_filters( 'valpress/theme/check-for-update/args', $name );
         if ( !is_array( $args ) ) {
             $args = [
                 'name' => $name,
@@ -239,20 +239,20 @@ class ContentPressCheckForUpdates
      */
     private function __checkCoreForUpdate()
     {
-        if ( '' == CONTENTPRESS_API_URL ) {
+        if ( '' == VALPRESS_API_URL ) {
             return false;
         }
 
-        $url = path_combine( CONTENTPRESS_API_URL, 'updates' );
+        $url = path_combine( VALPRESS_API_URL, 'updates' );
         $response = Http::get( $url )->json();
 
         if ( empty( $response ) ) {
             return false;
         }
         if ( isset( $response[ 'data' ][ 'core' ] ) ) {
-            if ( version_compare( $response[ 'data' ][ 'core' ], CONTENTPRESS_VERSION, '>' ) ) {
+            if ( version_compare( $response[ 'data' ][ 'core' ], VALPRESS_VERSION, '>' ) ) {
                 return [
-                    'display_name' => esc_html( __( 'a.ContentPress' ) ),
+                    'display_name' => esc_html( __( 'a.ValPress' ) ),
                     'version' => $response[ 'data' ][ 'core' ],
                 ];
             }

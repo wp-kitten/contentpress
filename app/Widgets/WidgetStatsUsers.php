@@ -27,7 +27,7 @@ class WidgetStatsUsers extends AbstractWidgetBase
             $this->setData( $info );
 
             ScriptsManager::enqueueFooterScript( 'Chart.min.js', asset( 'vendor/admin-template/plugins/chart.js' ) );
-            add_action( 'contentpress/admin/footer', [ $this, '__printInlineScripts' ] );
+            add_action( 'valpress/admin/footer', [ $this, '__printInlineScripts' ] );
         }
     }
 
@@ -62,7 +62,7 @@ class WidgetStatsUsers extends AbstractWidgetBase
              data-class="<?php esc_attr_e( __CLASS__ ); ?>">
             <div class="card-body">
                 <h4 class="card-title">
-                    <?php echo \apply_filters( 'contentpress/widget/title', esc_html( __( 'a.Users' ) ), __CLASS__ ); ?>
+                    <?php echo \apply_filters( 'valpress/widget/title', esc_html( __( 'a.Users' ) ), __CLASS__ ); ?>
                 </h4>
                 <div class="d-flex flex-wrap align-items-baseline">
                     <h2 class="mr-3"><?php esc_html_e( $usersCount ); ?></h2>

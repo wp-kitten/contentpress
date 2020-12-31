@@ -57,7 +57,7 @@
         </div>
         <div class="col-md-4">
             <div class="tile">
-                <img src="{{$mediaHelper->getUrl($file->path)}}" alt="{{$file->title}}" class="contentpress-thumbnail"/>
+                <img src="{{$mediaHelper->getUrl($file->path)}}" alt="{{$file->title}}" class="valpress-thumbnail"/>
 
                 <div class="mt-4">
                     <label for="media-url-field">{{__('a.Url')}}</label>

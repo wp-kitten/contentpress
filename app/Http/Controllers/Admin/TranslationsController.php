@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\CPML;
+use App\Helpers\VPML;
 use App\Helpers\PluginsManager;
 use App\Helpers\ThemesManager;
 use App\Helpers\TranslationManager;
@@ -29,7 +29,7 @@ class TranslationsController extends PostsController
         $edited_dirname = ( $this->request->has( 'dir' ) ? $this->request->get( 'dir' ) : '' );
 
         return view( 'admin.translations.index' )->with( [
-            'default_language_code' => CPML::getDefaultLanguageCode(),
+            'default_language_code' => VPML::getDefaultLanguageCode(),
             'edited_type' => $editedType,
             'edited_language_code' => $editedLanguageCode,
             'edited_language_file' => $edited_fn,
@@ -59,7 +59,7 @@ class TranslationsController extends PostsController
         return view( 'admin.translations.plugins' )->with( [
             'plugins' => $pluginsManager->getAllPlugins(),
             'has_plugins' => !empty( $pluginsManager->getAllPlugins() ),
-            'default_language_code' => CPML::getDefaultLanguageCode(),
+            'default_language_code' => VPML::getDefaultLanguageCode(),
             'edited_type' => $editedType,
             'edited_language_code' => $editedLanguageCode,
             'edited_language_file' => $edited_fn,
@@ -89,7 +89,7 @@ class TranslationsController extends PostsController
         return view( 'admin.translations.themes' )->with( [
             'themes' => $themesManager->getInstalledThemes(),
             'has_themes' => !empty( $themesManager->getInstalledThemes() ),
-            'default_language_code' => CPML::getDefaultLanguageCode(),
+            'default_language_code' => VPML::getDefaultLanguageCode(),
             'edited_type' => $editedType,
             'edited_language_code' => $editedLanguageCode,
             'edited_language_file' => $edited_fn,

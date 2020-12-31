@@ -5,7 +5,7 @@ namespace App\Providers\Services;
 use App\Events\AppLoadedEvent;
 use Illuminate\Support\ServiceProvider;
 
-class ContentPressAppService extends ServiceProvider
+class ValPressAppService extends ServiceProvider
 {
     /**
      * Register services.

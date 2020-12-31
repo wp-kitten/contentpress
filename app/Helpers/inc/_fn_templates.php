@@ -3,7 +3,7 @@
  * This file stores all functions related to templates
  */
 
-use App\Helpers\CPML;
+use App\Helpers\VPML;
 use App\Models\Category;
 use App\Models\Post;
 use App\Models\PostComments;
@@ -121,7 +121,7 @@ function cp_the_date( $post, $withTimestamp = false ): string
 function cp_get_user_related_posts( $userID, $howMany = 4, $excludePostID = null, $languageID = null, $postTypeName = 'post' )
 {
     if ( empty( $languageID ) ) {
-        $languageID = CPML::getDefaultLanguageID();
+        $languageID = VPML::getDefaultLanguageID();
     }
 
     $user = User::find( $userID );
@@ -191,11 +191,11 @@ function cp_get_search_query(): string
  * @param bool $showEllipsis
  * @return string
  *
- * @uses filter contentpress/post/excerpt
+ * @uses filter valpress/post/excerpt
  */
 function cp_post_excerpt( $post, $showEllipsis = true )
 {
-    $excerpt = apply_filters( 'contentpress/post/excerpt', $post->excerpt );
+    $excerpt = apply_filters( 'valpress/post/excerpt', $post->excerpt );
     if ( !empty( $excerpt ) && $showEllipsis ) {
         $excerpt = trim( $excerpt ) . ' [...]';
     }
@@ -238,11 +238,11 @@ function cp_is_page()
  * Retrieve body tag classes
  * @param array $classes
  * @return string
- * @uses filter contentpress/body-class
+ * @uses filter valpress/body-class
  */
 function cp_body_classes( array $classes = [] ): string
 {
-    $classes = apply_filters( 'contentpress/body-class', $classes );
+    $classes = apply_filters( 'valpress/body-class', $classes );
     if ( !empty( $classes ) ) {
         $classes = array_unique( $classes );
         $classes = array_map( 'trim', $classes );
@@ -255,11 +255,11 @@ function cp_body_classes( array $classes = [] ): string
  * Print post classes
  * @param array $classes
  * @return string
- * @uses filter contentpress/body-class
+ * @uses filter valpress/body-class
  */
 function cp_post_classes( array $classes = [] ): string
 {
-    $classes = apply_filters( 'contentpress/post-class', $classes );
+    $classes = apply_filters( 'valpress/post-class', $classes );
     if ( !empty( $classes ) ) {
         $classes = array_unique( $classes );
         $classes = array_map( 'trim', $classes );
@@ -401,7 +401,7 @@ function cp_activate_menu_item( string $menuItemUrl, $activeClass = 'active' ): 
 function cp_get_related_posts( Category $category, $howMany = 4, $excludePostID = null, $languageID = null, $postTypeName = 'post' )
 {
     if ( empty( $languageID ) ) {
-        $languageID = CPML::getDefaultLanguageID();
+        $languageID = VPML::getDefaultLanguageID();
     }
 
     $postType = PostType::where( 'name', $postTypeName )->first();

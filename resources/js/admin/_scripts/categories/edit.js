@@ -41,7 +41,7 @@ jQuery(function ($) {
 
             elementsMap[theForm.attr('id')].push(textAreaId);
 
-            ContentPressTextEditor.register(textAreaId, new Quill('#' + textAreaId + '-editor', {
+            ValPressTextEditor.register(textAreaId, new Quill('#' + textAreaId + '-editor', {
                 modules: {
                     toolbar: [
                         [{header: [false]}],
@@ -56,7 +56,7 @@ jQuery(function ($) {
     }).on('submit', function (e) {
         var textareas = elementsMap[$(this).attr('id')];
         textareas.map(function (id, x) {
-            $('#' + id).val(ContentPressTextEditor.getHTML(id));
+            $('#' + id).val(ValPressTextEditor.getHTML(id));
             return id;
         });
     });

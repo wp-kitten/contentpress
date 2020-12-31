@@ -14,7 +14,7 @@ Required param: $fk_value
         "use strict";
 
         //#! Add
-        var ContentPressCustomFields = {
+        var ValPressCustomFields = {
             locale: window.AppLocale,
             ajax_actions: {
                 add: 'add_custom_field',
@@ -287,7 +287,7 @@ Required param: $fk_value
             },
         };
 
-        ContentPressCustomFields.init();
+        ValPressCustomFields.init();
     } );
 </script>
 

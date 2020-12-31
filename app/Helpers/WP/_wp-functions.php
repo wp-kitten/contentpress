@@ -180,7 +180,7 @@ function wp_is_stream( $path )
 }
 
 /**
- * Check whether variable is a ContentPress Error.
+ * Check whether variable is a ValPress Error.
  *
  * Returns true if $thing is an object of the WP_Error class.
  *
@@ -798,5 +798,5 @@ function wp_is_mobile()
      * @since 4.9.0
      *
      */
-    return apply_filters( 'contentpress/wp_is_mobile', $is_mobile );
+    return apply_filters( 'valpress/wp_is_mobile', $is_mobile );
 }

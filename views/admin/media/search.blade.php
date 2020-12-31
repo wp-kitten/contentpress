@@ -36,14 +36,14 @@
     @include('admin.partials.notices')
 
     @if(cp_current_user_can('list_media'))
-        <div class="row contentpress-media-list">
+        <div class="row valpress-media-list">
             @forelse($files as $file)
                 <div class="entry">
                     <div class="item">
                         <div class="thumbnail">
                             <div class="centered">
-                                <a href="{{$mediaHelper->getUrl($file->path)}}" class="js-contentpress-thumbnail" data-id="{{$file->id}}">
-                                    <img src="{{$mediaHelper->getUrl($file->path)}}" alt="{{$file->title}}" class="contentpress-thumbnail" title="{{__('a.Click to preview')}}"/>
+                                <a href="{{$mediaHelper->getUrl($file->path)}}" class="js-valpress-thumbnail" data-id="{{$file->id}}">
+                                    <img src="{{$mediaHelper->getUrl($file->path)}}" alt="{{$file->title}}" class="valpress-thumbnail" title="{{__('a.Click to preview')}}"/>
                                 </a>
                                 <div class="flex thumbnail-actions align-content-between justify-content-between">
                                     <a href="{{route('admin.media.edit', $file->id)}}" class="thumbnail-edit-link ml-2 text-primary">{{__('a.Edit')}}</a>

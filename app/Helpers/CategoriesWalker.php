@@ -153,7 +153,7 @@ class CategoriesWalker
                    title="<?php esc_attr_e( __( 'a.View' ) ); ?>"
                    target="_blank">
                     <?php
-                    if ( CPML::categoryMissingTranslations( $category->id ) ) {
+                    if ( VPML::categoryMissingTranslations( $category->id ) ) {
                         echo '<span class="bullet danger" title="'.esc_html(__('a.This category is missing translations.')).'"></span>';
                     }
                     else {
@@ -203,7 +203,7 @@ class CategoriesWalker
                            title="<?php esc_attr_e( __( 'a.View' ) ); ?>"
                            target="_blank">
                             <?php
-                            if ( CPML::categoryMissingTranslations( $subcategory->id ) ) {
+                            if ( VPML::categoryMissingTranslations( $subcategory->id ) ) {
                                 echo '<span class="bullet danger" title="'.esc_html(__('a.This category is missing translations.')).'"></span>';
                             }
                             else {

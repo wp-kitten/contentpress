@@ -12,7 +12,7 @@ window.AppTextEditor = {
 jQuery( function ($) {
     "use strict";
 
-    const LOCAL_STORAGE_KEY = 'contentpress_admin';
+    const LOCAL_STORAGE_KEY = 'valpress_admin';
 
     //#! onLoad
     const LocalStorage = {

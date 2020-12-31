@@ -4,17 +4,17 @@
  */
 
 use App\Models\Category;
-use App\Helpers\CPML;
+use App\Helpers\VPML;
 use App\Helpers\ImageHelper;
 use App\Helpers\MediaHelper;
 use App\Models\MediaFile;
 use App\Models\Post;
 use App\Models\PostMeta;
 
-function cp_get_category_image_url( $categoryID, $languageID = 0 )
+function cp_get_category_image_url( $categoryID, $languageID = 0 ):string
 {
     if ( empty( $languageID ) ) {
-        $languageID = CPML::getDefaultLanguageID();
+        $languageID = VPML::getDefaultLanguageID();
     }
 
     $info = cp_get_category_image_info( $categoryID, $languageID );
@@ -27,7 +27,7 @@ function cp_get_category_image_url( $categoryID, $languageID = 0 )
 function cp_get_category_image_info( $categoryID, $languageID = 0 )
 {
     if ( empty( $languageID ) ) {
-        $languageID = CPML::getDefaultLanguageID();
+        $languageID = VPML::getDefaultLanguageID();
     }
 
     $category = Category::find( $categoryID );
@@ -53,27 +53,13 @@ function cp_get_category_image_info( $categoryID, $languageID = 0 )
     ];
 }
 
-function cp_post_has_featured_image( Post $post )
+function cp_post_has_featured_image( Post $post ):bool
 {
     $info = cp_post_get_featured_image_info( $post->id );
     return ( $info && !empty( $info[ 'url' ] ) );
 }
 
-/**
- * Retrieve the post's featured image (with srcset)
- * @param App\Models\Post $post
- * @param string $pictureClass
- * @param string $imageClass
- * @param array $imageAttrs The list of attributes to set for the image tag
- * @param string $afterImage Content to be injected after the image tag
- * @return string
- */
-function cp_post_get_featured_image( Post $post, $pictureClass = '', $imageClass = '', $imageAttrs = [], $afterImage = '' )
-{
-    return ImageHelper::getImageSrcset( $post, $pictureClass, $imageClass, $imageAttrs, $afterImage );
-}
-
-function cp_post_get_featured_image_url( $postID )
+function cp_post_get_featured_image_url( $postID ):string
 {
     $info = cp_post_get_featured_image_info( $postID );
 
@@ -83,7 +69,7 @@ function cp_post_get_featured_image_url( $postID )
     return '';
 }
 
-function cp_post_get_featured_image_id( $postID )
+function cp_post_get_featured_image_id( $postID ):int
 {
     $info = cp_post_get_featured_image_info( $postID );
 
@@ -160,7 +146,7 @@ function cp_get_post_meta( $post, $metaName = false, $languageID = null )
  * @param string $afterImage The content to display before closing the </figure> tag
  * @return string The IMG html tag in a FIGURE tag
  */
-function cp_get_the_image( $size, $mediaFileID, $pictureClass = '', $imageClass = '', $imageAttrs = [], $afterImage = '' )
+function cp_get_the_image( $size, $mediaFileID, $pictureClass = '', $imageClass = '', $imageAttrs = [], $afterImage = '' ):string
 {
     $html = '';
     $mediaFile = MediaFile::find( $mediaFileID );

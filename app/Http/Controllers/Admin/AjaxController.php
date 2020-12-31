@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\CPML;
+use App\Helpers\VPML;
 use App\Helpers\ImageHelper;
 use App\Helpers\MediaHelper;
 use App\Helpers\MetaFields;
@@ -226,7 +226,7 @@ class AjaxController extends Controller
             return $this->responseError( __( 'a.Post type plural name is required.' ) );
         }
         if ( empty( $languageID ) ) {
-            $languageID = CPML::getDefaultLanguageID();
+            $languageID = VPML::getDefaultLanguageID();
         }
 
         $name = Str::lower( $name );
@@ -467,13 +467,13 @@ class AjaxController extends Controller
             'content' => $post_content,
             'excerpt' => $post_excerpt,
             'user_id' => $this->current_user()->getAuthIdentifier(),
-            'language_id' => CPML::getDefaultLanguageID(),
+            'language_id' => VPML::getDefaultLanguageID(),
             'post_type_id' => PostType::where( 'name', 'post' )->first()->id,
             'post_status_id' => PostStatus::where( 'name', 'draft' )->first()->id,
         ] );
 
         if ( $r->id ) {
-            do_action( 'contentpress/post_new', $r );
+            do_action( 'valpress/post_new', $r );
             return $this->responseSuccess( __( 'a.Post saved.' ) );
         }
         return $this->responseError( __( 'a.Post not saved.' ) );
@@ -486,7 +486,7 @@ class AjaxController extends Controller
         }
 
         $user_id = $this->request->user_id;
-        $languageID = CPML::getDefaultLanguageID();
+        $languageID = VPML::getDefaultLanguageID();
 
         $user = User::find( $user_id );
         if ( !$user ) {
@@ -550,7 +550,7 @@ class AjaxController extends Controller
         }
 
         $user_id = $this->request->get( 'user_id' );
-        $languageID = CPML::getDefaultLanguageID();
+        $languageID = VPML::getDefaultLanguageID();
 
         $user = User::find( $user_id );
         if ( !$user ) {
@@ -701,8 +701,8 @@ class AjaxController extends Controller
 
         //#! Load template
         return $this->responseSuccess( view( 'admin.post.partials.category-translations' )->with( [
-            'enabled_languages' => CPML::getLanguages(),
-            'default_language_code' => CPML::getDefaultLanguageCode(),
+            'enabled_languages' => VPML::getLanguages(),
+            'default_language_code' => VPML::getDefaultLanguageCode(),
             'category' => $category,
             'postType' => PostType::find( $category->post_type_id ),
         ] )->toHtml() );
@@ -1124,7 +1124,7 @@ class AjaxController extends Controller
             $mediaFileModel = $model->create( [
                 'slug' => Str::slug( $fileName ),
                 'path' => $subdirs . '/' . $fileName,
-                'language_id' => CPML::getDefaultLanguageID(),
+                'language_id' => VPML::getDefaultLanguageID(),
             ] );
 
             if ( !$mediaFileModel ) {
@@ -1172,7 +1172,7 @@ class AjaxController extends Controller
             //#! Delete from database
             $model = new MediaFile();
             $path = ltrim( $this->media->getBaseUploadPath( $path ), '/' );
-            $mf = $model->where( 'path', $path )->where( 'language_id', CPML::getDefaultLanguageID() )->first();
+            $mf = $model->where( 'path', $path )->where( 'language_id', VPML::getDefaultLanguageID() )->first();
 
             if ( $mf ) {
                 $this->__deleteImageSizes( $mf );

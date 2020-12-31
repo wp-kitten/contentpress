@@ -31,7 +31,7 @@ class MenuWalkerBackend implements IMenuWalker
     public function __construct( $menu, $languageID = null )
     {
         if ( empty( $languageID ) ) {
-            $languageID = CPML::getDefaultLanguageID();
+            $languageID = VPML::getDefaultLanguageID();
         }
 
         $theMenu = Menu::where( 'language_id', $languageID )

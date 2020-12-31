@@ -26,7 +26,7 @@ class SettingsSeeder extends Seeder
             'default_user_role' => Role::where( 'name', Role::ROLE_MEMBER )->first()->id,
             'default_comment_status' => CommentStatuses::where( 'name', 'pending' )->first()->id,
             'anyone_can_comment' => false,
-            'site_title' => 'ContentPress',
+            'site_title' => 'ValPress',
             'site_description' => 'WordPress-like application using the Laravel Framework.',
             'blog_title' => 'Blog',
             'date_format' => 'M j, Y',

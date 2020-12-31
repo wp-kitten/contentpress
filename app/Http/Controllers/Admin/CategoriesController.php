@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Models\Category;
 use App\Models\CategoryMeta;
 use App\Helpers\CategoriesWalker;
-use App\Helpers\CPML;
+use App\Helpers\VPML;
 use App\Helpers\MetaFields;
 use App\Helpers\ScriptsManager;
 use App\Helpers\Util;
@@ -135,7 +135,7 @@ class CategoriesController extends PostsController
 
             //#! Check if meta exists, since this meta is protected, it might have been created
             $meta = CategoryMeta::where( 'category_id', $r->id )
-                ->where( 'language_id', CPML::getDefaultLanguageID() )
+                ->where( 'language_id', VPML::getDefaultLanguageID() )
                 ->where( 'meta_name', '_category_image' )
                 ->first();
 
@@ -146,7 +146,7 @@ class CategoriesController extends PostsController
             else {
                 CategoryMeta::create( [
                     'category_id' => $r->id,
-                    'language_id' => CPML::getDefaultLanguageID(),
+                    'language_id' => VPML::getDefaultLanguageID(),
                     'meta_name' => '_category_image',
                     'meta_value' => $imageID,
                 ] );
@@ -217,7 +217,7 @@ class CategoriesController extends PostsController
 
             //#! Check if meta exists, since this meta is protected, it might have been created
             $meta = CategoryMeta::where( 'category_id', $id )
-                ->where( 'language_id', CPML::getDefaultLanguageID() )
+                ->where( 'language_id', VPML::getDefaultLanguageID() )
                 ->where( 'meta_name', '_category_image' )
                 ->first();
 
@@ -228,7 +228,7 @@ class CategoriesController extends PostsController
             else {
                 CategoryMeta::create( [
                     'category_id' => $id,
-                    'language_id' => CPML::getDefaultLanguageID(),
+                    'language_id' => VPML::getDefaultLanguageID(),
                     'meta_name' => '_category_image',
                     'meta_value' => $imageID,
                 ] );
@@ -265,7 +265,7 @@ class CategoriesController extends PostsController
             if ( !empty( $subcategories ) ) {
                 foreach ( $subcategories as $subCatId ) {
                     $meta = CategoryMeta::where( 'category_id', $subCatId )
-                        ->where( 'language_id', CPML::getDefaultLanguageID() )
+                        ->where( 'language_id', VPML::getDefaultLanguageID() )
                         ->where( 'meta_name', '_category_image' )
                         ->first();
                     if ( $meta && !empty( $meta->meta_value ) ) {
@@ -283,7 +283,7 @@ class CategoriesController extends PostsController
 
         //#! Delete the associated image if any of the category being deleted
         $meta = CategoryMeta::where( 'category_id', $id )
-            ->where( 'language_id', CPML::getDefaultLanguageID() )
+            ->where( 'language_id', VPML::getDefaultLanguageID() )
             ->where( 'meta_name', '_category_image' )
             ->first();
         $fileName = '';

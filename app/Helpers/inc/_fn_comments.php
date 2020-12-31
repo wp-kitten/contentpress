@@ -5,7 +5,7 @@ use App\Models\Post;
 use App\Models\PostComments;
 use App\Models\Settings;
 
-function cp_comments_open( ?Post $post )
+function cp_comments_open( ?Post $post ): bool
 {
     if ( !$post ) {
         return false;
@@ -22,12 +22,12 @@ function cp_comments_open( ?Post $post )
     return ( new Settings() )->getSetting( 'anyone_can_comment' );
 }
 
-function cp_has_comments( ?Post $post )
+function cp_has_comments( ?Post $post ): bool
 {
     return ( cp_get_comments_count( $post ) > 0 );
 }
 
-function cp_get_comments_count( ?Post $post )
+function cp_get_comments_count( ?Post $post ): int
 {
     if ( !$post ) {
         return 0;
@@ -35,7 +35,7 @@ function cp_get_comments_count( ?Post $post )
     return $post->post_comments->count();
 }
 
-function cp_comments_reply_form( ?Post $post, string $commentFormViewPath = 'partials.comment_form' )
+function cp_comments_reply_form( ?Post $post, string $commentFormViewPath = 'partials.comment_form' ): string
 {
     if ( !$post ) {
         return '';
@@ -43,7 +43,7 @@ function cp_comments_reply_form( ?Post $post, string $commentFormViewPath = 'par
     return view( $commentFormViewPath )->with( [ 'post' => $post ] );
 }
 
-function cp_get_comment_status_name( ?PostComments $comment )
+function cp_get_comment_status_name( ?PostComments $comment ): string
 {
     if ( !$comment ) {
         return '';
@@ -55,7 +55,7 @@ function cp_get_comment_status_name( ?PostComments $comment )
     return $commentStatus->display_name;
 }
 
-function cp_is_reply( ?PostComments $comment )
+function cp_is_reply( ?PostComments $comment ): bool
 {
     if ( !$comment ) {
         return false;
@@ -63,7 +63,7 @@ function cp_is_reply( ?PostComments $comment )
     return ( !empty( $comment->comment_id ) );
 }
 
-function cp_get_comment_url( ?PostComments $comment )
+function cp_get_comment_url( ?PostComments $comment ): string
 {
     if ( !$comment ) {
         return '';
@@ -73,7 +73,7 @@ function cp_get_comment_url( ?PostComments $comment )
     return $postUrl;
 }
 
-function cp_get_comment_author_name( ?PostComments $comment )
+function cp_get_comment_author_name( ?PostComments $comment ): string
 {
     if ( !$comment ) {
         return '';

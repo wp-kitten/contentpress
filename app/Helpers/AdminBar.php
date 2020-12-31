@@ -15,19 +15,19 @@ class AdminBar
     /**
      * AdminBar constructor.
      *
-     * @uses apply_filters( 'contentpress/admin-bar/show', true );
-     * @uses add_filter( 'contentpress/body-class', [ $this, 'addBodyClass' ] );
-     * @uses add_action( 'contentpress/site/head', [ $this, 'printHeadStyles' ], 200 );
-     * @uses add_action( 'contentpress/site/footer', [ $this, 'printFooterScript' ], 200 );
-     * @uses add_action( 'contentpress/after_body_open', [ $this, 'render' ], 0 );
+     * @uses apply_filters( 'valpress/admin-bar/show', true );
+     * @uses add_filter( 'valpress/body-class', [ $this, 'addBodyClass' ] );
+     * @uses add_action( 'valpress/site/head', [ $this, 'printHeadStyles' ], 200 );
+     * @uses add_action( 'valpress/site/footer', [ $this, 'printFooterScript' ], 200 );
+     * @uses add_action( 'valpress/after_body_open', [ $this, 'render' ], 0 );
      */
     private function __construct()
     {
-        if ( apply_filters( 'contentpress/admin-bar/show', true ) && cp_is_user_logged_in() ) {
-            add_action( 'contentpress/site/head', [ $this, 'printHeadStyles' ], 200 );
-            add_action( 'contentpress/site/footer', [ $this, 'printFooterScript' ], 200 );
-            add_filter( 'contentpress/body-class', [ $this, 'addBodyClass' ] );
-            add_action( 'contentpress/after_body_open', [ $this, 'render' ], 0 );
+        if ( apply_filters( 'valpress/admin-bar/show', true ) && cp_is_user_logged_in() ) {
+            add_action( 'valpress/site/head', [ $this, 'printHeadStyles' ], 200 );
+            add_action( 'valpress/site/footer', [ $this, 'printFooterScript' ], 200 );
+            add_filter( 'valpress/body-class', [ $this, 'addBodyClass' ] );
+            add_action( 'valpress/after_body_open', [ $this, 'render' ], 0 );
         }
     }
 
@@ -93,11 +93,11 @@ class AdminBar
     /**
      * Render the admin bar. Visible by default to authenticated users
      *
-     * @uses apply_filters( 'contentpress/admin-bar/entries', [] )
+     * @uses apply_filters( 'valpress/admin-bar/entries', [] )
      */
     public function render()
     {
-        $entries = apply_filters( 'contentpress/admin-bar/entries', [
+        $entries = apply_filters( 'valpress/admin-bar/entries', [
             'dashboard' => [
                 'title' => __( 'a.Go to dashboard' ),
                 'text' => __( 'a.Dashboard' ),

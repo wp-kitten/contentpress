@@ -8,21 +8,21 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 
-class ContentPressUpdate extends Command
+class ValPressUpdate extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'cp:update {--v=}';
+    protected $signature = 'vp:update {--v=}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'This command will attempt to update the ContentPress core to the specified version.';
+    protected $description = 'This command will attempt to update the ValPress core to the specified version.';
 
     /**
      * Create a new command instance.
@@ -41,7 +41,7 @@ class ContentPressUpdate extends Command
      */
     public function handle()
     {
-        $this->line( '>>> Attempting to update ContentPress' );
+        $this->line( '>>> Attempting to update ValPress' );
 
         $version = $this->option( 'v' );
         if(! $version){
@@ -50,7 +50,7 @@ class ContentPressUpdate extends Command
         }
 
         //#! Get archive from api server
-        $response = Http::get( path_combine( CONTENTPRESS_API_URL, 'get_update/core', $version ) );
+        $response = Http::get( path_combine( VALPRESS_API_URL, 'get_update/core', $version ) );
 
         if ( empty( $response ) ) {
             $this->line( '>>> There was no response from the api server.' );
@@ -66,7 +66,7 @@ class ContentPressUpdate extends Command
             if ( !File::isDirectory( $saveDirPath ) ) {
                 File::makeDirectory( $saveDirPath, 775, true );
             }
-            $fileSavePath = path_combine( $saveDirPath, 'contentpress.zip' );
+            $fileSavePath = path_combine( $saveDirPath, 'valpress.zip' );
             if ( !File::put( $fileSavePath, $response ) ) {
                 $this->line( '>>> An error occurred when trying to create the local download file. Check for permissions.' );
                 return 0;
@@ -92,11 +92,11 @@ class ContentPressUpdate extends Command
         File::delete( $fileSavePath );
 
         //#! Trigger the post-install actions
-        Artisan::call( 'cp:post-install', [
+        Artisan::call( 'vp:post-install', [
             //#! Do not delete the uploads directory
             '--d' => false,
         ] );
-        $this->line( '>>> ContentPress updated to version '.$version );
+        $this->line( '>>> ValPress updated to version '.$version );
         return 1;
     }
 }

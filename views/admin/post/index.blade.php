@@ -219,7 +219,7 @@
                                                         <a href="{{route('admin.'.$__post_type->name.'.delete', ['id' => $post->id])}}"
                                                            data-confirm="{{__('a.Are you sure you want to delete this post? All items associated with it will also be deleted.')}}"
                                                            class="text-danger post-delete">{{__('a.Delete')}}</a>
-                                                        {!! do_action('contentpress/post/actions', $post->id) !!}
+                                                        {!! do_action('valpress/post/actions', $post->id) !!}
                                                     </div>
                                                 </td>
 
@@ -266,7 +266,7 @@
                                                     @foreach($__languages as $code => $name)
                                                         <td class="text-center">
                                                             {{-- The default language is omitted by default --}}
-                                                            @if($translation = App\Helpers\CPML::getTranslatedPost($post->id, $code))
+                                                            @if($translation = App\Helpers\VPML::getTranslatedPost($post->id, $code))
                                                                 <a href="{{cp_get_post_view_url($translation)}}" title="{{__('a.Click to preview')}}" target="_blank">
                                                                     <i class="fa fa-check"></i>
                                                                 </a>
@@ -337,7 +337,7 @@
                                                                     @endif
 
                                                                     @php
-                                                                        $translatedPost = App\Helpers\CPML::getTranslatedPost($post->id, $languageCode)
+                                                                        $translatedPost = App\Helpers\VPML::getTranslatedPost($post->id, $languageCode)
                                                                     @endphp
 
                                                                     <tr>

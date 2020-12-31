@@ -4,77 +4,77 @@ This document lists all hooks registered by the application, and the order they'
 
 ### Frontend
 
-* contentpress/plugins/loaded
-* contentpress/theme/loaded ($themeName)
-* contentpress/app/loaded
-* [since v0.12] contentpress/frontend/init (Must be manually added to the layout file before the <!doctype html>
+* valpress/plugins/loaded
+* valpress/theme/loaded ($themeName)
+* valpress/app/loaded
+* [since v0.12] valpress/frontend/init (Must be manually added to the layout file before the <!doctype html>
   declaration)
 
 ### Backend
 
-* contentpress/plugins/loaded
-* contentpress/theme/loaded
-* contentpress/admin/init
-* contentpress/app/loaded
-* [since v0.12] contentpress/backend/init
+* valpress/plugins/loaded
+* valpress/theme/loaded
+* valpress/admin/init
+* valpress/app/loaded
+* [since v0.12] valpress/backend/init
 
 ### Backend Action Hooks
 
-* contentpress/admin/head
-* contentpress/admin/footer
-* contentpress/post/deleted ($postID)
-* contentpress/post/new (App\Models\Post $post)
-* contentpress/post/actions ($postID)
-* contentpress/comment/status_changed (PostComments $comment, $oldStatusID)
-* contentpress/enqueue_text_editor () -> cp_enqueue_text_editor_scripts()
-* contentpress/post_editor_content ($postContent = '')
-* contentpress/post_editor_content/before
-* contentpress/post_editor_content/after
-* contentpress/plugin/activate ($pluginDirName)
-* contentpress/plugin/activated ($pluginDirName, $pluginInfo)
-* contentpress/plugin/deactivate ($pluginDirName)
-* contentpress/plugin/deactivated ($pluginDirName, $pluginInfo)
-* contentpress/plugin/delete ($pluginDirName)
-* contentpress/plugin/deleted ($pluginDirName)
-* contentpress/admin/sidebar/menu
-* contentpress/admin/sidebar/menu/dashboard
-* contentpress/admin/sidebar/menu/posts/{$postType}
-* contentpress/admin/sidebar/menu/menus
-* contentpress/admin/sidebar/menu/media
-* contentpress/admin/sidebar/menu/plugins
-* contentpress/admin/sidebar/menu/themes
-* contentpress/admin/sidebar/menu/users
-* contentpress/admin/sidebar/menu/settings
+* valpress/admin/head
+* valpress/admin/footer
+* valpress/post/deleted ($postID)
+* valpress/post/new (App\Models\Post $post)
+* valpress/post/actions ($postID)
+* valpress/comment/status_changed (PostComments $comment, $oldStatusID)
+* valpress/enqueue_text_editor () -> cp_enqueue_text_editor_scripts()
+* valpress/post_editor_content ($postContent = '')
+* valpress/post_editor_content/before
+* valpress/post_editor_content/after
+* valpress/plugin/activate ($pluginDirName)
+* valpress/plugin/activated ($pluginDirName, $pluginInfo)
+* valpress/plugin/deactivate ($pluginDirName)
+* valpress/plugin/deactivated ($pluginDirName, $pluginInfo)
+* valpress/plugin/delete ($pluginDirName)
+* valpress/plugin/deleted ($pluginDirName)
+* valpress/admin/sidebar/menu
+* valpress/admin/sidebar/menu/dashboard
+* valpress/admin/sidebar/menu/posts/{$postType}
+* valpress/admin/sidebar/menu/menus
+* valpress/admin/sidebar/menu/media
+* valpress/admin/sidebar/menu/plugins
+* valpress/admin/sidebar/menu/themes
+* valpress/admin/sidebar/menu/users
+* valpress/admin/sidebar/menu/settings
 
 ### Frontend Action Hooks
 
-* contentpress/site/head
-* contentpress/site/footer
-* contentpress/submit_comment
-* contentpress/submit_comment
-* contentpress/submit_comment
-* contentpress/submit_comment
-* contentpress/post/footer
-* contentpress/menu::{menu-slug}/before
-* contentpress/menu::{menu-slug}/after
-* contentpress/menu::{menu-slug}
-* contentpress/comment/render (PostComments $comment, $withReplies = true)
-* contentpress/comment/replies (PostComments $comment)
-* contentpress/comment/actions (PostComments $comment, $postID)
-* contentpress/after_body_open (Must be manually added to the layout file after the <body> tag)
+* valpress/site/head
+* valpress/site/footer
+* valpress/submit_comment
+* valpress/submit_comment
+* valpress/submit_comment
+* valpress/submit_comment
+* valpress/post/footer
+* valpress/menu::{menu-slug}/before
+* valpress/menu::{menu-slug}/after
+* valpress/menu::{menu-slug}
+* valpress/comment/render (PostComments $comment, $withReplies = true)
+* valpress/comment/replies (PostComments $comment)
+* valpress/comment/actions (PostComments $comment, $postID)
+* valpress/after_body_open (Must be manually added to the layout file after the <body> tag)
 
 ### Backend Filter Hooks
 
-* ContentPress
-    * contentpress::image-sizes ($imageSizes = [])
-    * contentpress/the_post_editor_content ($postContent = '')
-    * contentpress/register_view_paths ($viewPaths = [])
-    * contentpress/share-buttons ($buttons)
-    * contentpress/post/excerpt ($postExcerpt)
-    * contentpress/admin/right_sidebar/show ($visibility = false) == verify necessity
-    * contentpress/share-buttons/list ($list = [])
-    * contentpress/texteditor/editor-styles ($stylesheetLinks = [])
-    * contentpress/widget/title ($title)
+* ValPress
+    * vp::image-sizes ($imageSizes = [])
+    * valpress/the_post_editor_content ($postContent = '')
+    * valpress/register_view_paths ($viewPaths = [])
+    * valpress/share-buttons ($buttons)
+    * valpress/post/excerpt ($postExcerpt)
+    * valpress/admin/right_sidebar/show ($visibility = false) == verify necessity
+    * valpress/share-buttons/list ($list = [])
+    * valpress/texteditor/editor-styles ($stylesheetLinks = [])
+    * valpress/widget/title ($title)
 
 * Imported from WordPress
     * kses_allowed_protocols ($protocols = [])
@@ -96,19 +96,19 @@ This document lists all hooks registered by the application, and the order they'
 
 ### Frontend Filter Hooks
 
-* contentpress/body-class ($classes = [])
-* contentpress/post-class ($classes = [])
+* valpress/body-class ($classes = [])
+* valpress/post-class ($classes = [])
 
 
 ### Frontend Auth Filters
 
-* contentpress/after-login/redirect-path (\App\Models\User $user)
+* valpress/after-login/redirect-path (\App\Models\User $user)
   Use this filter to override the default redirect path after user login
 
 ### Keep in mind
 
 ----
 
-**contentpress/app/loaded**
+**valpress/app/loaded**
    * The **auth()->user()** is not yet available even if logged in. 
-   * Use the new **contentpress/frontend/init** or **contentpress/backend/init** actions instead if you need to access the current user's info.
+   * Use the new **valpress/frontend/init** or **valpress/backend/init** actions instead if you need to access the current user's info.

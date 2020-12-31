@@ -1,4 +1,4 @@
-.contentpress-media-list {
+.valpress-media-list {
     display: grid;
     grid-template-columns: 1fr 1fr;
     grid-gap: 20px;
@@ -39,7 +39,7 @@
         }
     }
 
-    .contentpress-thumbnail {
+    .valpress-thumbnail {
         position: absolute;
         top: 0;
         left: 0;
@@ -81,7 +81,7 @@
     }
 }
 
-.modal .contentpress-media-list {
+.modal .valpress-media-list {
     max-height: 500px;
     overflow-y: auto;
 
@@ -133,8 +133,8 @@
 
 
 // Edit screen
-.contentpress-media-list.edit {
-    .contentpress-thumbnail {
+.valpress-media-list.edit {
+    .valpress-thumbnail {
         max-width: 100%;
     }
 }

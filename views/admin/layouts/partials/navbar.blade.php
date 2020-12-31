@@ -1,7 +1,7 @@
 {{--    Navbar     --}}
 <header class="app-header">
     <a class="app-header__logo" href="{{route('app.home')}}">
-        {{config('app.name', 'ContentPress')}}
+        {{config('app.name', 'ValPress')}}
     </a>
 
     {{-- Sidebar toggle button --}}

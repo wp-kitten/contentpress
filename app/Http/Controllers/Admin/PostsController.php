@@ -138,14 +138,14 @@ class PostsController extends AdminControllerBase
             //#! Set post meta
             MetaFields::add( new PostMeta(), 'post_id', $post->id, '_comments_enabled', 1, $defLangID );
 
-            do_action( 'contentpress/post/new', $post );
+            do_action( 'valpress/post/new', $post );
 
             return redirect()->route( "admin.{$this->_postType->name}.new", [
                 'id' => $post->id,
             ] );
         }
 
-        do_action( 'contentpress/enqueue_text_editor', $id, 'post-new' );
+        do_action( 'valpress/enqueue_text_editor', $id, 'post-new' );
 
         cp_enqueue_media_scripts();
 
@@ -187,7 +187,7 @@ class PostsController extends AdminControllerBase
 
         $post = Post::findOrFail( $id );
 
-        do_action( 'contentpress/enqueue_text_editor', $id, 'post-edit' );
+        do_action( 'valpress/enqueue_text_editor', $id, 'post-edit' );
 
         cp_enqueue_media_scripts();
 
@@ -278,7 +278,7 @@ class PostsController extends AdminControllerBase
                 'translated_post_id' => $id,
             ] );
 
-            do_action( 'contentpress/post/new', $post );
+            do_action( 'valpress/post/new', $post );
 
             //#! Create the autosave post meta
             PostMeta::create( [
@@ -303,7 +303,7 @@ class PostsController extends AdminControllerBase
         // get from  meta
         $post = Post::findOrFail( $new_post_id );
 
-        do_action( 'contentpress/enqueue_text_editor', $post->id, 'post-translate', $mainPost->id, $newLanguageID );
+        do_action( 'valpress/enqueue_text_editor', $post->id, 'post-translate', $mainPost->id, $newLanguageID );
 
         cp_enqueue_media_scripts();
 
@@ -371,7 +371,7 @@ class PostsController extends AdminControllerBase
         }
 
         if ( $this->__deletePost( $id ) ) {
-            do_action( 'contentpress/post/deleted', $id );
+            do_action( 'valpress/post/deleted', $id );
 
             return redirect()->back()->with( 'message', [
                 'class' => 'success',

@@ -25,13 +25,13 @@
                     </div>
                     <div class="content-section">
                         <p class="text-italic">
-                            {{__("a.This command will reinstall the current version of ContentPress.")}}
+                            {{__("a.This command will reinstall the current version of ValPress.")}}
                         </p>
                         <p class="text-right">
                             <a href="#!"
                                class="btn btn-primary js-reinstall-button"
                                data-form-id="form-reinstall-app"
-                               data-confirm="{{__('a.Are you sure you want to reinstall the current version of ContentPress?')}}"
+                               data-confirm="{{__('a.Are you sure you want to reinstall the current version of ValPress?')}}"
                             >{{__('a.Reinstall')}}</a>
                         </p>
                         <form id="form-reinstall-app" method="post" action="{{route('admin.dashboard.reinstall')}}">
@@ -51,7 +51,7 @@
                     </div>
                     <div class="content-section">
                         <p class="text-italic">
-                            {{__('a.This command will reset ContentPress to its default state. This means the database and the uploads directory will be wiped clean and the default data installed.')}}
+                            {{__('a.This command will reset ValPress to its default state. This means the database and the uploads directory will be wiped clean and the default data installed.')}}
                         </p>
                         <p class="text-right">
                             <a href="#!"

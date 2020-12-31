@@ -4,7 +4,7 @@ namespace App\Helpers;
 
 use App\Models\Options;
 
-abstract class ContentPressUpdaterAbstract
+abstract class UpdaterAbstract
 {
     /**
      * @var string
@@ -22,7 +22,7 @@ abstract class ContentPressUpdaterAbstract
     protected $options = null;
 
     /**
-     * ContentPressUpdaterAbstract constructor.
+     * UpdaterAbstract constructor.
      */
     public function __construct()
     {
@@ -30,7 +30,7 @@ abstract class ContentPressUpdaterAbstract
         $this->pluginsDir = PluginsManager::getInstance()->getPluginsDir();
 
         $this->options = new Options();
-        $this->dbInfo = $this->options->getOption( 'contentpress_updates', [ 'plugins' => [], 'themes' => [] ] );
+        $this->dbInfo = $this->options->getOption( 'valpress_updates', [ 'plugins' => [], 'themes' => [] ] );
         $this->themesUpdateInfo = $this->dbInfo[ 'themes' ];
         $this->pluginsUpdateInfo = $this->dbInfo[ 'plugins' ];
     }

@@ -78,7 +78,7 @@ jQuery( function ($) {
 jQuery( function ($) {
     "use strict";
 
-    ContentPressTextEditor.register( 'post_excerpt', new Quill( '#post_excerpt-editor', {
+    ValPressTextEditor.register( 'post_excerpt', new Quill( '#post_excerpt-editor', {
         modules: {
             toolbar: [
                 [{ header: [false] }],
@@ -129,7 +129,7 @@ jQuery( function ($) {
                 post_title: $( '#post_title' ).val(),
                 // keeps the post data size small
                 post_content: AppTextEditor.getContent( null ),
-                post_excerpt: ContentPressTextEditor.getHTML( 'post_excerpt' ),
+                post_excerpt: ValPressTextEditor.getHTML( 'post_excerpt' ),
                 post_categories: $( '#post_categories' ).val(),
                 post_tags: $( '#post_tags' ).val(),
                 sticky_featured: $( '#sticky_featured' ).val(),

@@ -6,23 +6,23 @@ use App\Models\Post;
  * The current version of the application
  * @var float
  */
-define( 'CONTENTPRESS_VERSION', '0.13' );
+define( 'VALPRESS_VERSION', '1.0' );
 /**
- * Holds the url to the ContentPress website
+ * Holds the url to the ValPress website
  * @var string
  */
-define( 'CONTENTPRESS_URL', 'http://contentpress.news' );
+define( 'VALPRESS_URL', 'https://valpress.net' );
 
 /**
  * Holds the url to the api server endpoint
  * @var string
  */
-define( 'CONTENTPRESS_API_URL', 'http://api.contentpress.news/api' );
+define( 'VALPRESS_API_URL', 'https://api.valpress.net/api' );
 /**
  * Stores the HTTP path to the marketplace site
  * @var string
  */
-define( 'CONTENTPRESS_MARKETPLACE_URL', 'http://api.contentpress.news' );
+define( 'VALPRESS_MARKETPLACE_URL', 'http://api.valpress.net' );
 
 /**
  * 4 digits year
@@ -46,9 +46,9 @@ define( 'TYPE_SUCCESS', 'X000001' );
 /*
  * Internal constants used mainly for translations
  */
-define( 'CONTENTPRESS_TYPE_CORE', 'core' );
-define( 'CONTENTPRESS_TYPE_PLUGIN', 'plugin' );
-define( 'CONTENTPRESS_TYPE_THEME', 'theme' );
+define( 'VALPRESS_TYPE_CORE', 'core' );
+define( 'VALPRESS_TYPE_PLUGIN', 'plugin' );
+define( 'VALPRESS_TYPE_THEME', 'theme' );
 
 /**
  * Global identifier to be used for forms

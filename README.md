@@ -1,16 +1,16 @@
-# ContentPress
+# ValPress
 WordPress-like application using the Laravel Framework.
 
 ## Reset to default state
 ```
 //#! Just the db structure
-php artisan cp:install --n
+php artisan vp:install --n
 
 //#! DB structure + the default dummy data
-php artisan cp:install --n --s
+php artisan vp:install --n --s
 
-//#! Installs the ContentPress Default Theme
-php artisan cp:install --t
+//#! Installs the ValPress Default Theme
+php artisan vp:install --t
 ```
  
 
@@ -21,7 +21,7 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 
 ## License
 
-The ContentPress CMS is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+The ValPress CMS is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
 
 
 ## Media Modal
@@ -50,7 +50,7 @@ The ContentPress CMS is open-sourced software licensed under the [MIT license](h
 
 **PHP**
 
-use **contentPressEnqueueMedia()** function to:
+use **valPressEnqueueMedia()** function to:
 * Load dependent scripts
 * Inject the Media Modal markup 
 

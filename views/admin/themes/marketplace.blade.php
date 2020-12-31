@@ -38,7 +38,7 @@
                                    target="_blank"
                                    title="{{__('a.Visit theme site')}}"
                                    class="theme-title @if($isActive) theme-active text-success @else text-dark @endif">
-                                    <img src="{{url(path_combine(CONTENTPRESS_MARKETPLACE_URL, 'themes', $themeDirName, $themeInfo['thumbnail']))}}"
+                                    <img src="{{url(path_combine(VALPRESS_MARKETPLACE_URL, 'themes', $themeDirName, $themeInfo['thumbnail']))}}"
                                          alt="{{$themeInfo['display_name']}}"
                                          class="img-thumbnail"/>
                                 </a>

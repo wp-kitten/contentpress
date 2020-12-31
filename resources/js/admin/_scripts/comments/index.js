@@ -16,7 +16,7 @@ jQuery( function ($) {
     } );
 
     //#! Quill
-    ContentPressTextEditor.register( 'comment_reply', new Quill( '#comment_content-editor', {
+    ValPressTextEditor.register( 'comment_reply', new Quill( '#comment_content-editor', {
         modules: {
             toolbar: [
                 [{ header: [false] }],
@@ -30,7 +30,7 @@ jQuery( function ($) {
 
     //#! On save button click, get the values from editor
     $( '#js-comment-submit-button' ).on( 'click', function (ev) {
-        $( '#comment-content-field' ).val( ContentPressTextEditor.getHTML( 'comment_reply' ) );
+        $( '#comment-content-field' ).val( ValPressTextEditor.getHTML( 'comment_reply' ) );
     } );
 } );
 

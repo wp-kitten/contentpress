@@ -50,12 +50,12 @@ class PluginsController extends AdminControllerBase
         ScriptsManager::enqueueFooterScript( 'plugins-index.js', asset( '_admin/js/plugins/index.js' ) );
 
         /**@var $cache Cache */
-        $cache = app( 'cp.cache' );
+        $cache = app( 'vp.cache' );
         $defaultPlugins = $cache->get( 'cp_default_plugins', [] ); // get from cache
 
         if ( empty( $defaultPlugins ) ) {
-            if ( '' != CONTENTPRESS_API_URL ) {
-                $response = Http::get( CONTENTPRESS_API_URL . '/plugins', [ 'verify' => false ] )->json();
+            if ( '' != VALPRESS_API_URL ) {
+                $response = Http::get( VALPRESS_API_URL . '/plugins', [ 'verify' => false ] )->json();
                 if ( is_array( $response ) && isset( $response[ 'data' ] ) ) {
                     $defaultPlugins = $response[ 'data' ];
                     $cache->set( 'cp_default_plugins', $defaultPlugins );
@@ -90,7 +90,7 @@ class PluginsController extends AdminControllerBase
                 ] );
             }
             foreach ( $plugins as $plugin ) {
-                do_action( 'contentpress/plugin/activate', $plugin );
+                do_action( 'valpress/plugin/activate', $plugin );
             }
         }
         elseif ( $this->request->has( '__deactivate_plugins' ) ) {
@@ -112,7 +112,7 @@ class PluginsController extends AdminControllerBase
             return $this->_forbidden();
         }
 
-        do_action( 'contentpress/plugin/activate', $plugin_dir_name );
+        do_action( 'valpress/plugin/activate', $plugin_dir_name );
         return redirect()->back()->with( 'message', [
             'class' => 'success',
             'text' => 'Plugin activated',
@@ -125,7 +125,7 @@ class PluginsController extends AdminControllerBase
             return $this->_forbidden();
         }
 
-        do_action( 'contentpress/plugin/deactivate', $plugin_dir_name );
+        do_action( 'valpress/plugin/deactivate', $plugin_dir_name );
         return redirect()->back()->with( 'message', [
             'class' => 'success',
             'text' => __( 'a.Plugin deactivated' ),
@@ -148,7 +148,7 @@ class PluginsController extends AdminControllerBase
             ] );
         }
 
-        do_action( 'contentpress/plugin/delete', $plugin_dir_name );
+        do_action( 'valpress/plugin/delete', $plugin_dir_name );
         return redirect()->route( 'admin.plugins.all' )->with( 'message', $this->pluginsManager->getNotice() );
     }
 
@@ -170,7 +170,7 @@ class PluginsController extends AdminControllerBase
         }
 
         foreach ( $plugins as $plugin_dir_name ) {
-            do_action( 'contentpress/plugin/deactivate', $plugin_dir_name );
+            do_action( 'valpress/plugin/deactivate', $plugin_dir_name );
         }
 
         $m = __( 'a.The selected plugin has been deactivated.' );
@@ -219,7 +219,7 @@ class PluginsController extends AdminControllerBase
 
         try {
             if ( $installed = ( new Marketplace() )->installPlugin( $plugin_dir_name, $version ) ) {
-                do_action( 'contentpress/plugin/activate', $plugin_dir_name );
+                do_action( 'valpress/plugin/activate', $plugin_dir_name );
             }
         }
         catch ( \Exception $e ) {

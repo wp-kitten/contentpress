@@ -51,9 +51,9 @@
             <div class="row">
                 <div class="col-lg-9 d-flex align-items-stretch">
                     <div id="post-editor-container" style="width: 100%;">
-                        {!! do_action('contentpress/post_editor_content/before') !!}
-                        {!! do_action('contentpress/post_editor_content', $post->content) !!}
-                        {!! do_action('contentpress/post_editor_content/after') !!}
+                        {!! do_action('valpress/post_editor_content/before') !!}
+                        {!! do_action('valpress/post_editor_content', $post->content) !!}
+                        {!! do_action('valpress/post_editor_content/after') !!}
                     </div>
                 </div>
 

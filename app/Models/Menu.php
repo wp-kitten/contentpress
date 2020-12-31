@@ -2,7 +2,7 @@
 
 namespace App\Models;
 
-use App\Helpers\CPML;
+use App\Helpers\VPML;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Str;
 
@@ -36,7 +36,7 @@ class Menu extends Model
     public function exists( $menuSlug, $languageID = null )
     {
         if ( empty( $languageID ) ) {
-            $languageID = CPML::getDefaultLanguageID();
+            $languageID = VPML::getDefaultLanguageID();
         }
         return $this->where( 'slug', $menuSlug )->where( 'language_id', $languageID )->first();
     }

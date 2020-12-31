@@ -286,4 +286,4 @@ if ( Schema::hasTable( 'post_types' ) ) {
  * Load routes from plugins
  * Plugins can use this action to inject their own routes
  */
-do_action( 'contentpress/plugins/loaded' );
+do_action( 'valpress/plugins/loaded' );

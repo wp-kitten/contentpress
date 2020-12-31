@@ -132,7 +132,7 @@ class CommentsWalker
             <?php
         }
         else {
-            do_action( 'contentpress/comment/render', $comment, $withReplies );
+            do_action( 'valpress/comment/render', $comment, $withReplies );
         }
     }
 
@@ -174,7 +174,7 @@ class CommentsWalker
             }
         }
         else {
-            do_action( 'contentpress/comment/replies', $comment );
+            do_action( 'valpress/comment/replies', $comment );
         }
     }
     //</editor-fold>
@@ -196,7 +196,7 @@ class CommentsWalker
             <?php
         }
         else {
-            do_action( 'contentpress/comment/actions', $comment, $this->postID );
+            do_action( 'valpress/comment/actions', $comment, $this->postID );
         }
     }
     //</editor-fold>

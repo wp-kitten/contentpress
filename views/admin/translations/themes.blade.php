@@ -66,7 +66,7 @@
 
                                     @php
                                         //#! Make sure the language directory exists
-                                        $langDir = $translations_manager->getLanguagesDirPath($langCode, CONTENTPRESS_TYPE_THEME, $edited_dir);
+                                        $langDir = $translations_manager->getLanguagesDirPath($langCode, VALPRESS_TYPE_THEME, $edited_dir);
                                     @endphp
                                     @if( ! \Illuminate\Support\Facades\File::isDirectory($langDir))
                                         <p class="text-description">{{__("a.The directory for the :language language was not found.", ['language' => $languageClass->getNameFrom($langCode)])}}</p>
@@ -104,7 +104,7 @@
                                             <div class="card-body">
                                                 <ul class="list-unstyled">
                                                     @php
-                                                        $files = $translations_manager->getFiles($langCode, CONTENTPRESS_TYPE_THEME, $edited_dir);
+                                                        $files = $translations_manager->getFiles($langCode, VALPRESS_TYPE_THEME, $edited_dir);
                                                     @endphp
                                                     @if(empty($files))
 
@@ -123,7 +123,7 @@
                                                         @endphp
                                                         <li>
                                                             <a href="{{route('admin.translations.themes', [
-                                                                    'type' => CONTENTPRESS_TYPE_THEME,
+                                                                    'type' => VALPRESS_TYPE_THEME,
                                                                     'code' => $langCode,
                                                                     'dir' => $edited_dir,
                                                                     'fn'=> $fn

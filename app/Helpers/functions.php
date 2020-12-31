@@ -3,7 +3,7 @@
  * Main functions file. This file is automatically loaded through composer.json
  */
 
-use App\Helpers\CPML;
+use App\Helpers\VPML;
 use App\Helpers\ImageHelper;
 use App\Helpers\MenuWalkerFrontend;
 use App\Helpers\ScriptsManager;
@@ -39,7 +39,7 @@ require_once( $crtDirPath . '/inc/_fn_users.php' );
 require_once( $crtDirPath . '/inc/_fn_comments.php' );
 require_once( $crtDirPath . '/inc/_fn_notices.php' );
 require_once( $crtDirPath . '/inc/_fn_multilanguage.php' );
-require_once( $crtDirPath . '/inc/_cp_admin.php' );
+require_once( $crtDirPath . '/inc/_fn_admin.php' );
 
 //#! Remove
 unset( $crtDirPath );
@@ -50,7 +50,7 @@ unset( $crtDirPath );
  */
 function cp_get_app_version()
 {
-    return CONTENTPRESS_VERSION;
+    return VALPRESS_VERSION;
 }
 
 /**
@@ -460,9 +460,9 @@ function cp_is_ajax()
  */
 function cp_enqueue_media_scripts()
 {
-    add_action( 'contentpress/admin/footer', function () {
+    add_action( 'valpress/admin/footer', function () {
         echo view( 'admin.media.modal' )->with( [
-            'files' => ( new MediaFile() )->where( 'language_id', CPML::getDefaultLanguageID() )->get(),
+            'files' => ( new MediaFile() )->where( 'language_id', VPML::getDefaultLanguageID() )->get(),
         ] )->toHtml();
     } );
 
@@ -548,9 +548,9 @@ function cp_login_logout_links()
 /*
  * Print header scripts/stylesheets/content
  */
-function contentpressHead()
+function valpressHead()
 {
-    do_action( 'contentpress/site/head' );
+    do_action( 'valpress/site/head' );
     ScriptsManager::printStylesheets();
     ScriptsManager::printLocalizedScripts();
     ScriptsManager::printHeadScripts();
@@ -559,15 +559,15 @@ function contentpressHead()
 /*
  * Print footer scripts/content
  */
-function contentpressFooter()
+function valpressFooter()
 {
-    do_action( 'contentpress/site/footer' );
+    do_action( 'valpress/site/footer' );
     ScriptsManager::printFooterScripts();
 }
 
 function cp_admin_head()
 {
-    do_action( 'contentpress/admin/head' );
+    do_action( 'valpress/admin/head' );
     ScriptsManager::printStylesheets();
     ScriptsManager::printLocalizedScripts();
     ScriptsManager::printHeadScripts();
@@ -575,7 +575,7 @@ function cp_admin_head()
 
 function cp_admin_footer()
 {
-    do_action( 'contentpress/admin/footer' );
+    do_action( 'valpress/admin/footer' );
     ScriptsManager::printFooterScripts();
 }
 
@@ -611,7 +611,7 @@ function cp_get_global_id()
 
 /**
  * Register the path to the language file that will be loaded based on the current locale.
- * Themes and plugins should use this function in the "contentpress/app/loaded" action
+ * Themes and plugins should use this function in the "valpress/app/loaded" action
  *
  * @param string $namespace The namespace to use for grouping the translations
  * @param string $langsDirPath The path to the languages directory, usually named "lang"
@@ -654,8 +654,8 @@ function cp_is_under_maintenance()
  */
 function cp_get_registered_dashboard_widgets()
 {
-    $dashWidgets = apply_filters( 'contentpress/dashboard/widgets', ( new Options() )->getOption( '_dashboard_widgets', [] ) );
-    $registeredWidgets = apply_filters( 'contentpress/dashboard/widgets/register', [] );
+    $dashWidgets = apply_filters( 'valpress/dashboard/widgets', ( new Options() )->getOption( '_dashboard_widgets', [] ) );
+    $registeredWidgets = apply_filters( 'valpress/dashboard/widgets/register', [] );
 
     $_tmpDashWidgets = [];
     foreach ( $dashWidgets as $section => $widgets ) {
@@ -784,11 +784,11 @@ function cp_ellipsis( string $string, int $maxLength = 50, string $textMore = '.
  * @param string $name
  *
  * @return string
- * @uses apply_filters('contentpress/category/name', $name)
+ * @uses apply_filters('valpress/category/name', $name)
  */
 function cp_cat_name( string $name ): string
 {
-    return apply_filters( 'contentpress/category/name', $name );
+    return apply_filters( 'valpress/category/name', $name );
 }
 
 /**

@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\CPML;
+use App\Helpers\VPML;
 use App\Helpers\MenuWalkerBackend;
 use App\Helpers\ScriptsManager;
 use App\Models\Menu;

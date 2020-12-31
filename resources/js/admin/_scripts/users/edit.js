@@ -93,7 +93,7 @@ jQuery(function ($) {
 jQuery(function ($) {
     "use strict";
 
-    ContentPressTextEditor.register('author_bio', new Quill('#field-bio-editor', {
+    ValPressTextEditor.register('author_bio', new Quill('#field-bio-editor', {
         modules: {
             toolbar: [
                 [{header: [false]}],
@@ -107,7 +107,7 @@ jQuery(function ($) {
 
     //#! On save button click, get the values from editors
     $('#js-acc-mgmt-update-btn').on('click', function (ev) {
-        $('#field-bio').val(ContentPressTextEditor.getHTML('author_bio'));
+        $('#field-bio').val(ValPressTextEditor.getHTML('author_bio'));
     });
 });
 //<editor-fold desc="wysiwyg-editors">

@@ -6,7 +6,7 @@ use Illuminate\Contracts\Container\BindingResolutionException;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 
-class PluginUpdater extends ContentPressUpdaterAbstract
+class PluginUpdater extends UpdaterAbstract
 {
 
     /**
@@ -55,7 +55,7 @@ class PluginUpdater extends ContentPressUpdaterAbstract
 
             //#! Remove entry from db cache
             unset( $this->dbInfo[ 'plugins' ][ $pluginFileName ] );
-            $this->options->addOption( 'contentpress_updates', $this->dbInfo );
+            $this->options->addOption( 'valpress_updates', $this->dbInfo );
             return true;
         }
         return false;

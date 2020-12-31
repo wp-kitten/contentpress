@@ -84,8 +84,8 @@ class ThemesManager
                 return;
             }
 
-            add_action( 'contentpress/theme_deleted', [ $this, '_action_theme_deleted' ], 20, 1 );
-            add_action( 'contentpress/switch_theme', [ $this, '_action_theme_activated' ], 20, 2 );
+            add_action( 'valpress/theme_deleted', [ $this, '_action_theme_deleted' ], 20, 1 );
+            add_action( 'valpress/switch_theme', [ $this, '_action_theme_activated' ], 20, 2 );
         }
     }
 
@@ -222,7 +222,7 @@ class ThemesManager
      *
      * @param $themeDirName
      *
-     * @hooked add_action( 'contentpress/theme_deleted', [ $this, '_action_theme_deleted' ], 20, 1 );
+     * @hooked add_action( 'valpress/theme_deleted', [ $this, '_action_theme_deleted' ], 20, 1 );
      * @see __construct()
      */
     public function _action_theme_deleted( $themeDirName )
@@ -244,7 +244,7 @@ class ThemesManager
      * @param string $newDirName
      * @param string $oldDirName
      *
-     * @hooked add_action( 'contentpress/switch_theme', [ $this, '_action_theme_activated' ], 20, 2 );
+     * @hooked add_action( 'valpress/switch_theme', [ $this, '_action_theme_activated' ], 20, 2 );
      * @see __construct()
      */
     public function _action_theme_activated( string $newDirName, string $oldDirName )
@@ -277,7 +277,7 @@ class ThemesManager
     /**
      * Attempts to load the currently active theme
      *
-     * @uses action('contentpress/theme/activated', $themeDirName)
+     * @uses action('valpress/theme/activated', $themeDirName)
      */
     private function __loadActiveTheme()
     {
@@ -294,7 +294,7 @@ class ThemesManager
         }
 
         //#! Attempt to activate the default theme
-        $defaultTheme = new Theme( env( 'DEFAULT_THEME_NAME', 'contentpress-default-theme' ) );
+        $defaultTheme = new Theme( env( 'DEFAULT_THEME_NAME', 'valpress-default-theme' ) );
         if ( $defaultTheme->isValid() ) {
             $defaultTheme->load();
             $this->_activeTheme = $defaultTheme;

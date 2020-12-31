@@ -77,6 +77,6 @@ mix
     .js('resources/js/admin/Utils.js', 'public/_admin/js')
     .js('resources/js/admin/sanitizer.js', 'public/_admin/js')
     .js('resources/js/admin/_scripts/admin-heartbeat.js', 'public/_admin/js')
-    .js('resources/js/admin/components/ContentPressTextEditor.js', 'public/_admin/js')
+    .js('resources/js/admin/components/ValPressTextEditor.js', 'public/_admin/js')
     .js('resources/js/admin/components/DropifyImageUploader.js', 'public/_admin/js')
 ;

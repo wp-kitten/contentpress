@@ -3,8 +3,8 @@
 namespace App\Providers;
 
 use App\Helpers\Cache;
-use App\Helpers\ContentPressCheckForUpdates;
-use App\Helpers\CPML;
+use App\Helpers\CheckForUpdates;
+use App\Helpers\VPML;
 use App\Helpers\Theme;
 use App\Helpers\ThemesManager;
 use App\Models\Options;
@@ -23,18 +23,18 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         /**
-         * Retrieve the reference to the instance of the internal ContentPressCheckForUpdates class
-         * @return ContentPressCheckForUpdates
+         * Retrieve the reference to the instance of the internal CheckForUpdates class
+         * @return CheckForUpdates
          */
         $this->app->bind( 'cp.updater', function ( $app ) {
-            return new ContentPressCheckForUpdates();
+            return new CheckForUpdates();
         } );
 
         /**
          * Retrieve the reference to the instance of the internal Cache class
          * @return Cache
          */
-        $this->app->bind( 'cp.cache', function ( $app ) {
+        $this->app->bind( 'vp.cache', function ( $app ) {
             return new Cache( $app );
         } );
 
@@ -63,7 +63,7 @@ class AppServiceProvider extends ServiceProvider
             if ( cp_is_multilingual() ) {
                 $locale = cp_get_user_meta( 'backend_user_current_language' );
                 if ( empty( $locale ) ) {
-                    $locale = CPML::getDefaultLanguageCode();
+                    $locale = VPML::getDefaultLanguageCode();
                 }
                 app()->setLocale( $locale );
             }

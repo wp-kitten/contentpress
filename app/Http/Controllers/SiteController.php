@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use App\Helpers\CPML;
+use App\Helpers\VPML;
 use App\Models\Post;
 use App\Models\PostStatus;
 use Illuminate\Contracts\Foundation\Application;
@@ -49,7 +49,7 @@ class SiteController extends Controller
     public function post_view( string $slug )
     {
         //#! Get the current language ID
-        $defaultLanguageID = CPML::getDefaultLanguageID();
+        $defaultLanguageID = VPML::getDefaultLanguageID();
         //#! Get the selected language in frontend
         $frontendLanguageID = cp_get_frontend_user_language_id();
 
@@ -117,7 +117,7 @@ class SiteController extends Controller
         }
 
         //#! Update the frontend locale so the post can be previewed correctly
-        CPML::setFrontendLanguageCode( $thePost->language->code );
+        VPML::setFrontendLanguageCode( $thePost->language->code );
 
         //#! Check the post type
         $postType = $thePost->post_type->name;

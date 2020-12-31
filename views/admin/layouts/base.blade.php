@@ -1,8 +1,8 @@
-@php do_action('contentpress/backend/init') @endphp
+@php do_action('valpress/backend/init') @endphp
 @php
     $locale = cp_get_user_meta( 'backend_user_current_language' );
     if( empty( $locale ) ) {
-        $locale = App\Helpers\CPML::getDefaultLanguageCode();
+        $locale = App\Helpers\VPML::getDefaultLanguageCode();
     }
     app()->setLocale($locale);
 @endphp<!doctype html>
@@ -124,7 +124,7 @@
     </div>
 
     <script src="{{asset('_admin/js/admin-heartbeat.js')}}"></script>
-    <script src="{{asset('_admin/js/ContentPressTextEditor.js')}}"></script>
+    <script src="{{asset('_admin/js/ValPressTextEditor.js')}}"></script>
     <script src="{{asset('vendor/selectize.js/dist/js/standalone/selectize.min.js')}}"></script>
     <script src="{{asset('vendor/quill/quill.min.js')}}"></script>
     <script src="{{asset('vendor/admin-template/popper.min.js')}}"></script>

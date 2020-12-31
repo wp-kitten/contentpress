@@ -9,22 +9,22 @@ use App\Helpers\ScriptsManager;
 use App\Models\Post;
 use App\Models\PostComments;
 
-add_action( 'contentpress/admin/head', function () {
+add_action( 'valpress/admin/head', function () {
     ScriptsManager::enqueueHeadScript( 'admin-js', asset( '_admin/js/admin.js' ) );
 } );
 
 /*
  * @see #57, #38
  */
-add_action( 'contentpress/post/deleted', function ( $postID ) {
+add_action( 'valpress/post/deleted', function ( $postID ) {
     //#! TODO: Implement the post_deleted action
 } );
 
-add_action( 'contentpress/post/new', function ( Post $post ) {
+add_action( 'valpress/post/new', function ( Post $post ) {
     //#! TODO: Implement the post_new action
 } );
 
-add_action( 'contentpress/comment/status_changed', function ( PostComments $comment, $oldStatusID ) {
+add_action( 'valpress/comment/status_changed', function ( PostComments $comment, $oldStatusID ) {
     //#! TODO: Implement the comment_status_changed action
 }, 10, 2 );
 
@@ -33,8 +33,8 @@ add_action( 'contentpress/comment/status_changed', function ( PostComments $comm
  *
  * These can be overridden by themes/plugins
  */
-add_action( 'contentpress/comment/render', '__contentpress_render_comment', 10, 2 );
-function __contentpress_render_comment( PostComments $comment, $withReplies = true )
+add_action( 'valpress/comment/render', '__valpress_render_comment', 10, 2 );
+function __valpress_render_comment( PostComments $comment, $withReplies = true )
 {
     $commentUserID = $comment->user_id;
     $commentAuthorName = ( $commentUserID ? $comment->user->display_name : $comment->author_name );
@@ -63,7 +63,7 @@ function __contentpress_render_comment( PostComments $comment, $withReplies = tr
                 <div class="comment-text">
                     <?php echo $comment->content; ?>
                 </div>
-                <?php do_action( 'contentpress/comment/actions', $comment, $comment->post->id ); ?>
+                <?php do_action( 'valpress/comment/actions', $comment, $comment->post->id ); ?>
             </div> <!-- //.comment-content -->
 
         </div> <!-- //.comment-body -->
@@ -71,7 +71,7 @@ function __contentpress_render_comment( PostComments $comment, $withReplies = tr
         <?php
         if ( $withReplies ) {
             echo '<div class="comment-replies">';
-            do_action( 'contentpress/comment/replies', $comment );
+            do_action( 'valpress/comment/replies', $comment );
             echo '</div>';
         }
         ?>
@@ -79,8 +79,8 @@ function __contentpress_render_comment( PostComments $comment, $withReplies = tr
     <?php
 }
 
-add_action( 'contentpress/comment/replies', '__contentpress_render_comment_replies', 10, 1 );
-function __contentpress_render_comment_replies( PostComments $comment )
+add_action( 'valpress/comment/replies', '__valpress_render_comment_replies', 10, 1 );
+function __valpress_render_comment_replies( PostComments $comment )
 {
     $replies = PostComments::where( 'post_id', $comment->post->id )->where( 'comment_id', $comment->id )->get();
     if ( $replies ) {
@@ -111,19 +111,19 @@ function __contentpress_render_comment_replies( PostComments $comment )
                     <div class="comment-text">
                         <?php echo $reply->content; ?>
                     </div>
-                    <?php do_action( 'contentpress/comment/actions', $reply, $reply->post->id ); ?>
+                    <?php do_action( 'valpress/comment/actions', $reply, $reply->post->id ); ?>
                 </div> <!-- //.comment-content -->
             </div> <!-- //.comment-body -->
             <div class="comment-replies">
-                <?php do_action( 'contentpress/comment/replies', $reply ); ?>
+                <?php do_action( 'valpress/comment/replies', $reply ); ?>
             </div>
             <?php
         }
     }
 }
 
-add_action( 'contentpress/comment/actions', '__contentpress_render_comment_actions', 10, 2 );
-function __contentpress_render_comment_actions( PostComments $comment, $postID )
+add_action( 'valpress/comment/actions', '__valpress_render_comment_actions', 10, 2 );
+function __valpress_render_comment_actions( PostComments $comment, $postID )
 {
     echo '<div class="comment-actions">';
     if ( cp_current_user_can( 'moderate_comments' ) ) {
@@ -149,34 +149,34 @@ function __contentpress_render_comment_actions( PostComments $comment, $postID )
  * @param $mainPostID
  * @param $languageID
  */
-add_action( 'contentpress/enqueue_text_editor', 'cp_enqueue_text_editor_scripts', 10, 4 );
+add_action( 'valpress/enqueue_text_editor', 'cp_enqueue_text_editor_scripts', 10, 4 );
 
 /**
  * Render the post editor
- * @uses filter contentpress/the_post_editor_content
+ * @uses filter valpress/the_post_editor_content
  */
-add_action( 'contentpress/post_editor_content', '__contentpress_render_text_editor_content', 10, 1 );
-function __contentpress_render_text_editor_content( $postContent = '' )
+add_action( 'valpress/post_editor_content', '__valpress_render_text_editor_content', 10, 1 );
+function __valpress_render_text_editor_content( $postContent = '' )
 {
-    echo apply_filters( 'contentpress/the_post_editor_content', trim( $postContent ) );
+    echo apply_filters( 'valpress/the_post_editor_content', trim( $postContent ) );
 }
 
 /**
  * Injects the markup before the post content
- * @hooked contentPressTextEditorBefore()
+ * @hooked valPressTextEditorBefore()
  */
-add_action( 'contentpress/post_editor_content/before', 'contentPressTextEditorBefore' );
+add_action( 'valpress/post_editor_content/before', 'valPressTextEditorBefore' );
 
 /**
  * Injects the markup after the post content
- * @hooked contentPressTextEditorAfter()
+ * @hooked valPressTextEditorAfter()
  */
-add_action( 'contentpress/post_editor_content/after', 'contentPressTextEditorAfter' );
+add_action( 'valpress/post_editor_content/after', 'valPressTextEditorAfter' );
 
 /**
  * Injects the markup before the post content
  */
-function contentPressTextEditorBefore()
+function valPressTextEditorBefore()
 {
     echo '<textarea class="admin-text-editor" style="width: 100%; height: 500px; resize: vertical;" id="plugin_text_editor" name="post_content">';
 }
@@ -184,7 +184,7 @@ function contentPressTextEditorBefore()
 /**
  * Injects the markup after the post content
  */
-function contentPressTextEditorAfter()
+function valPressTextEditorAfter()
 {
     echo '</textarea>';
 }
@@ -204,36 +204,36 @@ function contentPressTextEditorAfter()
  * Frontend
  * ============================================
  */
-add_filter( 'contentpress/body-class', '__contentpress_body_class', 10, 1 );
-function __contentpress_body_class( $classes = [] ): array
+add_filter( 'valpress/body-class', '__valpress_body_class', 10, 1 );
+function __valpress_body_class( $classes = [] ): array
 {
-    array_push( $classes, 'contentpress' );
+    array_push( $classes, 'valpress' );
 
     if ( cp_is_singular() || cp_is_page() ) {
-        array_push( $classes, "contentpress-singular" );
+        array_push( $classes, "valpress-singular" );
 
         $post = cp_get_post();
         if ( $post ) {
-            array_push( $classes, "contentpress-{$post->post_type->name}" );
+            array_push( $classes, "valpress-{$post->post_type->name}" );
         }
     }
     return $classes;
 }
 
-add_filter( 'contentpress/post-class', '__contentpress_post_class', 10, 1 );
-function __contentpress_post_class( $classes = [] ): array
+add_filter( 'valpress/post-class', '__valpress_post_class', 10, 1 );
+function __valpress_post_class( $classes = [] ): array
 {
     if ( cp_is_singular() || cp_is_page() ) {
         $post = cp_get_post();
         if ( $post ) {
-            array_push( $classes, "contentpress-{$post->post_type->name}" );
+            array_push( $classes, "valpress-{$post->post_type->name}" );
         }
     }
     return $classes;
 }
 
-add_action( 'contentpress/frontend/init', '__contentpress_admin_bar' );
-function __contentpress_admin_bar()
+add_action( 'valpress/frontend/init', '__valpress_admin_bar' );
+function __valpress_admin_bar()
 {
     if ( cp_is_user_logged_in() ) {
         AdminBar::getInstance();

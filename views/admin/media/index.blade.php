@@ -37,11 +37,11 @@
     <div class="tile mb-4">
         <div class="row">
             <div class="col-md-12">
-                <div class="contentpress-media-list">
+                <div class="valpress-media-list">
                     @forelse($files as $file)
                         <div class="item">
-                            <a href="{{$mediaHelper->getUrl($file->path)}}" class="js-contentpress-thumbnail thumbnail" data-id="{{$file->id}}">
-                                <img src="{{cp_image($file, 'cp_media_thumb')}}" alt="{{$file->title}}" class="contentpress-thumbnail" title="{{__('a.Click to preview')}}"/>
+                            <a href="{{$mediaHelper->getUrl($file->path)}}" class="js-valpress-thumbnail thumbnail" data-id="{{$file->id}}">
+                                <img src="{{cp_image($file, 'cp_media_thumb')}}" alt="{{$file->title}}" class="valpress-thumbnail" title="{{__('a.Click to preview')}}"/>
                             </a>
                             <div class="thumbnail-actions cp-flex cp-flex--center justify-content-center">
                                 <a href="{{route('admin.media.edit', $file->id)}}" class="thumbnail-edit-link">{{__('a.Edit')}}</a>

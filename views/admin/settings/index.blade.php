@@ -151,7 +151,7 @@
                                     </label>
                                 </div>
                             </label>
-                            <p class="text-description">{{__('a.If selected, the ContentPress Caching System will be used.')}}</p>
+                            <p class="text-description">{{__('a.If selected, the ValPress Caching System will be used.')}}</p>
                         </div>
 
                         <div class="form-group @if($is_under_maintenance) mb-0 @endif">
@@ -231,13 +231,13 @@
                             <p class="text-description">{{__('Ex:')}} {{date($time_format)}}</p>
                         </div>
 
-                        {!! do_action('contentpress/admin/after-general-settings', $settings) !!}
+                        {!! do_action('valpress/admin/after-general-settings', $settings) !!}
                     </div>
                 </div>
             </div>
 
             <div class="row">
-                {!! do_action('contentpress/admin/custom-settings/render', $settings) !!}
+                {!! do_action('valpress/admin/custom-settings/render', $settings) !!}
             </div>
             @csrf
         </form>

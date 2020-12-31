@@ -29,7 +29,7 @@ class Marketplace
      */
     public function __construct()
     {
-        $this->cache = app( 'cp.cache' );
+        $this->cache = app( 'vp.cache' );
         $this->getPlugins();
         $this->getThemes();
     }
@@ -44,7 +44,7 @@ class Marketplace
         $data = $this->cache->get( self::CACHE_KEY_PLUGINS, [] );
         if ( empty( $data ) ) {
             //#! Get from API
-            $url = path_combine( CONTENTPRESS_API_URL, 'plugins' );
+            $url = path_combine( VALPRESS_API_URL, 'plugins' );
             $response = Http::get( $url )->json();
             if ( empty( $response ) || empty( $response[ 'data' ] ) ) {
                 return [];
@@ -65,7 +65,7 @@ class Marketplace
         $data = $this->cache->get( self::CACHE_KEY_THEMES, [] );
         if ( empty( $data ) ) {
             //#! Get from API
-            $url = path_combine( CONTENTPRESS_API_URL, 'themes' );
+            $url = path_combine( VALPRESS_API_URL, 'themes' );
             $response = Http::get( $url )->json();
             if ( empty( $response ) || empty( $response[ 'data' ] ) ) {
                 return [];
@@ -85,7 +85,7 @@ class Marketplace
      */
     public function installPlugin( string $pluginDirName, $pluginVersion )
     {
-        $url = path_combine( CONTENTPRESS_API_URL, 'get_plugin', $pluginDirName, $pluginVersion );
+        $url = path_combine( VALPRESS_API_URL, 'get_plugin', $pluginDirName, $pluginVersion );
         $response = Http::get( $url );
         if ( empty( $response ) ) {
             throw new \Exception( __( 'a.An error occurred while contacting the API server.' ) );
@@ -133,7 +133,7 @@ class Marketplace
      */
     public function installTheme( string $themeDirName, $themeVersion )
     {
-        $url = path_combine( CONTENTPRESS_API_URL, 'get_theme', $themeDirName, $themeVersion );
+        $url = path_combine( VALPRESS_API_URL, 'get_theme', $themeDirName, $themeVersion );
         $response = Http::get( $url );
         if ( empty( $response ) ) {
             throw new \Exception( __( 'a.An error occurred while contacting the API server.' ) );

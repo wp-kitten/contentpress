@@ -51,13 +51,13 @@ class AppLoadedListener
         ThemesManager::getInstance();
 
         if ( cp_is_admin() ) {
-            if ( !did_action( 'contentpress/admin/init' ) ) {
-                do_action( 'contentpress/admin/init' );
+            if ( !did_action( 'valpress/admin/init' ) ) {
+                do_action( 'valpress/admin/init' );
             }
         }
 
-        if ( !did_action( 'contentpress/app/loaded' ) ) {
-            do_action( 'contentpress/app/loaded' );
+        if ( !did_action( 'valpress/app/loaded' ) ) {
+            do_action( 'valpress/app/loaded' );
         }
     }
 }

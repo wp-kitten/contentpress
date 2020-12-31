@@ -8,7 +8,7 @@ use App\Helpers\UserNotices;
  * @param string $notice
  * @see https://getbootstrap.com/docs/4.0/components/alerts/
  */
-function cp_add_user_notice( $type, $notice )
+function cp_add_user_notice( string $type, string $notice )
 {
     UserNotices::getInstance()->addNotice( $type, $notice );
 }

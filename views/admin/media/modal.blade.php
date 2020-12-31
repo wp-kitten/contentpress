@@ -26,11 +26,11 @@
                         <div class="tab-pane fade show active" id="media-tab-files-panel" role="tabpanel" aria-labelledby="media-tab-files">
                             <div class="row">
                                 <div class="col-12">
-                                    <div class="contentpress-media-list custom-scroll">
+                                    <div class="valpress-media-list custom-scroll">
                                         @forelse($files as $file)
                                             <div class="item js--item" data-id="{{$file->id}}">
-                                                <a href="#" class="js-contentpress-thumbnail thumbnail" data-id="{{$file->id}}">
-                                                    <img src="{{$mediaHelper->getUrl($file->path)}}" alt="{{$file->title}}" class="contentpress-thumbnail"/>
+                                                <a href="#" class="js-valpress-thumbnail thumbnail" data-id="{{$file->id}}">
+                                                    <img src="{{$mediaHelper->getUrl($file->path)}}" alt="{{$file->title}}" class="valpress-thumbnail"/>
                                                 </a>
                                             </div>
                                         @empty

@@ -24,7 +24,7 @@ class WidgetStatsPosts extends AbstractWidgetBase
             $this->setOptions( $options );
 
             ScriptsManager::enqueueFooterScript( 'Chart.min.js', asset( 'vendor/admin-template/plugins/chart.js' ) );
-            add_action( 'contentpress/admin/footer', [ $this, '__printInlineScripts' ] );
+            add_action( 'valpress/admin/footer', [ $this, '__printInlineScripts' ] );
         }
     }
 
@@ -38,7 +38,7 @@ class WidgetStatsPosts extends AbstractWidgetBase
 
             <div class="card-body">
                 <h4 class="card-title">
-                    <?php echo \apply_filters( 'contentpress/widget/title', esc_html( __( 'a.Posts' ) ), __CLASS__ ); ?>
+                    <?php echo \apply_filters( 'valpress/widget/title', esc_html( __( 'a.Posts' ) ), __CLASS__ ); ?>
                 </h4>
                 <canvas id="chartjs-lineChart-<?php esc_attr_e( $this->getId() ); ?>" class="embed-responsive-item"></canvas>
             </div>

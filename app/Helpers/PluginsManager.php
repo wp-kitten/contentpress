@@ -83,9 +83,9 @@ class PluginsManager
 
             $this->__loadActivePlugins();
 
-            add_action( 'contentpress/plugin/activate', [ $this, '__doAction_PluginActivate' ] );
-            add_action( 'contentpress/plugin/deactivate', [ $this, '__doAction_PluginDeactivate' ] );
-            add_action( 'contentpress/plugin/delete', [ $this, '__doAction_PluginDelete' ] );
+            add_action( 'valpress/plugin/activate', [ $this, '__doAction_PluginActivate' ] );
+            add_action( 'valpress/plugin/deactivate', [ $this, '__doAction_PluginDeactivate' ] );
+            add_action( 'valpress/plugin/delete', [ $this, '__doAction_PluginDelete' ] );
         }
     }
 
@@ -104,13 +104,13 @@ class PluginsManager
     /**
      * Activate the specified list of plugins
      * @param array $plugins
-     * @hooked contentpress/plugin/activated
+     * @hooked valpress/plugin/activated
      */
     public function activatePlugins( $plugins = [] )
     {
         if ( !empty( $plugins ) ) {
             foreach ( $plugins as $pluginDirName ) {
-                do_action( 'contentpress/plugin/activate', $pluginDirName );
+                do_action( 'valpress/plugin/activate', $pluginDirName );
             }
         }
     }
@@ -118,13 +118,13 @@ class PluginsManager
     /**
      * Deactivate the specified list of plugins
      * @param array $plugins
-     * @hooked contentpress/plugin/deactivate
+     * @hooked valpress/plugin/deactivate
      */
     public function deactivatePlugins( $plugins = [] )
     {
         if ( !empty( $plugins ) ) {
             foreach ( $plugins as $pluginDirName ) {
-                do_action( 'contentpress/plugin/deactivate', $pluginDirName );
+                do_action( 'valpress/plugin/deactivate', $pluginDirName );
             }
         }
     }
@@ -219,7 +219,7 @@ class PluginsManager
     /**
      * Activate a plugin
      * @param string $pluginDirName
-     * @hooked contentpress/plugin/activated
+     * @hooked valpress/plugin/activated
      */
     public function __doAction_PluginActivate( $pluginDirName )
     {
@@ -237,7 +237,7 @@ class PluginsManager
         if ( $r ) {
             $this->__addNotice( self::NOTICE_TYPE_SUCCESS, __( 'a.:name plugin has been activated', [ 'name' => $pluginInfo->display_name ] ) );
             $this->__loadPluginFile( $pluginDirName, $pluginInfo->autoload );
-            do_action( 'contentpress/plugin/activated', $pluginDirName, $pluginInfo );
+            do_action( 'valpress/plugin/activated', $pluginDirName, $pluginInfo );
         }
         else {
             $this->__addNotice( self::NOTICE_TYPE_ERROR, __( 'a.:name plugin could not be activated', [ 'name' => $pluginInfo->display_name ] ) );
@@ -247,7 +247,7 @@ class PluginsManager
     /**
      * Activate a plugin
      * @param string $pluginDirName
-     * @hooked contentpress/plugin/deactivated
+     * @hooked valpress/plugin/deactivated
      */
     public function __doAction_PluginDeactivate( $pluginDirName )
     {
@@ -263,7 +263,7 @@ class PluginsManager
         $r = $this->optionsClass->addOption( self::ACTIVE_PLUGINS_OPT_NAME, $this->activePlugins );
         if ( $r ) {
             $this->__addNotice( self::NOTICE_TYPE_SUCCESS, __( 'a.:name plugin has been deactivated', [ 'name' => $pluginInfo->display_name ] ) );
-            do_action( 'contentpress/plugin/deactivated', $pluginDirName, $pluginInfo );
+            do_action( 'valpress/plugin/deactivated', $pluginDirName, $pluginInfo );
         }
         else {
             $this->__addNotice( self::NOTICE_TYPE_ERROR, __( 'a.:name plugin could not be deactivated', [ 'name' => $pluginInfo->display_name ] ) );
@@ -273,7 +273,7 @@ class PluginsManager
     /**
      * Delete a plugin
      * @param string $pluginDirName
-     * @hooked contentpress/plugin/deleted
+     * @hooked valpress/plugin/deleted
      */
     public function __doAction_PluginDelete( $pluginDirName )
     {
@@ -282,12 +282,12 @@ class PluginsManager
         $uninstallFile = path_combine( $pluginDirPath, 'uninstall.php' );
         if ( File::isFile( $uninstallFile ) ) {
             File::requireOnce( $uninstallFile );
-            do_action( 'contentpress/plugin/deleted', $pluginDirName );
+            do_action( 'valpress/plugin/deleted', $pluginDirName );
         }
 
         if ( File::deleteDirectory( $pluginDirPath ) ) {
             $this->__addNotice( self::NOTICE_TYPE_SUCCESS, __( 'a.:name plugin has been deleted', [ 'name' => $pluginInfo->display_name ] ) );
-            do_action( 'contentpress/plugin/deleted', $pluginDirName );
+            do_action( 'valpress/plugin/deleted', $pluginDirName );
         }
     }
 
@@ -309,19 +309,19 @@ class PluginsManager
     {
         $plugins = $this->getActivePlugins();
         if ( empty( $plugins ) ) {
-            if ( !did_action( 'contentpress/plugins/loaded' ) ) {
-                do_action( 'contentpress/plugins/loaded' );
+            if ( !did_action( 'valpress/plugins/loaded' ) ) {
+                do_action( 'valpress/plugins/loaded' );
             }
             return;
         }
 
         foreach ( $plugins as $pluginDirName => $autoloadFileName ) {
             if ( !$this->__loadPluginFile( $pluginDirName, $autoloadFileName ) ) {
-                do_action( 'contentpress/plugin/deactivate', $pluginDirName );
+                do_action( 'valpress/plugin/deactivate', $pluginDirName );
             }
         }
-        if ( !did_action( 'contentpress/plugins/loaded' ) ) {
-            do_action( 'contentpress/plugins/loaded' );
+        if ( !did_action( 'valpress/plugins/loaded' ) ) {
+            do_action( 'valpress/plugins/loaded' );
         }
     }
 

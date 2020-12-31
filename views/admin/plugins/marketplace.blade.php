@@ -30,7 +30,7 @@
                         <div class="tile h-100">
                             <div class="row">
                                 <div class="col-sm-12 col-md-4">
-                                    <img src="{{url(path_combine(CONTENTPRESS_MARKETPLACE_URL, 'plugins', $pluginDirName, $pluginInfo['thumbnail']))}}"
+                                    <img src="{{url(path_combine(VALPRESS_MARKETPLACE_URL, 'plugins', $pluginDirName, $pluginInfo['thumbnail']))}}"
                                          class="image-responsive"
                                          alt="{{$pluginInfo['display_name']}}"/>
                                 </div>

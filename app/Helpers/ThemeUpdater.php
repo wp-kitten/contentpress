@@ -9,7 +9,7 @@ use Illuminate\Support\Facades\Http;
  * Class ThemeUpdater
  * @package App\Helpers
  */
-class ThemeUpdater extends ContentPressUpdaterAbstract
+class ThemeUpdater extends UpdaterAbstract
 {
     public function update( $themeFileName )
     {
@@ -53,7 +53,7 @@ class ThemeUpdater extends ContentPressUpdaterAbstract
 
             //#! Remove entry from db cache
             unset( $this->dbInfo[ 'themes' ][ $themeFileName ] );
-            $this->options->addOption( 'contentpress_updates', $this->dbInfo );
+            $this->options->addOption( 'valpress_updates', $this->dbInfo );
 
             return true;
         }

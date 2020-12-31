@@ -1,5 +1,5 @@
 {
-    "name": "wp-kitten/contentpress",
+    "name": "wp-kitten/valpress",
     "type": "project",
     "description": "WordPress-like application using the Laravel Framework.",
     "keywords": [

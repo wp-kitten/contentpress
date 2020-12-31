@@ -9,7 +9,7 @@ Adds a fixed Admin bar to the website (frontend). By default it shows:
 
 Hide using:
 
-**add_filter('contentpress/admin-bar/show', '__return_false');**
+**add_filter('valpress/admin-bar/show', '__return_false');**
 
 
 Structure:

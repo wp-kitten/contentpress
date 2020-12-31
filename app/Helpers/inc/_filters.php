@@ -5,13 +5,13 @@
  */
 
 //#! Register the default widgets
-add_filter( 'contentpress/dashboard/widgets', '__contentpress_dashboard_widgets', 10, 1 );
+add_filter( 'valpress/dashboard/widgets', '__valpress_dashboard_widgets', 10, 1 );
 /**
  * Retrieve the list of all registered dashboard widgets
  * @param array $widgets
  * @return array
  */
-function __contentpress_dashboard_widgets( $widgets = [] )
+function __valpress_dashboard_widgets( $widgets = [] ): array
 {
     if ( empty( $widgets ) ) {
         if ( !isset( $widgets[ 'section-1' ] ) ) {

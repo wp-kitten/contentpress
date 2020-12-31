@@ -9,7 +9,7 @@ jQuery( function ($) {
     const locale = window.AppLocale;
 
     //#! Gallery
-    $( ".contentpress-media-list" ).lightGallery( { selector: '.js-contentpress-thumbnail' } );
+    $( ".valpress-media-list" ).lightGallery( { selector: '.js-valpress-thumbnail' } );
 
     //#! Clear filters
     $( '.js-btn-form-filters-clear' ).on( 'click', function (e) {

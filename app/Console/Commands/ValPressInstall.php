@@ -6,21 +6,21 @@ use App\Helpers\Marketplace;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
-class ContentPressInstall extends Command
+class ValPressInstall extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'cp:install {--n} {--s} {--t}';
+    protected $signature = 'vp:install {--n} {--s} {--t}';
 
     /**
      * The console command description.
      *
      * @var string
      */
-    protected $description = 'This command will install ContentPress. --n will reinstall tables, --s will run the seeders, --t will download and install the default theme';
+    protected $description = 'This command will install ValPress. --n will reinstall tables, --s will run the seeders, --t will download and install the default theme';
 
     /**
      * Create a new command instance.
@@ -46,7 +46,7 @@ class ContentPressInstall extends Command
             $this->line( '== Done ==' );
 
             //#! Execute the post-install actions
-            Artisan::call( 'cp:post-install', [ '--d' => true ] );
+            Artisan::call( 'vp:post-install', [ '--d' => true ] );
         }
 
         //#! Seed
@@ -60,13 +60,13 @@ class ContentPressInstall extends Command
         if ( $this->option( 't' ) ) {
             try {
                 $this->line( '>>> Downloading and installing the default theme...' );
-                ( new Marketplace() )->installTheme( 'contentpress-default-theme', '0.1' );
+                ( new Marketplace() )->installTheme( 'valpress-default-theme', '0.1' );
                 $this->line( '>>> Activating the default theme...' );
-                do_action( 'contentpress/switch_theme', 'contentpress-default-theme', '' );
+                do_action( 'valpress/switch_theme', 'valpress-default-theme', '' );
                 $this->line( '== Done ==' );
             }
             catch ( \Exception $e ) {
-                $this->line( '== An error occurred. Run this command again: php artisan cp:install --t' );
+                $this->line( '== An error occurred. Run this command again: php artisan vp:install --t' );
                 return 0;
             }
         }

@@ -230,7 +230,7 @@ class CommentsController extends PostsController
         ] );
 
         if ( $comment ) {
-            do_action( 'contentpress/comment/added', $comment );
+            do_action( 'valpress/comment/added', $comment );
             return redirect()->back()->with( 'message', [
                 'class' => 'success',
                 'text' => __( 'a.Comment added.' ),
@@ -272,7 +272,7 @@ class CommentsController extends PostsController
         $r = $comment->update();
 
         if ( $r ) {
-            do_action( 'contentpress/comment/status_changed', $comment, $oldStatus );
+            do_action( 'valpress/comment/status_changed', $comment, $oldStatus );
 
             return redirect()->back()->with( 'message', [
                 'class' => 'success',
@@ -297,7 +297,7 @@ class CommentsController extends PostsController
 
         $result = PostComments::destroy( $id );
         if ( $result ) {
-            do_action( 'contentpress/comment/deleted', $id );
+            do_action( 'valpress/comment/deleted', $id );
             return redirect()->route( "admin.{$this->_postType->name}.comment.all" )->with( 'message', [
                 'class' => 'success',
                 'text' => __( 'a.Comment deleted.' ),

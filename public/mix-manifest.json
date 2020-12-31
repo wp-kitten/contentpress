@@ -1,7 +1,7 @@
 {
-    "/_admin/js/ContentPressTextEditor.js": "/_admin/js/ContentPressTextEditor.js",
     "/_admin/js/DropifyImageUploader.js": "/_admin/js/DropifyImageUploader.js",
     "/_admin/js/Utils.js": "/_admin/js/Utils.js",
+    "/_admin/js/ValPressTextEditor.js": "/_admin/js/ValPressTextEditor.js",
     "/_admin/js/admin.js": "/_admin/js/admin.js",
     "/_admin/js/admin-heartbeat.js": "/_admin/js/admin-heartbeat.js",
     "/_admin/js/app-dependencies.js": "/_admin/js/app-dependencies.js",

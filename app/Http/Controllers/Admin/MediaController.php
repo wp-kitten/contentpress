@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\CPML;
+use App\Helpers\VPML;
 use App\Helpers\ScriptsManager;
 use App\Helpers\Util;
 use App\Models\MediaFile;
@@ -39,7 +39,7 @@ class MediaController extends AdminControllerBase
         }
 
         return view( 'admin.media.index' )->with( [
-            'files' => $model->where( 'language_id', CPML::getDefaultLanguageID() )->paginate( $perPage ),
+            'files' => $model->where( 'language_id', VPML::getDefaultLanguageID() )->paginate( $perPage ),
             'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
@@ -108,7 +108,7 @@ class MediaController extends AdminControllerBase
 
             $model = new MediaFile();
 
-            $results = $model->where( 'language_id', CPML::getDefaultLanguageID() )
+            $results = $model->where( 'language_id', VPML::getDefaultLanguageID() )
                 ->where( function ( $query ) use ( $searchQuery ) {
                     $query->where( 'slug', 'LIKE', '%' . $searchQuery . '%' )
                         ->orWhere( 'path', 'LIKE', "%{$searchQuery}%" )

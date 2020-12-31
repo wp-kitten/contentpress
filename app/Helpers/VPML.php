@@ -11,12 +11,12 @@ use App\Models\Settings;
 use App\Models\Tag;
 
 /**
- * Class CPML
+ * Class VPML
  * @package App\Helpers
  *
  * Helper class that provides methods to interact with application in a multi language instance
  */
-class CPML
+class VPML
 {
     public static function getDefaultLanguageCode()
     {
@@ -184,7 +184,7 @@ class CPML
      */
     public static function getFrontendLanguageCode()
     {
-        $defaultLanguageCode = CPML::getDefaultLanguageCode();
+        $defaultLanguageCode = VPML::getDefaultLanguageCode();
         if ( cp_is_user_logged_in() ) {
             return cp_get_user_meta( 'frontend_user_language_code', null, null, $defaultLanguageCode );
         }

@@ -91,7 +91,7 @@ class ThemesController extends AdminControllerBase
         }
 
         //#! Activate the theme
-        do_action( 'contentpress/switch_theme', $themeDirName, $oldThemeName );
+        do_action( 'valpress/switch_theme', $themeDirName, $oldThemeName );
         return redirect()->back()->with( 'message', [
             'class' => 'success',
             'text' => __( 'a.Theme activated.' ),
@@ -140,7 +140,7 @@ class ThemesController extends AdminControllerBase
             }
             catch ( FileNotFoundException $e ) {
             }
-            do_action( 'contentpress/theme_deleted', $themeDirName );
+            do_action( 'valpress/theme_deleted', $themeDirName );
             return redirect()->back()->with( 'message', [
                 'class' => 'success',
                 'text' => __( 'a.Theme deleted.' ),

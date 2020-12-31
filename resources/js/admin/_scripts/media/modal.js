@@ -21,7 +21,7 @@ jQuery( function ($) {
         $imagePreview = $( sender.data( 'imageTarget' ) );
         $imageInput = $( sender.data( 'inputTarget' ) );
 
-        $( '.js-contentpress-thumbnail', $context ).on( 'click', function (ev) {
+        $( '.js-valpress-thumbnail', $context ).on( 'click', function (ev) {
             ev.preventDefault();
             ev.stopPropagation();
 
@@ -48,8 +48,8 @@ jQuery( function ($) {
     //<editor-fold desc=":: IMAGE UPLOADER ::">
     //#! Render media file -- this content is populated after the file upload ajax request and displayed in the media files tab
     const imageTemplate = '<div class="item js--item" data-id="__FILE_ID__">\n' +
-        '<a href="#" class="js-contentpress-thumbnail thumbnail" data-id="__FILE_ID__">\n' +
-        '     <img src="__FILE_URL__" alt="" class="contentpress-thumbnail"/>\n' +
+        '<a href="#" class="js-valpress-thumbnail thumbnail" data-id="__FILE_ID__">\n' +
+        '     <img src="__FILE_URL__" alt="" class="valpress-thumbnail"/>\n' +
         '</a>\n' +
         '</div>';
 
@@ -67,7 +67,7 @@ jQuery( function ($) {
         const $modal = $( this );
         const $modalBody = $modal.find( '.modal-body' );
         const $modalContent = $modalBody.find( '.js-content' );
-        const $modalContentList = $modalContent.find( '.contentpress-media-list' );
+        const $modalContentList = $modalContent.find( '.valpress-media-list' );
 
         $modal.find( '.modal-title' ).text( pageLocale.text_media );
 

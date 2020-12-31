@@ -40,7 +40,7 @@ class LoginController extends Controller
 
     /**
      * Override the trait's method to customize the redirect path after a successful login
-     * @hooked contentpress/after-login/redirect-path
+     * @hooked valpress/after-login/redirect-path
      * @return mixed|string
      */
     public function redirectTo()
@@ -49,7 +49,7 @@ class LoginController extends Controller
         if ( !$user ) {
             return $this->redirectTo;
         }
-        return $this->redirectTo = apply_filters( 'contentpress/after-login/redirect-path', $user );
+        return $this->redirectTo = apply_filters( 'valpress/after-login/redirect-path', $user );
     }
 
 }

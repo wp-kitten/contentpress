@@ -21,7 +21,7 @@ class ViewServiceProvider extends ServiceProvider
     public function register()
     {
         /**
-         * @uses apply_filters( 'contentpress/register_view_paths', [] );
+         * @uses apply_filters( 'valpress/register_view_paths', [] );
          */
         $this->app->bind( 'view.finder', function ( $app ) {
             //#! Register dynamic view paths
@@ -29,7 +29,7 @@ class ViewServiceProvider extends ServiceProvider
 
             //#! Set registered paths before the ones set in app/config/views.php
             //#! Themes & plugins can use this filter to inject their own paths
-            $dynamicPaths = apply_filters( 'contentpress/register_view_paths', [] );
+            $dynamicPaths = apply_filters( 'valpress/register_view_paths', [] );
             foreach ( $dynamicPaths as $path ) {
                 array_unshift( $paths, $path );
             }

@@ -49,7 +49,7 @@ class DashboardController extends AdminControllerBase
     {
         if ( $this->current_user()->can( 'edit_dashboard' ) ) {
 
-            add_filter( 'contentpress/admin/right_sidebar/show', '__return_true' );
+            add_filter( 'valpress/admin/right_sidebar/show', '__return_true' );
 
             ScriptsManager::enqueueStylesheet( 'dragula.min.css', asset( 'vendor/dragula/dragula.min.css' ) );
             ScriptsManager::enqueueStylesheet( 'dashboard-edit.css', asset( '_admin/css/dashboard/edit.css' ) );
@@ -89,7 +89,7 @@ class DashboardController extends AdminControllerBase
 
     public function showUpdatesView()
     {
-        $updatesInfo = $this->options->getOption( 'contentpress_updates', [ 'plugins' => [], 'themes' => [], 'core' => [] ] );
+        $updatesInfo = $this->options->getOption( 'valpress_updates', [ 'plugins' => [], 'themes' => [], 'core' => [] ] );
 
         return view( 'admin.dashboard.updates' )->with( [
             'core' => ( isset( $updatesInfo[ 'core' ] ) ? $updatesInfo[ 'core' ] : [] ),
@@ -110,8 +110,8 @@ class DashboardController extends AdminControllerBase
         //#! Run the Updater
         app()->get( 'cp.updater' )->run();
 
-        //#! Get the info from option: contentpress_updates
-        $updatesInfo = $this->options->getOption( 'contentpress_updates', [ 'plugins' => [], 'themes' => [], 'core' => [] ] );
+        //#! Get the info from option: valpress_updates
+        $updatesInfo = $this->options->getOption( 'valpress_updates', [ 'plugins' => [], 'themes' => [], 'core' => [] ] );
         if ( !is_array( $updatesInfo ) ) {
             $updatesInfo = [ 'plugins' => [], 'themes' => [], 'core' => [] ];
         }
@@ -145,8 +145,8 @@ class DashboardController extends AdminControllerBase
         //#! Run the Updater
         app()->get( 'cp.updater' )->run( true );
 
-        //#! Get the info from option: contentpress_updates
-        $updatesInfo = $this->options->getOption( 'contentpress_updates', [ 'plugins' => [], 'themes' => [], 'core' => [] ] );
+        //#! Get the info from option: valpress_updates
+        $updatesInfo = $this->options->getOption( 'valpress_updates', [ 'plugins' => [], 'themes' => [], 'core' => [] ] );
         if ( !is_array( $updatesInfo ) ) {
             $updatesInfo = [ 'plugins' => [], 'themes' => [], 'core' => [] ];
         }
@@ -275,7 +275,7 @@ class DashboardController extends AdminControllerBase
             //#! Put website from under maintenance
             Util::setUnderMaintenance( true );
 
-            $this->__updateCore( CONTENTPRESS_VERSION );
+            $this->__updateCore( VALPRESS_VERSION );
 
             //#! Remove website from under maintenance
             Util::setUnderMaintenance( false );
@@ -302,13 +302,13 @@ class DashboardController extends AdminControllerBase
         }
 
         try {
-            Artisan::call( 'cp:install', [
+            Artisan::call( 'vp:install', [
                 '--n' => true,
                 '--s' => true,
             ] );
 
             //#! Trigger the post-install actions
-            Artisan::call( 'cp:post-install', [
+            Artisan::call( 'vp:post-install', [
                 //#! Delete the uploads directory
                 '--d' => true,
             ] );
@@ -335,7 +335,7 @@ class DashboardController extends AdminControllerBase
         }
 
         try {
-            Artisan::call( 'cp:cache' );
+            Artisan::call( 'vp:cache' );
         }
         catch ( \Exception $e ) {
             return redirect()->back()->with( 'message', [
@@ -359,7 +359,7 @@ class DashboardController extends AdminControllerBase
         }
 
         try {
-            Artisan::call( 'cp:composer', [
+            Artisan::call( 'vp:composer', [
                 '--u' => true,
                 '--d' => true,
             ] );
@@ -386,7 +386,7 @@ class DashboardController extends AdminControllerBase
         }
 
         try {
-            Artisan::call( 'cp:composer', [
+            Artisan::call( 'vp:composer', [
                 '--u' => false,
                 '--d' => true,
             ] );
@@ -412,13 +412,13 @@ class DashboardController extends AdminControllerBase
     private function __updateCore( string $version )
     {
         //#! Get archive from api server
-        $response = Http::get( path_combine( CONTENTPRESS_API_URL, 'get_update/core', $version ) );
+        $response = Http::get( path_combine( VALPRESS_API_URL, 'get_update/core', $version ) );
 
         if ( empty( $response ) ) {
             throw new \Exception( __( 'a.There was no response from the api server.' ) );
         }
         elseif ( $response instanceof Response && !$response->successful() ) {
-            throw new \Exception( __( 'a.The specified ContentPress version was not found.' ) );
+            throw new \Exception( __( 'a.The specified ValPress version was not found.' ) );
         }
 
         //#! Download content locally
@@ -427,7 +427,7 @@ class DashboardController extends AdminControllerBase
             if ( !File::isDirectory( $saveDirPath ) ) {
                 File::makeDirectory( $saveDirPath, 775, true );
             }
-            $fileSavePath = path_combine( $saveDirPath, 'contentpress.zip' );
+            $fileSavePath = path_combine( $saveDirPath, 'valpress.zip' );
             if ( !File::put( $fileSavePath, $response ) ) {
                 throw new \Exception( __( 'a.An error occurred when trying to create the local download file. Check for permissions.' ) );
             }
@@ -450,12 +450,12 @@ class DashboardController extends AdminControllerBase
         File::delete( $fileSavePath );
 
         //#! Update option
-        $updatesInfo = $this->options->getOption( 'contentpress_updates', [ 'last_check' => null, 'plugins' => [], 'themes' => [], 'core' => [] ] );
+        $updatesInfo = $this->options->getOption( 'valpress_updates', [ 'last_check' => null, 'plugins' => [], 'themes' => [], 'core' => [] ] );
         $updatesInfo[ 'core' ] = [];
-        $this->options->addOption( 'contentpress_updates', $updatesInfo );
+        $this->options->addOption( 'valpress_updates', $updatesInfo );
 
         //#! Trigger the post-install actions
-        Artisan::call( 'cp:post-install', [
+        Artisan::call( 'vp:post-install', [
             //#! Do not delete the uploads directory
             '--d' => false,
         ] );

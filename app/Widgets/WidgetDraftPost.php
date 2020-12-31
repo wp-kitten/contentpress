@@ -13,7 +13,7 @@ class WidgetDraftPost extends AbstractWidgetBase
         }
 
         if ( !empty( $id ) && cp_current_user_can( 'publish_posts' ) ) {
-            add_action( 'contentpress/admin/footer', [ $this, '__loadWidgetScripts' ] );
+            add_action( 'valpress/admin/footer', [ $this, '__loadWidgetScripts' ] );
         }
     }
 
@@ -24,7 +24,7 @@ class WidgetDraftPost extends AbstractWidgetBase
         <script id="widget-<?php esc_attr_e( $id ); ?>">
             var editorInput = jQuery("post_draft-<?php esc_attr_e( $id );?>");
             if(editorInput) {
-                ContentPressTextEditor.register( "post_draft-<?php esc_attr_e( $id );?>", new Quill( "#post_draft-editor-<?php esc_attr_e( $id );?>", {
+                ValPressTextEditor.register( "post_draft-<?php esc_attr_e( $id );?>", new Quill( "#post_draft-editor-<?php esc_attr_e( $id );?>", {
                     modules: {
                         toolbar: [
                             [{ header: [false] }],
@@ -48,7 +48,7 @@ class WidgetDraftPost extends AbstractWidgetBase
                     var self = $( this );
                     self.addClass( 'no-click' );
 
-                    var content = htmlWrap.replace( '__HTML__', ContentPressTextEditor.getHTML( "post_draft-<?php esc_attr_e( $id );?>" ) );
+                    var content = htmlWrap.replace( '__HTML__', ValPressTextEditor.getHTML( "post_draft-<?php esc_attr_e( $id );?>" ) );
 
                     $.ajax( {
                         url: locale.ajax.url,
@@ -93,7 +93,7 @@ class WidgetDraftPost extends AbstractWidgetBase
                             self.removeClass( 'no-click' );
                             postTitle.val( '' );
                             postEditor.val( '' );
-                            ContentPressTextEditor.clear( "post_draft-<?php esc_attr_e( $id );?>" );
+                            ValPressTextEditor.clear( "post_draft-<?php esc_attr_e( $id );?>" );
                         } );
                     return false;
                 } );
@@ -119,7 +119,7 @@ class WidgetDraftPost extends AbstractWidgetBase
 
             <div class="card-body">
                 <h4 class="card-title">
-                    <?php echo \apply_filters( 'contentpress/widget/title', esc_html( __( 'a.Draft post' ) ), __CLASS__ ); ?>
+                    <?php echo \apply_filters( 'valpress/widget/title', esc_html( __( 'a.Draft post' ) ), __CLASS__ ); ?>
                 </h4>
 
                 <form id="widget-draft-post">

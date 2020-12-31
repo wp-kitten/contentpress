@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\CPML;
+use App\Helpers\VPML;
 use App\Helpers\ScriptsManager;
 use App\Helpers\Theme;
 use App\Helpers\Util;
@@ -95,7 +95,7 @@ class SettingsController extends AdminControllerBase
             'pages' => ( $postTypePage ?
                 Post::where( 'post_type_id', $postTypePage->id )
                     ->where( 'post_status_id', $postStatus ? $postStatus->id : 0 )
-                    ->where( 'language_id', CPML::getDefaultLanguageID() )
+                    ->where( 'language_id', VPML::getDefaultLanguageID() )
                     ->get() :
                 []
             ),
@@ -114,7 +114,7 @@ class SettingsController extends AdminControllerBase
         ScriptsManager::enqueueFooterScript( 'settings-edit.js', asset( '_admin/js/settings/edit.js' ) );
 
         return view( 'admin.settings.post_types' )->with( [
-            'post_types' => PostType::where( 'translated_id', null )->where( 'language_id', CPML::getDefaultLanguageID() )->get(),
+            'post_types' => PostType::where( 'translated_id', null )->where( 'language_id', VPML::getDefaultLanguageID() )->get(),
 
             'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
             'default_language_code' => $this->settings->getSetting( 'default_language' ),
@@ -186,7 +186,7 @@ class SettingsController extends AdminControllerBase
         $post->name = $name;
         $post->display_name = $displayName;
         $post->plural_name = $pluralName;
-        $post->language_id = CPML::getDefaultLanguageID();
+        $post->language_id = VPML::getDefaultLanguageID();
         $post->translated_id = null;
         $r = $post->update();
 
@@ -284,7 +284,7 @@ class SettingsController extends AdminControllerBase
             'language_id' => $languageID,
         ] );
 
-        if ( CPML::getDefaultLanguageID() == $languageID ) {
+        if ( VPML::getDefaultLanguageID() == $languageID ) {
             Util::cp_insert_menu_item_post_type( $name );
         }
 
@@ -511,7 +511,7 @@ class SettingsController extends AdminControllerBase
             $this->settings->updateSetting( 'under_maintenance_message', wp_strip_all_tags( $this->request->under_maintenance_message ) );
         }
 
-        do_action( 'contentpress/admin/general-settings/save', $this->settings, $this->request );
+        do_action( 'valpress/admin/general-settings/save', $this->settings, $this->request );
 
         return redirect()->back()->with( 'message', [
             'class' => 'success',

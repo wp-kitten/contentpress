@@ -54,7 +54,7 @@ class TranslationsLoader
 
     /**
      * Register the path to the language file that will be loaded based on the current locale.
-     * Themes and plugins should use this function in the "contentpress/app/loaded" action
+     * Themes and plugins should use this function in the "valpress/app/loaded" action
      *
      * @param string $namespace The namespace to use for grouping the translations
      * @param string $langsDirPath The path to the languages directory, usually named "lang"

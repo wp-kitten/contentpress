@@ -2,7 +2,7 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\CPML;
+use App\Helpers\VPML;
 use App\Helpers\MetaFields;
 use App\Helpers\ScriptsManager;
 use App\Models\Options;
@@ -98,7 +98,7 @@ class UsersController extends AdminControllerBase
             //#! the user being edited
             'user' => $user,
             'roles' => Role::all(),
-            'meta_fields' => MetaFields::getAll( $this->userMeta, 'user_id', $id, CPML::getDefaultLanguageID() ),
+            'meta_fields' => MetaFields::getAll( $this->userMeta, 'user_id', $id, VPML::getDefaultLanguageID() ),
             'default_role_id' => $this->settings->getSetting( 'default_user_role' ),
             'auth_user' => cp_get_current_user(),
             'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
@@ -344,7 +344,7 @@ class UsersController extends AdminControllerBase
             ] );
         }
         $meta = UserMeta::where( 'user_id', $currentUser->id )
-            ->where( 'language_id', CPML::getDefaultLanguageID() )
+            ->where( 'language_id', VPML::getDefaultLanguageID() )
             ->where( 'meta_name', '_website_url' )
             ->first();
         if ( $meta ) {
@@ -354,7 +354,7 @@ class UsersController extends AdminControllerBase
         else {
             UserMeta::create( [
                 'user_id' => $currentUser->id,
-                'language_id' => CPML::getDefaultLanguageID(),
+                'language_id' => VPML::getDefaultLanguageID(),
                 'meta_name' => '_website_url',
                 'meta_value' => $websiteUrl,
             ] );
@@ -368,7 +368,7 @@ class UsersController extends AdminControllerBase
         }
 
         $meta = UserMeta::where( 'user_id', $currentUser->id )
-            ->where( 'language_id', CPML::getDefaultLanguageID() )
+            ->where( 'language_id', VPML::getDefaultLanguageID() )
             ->where( 'meta_name', '_user_bio' )
             ->first();
         if ( $meta ) {
@@ -378,7 +378,7 @@ class UsersController extends AdminControllerBase
         else {
             UserMeta::create( [
                 'user_id' => $currentUser->id,
-                'language_id' => CPML::getDefaultLanguageID(),
+                'language_id' => VPML::getDefaultLanguageID(),
                 'meta_name' => '_user_bio',
                 'meta_value' => $userBio,
             ] );

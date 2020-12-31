@@ -193,7 +193,7 @@
         @include('admin.partials.meta-fields', [
             'meta_fields' => $meta_fields,
             'model' => App\Models\UserMeta::class,
-            'language_id' => App\Helpers\CPML::getDefaultLanguageID(),
+            'language_id' => App\Helpers\VPML::getDefaultLanguageID(),
             'fk_name' => 'user_id',
             'fk_value' => $user->id,
         ])

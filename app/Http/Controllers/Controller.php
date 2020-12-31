@@ -104,7 +104,7 @@ class Controller extends BaseController
             }
         }
 
-        $this->cache = app( 'cp.cache' );
+        $this->cache = app( 'vp.cache' );
 
         if ( !session()->get( 'system_language_dirs_check' ) ) {
             $sourceDirPath = resource_path( 'lang/en' );

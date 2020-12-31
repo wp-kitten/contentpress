@@ -13,7 +13,7 @@ class TranslationManager
      * @param string $dirName Only used for themes & plugins, stores the directory name of the theme or plugin
      * @return false|\Symfony\Component\Finder\SplFileInfo[]
      */
-    public function getFiles( string $langCode, string $type = CONTENTPRESS_TYPE_CORE, string $dirName = '' )
+    public function getFiles( string $langCode, string $type = VALPRESS_TYPE_CORE, string $dirName = '' )
     {
         if ( '' == ( $dirPath = $this->getLanguagesDirPath( $langCode, $type, $dirName ) ) ) {
             return false;
@@ -48,15 +48,15 @@ class TranslationManager
      * @param string|null $dirName
      * @return string
      */
-    public function getLanguagesDirPath( string $langCode, string $type = CONTENTPRESS_TYPE_CORE, string $dirName = null ): string
+    public function getLanguagesDirPath( string $langCode, string $type = VALPRESS_TYPE_CORE, string $dirName = null ): string
     {
-        if ( $type == CONTENTPRESS_TYPE_CORE ) {
+        if ( $type == VALPRESS_TYPE_CORE ) {
             return resource_path( "lang/{$langCode}" );
         }
-        elseif ( $type == CONTENTPRESS_TYPE_PLUGIN ) {
+        elseif ( $type == VALPRESS_TYPE_PLUGIN ) {
             return public_path( "plugins/{$dirName}/lang/{$langCode}" );
         }
-        elseif ( $type == CONTENTPRESS_TYPE_THEME ) {
+        elseif ( $type == VALPRESS_TYPE_THEME ) {
             return public_path( "themes/{$dirName}/lang/{$langCode}" );
         }
         return '';

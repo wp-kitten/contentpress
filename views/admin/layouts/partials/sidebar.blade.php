@@ -11,7 +11,7 @@
 
     $currentUser = cp_get_current_user();
     $userImage = cp_get_user_profile_image_url($currentUser->getAuthIdentifier());
-    $postTypes = App\Models\PostType::where('language_id', App\Helpers\CPML::getDefaultLanguageID())->get();
+    $postTypes = App\Models\PostType::where('language_id', App\Helpers\VPML::getDefaultLanguageID())->get();
 
     //#! Edit user profile text
     $profileLinkText = __('a.Your profile');
@@ -65,7 +65,7 @@
                     </li>
                 @endif
 
-                {!! do_action('contentpress/admin/sidebar/menu/dashboard') !!}
+                {!! do_action('valpress/admin/sidebar/menu/dashboard') !!}
             </ul>
         </li>
 
@@ -80,11 +80,11 @@
 
                     $postTypeName = $postTypePluralName = '';
 
-                    if(app()->getLocale() == App\Helpers\CPML::getDefaultLanguageCode()){
+                    if(app()->getLocale() == App\Helpers\VPML::getDefaultLanguageCode()){
                         $translation = $postType;
                     }
                     else {
-                        $translation = App\Helpers\CPML::postTypeGetTranslation($postType->id, app()->getLocale());
+                        $translation = App\Helpers\VPML::postTypeGetTranslation($postType->id, app()->getLocale());
                     }
 
                     if(! $translation){
@@ -134,7 +134,7 @@
                             </li>
                         @endif
 
-                        {!! do_action('contentpress/admin/sidebar/menu/posts/'.$postType->name) !!}
+                        {!! do_action('valpress/admin/sidebar/menu/posts/'.$postType->name) !!}
                     </ul>
                 </li>
             @endforeach
@@ -159,7 +159,7 @@
                         </li>
                     @endif
 
-                    {!! do_action('contentpress/admin/sidebar/menu/menus') !!}
+                    {!! do_action('valpress/admin/sidebar/menu/menus') !!}
                 </ul>
             </li>
         @endif
@@ -183,7 +183,7 @@
                         </li>
                     @endif
 
-                    {!! do_action('contentpress/admin/sidebar/menu/media') !!}
+                    {!! do_action('valpress/admin/sidebar/menu/media') !!}
                 </ul>
             </li>
         @endif
@@ -210,7 +210,7 @@
                         </li>
                     @endif
 
-                    {!! do_action('contentpress/admin/sidebar/menu/plugins') !!}
+                    {!! do_action('valpress/admin/sidebar/menu/plugins') !!}
                 </ul>
             </li>
         @endif
@@ -237,7 +237,7 @@
                         </li>
                     @endif
 
-                    {!! do_action('contentpress/admin/sidebar/menu/themes') !!}
+                    {!! do_action('valpress/admin/sidebar/menu/themes') !!}
                 </ul>
             </li>
         @endif
@@ -270,7 +270,7 @@
                     </li>
                 @endif
 
-                {!! do_action('contentpress/admin/sidebar/menu/users') !!}
+                {!! do_action('valpress/admin/sidebar/menu/users') !!}
             </ul>
         </li>
 
@@ -290,7 +290,7 @@
                         <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.roles.capabilities')}}" href="{{route('admin.roles.capabilities')}}">{{__('a.Capabilities')}}</a>
                     </li>
 
-                    {!! do_action('contentpress/admin/sidebar/menu/roles') !!}
+                    {!! do_action('valpress/admin/sidebar/menu/roles') !!}
                 </ul>
             </li>
         @endif
@@ -320,7 +320,7 @@
                         <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.settings.post_types')}}" href="{{route('admin.settings.post_types')}}">{{__('a.Post types')}}</a>
                     </li>
 
-                    {!! do_action('contentpress/admin/sidebar/menu/settings') !!}
+                    {!! do_action('valpress/admin/sidebar/menu/settings') !!}
                 </ul>
             </li>
         @endif
@@ -356,6 +356,6 @@
             </li>
         @endif
 
-        {{do_action('contentpress/admin/sidebar/menu')}}
+        {{do_action('valpress/admin/sidebar/menu')}}
     </ul>
 </aside>

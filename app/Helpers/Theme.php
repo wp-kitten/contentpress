@@ -110,7 +110,7 @@ class Theme
     /**
      * Load theme's default files
      *
-     * @uses do_action( 'contentpress/theme/activated', $this );
+     * @uses do_action( 'valpress/theme/activated', $this );
      */
     public function load()
     {
@@ -130,7 +130,7 @@ class Theme
             require_once( $functionsFile );
         }
 
-        do_action( 'contentpress/theme/activated', $this );
+        do_action( 'valpress/theme/activated', $this );
     }
 
     /**

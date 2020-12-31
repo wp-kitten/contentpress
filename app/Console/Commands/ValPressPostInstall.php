@@ -3,17 +3,16 @@
 namespace App\Console\Commands;
 
 use Illuminate\Console\Command;
-use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 
-class ContentPressPostInstall extends Command
+class ValPressPostInstall extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'cp:post-install {--d}';
+    protected $signature = 'vp:post-install {--d}';
 
     /**
      * The console command description.
@@ -39,7 +38,7 @@ class ContentPressPostInstall extends Command
      */
     public function handle()
     {
-        if($this->option('d')){
+        if ( $this->option( 'd' ) ) {
             $this->line( '>>> Deleting uploads...' );
             try {
                 $uploadsDirPath = public_path( 'uploads' );
@@ -55,11 +54,11 @@ class ContentPressPostInstall extends Command
         }
 
         //#! Clear cache
-        $this->call( 'cp:cache' );
-        app()->get( 'cp.cache' )->clear();
+        $this->call( 'vp:cache' );
+        app()->get( 'vp.cache' )->clear();
 
         //#! Try to run composer dumpautoload
-        return $this->call( 'cp:composer', [
+        return $this->call( 'vp:composer', [
             '--d' => true,
         ] );
     }

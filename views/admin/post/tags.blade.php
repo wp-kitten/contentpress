@@ -51,7 +51,7 @@
                             @forelse($tags as $tag)
                                 <tr>
                                     <td>
-                                        @if(App\Helpers\CPML::tagMissingTranslations($tag->id))
+                                        @if(App\Helpers\VPML::tagMissingTranslations($tag->id))
                                             <span class="bullet danger" title="{{__('a.This tag is missing translations.')}}"></span>
                                         @else
                                             <span class="bullet success" title="{{__('a.This tag has translations for all enabled languages.')}}"></span>

@@ -43,7 +43,7 @@ class MetaFields implements IMetaFields
      */
     public static function generateProtectedMetaFields( Model $model, string $fkName, int $fkValue, string $section = self::SECTION_USER, $languageID = 0 )
     {
-        $languageID = ( empty( $languageID ) ? CPML::getDefaultLanguageID() : $languageID );
+        $languageID = ( empty( $languageID ) ? VPML::getDefaultLanguageID() : $languageID );
 
         $metaFields = ( isset( self::$_protectedMetaFields[ $section ] ) ? self::$_protectedMetaFields[ $section ] : null );
         if ( !$metaFields ) {
@@ -96,7 +96,7 @@ class MetaFields implements IMetaFields
      */
     public static function getInstance( Model $model, string $fkName, int $fkValue, string $customFieldNameOrID, int $languageID = 0, $defaultValue = false )
     {
-        $languageID = ( empty( $languageID ) ? CPML::getDefaultLanguageID() : $languageID );
+        $languageID = ( empty( $languageID ) ? VPML::getDefaultLanguageID() : $languageID );
         $r = $model->where( $fkName, $fkValue )->where( 'language_id', $languageID )
             ->where( 'meta_name', self::getValidName( $customFieldNameOrID ) )
             ->orWhere( 'id', $customFieldNameOrID )
@@ -117,7 +117,7 @@ class MetaFields implements IMetaFields
      */
     public static function get( Model $model, string $fkName, int $fkValue, string $customFieldName, int $languageID = 0, $defaultValue = false )
     {
-        $languageID = ( empty( $languageID ) ? CPML::getDefaultLanguageID() : $languageID );
+        $languageID = ( empty( $languageID ) ? VPML::getDefaultLanguageID() : $languageID );
         $r = $model->where( $fkName, $fkValue )->where( 'language_id', $languageID )
             ->where( 'meta_name', self::getValidName( $customFieldName ) )
             ->orWhere( 'id', $customFieldName )
@@ -140,7 +140,7 @@ class MetaFields implements IMetaFields
      */
     public static function getAll( Model $model, string $fkName, int $fkValue, int $languageID = 0, $defaultValue = false )
     {
-        $languageID = ( empty( $languageID ) ? CPML::getDefaultLanguageID() : $languageID );
+        $languageID = ( empty( $languageID ) ? VPML::getDefaultLanguageID() : $languageID );
         return $model->where( $fkName, $fkValue )->where( 'language_id', $languageID )->get();
     }
 

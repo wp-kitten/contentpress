@@ -45,7 +45,7 @@ class ImageHelper
      */
     public static function getSizes(): array
     {
-        return apply_filters( 'contentpress::image-sizes', self::$sizes );
+        return apply_filters( 'vp::image-sizes', self::$sizes );
     }
 
     /**
@@ -53,7 +53,7 @@ class ImageHelper
      */
     public static function getBreakpoints(): array
     {
-        return apply_filters( 'contentpress::breakpoints', self::$breakpoints );
+        return apply_filters( 'vp::breakpoints', self::$breakpoints );
     }
 
     /**
@@ -98,7 +98,7 @@ class ImageHelper
             else {
                 MediaFileMeta::create( [
                     'media_file_id' => $mediaFileModel->id,
-                    'language_id' => CPML::getDefaultLanguageID(),
+                    'language_id' => VPML::getDefaultLanguageID(),
                     'meta_name' => 'srcset',
                     'meta_value' => serialize( [ "$imageSizeName" => $mh->getBaseUploadPath( $newImagePath ) ] ),
                 ] );

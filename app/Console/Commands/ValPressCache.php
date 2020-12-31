@@ -5,14 +5,14 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
-class ContentPressCache extends Command
+class ValPressCache extends Command
 {
     /**
      * The name and signature of the console command.
      *
      * @var string
      */
-    protected $signature = 'cp:cache';
+    protected $signature = 'vp:cache';
 
     /**
      * The console command description.
@@ -61,7 +61,7 @@ class ContentPressCache extends Command
         $this->line( '== Done ==' );
 
         $this->line( '>>> Clearing internal cache' );
-        app()->get( 'cp.cache' )->clear();
+        app()->get( 'vp.cache' )->clear();
         $this->line( '== Done ==' );
 
         return 1;
