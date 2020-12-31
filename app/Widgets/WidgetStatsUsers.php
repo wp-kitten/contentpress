@@ -17,7 +17,7 @@ class WidgetStatsUsers extends AbstractWidgetBase
     {
         parent::__construct( $id, $options );
 
-        if ( empty( $id ) || !cp_current_user_can( 'manage_options' ) ) {
+        if ( empty( $id ) || !vp_current_user_can( 'manage_options' ) ) {
             return;
         }
 
@@ -33,7 +33,7 @@ class WidgetStatsUsers extends AbstractWidgetBase
 
     public function render()
     {
-        if ( !cp_current_user_can( 'manage_options' ) ) {
+        if ( !vp_current_user_can( 'manage_options' ) ) {
             return;
         }
         $stats = $this->getData();

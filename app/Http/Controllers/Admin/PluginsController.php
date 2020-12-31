@@ -13,7 +13,7 @@ class PluginsController extends AdminControllerBase
 {
     public function index()
     {
-        if ( !cp_current_user_can( 'list_plugins' ) ) {
+        if ( !vp_current_user_can( 'list_plugins' ) ) {
             return $this->_forbidden();
         }
 
@@ -35,7 +35,7 @@ class PluginsController extends AdminControllerBase
 
     public function renderAddView()
     {
-        if ( !cp_current_user_can( 'install_plugins' ) ) {
+        if ( !vp_current_user_can( 'install_plugins' ) ) {
             return $this->_forbidden();
         }
 
@@ -72,7 +72,7 @@ class PluginsController extends AdminControllerBase
 
     public function __activatePlugins()
     {
-        if ( !cp_current_user_can( 'activate_plugins' ) ) {
+        if ( !vp_current_user_can( 'activate_plugins' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -108,7 +108,7 @@ class PluginsController extends AdminControllerBase
 
     public function __activatePlugin__GET( $plugin_dir_name )
     {
-        if ( !cp_current_user_can( 'activate_plugins' ) ) {
+        if ( !vp_current_user_can( 'activate_plugins' ) ) {
             return $this->_forbidden();
         }
 
@@ -121,7 +121,7 @@ class PluginsController extends AdminControllerBase
 
     public function __deactivatePlugin__GET( $plugin_dir_name )
     {
-        if ( !cp_current_user_can( 'deactivate_plugins' ) ) {
+        if ( !vp_current_user_can( 'deactivate_plugins' ) ) {
             return $this->_forbidden();
         }
 
@@ -134,7 +134,7 @@ class PluginsController extends AdminControllerBase
 
     public function __delete__GET( $plugin_dir_name )
     {
-        if ( !cp_current_user_can( 'delete_plugins' ) ) {
+        if ( !vp_current_user_can( 'delete_plugins' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -154,7 +154,7 @@ class PluginsController extends AdminControllerBase
 
     public function __deactivatePlugins__POST()
     {
-        if ( !cp_current_user_can( 'deactivate_plugins' ) ) {
+        if ( !vp_current_user_can( 'deactivate_plugins' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -204,13 +204,13 @@ class PluginsController extends AdminControllerBase
                 'text' => __( 'a.Invalid request: some values are missing.' ),
             ] );
         }
-        elseif ( !cp_current_user_can( 'install_plugins' ) ) {
+        elseif ( !vp_current_user_can( 'install_plugins' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
             ] );
         }
-        elseif ( !cp_current_user_can( 'activate_plugins' ) ) {
+        elseif ( !vp_current_user_can( 'activate_plugins' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action.' ),

@@ -15,7 +15,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('manage_taxonomies'))
+    @if(vp_current_user_can('manage_taxonomies'))
 
         <div class="row">
             <div class="col-md-3">
@@ -104,7 +104,7 @@
             </div>
         </div>
 
-        @if(cp_is_multilingual())
+        @if(vp_is_multilingual())
             {{-- Modal --}}
             <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
                 <div class="modal-dialog" role="document">

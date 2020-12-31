@@ -30,7 +30,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('publish_posts'))
+    @if(vp_current_user_can('publish_posts'))
         <form id="post-translate-form">
             <div class="row">
                 <div class="col-lg-9 d-flex align-items-stretch">

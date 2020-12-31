@@ -185,7 +185,7 @@ class CommentsWalker
         if ( cp_is_admin() ) {
             ?>
             <div class="comment-actions">
-                <?php if ( cp_current_user_can( 'moderate_comments' ) ) : ?>
+                <?php if ( vp_current_user_can( 'moderate_comments' ) ) : ?>
                     <a href="<?php esc_attr_e( route( "{$this->baseRoute}.comment.delete", [ 'id' => $comment->id ] ) ); ?>"
                        data-confirm="<?php esc_html_e(__('a.Are you sure you want to delete this comment?  All its replies will also be deleted.'));?>"
                        class="text-danger"><?php esc_html_e( __( 'a.Delete' ) ); ?></a>

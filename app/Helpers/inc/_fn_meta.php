@@ -11,20 +11,20 @@ use App\Models\MediaFile;
 use App\Models\Post;
 use App\Models\PostMeta;
 
-function cp_get_category_image_url( $categoryID, $languageID = 0 ):string
+function vp_get_category_image_url( $categoryID, $languageID = 0 ):string
 {
     if ( empty( $languageID ) ) {
         $languageID = VPML::getDefaultLanguageID();
     }
 
-    $info = cp_get_category_image_info( $categoryID, $languageID );
+    $info = vp_get_category_image_info( $categoryID, $languageID );
     if ( $info ) {
         return $info[ 'url' ];
     }
     return '';
 }
 
-function cp_get_category_image_info( $categoryID, $languageID = 0 )
+function vp_get_category_image_info( $categoryID, $languageID = 0 )
 {
     if ( empty( $languageID ) ) {
         $languageID = VPML::getDefaultLanguageID();
@@ -53,15 +53,15 @@ function cp_get_category_image_info( $categoryID, $languageID = 0 )
     ];
 }
 
-function cp_post_has_featured_image( Post $post ):bool
+function vp_post_has_featured_image( Post $post ):bool
 {
-    $info = cp_post_get_featured_image_info( $post->id );
+    $info = vp_post_get_featured_image_info( $post->id );
     return ( $info && !empty( $info[ 'url' ] ) );
 }
 
-function cp_post_get_featured_image_url( $postID ):string
+function vp_post_get_featured_image_url( $postID ):string
 {
-    $info = cp_post_get_featured_image_info( $postID );
+    $info = vp_post_get_featured_image_info( $postID );
 
     if ( $info ) {
         return $info[ 'url' ];
@@ -69,9 +69,9 @@ function cp_post_get_featured_image_url( $postID ):string
     return '';
 }
 
-function cp_post_get_featured_image_id( $postID ):int
+function vp_post_get_featured_image_id( $postID ):int
 {
-    $info = cp_post_get_featured_image_info( $postID );
+    $info = vp_post_get_featured_image_info( $postID );
 
     if ( $info ) {
         return $info[ 'id' ];
@@ -79,7 +79,7 @@ function cp_post_get_featured_image_id( $postID ):int
     return 0;
 }
 
-function cp_post_get_featured_image_info( $postID )
+function vp_post_get_featured_image_info( $postID )
 {
     $post = Post::find( $postID );
     if ( !$post ) {
@@ -103,7 +103,7 @@ function cp_post_get_featured_image_info( $postID )
     ];
 }
 
-function cp_get_post_meta( $post, $metaName = false, $languageID = null )
+function vp_get_post_meta( $post, $metaName = false, $languageID = null )
 {
     if ( !$post ) {
         return false;
@@ -146,7 +146,7 @@ function cp_get_post_meta( $post, $metaName = false, $languageID = null )
  * @param string $afterImage The content to display before closing the </figure> tag
  * @return string The IMG html tag in a FIGURE tag
  */
-function cp_get_the_image( $size, $mediaFileID, $pictureClass = '', $imageClass = '', $imageAttrs = [], $afterImage = '' ):string
+function vp_get_the_image( $size, $mediaFileID, $pictureClass = '', $imageClass = '', $imageAttrs = [], $afterImage = '' ):string
 {
     $html = '';
     $mediaFile = MediaFile::find( $mediaFileID );

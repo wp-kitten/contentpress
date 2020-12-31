@@ -40,7 +40,7 @@ class DashboardController extends AdminControllerBase
     public function lang( string $code )
     {
         App::setLocale( $code );
-        cp_set_user_meta( 'backend_user_current_language', $code );
+        vp_set_user_meta( 'backend_user_current_language', $code );
         session()->put( 'backend_user_current_language', $code );
         return redirect()->back();
     }
@@ -74,7 +74,7 @@ class DashboardController extends AdminControllerBase
 
     public function __refreshStats()
     {
-        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+        if ( !vp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
             return redirect()->back()->with( [
                 'class' => 'success',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -100,7 +100,7 @@ class DashboardController extends AdminControllerBase
 
     public function __checkForUpdates()
     {
-        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+        if ( !vp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
             return redirect()->back()->with( [
                 'class' => 'success',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -135,7 +135,7 @@ class DashboardController extends AdminControllerBase
 
     public function __forceCheckForUpdates()
     {
-        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+        if ( !vp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
             return redirect()->back()->with( [
                 'class' => 'success',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -170,7 +170,7 @@ class DashboardController extends AdminControllerBase
 
     public function __update_plugin( string $file_name )
     {
-        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+        if ( !vp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
             return redirect()->back()->with( [
                 'class' => 'success',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -200,7 +200,7 @@ class DashboardController extends AdminControllerBase
 
     public function __update_theme( string $file_name )
     {
-        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+        if ( !vp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
             return redirect()->back()->with( [
                 'class' => 'success',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -226,7 +226,7 @@ class DashboardController extends AdminControllerBase
 
     public function __update_core( string $version )
     {
-        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+        if ( !vp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
             return redirect()->back()->with( [
                 'class' => 'success',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -264,7 +264,7 @@ class DashboardController extends AdminControllerBase
 
     public function __cmdReinstall()
     {
-        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+        if ( !vp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
             return redirect()->back()->with( [
                 'class' => 'success',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -294,7 +294,7 @@ class DashboardController extends AdminControllerBase
 
     public function __cmdReset()
     {
-        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+        if ( !vp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
             return redirect()->back()->with( [
                 'class' => 'success',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -327,7 +327,7 @@ class DashboardController extends AdminControllerBase
 
     public function __cmdClearAppCache()
     {
-        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+        if ( !vp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
             return redirect()->back()->with( [
                 'class' => 'success',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -351,7 +351,7 @@ class DashboardController extends AdminControllerBase
 
     public function __cmdComposerUpdate()
     {
-        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+        if ( !vp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
             return redirect()->back()->with( [
                 'class' => 'success',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -378,7 +378,7 @@ class DashboardController extends AdminControllerBase
 
     public function __cmdComposerDumpAutoload()
     {
-        if ( !cp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
+        if ( !vp_current_user_can( [ 'super_admin', 'administrator' ] ) ) {
             return redirect()->back()->with( [
                 'class' => 'success',
                 'text' => __( 'a.You are not allowed to perform this action.' ),

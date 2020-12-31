@@ -4,7 +4,7 @@
 @inject('roleClass', App\Models\Role)
 @inject('postStatusClass', App\Models\PostStatus)
 @php
-    $isMultilingual = cp_is_multilingual();
+    $isMultilingual = vp_is_multilingual();
     $baseRoute = "admin.{$__post_type->name}";
 
     $users = $userClass->whereIn('role_id', [
@@ -47,7 +47,7 @@
                 </form>
             </div>
 
-            @if(cp_current_user_can('publish_posts'))
+            @if(vp_current_user_can('publish_posts'))
                 <ul class="list-unstyled list-inline mb-0">
                     <li class="">
                         <a class="btn btn-primary d-none d-md-block" href="{{route('admin.'.$__post_type->name.'.new')}}">{{__('a.New')}}</a>
@@ -122,7 +122,7 @@
         </div>
         {{--[[ END FILTERS --}}
 
-        @if(cp_current_user_can('view_posts'))
+        @if(vp_current_user_can('view_posts'))
             <div class="row">
                 <div class="col-lg-12 mb-4">
                     <div class="posts-list">
@@ -139,7 +139,7 @@
                                         if($code == $default_language_code){
                                             continue;
                                         }
-                                        $__languages[$code] = cp_get_language($code)->name;
+                                        $__languages[$code] = vp_get_language($code)->name;
                                     }
                                 }
                             @endphp
@@ -176,7 +176,7 @@
                                             @if($isMultilingual)
                                                 @foreach($__languages as $code => $name)
                                                     <th class="text-center">
-                                                        <i class="{{cp_get_flag_class($code)}}" title="{{$name}}"></i>
+                                                        <i class="{{vp_get_flag_class($code)}}" title="{{$name}}"></i>
                                                     </th>
                                                 @endforeach
                                             @endif
@@ -342,20 +342,20 @@
 
                                                                     <tr>
                                                                         <td class="post-language">
-                                                                            <i class="{{cp_get_flag_class($languageCode)}}"></i>
+                                                                            <i class="{{vp_get_flag_class($languageCode)}}"></i>
                                                                             {{$languageClass->getNameFrom($languageCode)}}
                                                                         </td>
                                                                         <td class="post-title">
-                                                                            @if($translatedPost && cp_current_user_can('edit_posts'))
+                                                                            @if($translatedPost && vp_current_user_can('edit_posts'))
                                                                                 @php
                                                                                     $url = '#';
                                                                                     $title = '';
 
-                                                                                    if(cp_current_user_can('edit_posts')){
+                                                                                    if(vp_current_user_can('edit_posts')){
                                                                                         $url = route("admin.{$__post_type->name}.edit", ['id' => $translatedPost->id]);
                                                                                         $title = __('a.Edit');
                                                                                     }
-                                                                                    elseif(cp_current_user_can('publish_posts')){
+                                                                                    elseif(vp_current_user_can('publish_posts')){
                                                                                         $url = cp_get_post_view_url($translatedPost);
                                                                                         $title = __('a.Preview');
                                                                                     }
@@ -368,26 +368,26 @@
                                                                         </td>
 
                                                                         <td class="post-actions">
-                                                                            @if($translatedPost && cp_current_user_can(['administrator', 'contributor']))
+                                                                            @if($translatedPost && vp_current_user_can(['administrator', 'contributor']))
 
-                                                                                @if(cp_current_user_can('edit_posts'))
+                                                                                @if(vp_current_user_can('edit_posts'))
                                                                                     <a class="post-edit text-primary"
                                                                                        href="{{route("admin.{$__post_type->name}.edit", ['id' => $translatedPost->id])}}">{{__('a.Edit')}}</a>
                                                                                 @endif
 
-                                                                                @if(cp_current_user_can('delete_posts'))
+                                                                                @if(vp_current_user_can('delete_posts'))
                                                                                     <a href="{{route("admin.{$__post_type->name}.delete", ['id' => $translatedPost->id])}}"
                                                                                        data-confirm="{{__('a.Are you sure you want to delete this post? All items associated with it will also be deleted.')}}"
                                                                                        class="text-danger post-delete">{{__('a.Delete')}}</a>
                                                                                 @endif
 
-                                                                                @if(cp_current_user_can('publish_posts'))
+                                                                                @if(vp_current_user_can('publish_posts'))
                                                                                     <a href="{{cp_get_post_view_url($translatedPost)}}" class="post-preview text-primary">
                                                                                         {{__('a.Preview')}}
                                                                                     </a>
                                                                                 @endif
 
-                                                                            @elseif(cp_current_user_can('publish_posts'))
+                                                                            @elseif(vp_current_user_can('publish_posts'))
                                                                                 <a class="post-translate text-primary" href="{{route('admin.'.$__post_type->name.'.translate', [
 													'id' => $post->id,
 													'code' => $languageCode

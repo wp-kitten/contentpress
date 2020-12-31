@@ -11,7 +11,7 @@
             <div>
                 <h1>{{__('a.Plugins')}}</h1>
             </div>
-            @if(cp_current_user_can('install_plugins'))
+            @if(vp_current_user_can('install_plugins'))
                 <ul class="list-unstyled list-inline mb-0">
                     <li class="">
                         <a href="{{route('admin.plugins.add')}}" class="btn btn-primary">{{__('a.Upload')}}</a>
@@ -23,7 +23,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('list_plugins'))
+    @if(vp_current_user_can('list_plugins'))
         <div class="tile">
             <div class="row">
                 <div class="col-md-12 grid-margin">

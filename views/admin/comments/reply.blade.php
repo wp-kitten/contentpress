@@ -28,7 +28,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('moderate_comments'))
+    @if(vp_current_user_can('moderate_comments'))
         {{-- Render the original comment --}}
         <div class="row">
             <div class="col-lg-12">

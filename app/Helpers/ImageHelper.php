@@ -120,7 +120,7 @@ class ImageHelper
             return '';
         }
 
-        $postInfo = cp_post_get_featured_image_info( $post->id );
+        $postInfo = vp_post_get_featured_image_info( $post->id );
         if ( !isset( $postInfo[ 'id' ] ) || empty( $postInfo[ 'url' ] ) ) {
             return '';
         }

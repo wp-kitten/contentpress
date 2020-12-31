@@ -2,7 +2,7 @@
     /**@var \Illuminate\Auth\Authenticatable|\App\Models\User $auth_user*/
     /**@var \App\Models\User $user*/
     $isOwnProfile = ($user->id == $auth_user->getAuthIdentifier());
-    $userImageUrl = cp_get_user_profile_image_url($user->id);
+    $userImageUrl = vp_get_user_profile_image_url($user->id);
     $isAuthUserSuperAdmin = $auth_user->isInRole([\App\Models\Role::ROLE_SUPER_ADMIN]);
     $isAuthUserAdmin = $auth_user->isInRole([\App\Models\Role::ROLE_ADMIN]);
 @endphp
@@ -76,7 +76,7 @@
                             </div>
                             <div class="form-group">
                                 <label for="role">{{__('a.Role')}}</label>
-                                @if(cp_current_user_can('promote_users'))
+                                @if(vp_current_user_can('promote_users'))
                                     <select class="form-control border" name="role" id="role">
                                         {{--// Administrators cannot promote users to super admin role --}}
                                         @foreach($roles as $role)
@@ -94,7 +94,7 @@
                                 @endif
                             </div>
 
-                            @if(cp_current_user_can('block_users'))
+                            @if(vp_current_user_can('block_users'))
                                 @if( ! $isOwnProfile && ($isAuthUserSuperAdmin || $isAuthUserAdmin))
                                     <div class="form-group">
                                         <label for="blocked">{{__('a.Blocked') }}</label>
@@ -129,14 +129,14 @@
 
                         <form id="user-profile-form"
                               method="post"
-                              @if(cp_current_user_can( 'upload_files' )) enctype="multipart/form-data" @endif
+                              @if(vp_current_user_can( 'upload_files' )) enctype="multipart/form-data" @endif
                               action="{{route('admin.users.update_profile', ['id' => $user->id])}}">
 
                             <div class="form-group row">
                                 <label for="field-website" class="col-sm-3 col-form-label">{{__('a.Website')}}</label>
                                 <div class="col-sm-9">
                                     @php
-                                        $websiteUrl = cp_get_user_meta('_website_url', $user->id);
+                                        $websiteUrl = vp_get_user_meta('_website_url', $user->id);
                                     @endphp
                                     <input type="url"
                                            class="form-control"
@@ -151,7 +151,7 @@
                                 <label for="field-bio" class="col-sm-3 col-form-label">{{__('a.Biographical Info')}}</label>
                                 <div class="col-sm-9">
                                     @php
-                                        $userBio = cp_get_user_meta('_user_bio', $user->id);
+                                        $userBio = vp_get_user_meta('_user_bio', $user->id);
                                     @endphp
                                     <div class="quill-scrolling-container">
                                         <div id="field-bio-editor">{!! $userBio !!}</div>
@@ -165,7 +165,7 @@
                                 </div>
                             </div>
 
-                            @if(cp_current_user_can( 'upload_files' ))
+                            @if(vp_current_user_can( 'upload_files' ))
                                 <div class="form-group row">
                                     <label for="field-website" class="col-sm-3 col-form-label">{{__('a.Profile picture')}}</label>
                                     <div class="col-sm-9">

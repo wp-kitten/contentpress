@@ -11,7 +11,7 @@
                 <h1>{{__('a.Add media')}}</h1>
             </div>
 
-            @if(cp_current_user_can('add_media'))
+            @if(vp_current_user_can('add_media'))
                 <ul class="list-unstyled list-inline mb-0">
                     <li>
                         <a href="{{route('admin.media.all')}}" class="btn btn-primary">{{__('a.Back')}}</a>
@@ -23,7 +23,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('add_media'))
+    @if(vp_current_user_can('add_media'))
         <div class="tile mb-4">
             <div class="row">
                 <div class="col-md-12 grid-margin">

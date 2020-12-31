@@ -110,7 +110,7 @@ class DropdownMenuBuilder implements IMenuBuilder
     {
         $category = Category::find( $refItemID );
         if ( $category ) {
-            $activeClass = ( Str::containsAll( url()->current(), [ cp_get_category_link( $category ) ] ) ? 'active' : '' );
+            $activeClass = ( Str::containsAll( url()->current(), [ vp_get_category_link( $category ) ] ) ? 'active' : '' );
             if ( $cssClass == 'has-submenu' ) {
                 ?>
                 <div class="<?php esc_attr_e( "{$cssClass} {$activeClass}" ); ?>">
@@ -129,7 +129,7 @@ class DropdownMenuBuilder implements IMenuBuilder
             }
             else {
                 ?>
-                <a href="<?php cp_get_category_link( $category ); ?>" class="<?php esc_attr_e( "{$cssClass} {$activeClass}" ); ?>"><?php esc_html_e( $category->name ); ?></a>
+                <a href="<?php vp_get_category_link( $category ); ?>" class="<?php esc_attr_e( "{$cssClass} {$activeClass}" ); ?>"><?php esc_html_e( $category->name ); ?></a>
                 <?php
             }
         }
@@ -141,7 +141,7 @@ class DropdownMenuBuilder implements IMenuBuilder
         if ( $post ) {
             $menuItemInfo = $this->__getMenuInfo( $menuItemID, $menuItemData );
             if ( $cssClass == 'has-submenu' ) {
-                $activeClass = ( Str::containsAll( url()->current(), [ cp_get_permalink( $post ) ] ) ? 'active' : '' );
+                $activeClass = ( Str::containsAll( url()->current(), [ vp_get_permalink( $post ) ] ) ? 'active' : '' );
                 ?>
                 <div class="<?php esc_attr_e( "{$cssClass} {$activeClass}" ); ?>">
                     <button class="show-submenu">

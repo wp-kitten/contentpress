@@ -8,7 +8,7 @@ use App\Helpers\UserNotices;
  * @param string $notice
  * @see https://getbootstrap.com/docs/4.0/components/alerts/
  */
-function cp_add_user_notice( string $type, string $notice )
+function vp_add_user_notice( string $type, string $notice )
 {
     UserNotices::getInstance()->addNotice( $type, $notice );
 }
@@ -16,6 +16,6 @@ function cp_add_user_notice( string $type, string $notice )
 /**
  * Helper method to remove all user notices
  */
-function cp_remove_all_user_notices(){
+function vp_remove_all_user_notices(){
     UserNotices::getInstance()->removeAll();
 }

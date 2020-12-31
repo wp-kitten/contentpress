@@ -13,7 +13,7 @@ class MenuController extends AdminControllerBase
 {
     public function index()
     {
-        if ( !cp_current_user_can( 'manage_menus' ) ) {
+        if ( !vp_current_user_can( 'manage_menus' ) ) {
             return $this->_forbidden();
         }
 
@@ -24,14 +24,14 @@ class MenuController extends AdminControllerBase
         ScriptsManager::enqueueFooterScript( 'menus-index.js', asset( '_admin/js/menus/index.js' ) );
 
         return view( 'admin.menu.index' )->with( [
-            'menus' => Menu::where( 'language_id', cp_get_backend_user_language_id() )->get(),
+            'menus' => Menu::where( 'language_id', vp_get_backend_user_language_id() )->get(),
             'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 
     public function showCreatePage()
     {
-        if ( !cp_current_user_can( 'create_menu' ) ) {
+        if ( !vp_current_user_can( 'create_menu' ) ) {
             return $this->_forbidden();
         }
 
@@ -42,14 +42,14 @@ class MenuController extends AdminControllerBase
         ScriptsManager::enqueueFooterScript( 'menus-index.js', asset( '_admin/js/menus/index.js' ) );
 
         return view( 'admin.menu.new' )->with( [
-            'menus' => Menu::where( 'language_id', cp_get_backend_user_language_id() )->get(),
+            'menus' => Menu::where( 'language_id', vp_get_backend_user_language_id() )->get(),
             'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }
 
     public function showEditPage( $id )
     {
-        if ( !cp_current_user_can( 'update_menu' ) ) {
+        if ( !vp_current_user_can( 'update_menu' ) ) {
             return $this->_forbidden();
         }
 
@@ -75,7 +75,7 @@ class MenuController extends AdminControllerBase
         ScriptsManager::enqueueFooterScript( 'menus-edit.js', asset( '_admin/js/menus/edit.js' ) );
 
         $menuClass = null;
-        $backendLanguageID = cp_get_backend_user_language_id();
+        $backendLanguageID = vp_get_backend_user_language_id();
         try {
             $menuClass = new MenuWalkerBackend( $id, $backendLanguageID );
         }
@@ -94,7 +94,7 @@ class MenuController extends AdminControllerBase
 
     public function __insert()
     {
-        if ( !cp_current_user_can( 'manage_menus' ) ) {
+        if ( !vp_current_user_can( 'manage_menus' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -108,7 +108,7 @@ class MenuController extends AdminControllerBase
 
         $menuModel = new Menu();
 
-        $languageID = cp_get_backend_user_language_id();
+        $languageID = vp_get_backend_user_language_id();
 
         $exists = $menuModel->exists( $menuNameSlug, $languageID );
 
@@ -130,7 +130,7 @@ class MenuController extends AdminControllerBase
 
     public function __update( $id )
     {
-        if ( !cp_current_user_can( 'manage_menus' ) ) {
+        if ( !vp_current_user_can( 'manage_menus' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -159,7 +159,7 @@ class MenuController extends AdminControllerBase
 
     public function __delete( $id )
     {
-        if ( !cp_current_user_can( 'manage_menus' ) ) {
+        if ( !vp_current_user_can( 'manage_menus' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action.' ),

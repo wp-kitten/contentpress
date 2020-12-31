@@ -8,14 +8,14 @@ use App\Models\MediaFile;
  * A small size is used to improve the overall page load and
  * minimize the resource consuming.
  */
-cp_add_image_size( 'cp_media_thumb', [ 'w' => 150, 'h' => 150 ] );
+vp_add_image_size( 'vp_media_thumb', [ 'w' => 150, 'h' => 150 ] );
 
 /**
  * @param MediaFile $mediaFile Model $mediaFile
  * @param $imageSize
  * @return string
  */
-function cp_image( MediaFile $mediaFile, $imageSize ): string
+function vp_image( MediaFile $mediaFile, $imageSize ): string
 {
     $mh = new MediaHelper();
     $meta = $mediaFile->media_file_metas()->where( 'meta_name', 'srcset' )->first();

@@ -10,7 +10,7 @@
     {{-- Navbar Right Menu --}}
     <ul class="app-nav">
         {{-- LANGUAGE SWITCHER --}}
-        @includeWhen(cp_is_multilingual(), 'admin.layouts.partials.navbar.language-switcher')
+        @includeWhen(vp_is_multilingual(), 'admin.layouts.partials.navbar.language-switcher')
 
         {{-- ADMIN ALERTS --}}
         @include('admin.layouts.partials.navbar.admin-alerts')

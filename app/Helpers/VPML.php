@@ -175,7 +175,7 @@ class VPML
      */
     public static function getBackendUserLanguageCode()
     {
-        return cp_get_user_meta( 'backend_user_current_language', null, null, 'en' );
+        return vp_get_user_meta( 'backend_user_current_language', null, null, 'en' );
     }
 
     /**
@@ -185,8 +185,8 @@ class VPML
     public static function getFrontendLanguageCode()
     {
         $defaultLanguageCode = VPML::getDefaultLanguageCode();
-        if ( cp_is_user_logged_in() ) {
-            return cp_get_user_meta( 'frontend_user_language_code', null, null, $defaultLanguageCode );
+        if ( vp_is_user_logged_in() ) {
+            return vp_get_user_meta( 'frontend_user_language_code', null, null, $defaultLanguageCode );
         }
         $sessVal = session()->get( 'frontend_user_language_code' );
         return ( empty( $sessVal ) ? $defaultLanguageCode : $sessVal );
@@ -204,8 +204,8 @@ class VPML
             app()->setLocale( $code );
             session()->put( 'frontend_user_language_code', $code );
             //#! If authenticated user, update their user meta field
-            if ( cp_is_user_logged_in() ) {
-                cp_set_user_meta( 'frontend_user_language_code', $code );
+            if ( vp_is_user_logged_in() ) {
+                vp_set_user_meta( 'frontend_user_language_code', $code );
             }
         }
     }

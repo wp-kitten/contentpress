@@ -53,7 +53,7 @@ define( 'VALPRESS_TYPE_THEME', 'theme' );
 /**
  * Global identifier to be used for forms
  * @var int
- * @see cp_search_form()
+ * @see vp_search_form()
  */
 $GLOBALS[ 'sid' ] = 0;
 

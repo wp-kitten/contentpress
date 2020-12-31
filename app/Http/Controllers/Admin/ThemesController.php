@@ -14,7 +14,7 @@ class ThemesController extends AdminControllerBase
 {
     public function index()
     {
-        if ( !cp_current_user_can( 'list_themes' ) ) {
+        if ( !vp_current_user_can( 'list_themes' ) ) {
             return $this->_forbidden();
         }
 
@@ -48,7 +48,7 @@ class ThemesController extends AdminControllerBase
 
     public function renderAddView()
     {
-        if ( !cp_current_user_can( 'install_themes' ) ) {
+        if ( !vp_current_user_can( 'install_themes' ) ) {
             return $this->_forbidden();
         }
 
@@ -68,7 +68,7 @@ class ThemesController extends AdminControllerBase
 
     public function __activate( $themeDirName )
     {
-        if ( !cp_current_user_can( 'switch_themes' ) ) {
+        if ( !vp_current_user_can( 'switch_themes' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action' ),
@@ -100,7 +100,7 @@ class ThemesController extends AdminControllerBase
 
     public function __delete( $themeDirName )
     {
-        if ( !cp_current_user_can( 'delete_themes' ) ) {
+        if ( !vp_current_user_can( 'delete_themes' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action' ),
@@ -173,13 +173,13 @@ class ThemesController extends AdminControllerBase
                 'text' => __( 'a.Invalid request: some values are missing.' ),
             ] );
         }
-        elseif ( !cp_current_user_can( 'install_themes' ) ) {
+        elseif ( !vp_current_user_can( 'install_themes' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
             ] );
         }
-        elseif ( !cp_current_user_can( 'switch_themes' ) ) {
+        elseif ( !vp_current_user_can( 'switch_themes' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action.' ),

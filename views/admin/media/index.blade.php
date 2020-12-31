@@ -22,7 +22,7 @@
                 @csrf
             </form>
 
-            @if(cp_current_user_can('add_media'))
+            @if(vp_current_user_can('add_media'))
                 <ul class="list-unstyled list-inline mb-0">
                     <li>
                         <a href="{{route('admin.media.add')}}" class="btn btn-primary">{{__('a.Upload')}}</a>

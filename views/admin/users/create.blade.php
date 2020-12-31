@@ -1,5 +1,5 @@
 @php
-    $authUser = cp_get_current_user();
+    $authUser = vp_get_current_user();
     $canAddUsers = $authUser->can('create_users');
     $canEditUsers = $authUser->can('edit_users');
     $canDeleteUsers = $authUser->can('delete_users');
@@ -53,7 +53,7 @@
                                 <label for="password">{{__('a.Password')}}</label>
                                 <input type="password" class="form-control" name="password" value="{{old('password')}}" id="password" autocomplete="off"/>
                             </div>
-                            @if(cp_current_user_can('promote_users'))
+                            @if(vp_current_user_can('promote_users'))
                                 <div class="form-group">
                                     <label for="role">{{__('a.Role')}}</label>
                                     <select class="form-control" name="role" id="role">

@@ -20,7 +20,7 @@
 
             <tr>
                 <td>
-                    <i class="{{cp_get_flag_class($languageCode)}}"></i>
+                    <i class="{{vp_get_flag_class($languageCode)}}"></i>
                     {{$languageClass->getNameFrom($languageCode)}}
                 </td>
 

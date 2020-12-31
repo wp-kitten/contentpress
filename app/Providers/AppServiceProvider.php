@@ -60,8 +60,8 @@ class AppServiceProvider extends ServiceProvider
         Paginator::useBootstrap();
 
         if ( Schema::hasTable( 'options' ) ) {
-            if ( cp_is_multilingual() ) {
-                $locale = cp_get_user_meta( 'backend_user_current_language' );
+            if ( vp_is_multilingual() ) {
+                $locale = vp_get_user_meta( 'backend_user_current_language' );
                 if ( empty( $locale ) ) {
                     $locale = VPML::getDefaultLanguageCode();
                 }

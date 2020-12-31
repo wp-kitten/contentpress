@@ -15,9 +15,9 @@ use Illuminate\Support\Facades\File;
  * @param bool $matchAll Whether or not the current user must have all capabilities when provided as an array
  * @return bool
  */
-function cp_current_user_can( $capabilities, $matchAll = false ): bool
+function vp_current_user_can( $capabilities, $matchAll = false ): bool
 {
-    $user = cp_get_current_user();
+    $user = vp_get_current_user();
 
     if ( !$user || empty( $capabilities ) ) {
         return false;
@@ -50,7 +50,7 @@ function cp_current_user_can( $capabilities, $matchAll = false ): bool
  * @param string $capability
  * @return bool
  */
-function cp_user_can( $user, $capability ): bool
+function vp_user_can( $user, $capability ): bool
 {
 
     if ( $user instanceof User ) {
@@ -67,7 +67,7 @@ function cp_user_can( $user, $capability ): bool
  * Retrieve the currently logged in user or null
  * @return Authenticatable|User|null
  */
-function cp_get_current_user()
+function vp_get_current_user()
 {
     return ( auth()->check() ? auth()->user() : null );
 }
@@ -76,20 +76,20 @@ function cp_get_current_user()
  * Retrieve the ID of the current user
  * @return int
  */
-function cp_get_current_user_id(): int
+function vp_get_current_user_id(): int
 {
-    if ( $user = cp_get_current_user() ) {
+    if ( $user = vp_get_current_user() ) {
         return $user->id;
     }
     return 0;
 }
 
-function cp_is_user_logged_in()
+function vp_is_user_logged_in()
 {
-    return ( $user = cp_get_current_user() );
+    return ( $user = vp_get_current_user() );
 }
 
-function cp_get_user_profile_image_url( $userID, $languageID = null ): string
+function vp_get_user_profile_image_url( $userID, $languageID = null ): string
 {
     $user = User::find( $userID );
     if ( !$user ) {
@@ -114,13 +114,13 @@ function cp_get_user_profile_image_url( $userID, $languageID = null ): string
     return asset( $filePath );
 }
 
-function cp_get_user_meta( $meta_name, $userID = null, $languageID = null, $defaultValue = false )
+function vp_get_user_meta( $meta_name, $userID = null, $languageID = null, $defaultValue = false )
 {
     if ( empty( $userID ) ) {
-        if ( !cp_is_user_logged_in() ) {
+        if ( !vp_is_user_logged_in() ) {
             return false;
         }
-        $userID = cp_get_current_user()->getAuthIdentifier();
+        $userID = vp_get_current_user()->getAuthIdentifier();
     }
     $user = User::find( $userID );
     if ( !$user ) {
@@ -141,14 +141,14 @@ function cp_get_user_meta( $meta_name, $userID = null, $languageID = null, $defa
     return $defaultValue;
 }
 
-function cp_set_user_meta( $meta_name, $meta_value = null, $userID = null, $languageID = null ): bool
+function vp_set_user_meta( $meta_name, $meta_value = null, $userID = null, $languageID = null ): bool
 {
-    if ( !cp_is_user_logged_in() ) {
+    if ( !vp_is_user_logged_in() ) {
         return false;
     }
 
     if ( empty( $userID ) ) {
-        $userID = cp_get_current_user()->getAuthIdentifier();
+        $userID = vp_get_current_user()->getAuthIdentifier();
     }
     $user = User::find( $userID );
     if ( !$user ) {
@@ -175,7 +175,7 @@ function cp_set_user_meta( $meta_name, $meta_value = null, $userID = null, $lang
     return true;
 }
 
-function cp_get_user_display_name( User $user ): string
+function vp_get_user_display_name( User $user ): string
 {
     if ( empty( $user->display_name ) ) {
         return $user->name;

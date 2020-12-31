@@ -6,7 +6,7 @@
     $allowTags = $optionsClass->getOption("post_type_{$__post_type->name}_allow_tags", true);
     $allowComments = $optionsClass->getOption("post_type_{$__post_type->name}_allow_comments", true);
 
-    $postImageInfo = cp_post_get_featured_image_info($post->id);
+    $postImageInfo = vp_post_get_featured_image_info($post->id);
     $postImageID = 0;
     $postImageUrl = '';
 
@@ -31,7 +31,7 @@
                 <input class="form-control cp-wide" id="post_title" type="text" value="{!! $post->title !!}" placeholder="{{__('a.Post title')}}"/>
             </div>
             <ul class="list-unstyled list-inline mb-0">
-                @if(cp_current_user_can('publish_posts'))
+                @if(vp_current_user_can('publish_posts'))
                     <li class="">
                         <a href="#" class="btn btn-primary ml-4 js-save-post-button" id="js-btn-post-save">{{__('a.Save')}}</a>
                     </li>
@@ -47,7 +47,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can(['administrator', 'contributor']))
+    @if(vp_current_user_can(['administrator', 'contributor']))
         <form id="post-edit-form" class="post-edit-form mb-4">
             <div class="row">
                 <div class="col-lg-9 d-flex align-items-stretch">

@@ -20,7 +20,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('install_plugins'))
+    @if(vp_current_user_can('install_plugins'))
         <div class="cp-flex cp-flex--center justify-content-center">
             <div class="col-md-6">
                 <div class="theme_upload_field-wrapper">

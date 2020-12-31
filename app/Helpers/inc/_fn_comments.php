@@ -5,29 +5,29 @@ use App\Models\Post;
 use App\Models\PostComments;
 use App\Models\Settings;
 
-function cp_comments_open( ?Post $post ): bool
+function vp_comments_open( ?Post $post ): bool
 {
     if ( !$post ) {
         return false;
     }
 
-    if ( !cp_get_post_meta( $post, '_comments_enabled' ) ) {
+    if ( !vp_get_post_meta( $post, '_comments_enabled' ) ) {
         return false;
     }
 
-    if ( cp_is_user_logged_in() ) {
+    if ( vp_is_user_logged_in() ) {
         return true;
     }
 
     return ( new Settings() )->getSetting( 'anyone_can_comment' );
 }
 
-function cp_has_comments( ?Post $post ): bool
+function vp_has_comments( ?Post $post ): bool
 {
-    return ( cp_get_comments_count( $post ) > 0 );
+    return ( vp_get_comments_count( $post ) > 0 );
 }
 
-function cp_get_comments_count( ?Post $post ): int
+function vp_get_comments_count( ?Post $post ): int
 {
     if ( !$post ) {
         return 0;
@@ -35,7 +35,7 @@ function cp_get_comments_count( ?Post $post ): int
     return $post->post_comments->count();
 }
 
-function cp_comments_reply_form( ?Post $post, string $commentFormViewPath = 'partials.comment_form' ): string
+function vp_comments_reply_form( ?Post $post, string $commentFormViewPath = 'partials.comment_form' ): string
 {
     if ( !$post ) {
         return '';
@@ -43,7 +43,7 @@ function cp_comments_reply_form( ?Post $post, string $commentFormViewPath = 'par
     return view( $commentFormViewPath )->with( [ 'post' => $post ] );
 }
 
-function cp_get_comment_status_name( ?PostComments $comment ): string
+function vp_get_comment_status_name( ?PostComments $comment ): string
 {
     if ( !$comment ) {
         return '';
@@ -55,7 +55,7 @@ function cp_get_comment_status_name( ?PostComments $comment ): string
     return $commentStatus->display_name;
 }
 
-function cp_is_reply( ?PostComments $comment ): bool
+function vp_is_reply( ?PostComments $comment ): bool
 {
     if ( !$comment ) {
         return false;
@@ -63,7 +63,7 @@ function cp_is_reply( ?PostComments $comment ): bool
     return ( !empty( $comment->comment_id ) );
 }
 
-function cp_get_comment_url( ?PostComments $comment ): string
+function vp_get_comment_url( ?PostComments $comment ): string
 {
     if ( !$comment ) {
         return '';
@@ -73,13 +73,13 @@ function cp_get_comment_url( ?PostComments $comment ): string
     return $postUrl;
 }
 
-function cp_get_comment_author_name( ?PostComments $comment ): string
+function vp_get_comment_author_name( ?PostComments $comment ): string
 {
     if ( !$comment ) {
         return '';
     }
     if ( !empty( $comment->user_id ) ) {
-        return cp_get_user_display_name( $comment->user );
+        return vp_get_user_display_name( $comment->user );
     }
     return $comment->author_name;
 }

@@ -38,14 +38,14 @@ function __valpress_render_comment( PostComments $comment, $withReplies = true )
 {
     $commentUserID = $comment->user_id;
     $commentAuthorName = ( $commentUserID ? $comment->user->display_name : $comment->author_name );
-    $commentAuthorUrl = ( $commentUserID ? cp_get_user_meta( '_website_url', $commentUserID ) : $comment->author_url );
+    $commentAuthorUrl = ( $commentUserID ? vp_get_user_meta( '_website_url', $commentUserID ) : $comment->author_url );
     ?>
     <div class="comment" id="comment-<?php esc_attr_e( $comment->id ); ?>">
         <div class="comment-body">
             <div class="author-vcard mr-3">
                 <?php
                 if ( $commentUserID ) {
-                    $authorImageUrl = cp_get_user_profile_image_url( $commentUserID );
+                    $authorImageUrl = vp_get_user_profile_image_url( $commentUserID );
                 }
                 else {
                     $authorImageUrl = asset( 'images/placeholder-200.jpg' );
@@ -58,7 +58,7 @@ function __valpress_render_comment( PostComments $comment, $withReplies = true )
                     <h4 class="mb-5">
                         <a href="<?php esc_attr_e( $commentAuthorUrl ); ?>" class="title-link"><?php esc_html_e( $commentAuthorName ); ?></a>
                     </h4>
-                    <time datetime="<?php esc_attr_e( $comment->created_at ); ?>" class=""><?php esc_html_e( cp_the_date( $comment ) ); ?></time>
+                    <time datetime="<?php esc_attr_e( $comment->created_at ); ?>" class=""><?php esc_html_e( vp_the_date( $comment ) ); ?></time>
                 </div>
                 <div class="comment-text">
                     <?php echo $comment->content; ?>
@@ -87,13 +87,13 @@ function __valpress_render_comment_replies( PostComments $comment )
         foreach ( $replies as $reply ) {
             $commentUserID = $reply->user_id;
             $commentAuthorName = ( $commentUserID ? $reply->user->display_name : $reply->author_name );
-            $commentAuthorUrl = ( $commentUserID ? cp_get_user_meta( '_website_url', $commentUserID ) : $reply->author_url );
+            $commentAuthorUrl = ( $commentUserID ? vp_get_user_meta( '_website_url', $commentUserID ) : $reply->author_url );
             ?>
             <div class="comment-body comment-reply">
                 <div class="author-vcard mr-3">
                     <?php
                     if ( $commentUserID ) {
-                        $authorImageUrl = cp_get_user_profile_image_url( $commentUserID );
+                        $authorImageUrl = vp_get_user_profile_image_url( $commentUserID );
                     }
                     else {
                         $authorImageUrl = asset( 'images/placeholder-200.jpg' );
@@ -106,7 +106,7 @@ function __valpress_render_comment_replies( PostComments $comment )
                         <h4 class="mb-5">
                             <a href="<?php esc_attr_e( $commentAuthorUrl ); ?>" class="title-link"><?php esc_html_e( $commentAuthorName ); ?></a>
                         </h4>
-                        <time datetime="<?php esc_attr_e( $reply->created_at ); ?>" class=""><?php esc_html_e( cp_the_date( $reply ) ); ?></time>
+                        <time datetime="<?php esc_attr_e( $reply->created_at ); ?>" class=""><?php esc_html_e( vp_the_date( $reply ) ); ?></time>
                     </div>
                     <div class="comment-text">
                         <?php echo $reply->content; ?>
@@ -126,14 +126,14 @@ add_action( 'valpress/comment/actions', '__valpress_render_comment_actions', 10,
 function __valpress_render_comment_actions( PostComments $comment, $postID )
 {
     echo '<div class="comment-actions">';
-    if ( cp_current_user_can( 'moderate_comments' ) ) {
-        $editLink = cp_get_comment_edit_link( $comment->post, $comment->id );
+    if ( vp_current_user_can( 'moderate_comments' ) ) {
+        $editLink = vp_get_comment_edit_link( $comment->post, $comment->id );
 
         echo '<a href="#!" class="text-danger js-comment-delete" data-post-id="' . esc_attr( $postID ) . '" data-comment-id="' . esc_attr( $comment->id ) . '">' . esc_html( __( 'a.Delete' ) ) . '</a>';
         echo '<a href="' . esc_attr( $editLink ) . '" class="text-warning js-comment-edit" data-post-id="' . esc_attr( $postID ) . '" data-comment-id="' . esc_attr( $comment->id ) . '">' . esc_html( __( 'a.Edit' ) ) . '</a>';
     }
 
-    if ( cp_comments_open( Post::find( $postID ) ) ) {
+    if ( vp_comments_open( Post::find( $postID ) ) ) {
         echo '<a href="#!" class="text-info js-comment-reply" data-post-id="' . esc_attr( $postID ) . '" data-comment-id="' . esc_attr( $comment->id ) . '">' . esc_html( __( 'a.Reply' ) ) . '</a>';
     }
     echo '</div>';
@@ -209,10 +209,10 @@ function __valpress_body_class( $classes = [] ): array
 {
     array_push( $classes, 'valpress' );
 
-    if ( cp_is_singular() || cp_is_page() ) {
+    if ( vp_is_singular() || vp_is_page() ) {
         array_push( $classes, "valpress-singular" );
 
-        $post = cp_get_post();
+        $post = vp_get_post();
         if ( $post ) {
             array_push( $classes, "valpress-{$post->post_type->name}" );
         }
@@ -223,8 +223,8 @@ function __valpress_body_class( $classes = [] ): array
 add_filter( 'valpress/post-class', '__valpress_post_class', 10, 1 );
 function __valpress_post_class( $classes = [] ): array
 {
-    if ( cp_is_singular() || cp_is_page() ) {
-        $post = cp_get_post();
+    if ( vp_is_singular() || vp_is_page() ) {
+        $post = vp_get_post();
         if ( $post ) {
             array_push( $classes, "valpress-{$post->post_type->name}" );
         }
@@ -235,7 +235,7 @@ function __valpress_post_class( $classes = [] ): array
 add_action( 'valpress/frontend/init', '__valpress_admin_bar' );
 function __valpress_admin_bar()
 {
-    if ( cp_is_user_logged_in() ) {
+    if ( vp_is_user_logged_in() ) {
         AdminBar::getInstance();
     }
 }

@@ -11,7 +11,7 @@
             <div>
                 <h1>{{__('a.Marketplace')}}</h1>
             </div>
-            @if(cp_current_user_can('install_themes'))
+            @if(vp_current_user_can('install_themes'))
                 <ul class="list-unstyled list-inline mb-0">
                     <li class="">
                         <a href="{{route('admin.themes.marketplace.refresh')}}" class="btn btn-primary">{{__('a.Refresh')}}</a>
@@ -23,7 +23,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('list_themes'))
+    @if(vp_current_user_can('list_themes'))
         <div class="row themes-list marketplace">
             @foreach($themes as $themeDirName => $themeInfo)
                 @php
@@ -48,7 +48,7 @@
                             <div class="theme-actions d-flex">
                                 <h4 class="theme-title title-sm mr-auto">{{$themeInfo['display_name']}}</h4>
                                 <div>
-                                    @if(cp_current_user_can('switch_themes'))
+                                    @if(vp_current_user_can('switch_themes'))
                                         @if(! $themesManager->exists($themeDirName))
                                             <a href="#"
                                                onclick="event.preventDefault(); document.getElementById('form-theme-install-{{$themeDirName}}').submit();"

@@ -50,7 +50,7 @@ class PostsController extends AdminControllerBase
             return $this->_forbidden( 'The specified post type was not found' );
         }
 
-        if ( !cp_current_user_can( [ 'administrator', 'contributor' ] ) ) {
+        if ( !vp_current_user_can( [ 'administrator', 'contributor' ] ) ) {
             return $this->_forbidden();
         }
 
@@ -112,7 +112,7 @@ class PostsController extends AdminControllerBase
             return $this->_forbidden( 'The specified post type was not found' );
         }
 
-        if ( !cp_current_user_can( [ 'administrator', 'contributor' ] ) ) {
+        if ( !vp_current_user_can( [ 'administrator', 'contributor' ] ) ) {
             return $this->_forbidden();
         }
 
@@ -181,7 +181,7 @@ class PostsController extends AdminControllerBase
             return $this->_forbidden( 'The specified post type was not found' );
         }
 
-        if ( !cp_current_user_can( [ 'administrator', 'contributor' ] ) ) {
+        if ( !vp_current_user_can( [ 'administrator', 'contributor' ] ) ) {
             return $this->_forbidden();
         }
 
@@ -243,7 +243,7 @@ class PostsController extends AdminControllerBase
             return $this->_forbidden( 'The specified post type was not found' );
         }
 
-        if ( !cp_current_user_can( [ 'administrator', 'contributor' ] ) ) {
+        if ( !vp_current_user_can( [ 'administrator', 'contributor' ] ) ) {
             return $this->_forbidden();
         }
 
@@ -359,7 +359,7 @@ class PostsController extends AdminControllerBase
             return $this->_forbidden( 'The specified post type was not found' );
         }
 
-        if ( !cp_current_user_can( [ 'delete_posts', 'delete_others_posts', 'delete_private_posts', 'delete_published_posts' ] ) ) {
+        if ( !vp_current_user_can( [ 'delete_posts', 'delete_others_posts', 'delete_private_posts', 'delete_published_posts' ] ) ) {
             return $this->_forbidden();
         }
 
@@ -440,7 +440,7 @@ class PostsController extends AdminControllerBase
             return $this->_forbidden( 'The specified post type was not found' );
         }
 
-        if ( !cp_current_user_can( [ 'delete_posts', 'delete_others_posts', 'delete_private_posts', 'delete_published_posts' ] ) ) {
+        if ( !vp_current_user_can( [ 'delete_posts', 'delete_others_posts', 'delete_private_posts', 'delete_published_posts' ] ) ) {
             return $this->_forbidden();
         }
         $posts = $this->request->get( 'posts', [] );

@@ -12,7 +12,7 @@
             </div>
 
             <ul class="list-unstyled list-inline mb-0">
-                @if(cp_current_user_can('administrator'))
+                @if(vp_current_user_can('administrator'))
                     <li class="">
                         <a class="btn btn-primary"
                            href="{{route('admin.dashboard.refresh_stats')}}"
@@ -22,7 +22,7 @@
                         </form>
                     </li>
                 @endif
-                @if(cp_current_user_can('edit_dashboard'))
+                @if(vp_current_user_can('edit_dashboard'))
                     <li class="">
                         <a class="btn btn-primary mr-0 ml-3" href="{{route('admin.dashboard.edit')}}">{{__('a.Edit')}}</a>
                     </li>
@@ -34,7 +34,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('read'))
+    @if(vp_current_user_can('read'))
         <div class="row">
 
             {{-- SECTION #1 --}}

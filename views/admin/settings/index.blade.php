@@ -12,7 +12,7 @@
             <div>
                 <h1>{{__('a.General settings')}}</h1>
             </div>
-            @if(cp_current_user_can('manage_options'))
+            @if(vp_current_user_can('manage_options'))
                 <ul class="list-unstyled list-inline mb-0">
                     @if($use_internal_cache)
                         <li class="">
@@ -26,12 +26,12 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('manage_options'))
+    @if(vp_current_user_can('manage_options'))
         <form class="" method="post" action="{{route('admin.settings.general.update')}}">
             <div class="row">
                 <div class="col-md-6">
                     <div class="tile">
-                        @if(cp_is_multilingual())
+                        @if(vp_is_multilingual())
                             <div class="form-group">
                                 <label for="default_language">{{__('a.Select the default language')}}</label>
                                 <select id="default_language" name="default_language" class="ml-2 form-control cp-form-control-inline">

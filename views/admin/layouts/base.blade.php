@@ -1,6 +1,6 @@
 @php do_action('valpress/backend/init') @endphp
 @php
-    $locale = cp_get_user_meta( 'backend_user_current_language' );
+    $locale = vp_get_user_meta( 'backend_user_current_language' );
     if( empty( $locale ) ) {
         $locale = App\Helpers\VPML::getDefaultLanguageCode();
     }

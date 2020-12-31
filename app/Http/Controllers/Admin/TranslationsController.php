@@ -15,7 +15,7 @@ class TranslationsController extends PostsController
     //#! GET
     public function index()
     {
-        if ( !cp_current_user_can( 'manage_translations' ) ) {
+        if ( !vp_current_user_can( 'manage_translations' ) ) {
             return $this->_forbidden();
         }
 
@@ -42,7 +42,7 @@ class TranslationsController extends PostsController
     //#! GET
     public function plugins()
     {
-        if ( !cp_current_user_can( 'manage_translations' ) ) {
+        if ( !vp_current_user_can( 'manage_translations' ) ) {
             return $this->_forbidden();
         }
 
@@ -72,7 +72,7 @@ class TranslationsController extends PostsController
     //#! GET
     public function themes()
     {
-        if ( !cp_current_user_can( 'manage_translations' ) ) {
+        if ( !vp_current_user_can( 'manage_translations' ) ) {
             return $this->_forbidden();
         }
 

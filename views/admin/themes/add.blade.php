@@ -22,7 +22,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('install_themes'))
+    @if(vp_current_user_can('install_themes'))
         <div class="row">
             <div class="col-md-12">
                 <div class="theme_upload_field-wrapper">

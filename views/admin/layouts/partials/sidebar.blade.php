@@ -9,8 +9,8 @@
     $enabledLanguages = $optionsClass->getOption( 'enabled_languages', [] );
     $isMultiLanguage = (count($enabledLanguages) > 1);
 
-    $currentUser = cp_get_current_user();
-    $userImage = cp_get_user_profile_image_url($currentUser->getAuthIdentifier());
+    $currentUser = vp_get_current_user();
+    $userImage = vp_get_user_profile_image_url($currentUser->getAuthIdentifier());
     $postTypes = App\Models\PostType::where('language_id', App\Helpers\VPML::getDefaultLanguageID())->get();
 
     //#! Edit user profile text
@@ -30,7 +30,7 @@
             <img class="app-sidebar__user-avatar" src="{{$userImage}}" alt="{{__('a.Profile image')}}" style="width:48px; height:48px;"/>
         @endif
         <div>
-            <p class="app-sidebar__user-name">{{ cp_get_user_display_name( $currentUser ) }}</p>
+            <p class="app-sidebar__user-name">{{ vp_get_user_display_name( $currentUser ) }}</p>
             <p class="app-sidebar__user-designation">{{$currentUser->role->name}}</p>
         </div>
     </div>
@@ -49,7 +49,7 @@
                     </a>
                 </li>
 
-                @if(cp_current_user_can(['update_plugins', 'update_themes']))
+                @if(vp_current_user_can(['update_plugins', 'update_themes']))
                     <li>
                         <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.dashboard.updates')}}" href="{{route('admin.dashboard.updates')}}">
                             {{__('a.Updates')}}
@@ -57,7 +57,7 @@
                     </li>
                 @endif
 
-                @if(cp_current_user_can(['super_admin', 'administrator']))
+                @if(vp_current_user_can(['super_admin', 'administrator']))
                     <li>
                         <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.dashboard.commands')}}" href="{{route('admin.dashboard.commands')}}">
                             {{__('a.Commands')}}
@@ -70,7 +70,7 @@
         </li>
 
         {{-- POST TYPES --}}
-        @if($postTypes->count() && cp_current_user_can('view_posts'))
+        @if($postTypes->count() && vp_current_user_can('view_posts'))
             @foreach($postTypes as $postType)
                 {{-- GET THE CUSTOM OPTIONS --}}
                 @php
@@ -107,27 +107,27 @@
                             <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem($r)}}" href="{{route($r)}}">{{__('a.All')}}</a>
                         </li>
 
-                        @if(cp_current_user_can('publish_posts'))
+                        @if(vp_current_user_can('publish_posts'))
                             <li>
                                 <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem($routeBaseName.'.new')}}" href="{{route($routeBaseName.'.new')}}">{{__('a.New')}} {{$translation->name}}</a>
                             </li>
                         @endif
 
-                        @if($allowCategories && cp_current_user_can('manage_taxonomies'))
+                        @if($allowCategories && vp_current_user_can('manage_taxonomies'))
                             @php $r = "{$routeBaseName}.category.all"; @endphp
                             <li>
                                 <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem($routeBaseName.'.category', true)}}" href="{{route($r)}}">{{__('a.Categories')}}</a>
                             </li>
                         @endif
 
-                        @if($allowTags && cp_current_user_can('manage_taxonomies'))
+                        @if($allowTags && vp_current_user_can('manage_taxonomies'))
                             @php $r = "{$routeBaseName}.tag.all"; @endphp
                             <li>
                                 <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem($routeBaseName.'.tag', true)}}" href="{{route($r)}}">{{__('a.Tags')}}</a>
                             </li>
                         @endif
 
-                        @if($allowComments && cp_current_user_can('moderate_comments'))
+                        @if($allowComments && vp_current_user_can('moderate_comments'))
                             @php $r = "{$routeBaseName}.comment.all"; @endphp
                             <li>
                                 <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem($routeBaseName.'.comment', true)}}" href="{{route($r)}}">{{__('a.Comments')}}</a>
@@ -141,7 +141,7 @@
         @endif
 
         {{-- MENUS --}}
-        @if(cp_current_user_can('manage_menus'))
+        @if(vp_current_user_can('manage_menus'))
             <li class="treeview {{App\Helpers\MenuHelper::activateMenuItem('admin.menus')}}">
                 <a class="app-menu__item" href="#" data-toggle="treeview">
                     <i class="app-menu__icon fa fa-navicon"></i>
@@ -153,7 +153,7 @@
                         <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.menus.all')}}" href="{{route('admin.menus.all')}}">{{__('a.All')}}</a>
                     </li>
 
-                    @if(cp_current_user_can('create_menu'))
+                    @if(vp_current_user_can('create_menu'))
                         <li>
                             <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.menus.add')}}" href="{{route('admin.menus.add')}}">{{__('a.Add new')}}</a>
                         </li>
@@ -165,7 +165,7 @@
         @endif
 
         {{-- MEDIA --}}
-        @if(cp_current_user_can('list_media'))
+        @if(vp_current_user_can('list_media'))
             <li class="treeview {{App\Helpers\MenuHelper::activateMenuItem('admin.media')}}">
                 <a class="app-menu__item" href="#" data-toggle="treeview">
                     <i class="app-menu__icon fa fa-photo"></i>
@@ -177,7 +177,7 @@
                         <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.media.all')}}" href="{{route('admin.media.all')}}">{{__('a.All')}}</a>
                     </li>
 
-                    @if(cp_current_user_can('upload_files'))
+                    @if(vp_current_user_can('upload_files'))
                         <li>
                             <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.media.add')}}" href="{{route('admin.media.add')}}">{{__('a.Add new')}}</a>
                         </li>
@@ -189,7 +189,7 @@
         @endif
 
         {{-- PLUGINS --}}
-        @if(cp_current_user_can('list_plugins'))
+        @if(vp_current_user_can('list_plugins'))
             <li class="treeview {{App\Helpers\MenuHelper::activateMenuItem('admin.plugins')}}">
                 <a class="app-menu__item" href="#" data-toggle="treeview">
                     <i class="app-menu__icon fa fa-puzzle-piece"></i>
@@ -201,7 +201,7 @@
                         <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.plugins.all')}}" href="{{route('admin.plugins.all')}}">{{__('a.All')}}</a>
                     </li>
 
-                    @if(cp_current_user_can('install_plugins'))
+                    @if(vp_current_user_can('install_plugins'))
                         <li>
                             <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.plugins.add')}}" href="{{route('admin.plugins.add')}}">{{__('a.Add new')}}</a>
                         </li>
@@ -216,7 +216,7 @@
         @endif
 
         {{-- THEMES --}}
-        @if(cp_current_user_can('list_themes'))
+        @if(vp_current_user_can('list_themes'))
             <li class="treeview {{App\Helpers\MenuHelper::activateMenuItem('admin.themes')}}">
                 <a class="app-menu__item" href="#" data-toggle="treeview">
                     <i class="app-menu__icon fa fa-paint-brush"></i>
@@ -228,7 +228,7 @@
                         <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.themes.all')}}" href="{{route('admin.themes.all')}}">{{__('a.All')}}</a>
                     </li>
 
-                    @if(cp_current_user_can('install_themes'))
+                    @if(vp_current_user_can('install_themes'))
                         <li>
                             <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.themes.add')}}" href="{{route('admin.themes.add')}}">{{__('a.Add new')}}</a>
                         </li>
@@ -250,21 +250,21 @@
                 <i class="treeview-indicator fa fa-angle-right"></i>
             </a>
             <ul class="treeview-menu">
-                @if(cp_current_user_can('list_users'))
+                @if(vp_current_user_can('list_users'))
                     <li>
                         <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.users.all')}}" href="{{route('admin.users.all')}}">{{__('a.All')}}</a>
                     </li>
                 @endif
 
-                @if(cp_current_user_can('create_users'))
+                @if(vp_current_user_can('create_users'))
                     <li>
                         <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.users.add')}}" href="{{route('admin.users.add')}}">{{__('a.Add new')}}</a>
                     </li>
                 @endif
 
-                @if(cp_current_user_can('read'))
+                @if(vp_current_user_can('read'))
                     <li>
-                        <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.users.edit')}}" href="{{route('admin.users.edit', cp_get_current_user()->getAuthIdentifier())}}">
+                        <a class="treeview-item {{App\Helpers\MenuHelper::activateSubmenuItem('admin.users.edit')}}" href="{{route('admin.users.edit', vp_get_current_user()->getAuthIdentifier())}}">
                             {{$profileLinkText}}
                         </a>
                     </li>
@@ -275,7 +275,7 @@
         </li>
 
         {{-- ROLES --}}
-        @if(cp_current_user_can('promote_users'))
+        @if(vp_current_user_can('promote_users'))
             <li class="treeview {{App\Helpers\MenuHelper::activateMenuItem('admin.roles')}}">
                 <a class="app-menu__item" href="#" data-toggle="treeview">
                     <i class="app-menu__icon fa fa-user-tag"></i>
@@ -296,7 +296,7 @@
         @endif
 
         {{-- SETTINGS --}}
-        @if(cp_current_user_can('manage_options'))
+        @if(vp_current_user_can('manage_options'))
             <li class="treeview {{App\Helpers\MenuHelper::activateMenuItem('admin.settings')}}">
                 <a class="app-menu__item" href="#" data-toggle="treeview">
                     <i class="app-menu__icon fa fa-cogs"></i>
@@ -326,7 +326,7 @@
         @endif
 
         {{-- TRANSLATIONS --}}
-        @if(count($enabledLanguages) > 1 && cp_current_user_can('manage_translations'))
+        @if(count($enabledLanguages) > 1 && vp_current_user_can('manage_translations'))
             <li class="treeview {{App\Helpers\MenuHelper::activateMenuItem('admin.translations')}}">
                 <a class="app-menu__item" href="#" data-toggle="treeview">
                     <i class="app-menu__icon fa fa-language"></i>

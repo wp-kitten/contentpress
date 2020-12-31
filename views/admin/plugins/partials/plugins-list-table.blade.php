@@ -10,10 +10,10 @@
     $hasUpdate = false;
     $canDelete = false;
 
-    if(cp_current_user_can('update_plugins')){
+    if(vp_current_user_can('update_plugins')){
         $hasUpdate = false; // todo: check for updates
     }
-    if(cp_current_user_can('delete_plugins')){
+    if(vp_current_user_can('delete_plugins')){
         $canDelete = (! $isActive );
     }
 @endphp
@@ -33,7 +33,7 @@
         </a>
     </div>
     <div class="plugin-actions mt-2">
-        @if(cp_current_user_can(['activate_plugins', 'deactivate_plugins'], true))
+        @if(vp_current_user_can(['activate_plugins', 'deactivate_plugins'], true))
             @if($isActive)
                 <a href="{{route('admin.plugins.deactivate__get', [$pluginDirName])}}"
                    class="text-info js-plugin-deactivate">{{__('a.Deactivate')}}</a>

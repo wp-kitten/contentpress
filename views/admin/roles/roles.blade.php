@@ -10,7 +10,7 @@
             <div>
                 <h1>{{__('a.Roles')}}</h1>
             </div>
-            @if(cp_current_user_can('promote_users'))
+            @if(vp_current_user_can('promote_users'))
                 <ul class="list-unstyled list-inline mb-0">
                     <li class="">
                         <a class="btn btn-primary d-none d-md-block" href="{{route('admin.roles.add')}}">{{__('a.New')}}</a>

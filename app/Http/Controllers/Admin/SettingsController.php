@@ -26,7 +26,7 @@ class SettingsController extends AdminControllerBase
      */
     public function index()
     {
-        if ( !cp_current_user_can( 'manage_options' ) ) {
+        if ( !vp_current_user_can( 'manage_options' ) ) {
             return $this->_forbidden();
         }
 
@@ -63,7 +63,7 @@ class SettingsController extends AdminControllerBase
 
     public function languages()
     {
-        if ( !cp_current_user_can( 'manage_options' ) ) {
+        if ( !vp_current_user_can( 'manage_options' ) ) {
             return $this->_forbidden();
         }
 
@@ -73,13 +73,13 @@ class SettingsController extends AdminControllerBase
             'languages' => Language::all(),
             'default_language_code' => $this->settings->getSetting( 'default_language' ),
             'enabled_languages' => $this->options->getOption( 'enabled_languages', [] ),
-            'backend_user_current_language' => cp_get_user_meta( 'backend_user_current_language' ),
+            'backend_user_current_language' => vp_get_user_meta( 'backend_user_current_language' ),
         ] );
     }
 
     public function reading()
     {
-        if ( !cp_current_user_can( 'manage_options' ) ) {
+        if ( !vp_current_user_can( 'manage_options' ) ) {
             return $this->_forbidden();
         }
 
@@ -104,7 +104,7 @@ class SettingsController extends AdminControllerBase
 
     public function post_types()
     {
-        if ( !cp_current_user_can( 'manage_options' ) ) {
+        if ( !vp_current_user_can( 'manage_options' ) ) {
             return $this->_forbidden();
         }
 
@@ -123,7 +123,7 @@ class SettingsController extends AdminControllerBase
 
     public function showPostTypeEditPage( $id )
     {
-        if ( !cp_current_user_can( 'manage_options' ) ) {
+        if ( !vp_current_user_can( 'manage_options' ) ) {
             return $this->_forbidden();
         }
 
@@ -143,7 +143,7 @@ class SettingsController extends AdminControllerBase
     // To update any of this post's translations use self::__translate()
     public function __updatePostTypeDefault( $id )
     {
-        if ( !cp_current_user_can( 'manage_options' ) ) {
+        if ( !vp_current_user_can( 'manage_options' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action' ),
@@ -225,7 +225,7 @@ class SettingsController extends AdminControllerBase
 
     public function __insertPostType( Request $request )
     {
-        if ( !cp_current_user_can( 'manage_options' ) ) {
+        if ( !vp_current_user_can( 'manage_options' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -323,7 +323,7 @@ class SettingsController extends AdminControllerBase
 
     public function __deletePostType( $id )
     {
-        if ( !cp_current_user_can( 'manage_options' ) ) {
+        if ( !vp_current_user_can( 'manage_options' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action' ),
@@ -374,7 +374,7 @@ class SettingsController extends AdminControllerBase
      */
     public function __translate( $post_id, $language_id, $new_post_id = 0 )
     {
-        if ( !cp_current_user_can( 'manage_options' ) ) {
+        if ( !vp_current_user_can( 'manage_options' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action' ),
@@ -455,7 +455,7 @@ class SettingsController extends AdminControllerBase
 
     public function __updateSettings()
     {
-        if ( !cp_current_user_can( 'manage_options' ) ) {
+        if ( !vp_current_user_can( 'manage_options' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action' ),
@@ -521,7 +521,7 @@ class SettingsController extends AdminControllerBase
 
     public function __updateLanguages()
     {
-        if ( !cp_current_user_can( 'manage_options' ) ) {
+        if ( !vp_current_user_can( 'manage_options' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action' ),
@@ -563,7 +563,7 @@ class SettingsController extends AdminControllerBase
     //#! POST
     public function __addLanguage()
     {
-        if ( !cp_current_user_can( 'manage_options' ) ) {
+        if ( !vp_current_user_can( 'manage_options' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action' ),
@@ -653,7 +653,7 @@ class SettingsController extends AdminControllerBase
 
     public function __deleteLanguage( $id )
     {
-        if ( !cp_current_user_can( 'manage_options' ) ) {
+        if ( !vp_current_user_can( 'manage_options' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action' ),
@@ -722,7 +722,7 @@ class SettingsController extends AdminControllerBase
 
     public function __updateReadingSettings()
     {
-        if ( !cp_current_user_can( 'manage_options' ) ) {
+        if ( !vp_current_user_can( 'manage_options' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action' ),
@@ -793,7 +793,7 @@ class SettingsController extends AdminControllerBase
 
     public function __clearCache()
     {
-        if ( !cp_current_user_can( 'manage_options' ) ) {
+        if ( !vp_current_user_can( 'manage_options' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action' ),

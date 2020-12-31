@@ -22,7 +22,7 @@ use Illuminate\Support\Facades\Route;
  * @param Model $post A specific PostType model (ex: Post, Page, Article, whatever)
  * @return string
  */
-function cp_get_permalink( Model $post ): string
+function vp_get_permalink( Model $post ): string
 {
     $postType = $post->post_type->name;
 
@@ -37,7 +37,7 @@ function cp_get_permalink( Model $post ): string
  * @param Category $category
  * @return string
  */
-function cp_get_category_link( Category $category ): string
+function vp_get_category_link( Category $category ): string
 {
     if ( Route::has( "blog.category" ) ) {
         return route( "blog.category", $category->slug );
@@ -50,7 +50,7 @@ function cp_get_category_link( Category $category ): string
  * @param User $user
  * @return string
  */
-function cp_get_author_link( User $user ): string
+function vp_get_author_link( User $user ): string
 {
     if ( Route::has( "blog.author" ) ) {
         return route( "blog.author", $user->id );
@@ -63,7 +63,7 @@ function cp_get_author_link( User $user ): string
  * @param Tag $tag
  * @return string
  */
-function cp_get_tag_link( Tag $tag ): string
+function vp_get_tag_link( Tag $tag ): string
 {
     if ( Route::has( "blog.tag" ) ) {
         return route( "blog.tag", $tag->slug );
@@ -76,7 +76,7 @@ function cp_get_tag_link( Tag $tag ): string
  * @param Post $post
  * @return string
  */
-function cp_get_post_edit_link( Post $post ): string
+function vp_get_post_edit_link( Post $post ): string
 {
     return route( "admin.{$post->post_type->name}.edit", $post->id );
 }
@@ -87,7 +87,7 @@ function cp_get_post_edit_link( Post $post ): string
  * @param int $commentID
  * @return string
  */
-function cp_get_comment_edit_link( Post $post, $commentID ): string
+function vp_get_comment_edit_link( Post $post, $commentID ): string
 {
     return route( "admin.{$post->post_type->name}.comment.edit", $commentID );
 }
@@ -98,7 +98,7 @@ function cp_get_comment_edit_link( Post $post, $commentID ): string
  * @param bool $withTimestamp
  * @return false|string
  */
-function cp_the_date( $post, $withTimestamp = false ): string
+function vp_the_date( $post, $withTimestamp = false ): string
 {
     $settings = new Settings();
     $dateFormat = $settings->getSetting( 'date_format', 'M j, Y' );
@@ -118,7 +118,7 @@ function cp_the_date( $post, $withTimestamp = false ): string
  * @param string $postTypeName
  * @return mixed
  */
-function cp_get_user_related_posts( $userID, $howMany = 4, $excludePostID = null, $languageID = null, $postTypeName = 'post' )
+function vp_get_user_related_posts( $userID, $howMany = 4, $excludePostID = null, $languageID = null, $postTypeName = 'post' )
 {
     if ( empty( $languageID ) ) {
         $languageID = VPML::getDefaultLanguageID();
@@ -162,7 +162,7 @@ function cp_get_user_related_posts( $userID, $howMany = 4, $excludePostID = null
  * @param string $placeholderText
  * @param string $searchButtonText
  */
-function cp_search_form( $placeholderText = 'Search', $searchButtonText = 'Search' )
+function vp_search_form( $placeholderText = 'Search', $searchButtonText = 'Search' )
 {
     $fid = cp_get_global_id();
     ?>
@@ -170,7 +170,7 @@ function cp_search_form( $placeholderText = 'Search', $searchButtonText = 'Searc
         <label class="hidden" for="search-field-<?php esc_attr_e( $fid ); ?>"><?php esc_html_e( __( 'a.Search' ) ); ?></label>
         <input type="text" name="s" id="search-field-<?php esc_attr_e( $fid ); ?>" class="search-field"
                placeholder="<?php esc_attr_e( $placeholderText ); ?>"
-               value="<?php esc_attr_e( cp_get_search_query() ); ?>"/>
+               value="<?php esc_attr_e( vp_get_search_query() ); ?>"/>
         <button type="submit" class="search-button"><?php echo $searchButtonText; ?></button>
     </form>
     <?php
@@ -180,7 +180,7 @@ function cp_search_form( $placeholderText = 'Search', $searchButtonText = 'Searc
  * Retrieve the sanitized search query
  * @return mixed|string
  */
-function cp_get_search_query(): string
+function vp_get_search_query(): string
 {
     return wp_kses( \request()->get( 's', '' ), [] );
 }
@@ -193,7 +193,7 @@ function cp_get_search_query(): string
  *
  * @uses filter valpress/post/excerpt
  */
-function cp_post_excerpt( $post, $showEllipsis = true )
+function vp_post_excerpt( $post, $showEllipsis = true )
 {
     $excerpt = apply_filters( 'valpress/post/excerpt', $post->excerpt );
     if ( !empty( $excerpt ) && $showEllipsis ) {
@@ -207,7 +207,7 @@ function cp_post_excerpt( $post, $showEllipsis = true )
  * @param string $postType
  * @return bool|false|int
  */
-function cp_is_singular( $postType = 'post' )
+function vp_is_singular( $postType = 'post' )
 {
     $currentRoute = cp_get_current_route_name();
 
@@ -228,7 +228,7 @@ function cp_is_singular( $postType = 'post' )
  * Check to see if the current request is for a page
  * @return false|int
  */
-function cp_is_page()
+function vp_is_page()
 {
     $currentRoute = cp_get_current_route_name();
     return preg_match( '/\bpage\b/', $currentRoute );
@@ -240,7 +240,7 @@ function cp_is_page()
  * @return string
  * @uses filter valpress/body-class
  */
-function cp_body_classes( array $classes = [] ): string
+function vp_body_classes( array $classes = [] ): string
 {
     $classes = apply_filters( 'valpress/body-class', $classes );
     if ( !empty( $classes ) ) {
@@ -257,7 +257,7 @@ function cp_body_classes( array $classes = [] ): string
  * @return string
  * @uses filter valpress/body-class
  */
-function cp_post_classes( array $classes = [] ): string
+function vp_post_classes( array $classes = [] ): string
 {
     $classes = apply_filters( 'valpress/post-class', $classes );
     if ( !empty( $classes ) ) {
@@ -273,7 +273,7 @@ function cp_post_classes( array $classes = [] ): string
  * @param null|int $postID
  * @return App\Models\Post|null
  */
-function cp_get_post( $postID = null ): ?Post
+function vp_get_post( $postID = null ): ?Post
 {
     if ( !empty( $postID ) ) {
         $post = Post::find( $postID );
@@ -287,7 +287,7 @@ function cp_get_post( $postID = null ): ?Post
  * @param Illuminate\Pagination\Paginator|Illuminate\Pagination\LengthAwarePaginator $paginator
  * @param string $cssClass
  */
-function cp_paginate_archive( $paginator, $cssClass = '' )
+function vp_paginate_archive( $paginator, $cssClass = '' )
 {
     if ( !$paginator ) {
         return;
@@ -306,7 +306,7 @@ function cp_paginate_archive( $paginator, $cssClass = '' )
  * @param bool $sameCategory Whether or not to get posts in the same category
  * @param array $options
  */
-function cp_posts_navigation( Post $post, $cssClass = '', $sameCategory = true, array $options = [] )
+function vp_posts_navigation( Post $post, $cssClass = '', $sameCategory = true, array $options = [] )
 {
     if ( !$post ) {
         return;
@@ -353,7 +353,7 @@ function cp_posts_navigation( Post $post, $cssClass = '', $sameCategory = true, 
     <div class="posts-navigation">
         <span class="previous-link-wrap">
             <?php if ( $previous ) { ?>
-                <a href="<?php esc_attr_e( cp_get_permalink( $previous ) ); ?>" class="previous-post-link">
+                <a href="<?php esc_attr_e( vp_get_permalink( $previous ) ); ?>" class="previous-post-link">
                     <i class="fas fa-chevron-left nav-icon"></i>
                     <span class="the-title" title="<?php esc_attr_e( $previous->title ); ?>">
                         <?php echo cp_ellipsis( wp_kses_post( $previous->title ), 80 ); ?>
@@ -364,7 +364,7 @@ function cp_posts_navigation( Post $post, $cssClass = '', $sameCategory = true, 
 
         <span class="next-link-wrap">
             <?php if ( $next ) { ?>
-                <a href="<?php esc_attr_e( cp_get_permalink( $next ) ); ?>" class="next-post-link">
+                <a href="<?php esc_attr_e( vp_get_permalink( $next ) ); ?>" class="next-post-link">
                     <span class="the-title" title="<?php esc_attr_e( $next->title ); ?>">
                         <?php echo cp_ellipsis( wp_kses_post( $next->title ), 80 ); ?>
                     </span>
@@ -382,7 +382,7 @@ function cp_posts_navigation( Post $post, $cssClass = '', $sameCategory = true, 
  * @param string $activeClass
  * @return string
  */
-function cp_activate_menu_item( string $menuItemUrl, $activeClass = 'active' ): string
+function vp_activate_menu_item( string $menuItemUrl, $activeClass = 'active' ): string
 {
     $uri = strtolower( getenv( 'REQUEST_URI' ) );
     $miu = strtolower( parse_url( $menuItemUrl, PHP_URL_PATH ) );
@@ -398,7 +398,7 @@ function cp_activate_menu_item( string $menuItemUrl, $activeClass = 'active' ): 
  * @param string $postTypeName
  * @return false|Collection
  */
-function cp_get_related_posts( Category $category, $howMany = 4, $excludePostID = null, $languageID = null, $postTypeName = 'post' )
+function vp_get_related_posts( Category $category, $howMany = 4, $excludePostID = null, $languageID = null, $postTypeName = 'post' )
 {
     if ( empty( $languageID ) ) {
         $languageID = VPML::getDefaultLanguageID();

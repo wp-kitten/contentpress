@@ -1,9 +1,9 @@
 @php
     $languageClass = new App\Models\Language();
     $optionsClass = new App\Models\Options();
-    $isMultiLanguage = cp_is_multilingual();
+    $isMultiLanguage = vp_is_multilingual();
 
-    $categoryImageInfo = cp_get_category_image_info($category->id, $category->language_id);
+    $categoryImageInfo = vp_get_category_image_info($category->id, $category->language_id);
     $categoryImageID = 0;
     $categoryImageUrl = '';
 
@@ -36,7 +36,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('manage_taxonomies'))
+    @if(vp_current_user_can('manage_taxonomies'))
         <div class="row">
             <div class="col-md-4">
                 <div class="tile">

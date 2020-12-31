@@ -17,7 +17,7 @@
 
     <div class="row">
         {{-- REINSTALL --}}
-        @if(cp_current_user_can('super_admin'))
+        @if(vp_current_user_can('super_admin'))
             <div class="col-sm-12 col-md-4">
                 <div class="tile mb-4 h-100">
                     <div class="page-header">
@@ -43,7 +43,7 @@
         @endif
 
         {{-- RESET --}}
-        @if(cp_current_user_can('administrator'))
+        @if(vp_current_user_can('administrator'))
             <div class="col-sm-12 col-md-4">
                 <div class="tile mb-4 h-100">
                     <div class="page-header">
@@ -69,7 +69,7 @@
         @endif
 
         {{-- CLEAR APP CACHE --}}
-        @if(cp_current_user_can('administrator'))
+        @if(vp_current_user_can('administrator'))
             <div class="col-sm-12 col-md-4">
                 <div class="tile mb-4 h-100">
                     <div class="page-header">
@@ -95,7 +95,7 @@
         @endif
     </div>{{--// .row--}}
 
-    @if(cp_current_user_can('administrator') && $has_composer)
+    @if(vp_current_user_can('administrator') && $has_composer)
         <div class="row mt-3">
             {{-- COMPOSER UPDATE --}}
             <div class="col-sm-12 col-md-4">

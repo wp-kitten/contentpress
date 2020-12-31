@@ -3,7 +3,7 @@
         <i class="fa fa-user fa-lg"></i>
     </a>
     <ul class="dropdown-menu settings-menu dropdown-menu-right">
-        @if(cp_current_user_can('manage_options'))
+        @if(vp_current_user_can('manage_options'))
             <li>
                 <a class="dropdown-item" href="{{route('admin.settings.all')}}">
                     <i class="fa fa-cog fa-lg"></i>
@@ -13,7 +13,7 @@
         @endif
 
         <li>
-            <a class="dropdown-item" href="{{route('admin.users.edit', ['id' => cp_get_current_user()->getAuthIdentifier()])}}">
+            <a class="dropdown-item" href="{{route('admin.users.edit', ['id' => vp_get_current_user()->getAuthIdentifier()])}}">
                 <i class="fa fa-user fa-lg"></i>
                 {{__('a.Profile')}}
             </a>

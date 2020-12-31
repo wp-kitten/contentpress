@@ -25,7 +25,7 @@
     <div class="row">
         <div class="col-md-8">
             <div class="tile">
-                @if(cp_current_user_can('update_media'))
+                @if(vp_current_user_can('update_media'))
                     <form method="post" action="{{route('admin.media.update', $file->id)}}">
                         <div class="form-group">
                             <label for="title">{{__('a.Title')}}</label>
@@ -64,7 +64,7 @@
                     <input type="text" id="media-url-field" value="{{$mediaHelper->getUrl($file->path)}}" class="input-wide" readonly/>
                 </div>
 
-                @if(cp_current_user_can('update_media'))
+                @if(vp_current_user_can('update_media'))
                     <form method="post" action="{{route('admin.media.delete', $file->id)}}" class="mt-4">
 
                         <button type="submit"

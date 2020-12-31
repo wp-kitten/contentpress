@@ -16,7 +16,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('manage_menus'))
+    @if(vp_current_user_can('manage_menus'))
         <div class="row">
             <div class="col-md-3">
                 <div class="tile">

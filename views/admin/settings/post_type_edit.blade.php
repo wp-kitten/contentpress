@@ -27,7 +27,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('manage_options'))
+    @if(vp_current_user_can('manage_options'))
         <div class="row">
 
             <div class="col-md-6">

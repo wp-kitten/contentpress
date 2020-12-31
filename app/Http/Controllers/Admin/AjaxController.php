@@ -87,7 +87,7 @@ class AjaxController extends Controller
 
     private function action_update_post()
     {
-        if ( !cp_current_user_can( 'edit_posts' ) ) {
+        if ( !vp_current_user_can( 'edit_posts' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -177,7 +177,7 @@ class AjaxController extends Controller
         }
 
         // Update categories & tags
-        if ( cp_current_user_can( 'manage_taxonomies' ) ) {
+        if ( vp_current_user_can( 'manage_taxonomies' ) ) {
             $currentPost->categories()->detach();
             $currentPost->categories()->attach( $post_categories );
             $currentPost->tags()->detach();
@@ -185,7 +185,7 @@ class AjaxController extends Controller
         }
 
         //#! Update post meta
-        if ( cp_current_user_can( 'manage_custom_fields' ) ) {
+        if ( vp_current_user_can( 'manage_custom_fields' ) ) {
             if ( $meta = MetaFields::getInstance( new PostMeta(), 'post_id', $currentPost->id, '_comments_enabled', $currentPost->language_id ) ) {
                 $meta->meta_value = $comments_enabled;
                 $meta->update();
@@ -206,7 +206,7 @@ class AjaxController extends Controller
 
     private function action_update_post_type()
     {
-        if ( !cp_current_user_can( 'edit_posts' ) ) {
+        if ( !vp_current_user_can( 'edit_posts' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -285,7 +285,7 @@ class AjaxController extends Controller
 
     private function action_save_post_translation()
     {
-        if ( !cp_current_user_can( 'edit_posts' ) ) {
+        if ( !vp_current_user_can( 'edit_posts' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -362,7 +362,7 @@ class AjaxController extends Controller
         //@implements: #42
 
         // add categories & tags
-        if ( cp_current_user_can( 'manage_taxonomies' ) ) {
+        if ( vp_current_user_can( 'manage_taxonomies' ) ) {
             $currentPost->categories()->detach();
             $currentPost->categories()->attach( $post_categories );
             $currentPost->tags()->detach();
@@ -390,7 +390,7 @@ class AjaxController extends Controller
 
     private function action_update_post_title()
     {
-        if ( !cp_current_user_can( 'edit_posts' ) ) {
+        if ( !vp_current_user_can( 'edit_posts' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -442,7 +442,7 @@ class AjaxController extends Controller
      */
     private function action_create_post_draft()
     {
-        if ( !cp_current_user_can( 'edit_posts' ) ) {
+        if ( !vp_current_user_can( 'edit_posts' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -481,7 +481,7 @@ class AjaxController extends Controller
 
     private function action_set_user_image()
     {
-        if ( !cp_current_user_can( [ 'edit_users', 'upload_files' ] ) ) {
+        if ( !vp_current_user_can( [ 'edit_users', 'upload_files' ] ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -545,7 +545,7 @@ class AjaxController extends Controller
 
     private function action_delete_user_image()
     {
-        if ( !cp_current_user_can( [ 'edit_users', 'upload_files' ] ) ) {
+        if ( !vp_current_user_can( [ 'edit_users', 'upload_files' ] ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -580,7 +580,7 @@ class AjaxController extends Controller
 
     private function action_create_category()
     {
-        if ( !cp_current_user_can( 'manage_taxonomies' ) ) {
+        if ( !vp_current_user_can( 'manage_taxonomies' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -621,7 +621,7 @@ class AjaxController extends Controller
 
     private function action_create_tag()
     {
-        if ( !cp_current_user_can( 'manage_taxonomies' ) ) {
+        if ( !vp_current_user_can( 'manage_taxonomies' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -663,7 +663,7 @@ class AjaxController extends Controller
      */
     private function action_update_category_parent()
     {
-        if ( !cp_current_user_can( 'manage_taxonomies' ) ) {
+        if ( !vp_current_user_can( 'manage_taxonomies' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -687,7 +687,7 @@ class AjaxController extends Controller
     //#! Categories
     private function action_get_category_translations()
     {
-        if ( !cp_current_user_can( 'manage_taxonomies' ) ) {
+        if ( !vp_current_user_can( 'manage_taxonomies' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
         $categoryID = wp_kses( $this->request->get( 'category_id' ), [] );
@@ -711,7 +711,7 @@ class AjaxController extends Controller
     //#! Custom fields
     private function action_add_custom_field()
     {
-        if ( !cp_current_user_can( 'manage_custom_fields' ) ) {
+        if ( !vp_current_user_can( 'manage_custom_fields' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -760,7 +760,7 @@ class AjaxController extends Controller
 
     private function action_update_custom_field()
     {
-        if ( !cp_current_user_can( 'manage_custom_fields' ) ) {
+        if ( !vp_current_user_can( 'manage_custom_fields' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -799,7 +799,7 @@ class AjaxController extends Controller
 
     private function action_delete_custom_field()
     {
-        if ( !cp_current_user_can( 'manage_custom_fields' ) ) {
+        if ( !vp_current_user_can( 'manage_custom_fields' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -836,7 +836,7 @@ class AjaxController extends Controller
      */
     private function action_update_dashboard_ui()
     {
-        if ( !cp_current_user_can( 'edit_dashboard' ) ) {
+        if ( !vp_current_user_can( 'edit_dashboard' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -877,7 +877,7 @@ class AjaxController extends Controller
      */
     private function action_menu_save()
     {
-        if ( !cp_current_user_can( 'manage_menus' ) ) {
+        if ( !vp_current_user_can( 'manage_menus' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -916,7 +916,7 @@ class AjaxController extends Controller
 
     private function action_save_menu_name()
     {
-        if ( !cp_current_user_can( 'manage_menus' ) ) {
+        if ( !vp_current_user_can( 'manage_menus' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -949,7 +949,7 @@ class AjaxController extends Controller
 
     private function action_save_menu_options()
     {
-        if ( !cp_current_user_can( 'manage_menus' ) ) {
+        if ( !vp_current_user_can( 'manage_menus' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -1097,7 +1097,7 @@ class AjaxController extends Controller
     //#! Media
     private function action_media_upload_image()
     {
-        if ( !cp_current_user_can( [ 'add_media', 'upload_files' ], true ) ) {
+        if ( !vp_current_user_can( [ 'add_media', 'upload_files' ], true ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -1152,7 +1152,7 @@ class AjaxController extends Controller
 
     private function action_media_delete_image()
     {
-        if ( !cp_current_user_can( 'delete_media' ) ) {
+        if ( !vp_current_user_can( 'delete_media' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -1186,7 +1186,7 @@ class AjaxController extends Controller
 
     private function action_modal_delete_image()
     {
-        if ( !cp_current_user_can( 'delete_media' ) ) {
+        if ( !vp_current_user_can( 'delete_media' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -1249,7 +1249,7 @@ class AjaxController extends Controller
     //#! Plugins
     private function action_upload_plugin()
     {
-        if ( !cp_current_user_can( [ 'install_plugins', 'upload_files' ], true ) ) {
+        if ( !vp_current_user_can( [ 'install_plugins', 'upload_files' ], true ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -1307,7 +1307,7 @@ class AjaxController extends Controller
 
     private function action_delete_plugin()
     {
-        if ( !cp_current_user_can( 'delete_plugins' ) ) {
+        if ( !vp_current_user_can( 'delete_plugins' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -1329,7 +1329,7 @@ class AjaxController extends Controller
 
     private function action_get_plugin_info()
     {
-        if ( !cp_current_user_can( 'list_plugins' ) ) {
+        if ( !vp_current_user_can( 'list_plugins' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -1355,7 +1355,7 @@ class AjaxController extends Controller
     //#! Themes
     private function action_upload_theme()
     {
-        if ( !cp_current_user_can( [ 'install_themes', 'upload_files' ], true ) ) {
+        if ( !vp_current_user_can( [ 'install_themes', 'upload_files' ], true ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 
@@ -1415,7 +1415,7 @@ class AjaxController extends Controller
 
     private function action_get_theme_info()
     {
-        if ( !cp_current_user_can( 'list_themes' ) ) {
+        if ( !vp_current_user_can( 'list_themes' ) ) {
             return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
         }
 

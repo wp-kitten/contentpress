@@ -12,7 +12,7 @@ class WidgetDraftPost extends AbstractWidgetBase
             return;
         }
 
-        if ( !empty( $id ) && cp_current_user_can( 'publish_posts' ) ) {
+        if ( !empty( $id ) && vp_current_user_can( 'publish_posts' ) ) {
             add_action( 'valpress/admin/footer', [ $this, '__loadWidgetScripts' ] );
         }
     }
@@ -104,7 +104,7 @@ class WidgetDraftPost extends AbstractWidgetBase
 
     public function render()
     {
-        if ( !cp_current_user_can( 'publish_posts' ) ) {
+        if ( !vp_current_user_can( 'publish_posts' ) ) {
             return;
         }
         if ( empty( $this->getId() ) ) {

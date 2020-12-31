@@ -398,7 +398,7 @@ function get_allowed_mime_types( $user = null )
 
     unset( $t[ 'swf' ], $t[ 'exe' ] );
 
-    $unfiltered = cp_current_user_can( 'unfiltered_html' );
+    $unfiltered = vp_current_user_can( 'unfiltered_html' );
 
     if ( empty( $unfiltered ) ) {
         unset( $t[ 'htm|html' ], $t[ 'js' ] );
@@ -584,7 +584,7 @@ function cp_admin_footer()
  * @param string $id
  * @param array $size
  */
-function cp_add_image_size( $id, array $size = [ 'w' => null, 'h' => null ] )
+function vp_add_image_size( $id, array $size = [ 'w' => null, 'h' => null ] )
 {
     ImageHelper::addImageSize( $id, $size );
 }
@@ -734,7 +734,7 @@ function cp_theme_url( $themeName, $path )
 function cp_has_menu( $menuSlugOrID, $languageID = null )
 {
     if ( empty( $languageID ) ) {
-        $languageID = cp_get_frontend_user_language_id();
+        $languageID = vp_get_frontend_user_language_id();
     }
 
     return Menu::where( 'id', intval( $menuSlugOrID ) )
@@ -752,11 +752,11 @@ function cp_has_menu( $menuSlugOrID, $languageID = null )
  */
 function cp_menu( $menuSlugOrID )
 {
-    if ( cp_is_under_maintenance() && !cp_current_user_can( 'administrator' ) ) {
+    if ( cp_is_under_maintenance() && !vp_current_user_can( 'administrator' ) ) {
         return;
     }
     try {
-        $walker = new MenuWalkerFrontend( $menuSlugOrID, cp_get_frontend_user_language_id() );
+        $walker = new MenuWalkerFrontend( $menuSlugOrID, vp_get_frontend_user_language_id() );
         $walker->outputHtml();
     }
     catch ( Exception $e ) {

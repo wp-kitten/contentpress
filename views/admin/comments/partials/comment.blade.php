@@ -18,10 +18,10 @@
     </td>
     <td class="comment-content">
         <div class="comment-content-wrap">
-            @if(cp_is_reply($comment))
+            @if(vp_is_reply($comment))
                 @php
                     $parentComment = App\Models\PostComments::find($comment->comment_id);
-                    $commentUrl = '<a href="'.cp_get_comment_url($parentComment).'">'.cp_get_comment_author_name($parentComment).'</a>';
+                    $commentUrl = '<a href="'.vp_get_comment_url($parentComment).'">'.vp_get_comment_author_name($parentComment).'</a>';
                 @endphp
                 <span class="d-block mb-3">{!! __('a.In reply to :comment_link.', [ 'comment_link' => $commentUrl]) !!}</span>
             @endif
@@ -54,7 +54,7 @@
     </td>
     <td class="comment-date text-center">
         <span class="d-block text-dark">
-            {{cp_get_comment_status_name($comment)}}
+            {{vp_get_comment_status_name($comment)}}
         </span>
         <span class="d-block mt-3 text-dark">
             {{date("{$date_format} {$time_format}", strtotime($comment->created_at))}}

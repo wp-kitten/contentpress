@@ -64,7 +64,7 @@ class UsersController extends AdminControllerBase
         $currentUser = User::findOrFail( $id );
         $isUserSuperAdmin = $currentUser->isInRole( Role::ROLE_SUPER_ADMIN );
 
-        $authUser = cp_get_current_user();
+        $authUser = vp_get_current_user();
         $isOwnProfile = ( $currentUser->id == $authUser->getAuthIdentifier() );
         $isAuthUserSuperAdmin = $authUser->isInRole( Role::ROLE_SUPER_ADMIN );
 
@@ -100,7 +100,7 @@ class UsersController extends AdminControllerBase
             'roles' => Role::all(),
             'meta_fields' => MetaFields::getAll( $this->userMeta, 'user_id', $id, VPML::getDefaultLanguageID() ),
             'default_role_id' => $this->settings->getSetting( 'default_user_role' ),
-            'auth_user' => cp_get_current_user(),
+            'auth_user' => vp_get_current_user(),
             'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
         ] );
     }

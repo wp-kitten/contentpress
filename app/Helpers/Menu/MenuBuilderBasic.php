@@ -95,7 +95,7 @@ class MenuBuilderBasic
     {
         $category = Category::find( $refItemID );
         if ( $category ) {
-            $url = cp_get_category_link( $category );
+            $url = vp_get_category_link( $category );
             $activeClass = ( Str::containsAll( url()->current(), [ $url ] ) ? 'active' : '' );
             ?>
             <li class="<?php esc_attr_e( $cssClass ); ?>">
@@ -111,7 +111,7 @@ class MenuBuilderBasic
     {
         $post = Post::find( $refItemID );
         if ( $post ) {
-            $url = cp_get_permalink( $post );
+            $url = vp_get_permalink( $post );
             $activeClass = ( Str::containsAll( url()->current(), [ $url ] ) ? 'active' : '' );
             ?>
             <li class="<?php esc_attr_e( $cssClass ); ?>">

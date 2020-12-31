@@ -10,7 +10,7 @@
             <div>
                 <h1>{{__('a.Marketplace')}}</h1>
             </div>
-            @if(cp_current_user_can('install_plugins'))
+            @if(vp_current_user_can('install_plugins'))
                 <ul class="list-unstyled list-inline mb-0">
                     <li class="">
                         <a href="{{route('admin.plugins.marketplace.refresh')}}" class="btn btn-primary">{{__('a.Refresh')}}</a>
@@ -22,7 +22,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('install_plugins'))
+    @if(vp_current_user_can('install_plugins'))
         <div class="row marketplace">
             @if($plugins)
                 @foreach($plugins as $pluginDirName => $pluginInfo)
@@ -50,12 +50,12 @@
                                     </div>
                                     <div class="">
                                         @if($pluginsManager->exists($pluginDirName))
-                                            @if($pluginsManager->isActivePlugin($pluginDirName) && cp_current_user_can('deactivate_plugins'))
+                                            @if($pluginsManager->isActivePlugin($pluginDirName) && vp_current_user_can('deactivate_plugins'))
                                                 <a href="{{route('admin.plugins.deactivate__get', [$pluginDirName])}}" class="btn btn-danger btn-sm">{{__('a.Deactivate')}}</a>
-                                            @elseif(cp_current_user_can('activate_plugins'))
+                                            @elseif(vp_current_user_can('activate_plugins'))
                                                 <a href="{{route('admin.plugins.activate__get', [$pluginDirName])}}" class="btn btn-success btn-sm">{{__('a.Activate')}}</a>
                                             @endif
-                                        @elseif(cp_current_user_can('install_plugins'))
+                                        @elseif(vp_current_user_can('install_plugins'))
                                             <a href="#"
                                                class="btn btn-primary btn-sm"
                                                onclick="event.preventDefault(); document.getElementById('form-plugin-install-{{$pluginDirName}}').submit();">

@@ -51,12 +51,12 @@ class SiteController extends Controller
         //#! Get the current language ID
         $defaultLanguageID = VPML::getDefaultLanguageID();
         //#! Get the selected language in frontend
-        $frontendLanguageID = cp_get_frontend_user_language_id();
+        $frontendLanguageID = vp_get_frontend_user_language_id();
 
         //#! Make sure the post is published if the current user is not allowed to "edit_private_posts"
         $_postStatuses = PostStatus::all();
         $postStatuses = [];
-        if ( cp_current_user_can( 'edit_private_posts' ) ) {
+        if ( vp_current_user_can( 'edit_private_posts' ) ) {
             $postStatuses = Arr::pluck( $_postStatuses, 'id' );
         }
         else {
@@ -66,7 +66,7 @@ class SiteController extends Controller
         //#! Check to see if we have a match for slug & $frontendLanguageID
         $thePost = Post::where( 'slug', $slug )->where( 'language_id', $frontendLanguageID );
         $postFound = $thePost->first();
-        if ( cp_is_multilingual() ) {
+        if ( vp_is_multilingual() ) {
             //#! Check to see if we have a translation for this post
             if ( !$postFound ) {
                 $posts = Post::where( 'slug', $slug )->get();
@@ -125,7 +125,7 @@ class SiteController extends Controller
         $GLOBALS[ 'cp_post' ] = $thePost;
 
         //#! If this is a page and has specified a template
-        if ( 'page' == $postType && ( $template = cp_get_post_meta( $thePost, 'template' ) ) ) {
+        if ( 'page' == $postType && ( $template = vp_get_post_meta( $thePost, 'template' ) ) ) {
             return view( $template )->with( [ 'page' => $thePost ] );
         }
 

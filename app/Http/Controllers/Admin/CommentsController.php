@@ -20,7 +20,7 @@ class CommentsController extends PostsController
      */
     public function index( $post_id = 0 )
     {
-        if ( !cp_current_user_can( 'moderate_comments' ) ) {
+        if ( !vp_current_user_can( 'moderate_comments' ) ) {
             return $this->_forbidden();
         }
 
@@ -149,7 +149,7 @@ class CommentsController extends PostsController
 
     public function showCommentReplyPage( $post_id, $comment_id = null )
     {
-        if ( !cp_current_user_can( 'moderate_comments' ) ) {
+        if ( !vp_current_user_can( 'moderate_comments' ) ) {
             return $this->_forbidden();
         }
 
@@ -177,7 +177,7 @@ class CommentsController extends PostsController
 
     public function showCommentEditPage( $id )
     {
-        if ( !cp_current_user_can( 'moderate_comments' ) ) {
+        if ( !vp_current_user_can( 'moderate_comments' ) ) {
             return $this->_forbidden();
         }
 
@@ -199,7 +199,7 @@ class CommentsController extends PostsController
 
     public function __insertComment()
     {
-        if ( !cp_current_user_can( 'moderate_comments' ) ) {
+        if ( !vp_current_user_can( 'moderate_comments' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger', // success or danger on error
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -245,7 +245,7 @@ class CommentsController extends PostsController
 
     public function __updateComment( $id )
     {
-        if ( !cp_current_user_can( 'moderate_comments' ) ) {
+        if ( !vp_current_user_can( 'moderate_comments' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger', // success or danger on error
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -288,7 +288,7 @@ class CommentsController extends PostsController
 
     public function __deleteComment( $id )
     {
-        if ( !cp_current_user_can( 'moderate_comments' ) ) {
+        if ( !vp_current_user_can( 'moderate_comments' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger', // success or danger on error
                 'text' => __( 'a.You are not allowed to perform this action.' ),

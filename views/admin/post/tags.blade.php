@@ -16,7 +16,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('manage_taxonomies'))
+    @if(vp_current_user_can('manage_taxonomies'))
         <div class="row">
             <div class="col-md-3">
                 <div class="tile">
@@ -59,7 +59,7 @@
                                         <span class="text-dark">{{$tag->name}}</span>
                                     </td>
                                     <td>
-                                        @if(cp_is_multilingual())
+                                        @if(vp_is_multilingual())
                                             <a href="{{route("admin.{$__post_type->name}.tag.edit", ['id' => $tag->id])}}" class="text-primary mr-2">
                                                 {{__('a.Translations')}}
                                             </a>

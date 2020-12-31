@@ -13,7 +13,7 @@ class TagsController extends PostsController
 {
     public function index()
     {
-        if ( !cp_current_user_can( 'manage_taxonomies' ) ) {
+        if ( !vp_current_user_can( 'manage_taxonomies' ) ) {
             return $this->_forbidden();
         }
 
@@ -32,7 +32,7 @@ class TagsController extends PostsController
 
     public function showEditPage( $id )
     {
-        if ( !cp_current_user_can( 'manage_taxonomies' ) ) {
+        if ( !vp_current_user_can( 'manage_taxonomies' ) ) {
             return $this->_forbidden();
         }
 
@@ -48,7 +48,7 @@ class TagsController extends PostsController
 
     public function __insert( Request $request )
     {
-        if ( !cp_current_user_can( 'manage_taxonomies' ) ) {
+        if ( !vp_current_user_can( 'manage_taxonomies' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger', // success or danger on error
                 'text' => __( 'a.You are not allowed to perform this action' ),
@@ -88,7 +88,7 @@ class TagsController extends PostsController
 
     public function __update( $id )
     {
-        if ( !cp_current_user_can( 'manage_taxonomies' ) ) {
+        if ( !vp_current_user_can( 'manage_taxonomies' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger', // success or danger on error
                 'text' => __( 'a.You are not allowed to perform this action' ),
@@ -151,7 +151,7 @@ class TagsController extends PostsController
 
     public function __delete( $id )
     {
-        if ( !cp_current_user_can( 'manage_taxonomies' ) ) {
+        if ( !vp_current_user_can( 'manage_taxonomies' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger', // success or danger on error
                 'text' => __( 'a.You are not allowed to perform this action' ),
@@ -177,7 +177,7 @@ class TagsController extends PostsController
 
     public function __translate( $language_id )
     {
-        if ( !cp_current_user_can( 'manage_taxonomies' ) ) {
+        if ( !vp_current_user_can( 'manage_taxonomies' ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger', // success or danger on error
                 'text' => __( 'a.You are not allowed to perform this action' ),

@@ -11,7 +11,7 @@
             <div>
                 <h1>{{__('a.Themes')}}</h1>
             </div>
-            @if(cp_current_user_can('install_themes'))
+            @if(vp_current_user_can('install_themes'))
                 <ul class="list-unstyled list-inline mb-0">
                     <li class="">
                         <a href="{{route('admin.themes.add')}}" class="btn btn-primary">{{__('a.Upload')}}</a>
@@ -23,7 +23,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('list_themes'))
+    @if(vp_current_user_can('list_themes'))
         <div class="row themes-list">
             @foreach($themes as $themeDirName)
                 @php
@@ -52,7 +52,7 @@
                                 <h4 class="theme-title mr-auto">{{$themeInfo['display_name']}}</h4>
 
                                 <p>
-                                    @if(cp_current_user_can('switch_themes') && ! $isActive)
+                                    @if(vp_current_user_can('switch_themes') && ! $isActive)
                                         <a href="{{route('admin.themes.activate', $themeInfo['name'])}}"
                                            class="text-primary js-theme-activate">{{__('a.Activate')}}</a>
                                     @endif
@@ -61,7 +61,7 @@
                                         <a href="#" class="text-primary js-theme-update">{{__('a.Update')}}</a>
                                     @endif
 
-                                    @if(cp_current_user_can('delete_themes') && ! $isActive)
+                                    @if(vp_current_user_can('delete_themes') && ! $isActive)
                                         <a href="{{route('admin.themes.delete', $themeInfo['name'])}}"
                                            data-confirm="{{__('a.Are you sure you want to delete this theme?')}}"
                                            class="text-danger">{{__('a.Delete')}}</a>

@@ -1,4 +1,4 @@
-@if(cp_current_user_can('edit_dashboard'))
+@if(vp_current_user_can('edit_dashboard'))
     @php
         $statsHelper = App\Helpers\StatsHelper::getInstance();
 
@@ -45,7 +45,7 @@
             <div>
                 <h1>{{__('a.Edit dashboard content')}}</h1>
             </div>
-            @if(cp_current_user_can('edit_dashboard'))
+            @if(vp_current_user_can('edit_dashboard'))
                 <ul class="list-unstyled list-inline mb-0">
                     <li class="">
                         <a class="btn btn-primary" href="{{route('admin.dashboard')}}">

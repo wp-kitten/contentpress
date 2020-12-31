@@ -25,7 +25,7 @@ class CheckForMaintenance
         }
 
         //#! Allow administrators
-        if ( cp_current_user_can( 'administrator' ) ) {
+        if ( vp_current_user_can( 'administrator' ) ) {
             return $next( $request );
         }
 

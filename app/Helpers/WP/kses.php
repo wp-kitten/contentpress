@@ -2053,7 +2053,7 @@ function kses_init_filters()
     add_filter( 'title_save_pre', 'wp_filter_kses' );
 
     // Comment filtering.
-    if ( cp_current_user_can( 'unfiltered_html' ) ) {
+    if ( vp_current_user_can( 'unfiltered_html' ) ) {
         add_filter( 'pre_comment_content', 'wp_filter_post_kses' );
     }
     else {
@@ -2106,7 +2106,7 @@ function kses_init()
 {
     kses_remove_filters();
 
-    if ( !cp_current_user_can( 'unfiltered_html' ) ) {
+    if ( !vp_current_user_can( 'unfiltered_html' ) ) {
         kses_init_filters();
     }
 }

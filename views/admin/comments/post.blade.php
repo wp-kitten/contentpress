@@ -29,7 +29,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('moderate_comments'))
+    @if(vp_current_user_can('moderate_comments'))
         {{--[[ FILTERS --}}
         <div class="row">
             <div class="col-md-12 grid-margin">

@@ -229,7 +229,7 @@ class CategoriesWalker
         ?>
         <span class="category-actions">
         (
-            <?php if ( cp_is_multilingual() ) { ?>
+            <?php if ( vp_is_multilingual() ) { ?>
                 <a href="#"
                    data-toggle="modal"
                    data-target="#infoModal"

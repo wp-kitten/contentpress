@@ -18,7 +18,7 @@
                 <h1>{{__('a.Edit menu')}}</h1>
             </div>
 
-            @if(cp_current_user_can('delete_menu'))
+            @if(vp_current_user_can('delete_menu'))
                 <ul class="list-unstyled list-inline mb-0">
                     <li>
                         <a href="#"
@@ -36,7 +36,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('manage_menus'))
+    @if(vp_current_user_can('manage_menus'))
         <div class="row">
             {{-- SIDEBAR --}}
             <div class="col-md-3">

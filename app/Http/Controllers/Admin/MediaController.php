@@ -15,7 +15,7 @@ class MediaController extends AdminControllerBase
 {
     public function index()
     {
-        if ( !cp_current_user_can( 'list_media' ) ) {
+        if ( !vp_current_user_can( 'list_media' ) ) {
             return $this->_forbidden();
         }
 
@@ -46,7 +46,7 @@ class MediaController extends AdminControllerBase
 
     public function showAddView()
     {
-        if ( !cp_current_user_can( 'list_media' ) ) {
+        if ( !vp_current_user_can( 'list_media' ) ) {
             return $this->_forbidden();
         }
 
@@ -67,7 +67,7 @@ class MediaController extends AdminControllerBase
 
     public function showEditView( $id )
     {
-        if ( !cp_current_user_can( 'update_media' ) ) {
+        if ( !vp_current_user_can( 'update_media' ) ) {
             return $this->_forbidden();
         }
 
@@ -87,7 +87,7 @@ class MediaController extends AdminControllerBase
 
     public function showSearchView($s = '')
     {
-        if ( !cp_current_user_can( 'list_media' ) ) {
+        if ( !vp_current_user_can( 'list_media' ) ) {
             return $this->_forbidden();
         }
 
@@ -128,7 +128,7 @@ class MediaController extends AdminControllerBase
 
     public function __update( $id )
     {
-        if ( !cp_current_user_can( [ 'update_media', 'delete_media' ], true ) ) {
+        if ( !vp_current_user_can( [ 'update_media', 'delete_media' ], true ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action.' ),
@@ -162,7 +162,7 @@ class MediaController extends AdminControllerBase
 
     public function __delete( $id )
     {
-        if ( !cp_current_user_can( [ 'update_media', 'delete_media' ], true ) ) {
+        if ( !vp_current_user_can( [ 'update_media', 'delete_media' ], true ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'danger',
                 'text' => __( 'a.You are not allowed to perform this action.' ),

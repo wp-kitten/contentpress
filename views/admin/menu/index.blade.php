@@ -11,7 +11,7 @@
             <div>
                 <h1>{{__('a.Menus')}}</h1>
             </div>
-            @if(cp_current_user_can('publish_posts'))
+            @if(vp_current_user_can('publish_posts'))
                 <ul class="list-unstyled list-inline mb-0">
                     <li class="">
                         <a href="{{route('admin.menus.add')}}" class="btn btn-primary">{{__('a.New')}}</a>
@@ -23,7 +23,7 @@
 
     @include('admin.partials.notices')
 
-    @if(cp_current_user_can('manage_menus'))
+    @if(vp_current_user_can('manage_menus'))
         <div class="row">
             <div class="col-md-4 grid-margin">
                 <div class="tile">

@@ -23,7 +23,7 @@ class AdminBar
      */
     private function __construct()
     {
-        if ( apply_filters( 'valpress/admin-bar/show', true ) && cp_is_user_logged_in() ) {
+        if ( apply_filters( 'valpress/admin-bar/show', true ) && vp_is_user_logged_in() ) {
             add_action( 'valpress/site/head', [ $this, 'printHeadStyles' ], 200 );
             add_action( 'valpress/site/footer', [ $this, 'printFooterScript' ], 200 );
             add_filter( 'valpress/body-class', [ $this, 'addBodyClass' ] );

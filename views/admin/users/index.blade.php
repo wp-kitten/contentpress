@@ -15,7 +15,7 @@
             <div>
                 <h1>{{__('a.Users')}}</h1>
             </div>
-            @if(cp_current_user_can('create_users'))
+            @if(vp_current_user_can('create_users'))
                 <ul class="list-unstyled list-inline mb-0">
                     <li class="">
                         <a class="btn btn-primary d-none d-md-block" href="{{route('admin.users.add')}}">{{__('a.New')}}</a>
@@ -48,7 +48,7 @@
                                 @foreach($admins as $user)
                                     @php
                                         /**@var App\Models\User $user*/
-                                        $isUserAdmin = cp_user_can($user, 'administrator');
+                                        $isUserAdmin = vp_user_can($user, 'administrator');
                                         $isUserSuperAdmin = $user->isInRole([\App\Models\Role::ROLE_SUPER_ADMIN]);
                                         $isOwnProfile = ($current_user->getAuthIdentifier() == $user->id);
                                     @endphp
@@ -117,7 +117,7 @@
                                 @forelse($users as $user)
                                     @php
                                         /**@var App\Models\User $user*/
-                                        $isUserAdmin = cp_user_can($user, 'administrator');
+                                        $isUserAdmin = vp_user_can($user, 'administrator');
                                         $isUserSuperAdmin = $user->isInRole([\App\Models\Role::ROLE_SUPER_ADMIN]);
                                         $isOwnProfile = ($current_user->getAuthIdentifier() == $user->id);
                                     @endphp
