@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Facades\Http;
 
-class ValPressUpdate extends Command
+class CoreUpdate extends Command
 {
     /**
      * The name and signature of the console command.

@@ -6,7 +6,7 @@ use App\Helpers\Marketplace;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
-class ValPressInstall extends Command
+class CoreInstall extends Command
 {
     /**
      * The name and signature of the console command.

@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Symfony\Component\Process\Process;
 
-class ValPressComposer extends Command
+class Composer extends Command
 {
     /**
      * The name and signature of the console command.

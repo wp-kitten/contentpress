@@ -5,7 +5,7 @@ namespace App\Console\Commands;
 use Illuminate\Console\Command;
 use Illuminate\Support\Facades\Artisan;
 
-class ValPressCache extends Command
+class AppCache extends Command
 {
     /**
      * The name and signature of the console command.
