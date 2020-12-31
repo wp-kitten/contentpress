@@ -25,6 +25,7 @@
 
     @if(vp_current_user_can('list_themes'))
         <div class="row themes-list marketplace">
+            @if($themes)
             @foreach($themes as $themeDirName => $themeInfo)
                 @php
                     $isActive = ($currentTheme->get('name') == $themeDirName);
@@ -72,6 +73,13 @@
                     </div>
                 </div>
             @endforeach
+            @else
+                <div class="col-sm-12">
+                    <div class="alert alert-info">
+                        {{__('a.No themes found on marketplace.')}}
+                    </div>
+                </div>
+            @endif
         </div>
     @endif
 @endsection

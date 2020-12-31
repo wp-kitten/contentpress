@@ -45,7 +45,13 @@ class Marketplace
         if ( empty( $data ) ) {
             //#! Get from API
             $url = path_combine( VALPRESS_API_URL, 'plugins' );
-            $response = Http::get( $url )->json();
+
+            try {
+                $response = Http::get( $url )->json();
+            }
+            catch ( \Exception $e ) {
+                return [];
+            }
             if ( empty( $response ) || empty( $response[ 'data' ] ) ) {
                 return [];
             }
@@ -66,7 +72,12 @@ class Marketplace
         if ( empty( $data ) ) {
             //#! Get from API
             $url = path_combine( VALPRESS_API_URL, 'themes' );
-            $response = Http::get( $url )->json();
+            try {
+                $response = Http::get( $url )->json();
+            }
+            catch ( \Exception $e ) {
+                return [];
+            }
             if ( empty( $response ) || empty( $response[ 'data' ] ) ) {
                 return [];
             }
