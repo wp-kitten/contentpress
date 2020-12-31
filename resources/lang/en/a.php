@@ -559,5 +559,6 @@ return [
    "Go to dashboard" => "Go to dashboard",
    "Home" => "Home",
    "Post type deleted" => "Post type deleted",
+   'The theme ":theme_name" could not be activated due to unexpected errors nor the default theme since it was not found.' => 'The theme ":theme_name" could not be activated due to unexpected errors nor the default theme since it was not found.',
    "" => "",
 ];
