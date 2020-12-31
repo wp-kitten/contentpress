@@ -117,7 +117,7 @@ class CommentsWalker
      */
     protected function renderComment( PostComments $comment, $withReplies = true )
     {
-        if ( cp_is_admin() ) {
+        if ( vp_is_admin() ) {
             ?>
             <div class="comment" id="comment-<?php esc_attr_e( $comment->id ); ?>">
                 <p><?php esc_html_e( $comment->post->user->display_name ); ?></p>
@@ -156,7 +156,7 @@ class CommentsWalker
     protected function renderReplies( PostComments $comment )
     {
         $replies = $this->__getReplies( $comment );
-        if ( cp_is_admin() ) {
+        if ( vp_is_admin() ) {
             if ( $replies ) {
                 echo '<ul class="list-unstyled">';
                 foreach ( $replies as $reply ) {
@@ -182,7 +182,7 @@ class CommentsWalker
     //<editor-fold desc="Helper methods">
     protected function renderActions( PostComments $comment )
     {
-        if ( cp_is_admin() ) {
+        if ( vp_is_admin() ) {
             ?>
             <div class="comment-actions">
                 <?php if ( vp_current_user_can( 'moderate_comments' ) ) : ?>

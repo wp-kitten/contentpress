@@ -9,7 +9,7 @@
 
     $hasNotifications = false;
 
-    $underMaintenance = cp_is_under_maintenance();
+    $underMaintenance = vp_is_under_maintenance();
     //#! other settings here...
     $coreUpdateAvailable = false;
     $themesUpdatesAvailable = false;

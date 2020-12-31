@@ -164,7 +164,7 @@ function vp_get_user_related_posts( $userID, $howMany = 4, $excludePostID = null
  */
 function vp_search_form( $placeholderText = 'Search', $searchButtonText = 'Search' )
 {
-    $fid = cp_get_global_id();
+    $fid = vp_get_global_id();
     ?>
     <form method="get" action="<?php esc_attr_e( route( 'blog.search' ) ); ?>" class="search-form">
         <label class="hidden" for="search-field-<?php esc_attr_e( $fid ); ?>"><?php esc_html_e( __( 'a.Search' ) ); ?></label>
@@ -209,7 +209,7 @@ function vp_post_excerpt( $post, $showEllipsis = true )
  */
 function vp_is_singular( $postType = 'post' )
 {
-    $currentRoute = cp_get_current_route_name();
+    $currentRoute = vp_get_current_route_name();
 
     if ( !empty( $postType ) ) {
         return preg_match( '/' . preg_quote( $postType ) . '/', $currentRoute );
@@ -230,7 +230,7 @@ function vp_is_singular( $postType = 'post' )
  */
 function vp_is_page()
 {
-    $currentRoute = cp_get_current_route_name();
+    $currentRoute = vp_get_current_route_name();
     return preg_match( '/\bpage\b/', $currentRoute );
 }
 
@@ -356,7 +356,7 @@ function vp_posts_navigation( Post $post, $cssClass = '', $sameCategory = true, 
                 <a href="<?php esc_attr_e( vp_get_permalink( $previous ) ); ?>" class="previous-post-link">
                     <i class="fas fa-chevron-left nav-icon"></i>
                     <span class="the-title" title="<?php esc_attr_e( $previous->title ); ?>">
-                        <?php echo cp_ellipsis( wp_kses_post( $previous->title ), 80 ); ?>
+                        <?php echo vp_ellipsis( wp_kses_post( $previous->title ), 80 ); ?>
                     </span>
                 </a>
             <?php } ?>
@@ -366,7 +366,7 @@ function vp_posts_navigation( Post $post, $cssClass = '', $sameCategory = true, 
             <?php if ( $next ) { ?>
                 <a href="<?php esc_attr_e( vp_get_permalink( $next ) ); ?>" class="next-post-link">
                     <span class="the-title" title="<?php esc_attr_e( $next->title ); ?>">
-                        <?php echo cp_ellipsis( wp_kses_post( $next->title ), 80 ); ?>
+                        <?php echo vp_ellipsis( wp_kses_post( $next->title ), 80 ); ?>
                     </span>
                      <i class="fas fa-chevron-right nav-icon"></i>
                 </a>

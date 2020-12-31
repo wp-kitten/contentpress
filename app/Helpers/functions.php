@@ -48,7 +48,7 @@ unset( $crtDirPath );
  * Retrieve the application's version
  * @return string
  */
-function cp_get_app_version()
+function vp_get_app_version()
 {
     return VALPRESS_VERSION;
 }
@@ -57,7 +57,7 @@ function cp_get_app_version()
  * Retrieve the name of the current route
  * @return string
  */
-function cp_get_current_route_name()
+function vp_get_current_route_name()
 {
     $route = request()->route();
     if ( isset( $route->action[ 'as' ] ) && !empty( $route->action[ 'as' ] ) ) {
@@ -435,7 +435,7 @@ function path_combine( ...$args )
  * Check to see whether or not the current request is for a page inside the admin area
  * @return bool
  */
-function cp_is_admin()
+function vp_is_admin()
 {
     $request = Request::instance();
     $path = $request->path();
@@ -449,7 +449,7 @@ function cp_is_admin()
  * Check to see whether or not the current request is an ajax request
  * @return bool
  */
-function cp_is_ajax()
+function vp_is_ajax()
 {
     $request = Request::instance();
     return (bool)$request->ajax();
@@ -458,7 +458,7 @@ function cp_is_ajax()
 /**
  * Enqueues the scripts required to render the Media Modal
  */
-function cp_enqueue_media_scripts()
+function vp_enqueue_media_scripts()
 {
     add_action( 'valpress/admin/footer', function () {
         echo view( 'admin.media.modal' )->with( [
@@ -487,7 +487,7 @@ function cp_enqueue_media_scripts()
  * @param int $parentPostID The ID of the post being translated
  * @param int $languageID The ID of the language the post is being translated into
  */
-function cp_enqueue_text_editor_scripts( $currentPostID = 0, $screen = '', $parentPostID = 0, $languageID = 0 )
+function vp_enqueue_text_editor_scripts( $currentPostID = 0, $screen = '', $parentPostID = 0, $languageID = 0 )
 {
     $post = Post::find( $currentPostID );
 
@@ -521,7 +521,7 @@ function cp_enqueue_text_editor_scripts( $currentPostID = 0, $screen = '', $pare
  * @param int $pageID
  * @return bool
  */
-function cp_is_front_page( $pageID )
+function vp_is_front_page( $pageID )
 {
     $settings = new Settings();
     $showOnFront = $settings->getSetting( 'show_on_front', 'blog' );
@@ -536,7 +536,7 @@ function cp_is_front_page( $pageID )
  * Retrieve the list of links to the login, logout & register pages
  * @return array
  */
-function cp_login_logout_links()
+function vp_login_logout_links()
 {
     return [
         'login' => route( 'login' ),
@@ -565,7 +565,7 @@ function valpressFooter()
     ScriptsManager::printFooterScripts();
 }
 
-function cp_admin_head()
+function vp_admin_head()
 {
     do_action( 'valpress/admin/head' );
     ScriptsManager::printStylesheets();
@@ -573,7 +573,7 @@ function cp_admin_head()
     ScriptsManager::printHeadScripts();
 }
 
-function cp_admin_footer()
+function vp_admin_footer()
 {
     do_action( 'valpress/admin/footer' );
     ScriptsManager::printFooterScripts();
@@ -593,7 +593,7 @@ function vp_add_image_size( $id, array $size = [ 'w' => null, 'h' => null ] )
  * Retrieve the application's charset
  * @return string
  */
-function cp_get_charset()
+function vp_get_charset()
 {
     return env( 'APP_CHARSET', config( 'app.chaset', 'UTF-8' ) );
 }
@@ -603,7 +603,7 @@ function cp_get_charset()
  * @return int
  * @uses $GLOBALS[ 'sid' ]
  */
-function cp_get_global_id()
+function vp_get_global_id()
 {
     $GLOBALS[ 'sid' ] += 1;
     return $GLOBALS[ 'sid' ];
@@ -617,7 +617,7 @@ function cp_get_global_id()
  * @param string $langsDirPath The path to the languages directory, usually named "lang"
  * @param string $fileName The name of the translation file (without the .php file extension). It should always be just "m"
  */
-function cp_register_language_file( $namespace, $langsDirPath, $fileName = 'm' )
+function vp_register_language_file( $namespace, $langsDirPath, $fileName = 'm' )
 {
     $loader = TranslationsLoader::getInstance();
     $loader->register( $namespace, $langsDirPath, $fileName );
@@ -627,7 +627,7 @@ function cp_register_language_file( $namespace, $langsDirPath, $fileName = 'm' )
  * Retrieve the paths to the uploads directory
  * @return array
  */
-function cp_get_uploads_dir()
+function vp_get_uploads_dir()
 {
     return [
         'dir' => untrailingslashit( wp_normalize_path( public_path( 'uploads' ) ) ),
@@ -639,7 +639,7 @@ function cp_get_uploads_dir()
  * Check to see whether or not the application is under maintenance
  * @return bool|mixed
  */
-function cp_is_under_maintenance()
+function vp_is_under_maintenance()
 {
     if ( Schema::hasTable( 'settings' ) ) {
         $settings = new Settings();
@@ -652,7 +652,7 @@ function cp_is_under_maintenance()
  * Get the widgets saved in database
  * @return array
  */
-function cp_get_registered_dashboard_widgets()
+function vp_get_registered_dashboard_widgets()
 {
     $dashWidgets = apply_filters( 'valpress/dashboard/widgets', ( new Options() )->getOption( '_dashboard_widgets', [] ) );
     $registeredWidgets = apply_filters( 'valpress/dashboard/widgets/register', [] );
@@ -677,7 +677,7 @@ function cp_get_registered_dashboard_widgets()
     return $dashWidgets;
 }
 
-function cp_get_post_view_url( Post $post )
+function vp_get_post_view_url( Post $post )
 {
     return Util::getPostViewUrl( $post );
 }
@@ -686,7 +686,7 @@ function cp_get_post_view_url( Post $post )
  * Retrieve the reference to the instance of the current theme
  * @return Theme|null
  */
-function cp_get_current_theme(): ?Theme
+function vp_get_current_theme(): ?Theme
 {
     return ThemesManager::getInstance()->getActiveTheme();
 }
@@ -695,7 +695,7 @@ function cp_get_current_theme(): ?Theme
  * Retrieve the name of the curently active theme
  * @return string
  */
-function cp_get_current_theme_name()
+function vp_get_current_theme_name()
 {
     if ( Schema::hasTable( 'options' ) ) {
         return ( new Options() )->getOption( ThemesManager::ACTIVE_THEME_NAME_OPT_NAME, 'default' );
@@ -709,7 +709,7 @@ function cp_get_current_theme_name()
  * @param string $path Relative to the "plugin" directory
  * @return string
  */
-function cp_plugin_url( $pluginName, $path )
+function vp_plugin_url( $pluginName, $path )
 {
     return asset( path_combine( 'plugins', $pluginName, $path ) );
 }
@@ -720,7 +720,7 @@ function cp_plugin_url( $pluginName, $path )
  * @param string $path Relative to the "theme" directory
  * @return string
  */
-function cp_theme_url( $themeName, $path )
+function vp_theme_url( $themeName, $path )
 {
     return path_combine( ThemesManager::getInstance()->getThemesDirectoryUrl(), $themeName, $path );
 }
@@ -731,7 +731,7 @@ function cp_theme_url( $themeName, $path )
  * @param int|null $languageID
  * @return mixed
  */
-function cp_has_menu( $menuSlugOrID, $languageID = null )
+function vp_has_menu( $menuSlugOrID, $languageID = null )
 {
     if ( empty( $languageID ) ) {
         $languageID = vp_get_frontend_user_language_id();
@@ -750,9 +750,9 @@ function cp_has_menu( $menuSlugOrID, $languageID = null )
  * Render a menu
  * @param string|int $menuSlugOrID The menu name, slug or ID
  */
-function cp_menu( $menuSlugOrID )
+function vp_menu( $menuSlugOrID )
 {
-    if ( cp_is_under_maintenance() && !vp_current_user_can( 'administrator' ) ) {
+    if ( vp_is_under_maintenance() && !vp_current_user_can( 'administrator' ) ) {
         return;
     }
     try {
@@ -771,7 +771,7 @@ function cp_menu( $menuSlugOrID )
  * @param string $textMore
  * @return string
  */
-function cp_ellipsis( string $string, int $maxLength = 50, string $textMore = '...' ): string
+function vp_ellipsis( string $string, int $maxLength = 50, string $textMore = '...' ): string
 {
     if ( strlen( $string ) > $maxLength ) {
         return mb_substr( $string, 0, $maxLength ) . $textMore;
@@ -786,7 +786,7 @@ function cp_ellipsis( string $string, int $maxLength = 50, string $textMore = '.
  * @return string
  * @uses apply_filters('valpress/category/name', $name)
  */
-function cp_cat_name( string $name ): string
+function vp_cat_name( string $name ): string
 {
     return apply_filters( 'valpress/category/name', $name );
 }
@@ -796,7 +796,7 @@ function cp_cat_name( string $name ): string
  * @param string $roleName
  * @return bool
  */
-function cp_is_role_protected( string $roleName )
+function vp_is_role_protected( string $roleName )
 {
     return in_array( strtolower( $roleName ), [ Role::ROLE_SUPER_ADMIN, Role::ROLE_ADMIN, Role::ROLE_CONTRIBUTOR ] );
 }
@@ -806,7 +806,7 @@ function cp_is_role_protected( string $roleName )
  * @param string $roleName
  * @return string|string[]|null
  */
-function cp_filter_role_name( string $roleName )
+function vp_filter_role_name( string $roleName )
 {
     if ( empty( $roleName ) ) {
         return $roleName;

@@ -20,7 +20,7 @@
                 <div class="card-body d-flex align-items-center justify-content-between">
                     <input class="form-control" id="post_title" type="text" value="{!! $post->title !!}" placeholder="{{__('a.Post title')}}"/>
                     <a href="#" class="btn btn-primary ml-4 js-save-post-button">{{__('a.Save')}}</a>
-                    <a href="{{cp_get_post_view_url($post)}}" class="btn btn-primary view-post-button ml-2" target="_blank" title="{{__('a.Preview')}}">
+                    <a href="{{vp_get_post_view_url($post)}}" class="btn btn-primary view-post-button ml-2" target="_blank" title="{{__('a.Preview')}}">
                         {{__('a.Preview')}}
                     </a>
                 </div>

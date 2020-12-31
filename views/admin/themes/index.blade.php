@@ -43,7 +43,7 @@
                                    data-name="{{$themeInfo['name']}}"
                                    data-display-name="{{$themeInfo['display_name']}}"
                                    class="theme-title js-open-info-modal @if($isActive) theme-active text-success @else text-dark @endif">
-                                    <img src="{{cp_theme_url($themeInfo['name'], $currentTheme->get('thumbnail'))}}" alt="{{$themeInfo['name']}}" class="img-thumbnail"/>
+                                    <img src="{{vp_theme_url($themeInfo['name'], $currentTheme->get('thumbnail'))}}" alt="{{$themeInfo['name']}}" class="img-thumbnail"/>
                                 </a>
                             @endif
                         </div>

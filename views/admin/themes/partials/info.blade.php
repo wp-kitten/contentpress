@@ -2,7 +2,7 @@
 <div class="theme-info-modal-wrap">
     <div class="thumbnail">
         @if($theme['thumbnail'])
-            <img src="{{cp_theme_url($theme['name'], $theme['thumbnail'])}}" alt="{{$theme['name']}}" class="img-thumbnail"/>
+            <img src="{{vp_theme_url($theme['name'], $theme['thumbnail'])}}" alt="{{$theme['name']}}" class="img-thumbnail"/>
         @endif
     </div>
 

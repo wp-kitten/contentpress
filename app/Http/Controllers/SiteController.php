@@ -80,7 +80,7 @@ class SiteController extends Controller
                             if ( !$thePost ) {
                                 return $this->_not_found();
                             }
-                            return redirect( cp_get_post_view_url( $thePost ) );
+                            return redirect( vp_get_post_view_url( $thePost ) );
                         }
 
                         //#! Other language -> default language ( RO -> EN ) //
@@ -89,7 +89,7 @@ class SiteController extends Controller
                             if ( !$thePost ) {
                                 return $this->_not_found();
                             }
-                            return redirect( cp_get_post_view_url( $thePost ) );
+                            return redirect( vp_get_post_view_url( $thePost ) );
                         }
 
                         //#! other language -> other language ( ES -> RO )
@@ -98,7 +98,7 @@ class SiteController extends Controller
                             if ( !$thePost ) {
                                 return $this->_not_found();
                             }
-                            return redirect( cp_get_post_view_url( $thePost ) );
+                            return redirect( vp_get_post_view_url( $thePost ) );
                         }
                         else {
                             return $this->_not_found();

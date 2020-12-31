@@ -33,7 +33,7 @@ class PostsController extends AdminControllerBase
     public function __construct()
     {
         parent::__construct();
-        $routeName = cp_get_current_route_name();
+        $routeName = vp_get_current_route_name();
         $parts = explode( '.', $routeName );
         $postType = null;
         if ( isset( $parts[ 1 ] ) ) {
@@ -147,7 +147,7 @@ class PostsController extends AdminControllerBase
 
         do_action( 'valpress/enqueue_text_editor', $id, 'post-new' );
 
-        cp_enqueue_media_scripts();
+        vp_enqueue_media_scripts();
 
         $post = Post::findOrFail( $id );
 
@@ -189,7 +189,7 @@ class PostsController extends AdminControllerBase
 
         do_action( 'valpress/enqueue_text_editor', $id, 'post-edit' );
 
-        cp_enqueue_media_scripts();
+        vp_enqueue_media_scripts();
 
         $postCategories = [];
         if ( $post->categories ) {
@@ -305,7 +305,7 @@ class PostsController extends AdminControllerBase
 
         do_action( 'valpress/enqueue_text_editor', $post->id, 'post-translate', $mainPost->id, $newLanguageID );
 
-        cp_enqueue_media_scripts();
+        vp_enqueue_media_scripts();
 
         $__postCategories = $post->categories;
         $postCategories = [];

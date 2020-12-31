@@ -2,7 +2,7 @@
 <div class="plugin-info-modal-wrap">
     <div class="thumbnail">
         @if($plugin->thumbnail)
-            <img src="{{cp_plugin_url($plugin->name, $plugin->thumbnail)}}" alt="{{$plugin->display_name}}" class="img-thumbnail"/>
+            <img src="{{vp_plugin_url($plugin->name, $plugin->thumbnail)}}" alt="{{$plugin->display_name}}" class="img-thumbnail"/>
         @endif
     </div>
 

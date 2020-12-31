@@ -50,7 +50,7 @@ class AppLoadedListener
         PluginsManager::getInstance();
         ThemesManager::getInstance();
 
-        if ( cp_is_admin() ) {
+        if ( vp_is_admin() ) {
             if ( !did_action( 'valpress/admin/init' ) ) {
                 do_action( 'valpress/admin/init' );
             }

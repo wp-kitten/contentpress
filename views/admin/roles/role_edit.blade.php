@@ -28,7 +28,7 @@
                 <form method="post" action="{{route('admin.roles.update', $role->id)}}">
                     @csrf
 
-                    @if(cp_is_role_protected($role->name))
+                    @if(vp_is_role_protected($role->name))
                         <div class="alert alert-warning">
                             <p class="mb-0">
                                 {{__("a.This role is protected which means the name cannot be changed due to the fact that it's used throughout the application and if changed it will cause a fatal error.")}}
@@ -41,7 +41,7 @@
                         <input id="name" name="name" type="text"
                                class="form-control"
                                maxlength="190"
-                               @if(cp_is_role_protected($role->name)) disabled @endif
+                               @if(vp_is_role_protected($role->name)) disabled @endif
                                value="{{old('name') ? old('name') : $role->name}}"/>
                     </div>
                     <div class="form-group">

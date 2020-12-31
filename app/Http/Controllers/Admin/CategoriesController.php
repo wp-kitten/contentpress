@@ -41,7 +41,7 @@ class CategoriesController extends PostsController
         ScriptsManager::enqueueFooterScript( 'categories-index.js', asset( '_admin/js/categories/index.js' ) );
 
         //#! Load scripts & inject the markup for the media modal
-        cp_enqueue_media_scripts();
+        vp_enqueue_media_scripts();
 
         $walker = new CategoriesWalker( $this->_postType, [] );
         return view( 'admin.post.categories' )->with( [
@@ -72,7 +72,7 @@ class CategoriesController extends PostsController
         ScriptsManager::enqueueFooterScript( 'categories-edit.js', asset( '_admin/js/categories/edit.js' ) );
 
         //#! Load scripts & inject the markup for the media modal
-        cp_enqueue_media_scripts();
+        vp_enqueue_media_scripts();
 
         MetaFields::generateProtectedMetaFields( new CategoryMeta(), 'category_id', $id, MetaFields::SECTION_CATEGORY );
 

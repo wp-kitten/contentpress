@@ -209,7 +209,7 @@
                                                                title="{{__('a.Show translations')}}">{{__('a.Translations')}}</a>
                                                         @endif
 
-                                                        <a href="{{cp_get_post_view_url($post)}}"
+                                                        <a href="{{vp_get_post_view_url($post)}}"
                                                            class="post-preview text-primary"
                                                            target="_blank"
                                                            title="{{__('a.Preview')}}">
@@ -267,7 +267,7 @@
                                                         <td class="text-center">
                                                             {{-- The default language is omitted by default --}}
                                                             @if($translation = App\Helpers\VPML::getTranslatedPost($post->id, $code))
-                                                                <a href="{{cp_get_post_view_url($translation)}}" title="{{__('a.Click to preview')}}" target="_blank">
+                                                                <a href="{{vp_get_post_view_url($translation)}}" title="{{__('a.Click to preview')}}" target="_blank">
                                                                     <i class="fa fa-check"></i>
                                                                 </a>
                                                             @else
@@ -356,7 +356,7 @@
                                                                                         $title = __('a.Edit');
                                                                                     }
                                                                                     elseif(vp_current_user_can('publish_posts')){
-                                                                                        $url = cp_get_post_view_url($translatedPost);
+                                                                                        $url = vp_get_post_view_url($translatedPost);
                                                                                         $title = __('a.Preview');
                                                                                     }
                                                                                 @endphp
@@ -382,7 +382,7 @@
                                                                                 @endif
 
                                                                                 @if(vp_current_user_can('publish_posts'))
-                                                                                    <a href="{{cp_get_post_view_url($translatedPost)}}" class="post-preview text-primary">
+                                                                                    <a href="{{vp_get_post_view_url($translatedPost)}}" class="post-preview text-primary">
                                                                                         {{__('a.Preview')}}
                                                                                     </a>
                                                                                 @endif

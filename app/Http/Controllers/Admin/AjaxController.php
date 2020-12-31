@@ -81,7 +81,7 @@ class AjaxController extends Controller
     {
         return $this->responseSuccess( [
             'laravel_version' => app()->version(),
-            'app_version' => cp_get_app_version(),
+            'app_version' => vp_get_app_version(),
         ] );
     }
 
@@ -198,7 +198,7 @@ class AjaxController extends Controller
         if ( $postUpdated ) {
             return $this->responseSuccess( [
                 'message' => __( 'a.Post saved.' ),
-                'preview_url' => cp_get_post_view_url( $currentPost ),
+                'preview_url' => vp_get_post_view_url( $currentPost ),
             ] );
         }
         return $this->responseError( __( 'a.Post not saved.' ) );
@@ -382,7 +382,7 @@ class AjaxController extends Controller
 
             return $this->responseSuccess( [
                 'message' => __( 'a.Post saved.' ),
-                'preview_url' => cp_get_post_view_url( $currentPost ),
+                'preview_url' => vp_get_post_view_url( $currentPost ),
             ] );
         }
         return $this->responseError( __( 'a.Post not saved.' ) );
@@ -429,7 +429,7 @@ class AjaxController extends Controller
         if ( $r ) {
             return $this->responseSuccess( [
                 'message' => __( 'a.:post_type saved', [ 'post_type' => $post_type ] ),
-                'preview_url' => cp_get_post_view_url( $currentPost ),
+                'preview_url' => vp_get_post_view_url( $currentPost ),
             ] );
         }
         return $this->responseError( __( 'a.:post_type not saved.', [ 'post_type' => $post_type ] ) );

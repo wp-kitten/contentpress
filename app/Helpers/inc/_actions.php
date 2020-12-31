@@ -149,7 +149,7 @@ function __valpress_render_comment_actions( PostComments $comment, $postID )
  * @param $mainPostID
  * @param $languageID
  */
-add_action( 'valpress/enqueue_text_editor', 'cp_enqueue_text_editor_scripts', 10, 4 );
+add_action( 'valpress/enqueue_text_editor', 'vp_enqueue_text_editor_scripts', 10, 4 );
 
 /**
  * Render the post editor

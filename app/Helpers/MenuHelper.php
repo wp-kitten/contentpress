@@ -11,7 +11,7 @@ class MenuHelper
      */
     public static function isActiveMenuItem( $partialRouteName )
     {
-        $currentRoute = cp_get_current_route_name();
+        $currentRoute = vp_get_current_route_name();
 
         if ( $currentRoute == $partialRouteName ) {
             return true;
@@ -21,7 +21,7 @@ class MenuHelper
 
     /**
      * @param string $partialRouteName The string to search for a match in the current route name
-     * @uses cp_get_current_route_name()
+     * @uses vp_get_current_route_name()
      */
     public static function activateMenuItem( $partialRouteName )
     {
@@ -40,15 +40,15 @@ class MenuHelper
     /**
      * @param string $routeName
      * @param bool $partial Whether or not to match only a partial section of the provided route
-     * @uses cp_get_current_route_name()
+     * @uses vp_get_current_route_name()
      */
     public static function activateSubmenuItem( $routeName, $partial = false )
     {
         if ( $partial ) {
-            echo( preg_match( '/^' . $routeName . '/', cp_get_current_route_name() ) ? 'active' : '' );
+            echo( preg_match( '/^' . $routeName . '/', vp_get_current_route_name() ) ? 'active' : '' );
         }
         else {
-            echo( cp_get_current_route_name() == $routeName ? 'active' : '' );
+            echo( vp_get_current_route_name() == $routeName ? 'active' : '' );
         }
     }
 

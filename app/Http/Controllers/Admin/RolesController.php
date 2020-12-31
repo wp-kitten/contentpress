@@ -36,12 +36,12 @@ class RolesController extends AdminControllerBase
             'description' => 'max:500',
         ] );
 
-        $roleName = cp_filter_role_name( $this->request->get( 'name' ) );
+        $roleName = vp_filter_role_name( $this->request->get( 'name' ) );
         $roleDisplayName = wp_kses( $this->request->get( 'display_name' ), [] );
         $roleDescription = wp_kses_post( $this->request->get( 'description' ) );
 
         //#! If the role is protected and the name is changed
-        if ( cp_is_role_protected( $role->name ) ) {
+        if ( vp_is_role_protected( $role->name ) ) {
             if ( $roleName != $role->name ) {
                 return redirect()->back()->withInput()->with( 'message', [
                     'class' => 'danger',
@@ -84,7 +84,7 @@ class RolesController extends AdminControllerBase
             'description' => 'max:500',
         ] );
 
-        $roleName = cp_filter_role_name( $this->request->get( 'name' ) );
+        $roleName = vp_filter_role_name( $this->request->get( 'name' ) );
         $roleDisplayName = wp_kses( $this->request->get( 'display_name' ), [] );
         $roleDescription = wp_kses_post( $this->request->get( 'description' ) );
 
@@ -119,7 +119,7 @@ class RolesController extends AdminControllerBase
     {
         $role = Role::findOrFail( $id );
 
-        if ( cp_is_role_protected( $role->name ) ) {
+        if ( vp_is_role_protected( $role->name ) ) {
             return redirect()->back()->with( 'message', [
                 'class' => 'success',
                 'text' => __( 'a.This role is protected and cannot be deleted.' ),

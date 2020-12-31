@@ -271,7 +271,7 @@ function esc_attr( $text )
  */
 function esc_textarea( $text )
 {
-    $safe_text = htmlspecialchars( $text, ENT_QUOTES, cp_get_charset() );
+    $safe_text = htmlspecialchars( $text, ENT_QUOTES, vp_get_charset() );
     /**
      * Filters a string cleaned and escaped for output in a textarea element.
      *
@@ -365,7 +365,7 @@ function wp_check_invalid_utf8( $string, $strip = false )
     // Store the site charset as a static to avoid multiple calls to get_option().
     static $is_utf8 = null;
     if ( !isset( $is_utf8 ) ) {
-        $is_utf8 = in_array( cp_get_charset(), [ 'utf8', 'utf-8', 'UTF8', 'UTF-8' ] );
+        $is_utf8 = in_array( vp_get_charset(), [ 'utf8', 'utf-8', 'UTF8', 'UTF-8' ] );
     }
     if ( !$is_utf8 ) {
         return $string;
@@ -441,7 +441,7 @@ function _wp_specialchars( $string, $quote_style = ENT_NOQUOTES, $charset = fals
 
     // Store the site charset as a static to avoid multiple calls to wp_load_alloptions().
     if ( !$charset ) {
-        $charset = cp_get_charset();
+        $charset = vp_get_charset();
     }
 
     if ( in_array( $charset, [ 'utf8', 'utf-8', 'UTF8' ] ) ) {

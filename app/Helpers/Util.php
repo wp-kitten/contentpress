@@ -84,7 +84,7 @@ class Util
                     'slug' => $post->slug,
                     'language_id' => $post->language->id,
                     'language_name' => $post->language->name,
-                    'view_link' => cp_get_post_view_url( $post ),
+                    'view_link' => vp_get_post_view_url( $post ),
                     'edit_link' => route( 'admin.post.edit', [ 'id' => $postID ] ),
                     'delete_link' => route( 'admin.post.delete', [ 'id' => $postID ] ),
 

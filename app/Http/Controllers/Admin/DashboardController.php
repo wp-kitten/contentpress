@@ -25,7 +25,7 @@ class DashboardController extends AdminControllerBase
         if ( $this->current_user()->can( 'read' ) ) {
             ScriptsManager::enqueueFooterScript( 'dashboard-index.js', asset( '_admin/js/dashboard/index.js' ) );
             return view( 'admin.dashboard.index' )->with( [
-                'widgets' => cp_get_registered_dashboard_widgets(),
+                'widgets' => vp_get_registered_dashboard_widgets(),
                 'enabled_languages' => ( new Options() )->getOption( 'enabled_languages', [] ),
             ] );
         }
@@ -59,7 +59,7 @@ class DashboardController extends AdminControllerBase
 
             Util::getAvailableWidgets();
             return view( 'admin.dashboard.edit' )->with( [
-                'widgets' => cp_get_registered_dashboard_widgets(),
+                'widgets' => vp_get_registered_dashboard_widgets(),
             ] );
         }
         return $this->_forbidden();

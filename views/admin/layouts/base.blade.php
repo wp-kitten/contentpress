@@ -105,7 +105,7 @@
         }
     </script>
 
-    {{cp_admin_head()}}
+    {{vp_admin_head()}}
     @yield('head-scripts')
 </head>
 <body class="app sidebar-mini">
@@ -133,7 +133,7 @@
     <script src="{{asset('vendor/admin-template/plugins/pace.min.js')}}"></script>
     <script src="{{asset('vendor/admin-template/plugins/chart.js')}}"></script>
 
-    {{cp_admin_footer()}}
+    {{vp_admin_footer()}}
     @yield('footer-scripts')
 </body>
 </html>

@@ -37,7 +37,7 @@
                     </li>
                 @endif
                 <li>
-                    <a href="{{cp_get_post_view_url($post)}}" class="btn btn-primary ml-2 view-post-button" target="_blank" title="Preview{{__('a.Preview')}}">
+                    <a href="{{vp_get_post_view_url($post)}}" class="btn btn-primary ml-2 view-post-button" target="_blank" title="Preview{{__('a.Preview')}}">
                         {{__('a.Preview')}}
                     </a>
                 </li>

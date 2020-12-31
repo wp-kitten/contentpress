@@ -15,7 +15,7 @@ class CheckForMaintenance
      */
     public function handle( $request, Closure $next )
     {
-        if ( !cp_is_under_maintenance() ) {
+        if ( !vp_is_under_maintenance() ) {
             return $next( $request );
         }
 

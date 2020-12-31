@@ -33,7 +33,7 @@
                         <div class="card-body">
                             @foreach($roles as $role)
                                 <?php
-                                    $isProtected = cp_is_role_protected( $role->name );
+                                    $isProtected = vp_is_role_protected( $role->name );
                                 ?>
                                 <div class="d-flex align-content-center align-items-center justify-content-start">
                                     @if($isProtected)
