@@ -122,7 +122,7 @@ class SiteController extends Controller
         //#! Check the post type
         $postType = $thePost->post_type->name;
 
-        $GLOBALS[ 'cp_post' ] = $thePost;
+        $GLOBALS[ 'vp_post' ] = $thePost;
 
         //#! If this is a page and has specified a template
         if ( 'page' == $postType && ( $template = vp_get_post_meta( $thePost, 'template' ) ) ) {

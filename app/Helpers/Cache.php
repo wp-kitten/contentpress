@@ -22,7 +22,7 @@ class Cache
     private $_enabled = false;
 
     /**
-     * The number of minutes a cache is valid. Defaults to 1h. It can be configured in config/app.php using the key: cp_cache_timeout
+     * The number of minutes a cache is valid. Defaults to 1h. It can be configured in config/app.php using the key: vp_cache_timeout
      * @var int
      */
     private $_cacheTimeout = 60;
@@ -45,7 +45,7 @@ class Cache
                 $this->_model = new CacheModel();
             }
             $cfg = $application->get( 'config' );
-            if ( $cacheTimeout = $cfg->get( 'app.cp_cache_timeout' ) ) {
+            if ( $cacheTimeout = $cfg->get( 'app.vp_cache_timeout' ) ) {
                 $this->_cacheTimeout = intval( $cacheTimeout );
             }
         }

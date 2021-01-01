@@ -51,14 +51,14 @@ class PluginsController extends AdminControllerBase
 
         /**@var $cache Cache */
         $cache = app( 'vp.cache' );
-        $defaultPlugins = $cache->get( 'cp_default_plugins', [] ); // get from cache
+        $defaultPlugins = $cache->get( 'vp_default_plugins', [] ); // get from cache
 
         if ( empty( $defaultPlugins ) ) {
             if ( '' != VALPRESS_API_URL ) {
                 $response = Http::get( VALPRESS_API_URL . '/plugins', [ 'verify' => false ] )->json();
                 if ( is_array( $response ) && isset( $response[ 'data' ] ) ) {
                     $defaultPlugins = $response[ 'data' ];
-                    $cache->set( 'cp_default_plugins', $defaultPlugins );
+                    $cache->set( 'vp_default_plugins', $defaultPlugins );
                 }
             }
         }

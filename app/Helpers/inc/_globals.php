@@ -61,4 +61,4 @@ $GLOBALS[ 'sid' ] = 0;
  * Stores the current post instance. Only populated when viewing single posts.
  * @var Post
  */
-$GLOBALS[ 'cp_post' ] = null;
+$GLOBALS[ 'vp_post' ] = null;

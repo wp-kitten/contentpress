@@ -177,7 +177,7 @@ class SettingsController extends AdminControllerBase
         //#! If name changed
         if ( $post->name != $name ) {
             //#! Update menu post type
-            Util::cp_update_menu_item_post_type( $post->name, $name );
+            Util::vp_update_menu_item_post_type( $post->name, $name );
         }
 
         $displayName = $request->get( 'display_name' );
@@ -285,7 +285,7 @@ class SettingsController extends AdminControllerBase
         ] );
 
         if ( VPML::getDefaultLanguageID() == $languageID ) {
-            Util::cp_insert_menu_item_post_type( $name );
+            Util::vp_insert_menu_item_post_type( $name );
         }
 
         if ( $r ) {
@@ -350,7 +350,7 @@ class SettingsController extends AdminControllerBase
         $result = PostType::destroy( $id );
         if ( $result ) {
             //#! Delete associated menu post type
-            Util::cp_delete_menu_item_post_type( $name );
+            Util::vp_delete_menu_item_post_type( $name );
 
             //#! Delete translations
             PostType::where( 'translated_id', $id )->delete();

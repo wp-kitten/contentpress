@@ -5,9 +5,13 @@
 /public/img
 /public/plugins
 /public/themes
+/public/vp-pwa-manifest.json
+/public/vp-pwa-service-worker.js
 /storage/*.key
 /vendor
 /.idea
+package-lock.json
+composer.lock
 .env
 .env.backup
 .env.prod

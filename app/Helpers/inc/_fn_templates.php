@@ -279,7 +279,7 @@ function vp_get_post( $postID = null ): ?Post
         $post = Post::find( $postID );
         return ( $post ?? null );
     }
-    return $GLOBALS[ 'cp_post' ];
+    return $GLOBALS[ 'vp_post' ];
 }
 
 /**

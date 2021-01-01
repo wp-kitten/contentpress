@@ -13,7 +13,7 @@ class UserNotices
     /**
      * The name of the session variable that will be used to store the flash messages
      */
-    const SESSION_NAME = 'cp_user_notices';
+    const SESSION_NAME = 'vp_user_notices';
 
     /**
      * @var array

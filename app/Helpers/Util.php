@@ -317,12 +317,12 @@ class Util
         return route( "app.{$post->post_type->name}.view", [ 'slug' => $post->slug ] );
     }
 
-    public static function cp_get_menu_item_types()
+    public static function vp_get_menu_item_types()
     {
         return MenuItemType::all();
     }
 
-    public static function cp_insert_menu_item_post_type( $name )
+    public static function vp_insert_menu_item_post_type( $name )
     {
         return MenuItemType::create( [
             'name' => $name,
@@ -330,7 +330,7 @@ class Util
         ] );
     }
 
-    public static function cp_update_menu_item_post_type( $oldName, $newName )
+    public static function vp_update_menu_item_post_type( $oldName, $newName )
     {
         $entry = MenuItemType::where( 'name', $oldName )->first();
         if ( $entry ) {
@@ -341,7 +341,7 @@ class Util
         return false;
     }
 
-    public static function cp_delete_menu_item_post_type( $name )
+    public static function vp_delete_menu_item_post_type( $name )
     {
         $entry = MenuItemType::where( 'name', $name )->first();
         if ( $entry ) {

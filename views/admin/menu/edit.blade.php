@@ -141,7 +141,7 @@
                                 {{-- Build the tab control --}}
 
                                 @php
-                                    $menuItemTypes = App\Helpers\Util::cp_get_menu_item_types();
+                                    $menuItemTypes = App\Helpers\Util::vp_get_menu_item_types();
                                 @endphp
 
                                 @if($menuItemTypes->count() > 0)
