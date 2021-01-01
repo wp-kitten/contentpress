@@ -22,7 +22,7 @@ define( 'VALPRESS_API_URL', 'https://api.valpress.net/api' );
  * Stores the HTTP path to the marketplace site
  * @var string
  */
-define( 'VALPRESS_MARKETPLACE_URL', 'http://api.valpress.net' );
+define( 'VALPRESS_MARKETPLACE_URL', 'https://api.valpress.net' );
 
 /**
  * 4 digits year
