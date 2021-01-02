@@ -81,7 +81,7 @@ class MenuBuilderBasic
                 $url = ( Route::has( $meta[ 'url' ] ) ? route( $meta[ 'url' ] ) : $meta[ 'url' ] );
                 $activeClass = ( Str::containsAll( url()->current(), [ $url ] ) ? 'active' : '' );
                 ?>
-                <li class="<?php esc_attr_e( $cssClass ); ?>">
+                <li class="menu-item-main <?php esc_attr_e( $cssClass ); ?>">
                     <a href="<?php esc_attr_e( $url ); ?>" class="<?php esc_attr_e( $activeClass ); ?>">
                         <?php echo wp_kses_post( $title ); ?>
                     </a>
@@ -98,7 +98,7 @@ class MenuBuilderBasic
             $url = vp_get_category_link( $category );
             $activeClass = ( Str::containsAll( url()->current(), [ $url ] ) ? 'active' : '' );
             ?>
-            <li class="<?php esc_attr_e( $cssClass ); ?>">
+            <li class="menu-item-main <?php esc_attr_e( $cssClass ); ?>">
                 <a href="<?php esc_attr_e( $url ); ?>" class="<?php esc_attr_e( $activeClass ); ?>">
                     <?php echo wp_kses_post( $category->name ); ?>
                 </a>
@@ -114,7 +114,7 @@ class MenuBuilderBasic
             $url = vp_get_permalink( $post );
             $activeClass = ( Str::containsAll( url()->current(), [ $url ] ) ? 'active' : '' );
             ?>
-            <li class="<?php esc_attr_e( $cssClass ); ?>">
+            <li class="menu-item-main <?php esc_attr_e( $cssClass ); ?>">
                 <a href="<?php esc_attr_e( $url ); ?>" class="<?php esc_attr_e( $activeClass ); ?>">
                     <?php echo wp_kses_post( $post->title ); ?>
                 </a>
