@@ -70,10 +70,12 @@ class AjaxController extends Controller
      */
     public function action_heartbeat()
     {
-        if ( $this->current_user()->getAuthIdentifier() ) {
+        if ( $this->current_user() && $this->current_user()->getAuthIdentifier() ) {
+            do_action( 'valpress/heartbeat/success', $this->current_user() );
             app()->get( 'cp.updater' )->run();
             return $this->responseSuccess();
         }
+        do_action( 'valpress/heartbeat/error' );
         return $this->responseError();
     }
 
