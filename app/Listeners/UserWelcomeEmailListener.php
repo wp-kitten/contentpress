@@ -3,6 +3,7 @@
 namespace App\Listeners;
 
 use App\Events\UserRegisteredEvent;
+use App\Models\Options;
 
 class UserWelcomeEmailListener
 {
