@@ -1,8 +1,8 @@
-@inject('languageClass', App\Models\Language)
-@inject('optionsClass', App\Models\Options)
-@inject('userClass', App\Models\User)
-@inject('roleClass', App\Models\Role)
-@inject('postStatusClass', App\Models\PostStatus)
+@inject('languageClass', 'App\Models\Language')
+@inject('optionsClass', 'App\Models\Options')
+@inject('userClass', 'App\Models\User')
+@inject('roleClass', 'App\Models\Role')
+@inject('postStatusClass', 'App\Models\PostStatus')
 @php
     $isMultilingual = vp_is_multilingual();
     $baseRoute = "admin.{$__post_type->name}";

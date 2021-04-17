@@ -1,4 +1,4 @@
-@inject('language', App\Models\Language)
+@inject('language', 'App\Models\Language')
 @php
     $optionsClass = new App\Models\Options();
 

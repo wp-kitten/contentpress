@@ -2,7 +2,7 @@
     $range = range(18, 180, 18);
 @endphp
 
-@inject('mediaHelper', App\Helpers\MediaHelper)
+@inject('mediaHelper', 'App\Helpers\MediaHelper')
 @extends('admin.layouts.base')
 
 @section('page-title')

@@ -6,7 +6,7 @@ use App\Models\Post;
  * The current version of the application
  * @var float
  */
-define( 'VALPRESS_VERSION', '1.0' );
+define( 'VALPRESS_VERSION', '1.0.1' );
 /**
  * Holds the url to the ValPress website
  * @var string

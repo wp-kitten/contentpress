@@ -1,8 +1,8 @@
 {{-- ADMIN SIDEBAR MENU --}}
 <div class="app-sidebar__overlay" data-toggle="sidebar"></div>
 
-@inject('language', App\Models\Language)
-@inject('optionsClass', App\Models\Options)
+@inject('language', 'App\Models\Language')
+@inject('optionsClass', 'App\Models\Options')
 
 @php
     $languages = $language->all();

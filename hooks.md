@@ -99,6 +99,9 @@ This document lists all hooks registered by the application, and the order they'
 * valpress/body-class ($classes = [])
 * valpress/post-class ($classes = [])
 
+### Globals
+* [since v1.0.1] Action: valpress/heartbeat/success, param: User $user
+* [since v1.0.1] Action: valpress/heartbeat/error
 
 ### Frontend Auth Filters
 

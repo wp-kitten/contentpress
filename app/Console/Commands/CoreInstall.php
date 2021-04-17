@@ -60,7 +60,7 @@ class CoreInstall extends Command
         if ( $this->option( 't' ) ) {
             try {
                 $this->line( '>>> Downloading and installing the default theme...' );
-                ( new Marketplace() )->installTheme( 'valpress-default-theme', '0.1' );
+                ( new Marketplace() )->installTheme( 'valpress-default-theme', '1.0.1' );
                 $this->line( '>>> Activating the default theme...' );
                 do_action( 'valpress/switch_theme', 'valpress-default-theme', '' );
                 $this->line( '== Done ==' );

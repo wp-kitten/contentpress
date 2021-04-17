@@ -1,4 +1,4 @@
-@inject('mediaHelper', App\Helpers\MediaHelper)
+@inject('mediaHelper', 'App\Helpers\MediaHelper')
 <div class="modal fade js-media-modal" id="mediaModal" tabindex="-1" role="dialog" aria-labelledby="mediaModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">

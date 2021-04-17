@@ -49,7 +49,11 @@ class LoginController extends Controller
         if ( !$user ) {
             return $this->redirectTo;
         }
-        return $this->redirectTo = apply_filters( 'valpress/after-login/redirect-path', $user );
+        $redirectTo = apply_filters( 'valpress/after-login/redirect-path', $user );
+        if ( !is_string( $redirectTo ) ) {
+            $redirectTo = $this->redirectTo;
+        }
+        return $this->redirectTo = $redirectTo;
     }
 
 }
