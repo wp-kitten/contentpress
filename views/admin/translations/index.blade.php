@@ -1,4 +1,4 @@
-@inject('languageClass', App\Models\Language)
+@inject('languageClass', 'App\Models\Language')
 @extends('admin.layouts.base')
 
 @section('page-title')

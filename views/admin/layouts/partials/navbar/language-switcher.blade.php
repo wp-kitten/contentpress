@@ -1,4 +1,4 @@
-@inject('languageClass', App\Models\Language)
+@inject('languageClass', 'App\Models\Language')
 @php
     $crtLanguageCode = App\Helpers\VPML::getBackendUserLanguageCode();
     $enabledLanguages = App\Helpers\VPML::getLanguages();
