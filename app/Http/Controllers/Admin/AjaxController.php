@@ -1264,10 +1264,12 @@ class AjaxController extends Controller
 
         //#! Setup vars
         $uploadFilePath = $this->request->the_file->getRealPath();
-        $archiveName = basename( $uploadFilePath, '.zip' );
+        $tmpDirName = basename( $uploadFilePath, '.zip' );
+        //#! Fixes error when the plugin's directory was not found
+        $archiveName = basename( $this->request->the_file->getClientOriginalName(), '.zip' );
 
         $zip = new \ZipArchive();
-        $tmpDirPath = public_path( 'uploads/tmp/' . $archiveName );
+        $tmpDirPath = public_path( 'uploads/tmp/' . $tmpDirName );
         if ( !File::isDirectory( $tmpDirPath ) ) {
             File::makeDirectory( $tmpDirPath, 0777, true );
         }
