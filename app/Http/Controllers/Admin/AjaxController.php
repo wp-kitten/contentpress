@@ -1372,10 +1372,11 @@ class AjaxController extends Controller
 
         //#! Setup vars
         $uploadFilePath = $this->request->the_file->getRealPath();
-        $archiveName = basename( $uploadFilePath, '.zip' );
+        $tmpDirName = basename( $uploadFilePath, '.zip' );
+        $themeDirName = basename( $this->request->the_file->getClientOriginalName(), '.zip' );
 
         $zip = new \ZipArchive();
-        $tmpDirPath = public_path( 'uploads/tmp/' . $archiveName );
+        $tmpDirPath = public_path( 'uploads/tmp/' . $tmpDirName );
         if ( !File::isDirectory( $tmpDirPath ) ) {
             File::makeDirectory( $tmpDirPath, 0777, true );
         }
@@ -1384,21 +1385,6 @@ class AjaxController extends Controller
             $zip->extractTo( $tmpDirPath );
             $zip->close();
 
-            //#! Get the directory
-            $dirs = File::directories( $tmpDirPath );
-            if ( empty( $dirs ) ) {
-                return $this->responseError( __( 'a.The uploaded file is not valid.' ) );
-            }
-            $themeTmpDirPath = wp_normalize_path( $dirs[ 0 ] );
-            $themeDirName = basename( $themeTmpDirPath );
-
-            //#! Validate the uploaded theme
-            $errors = $this->themesManager->checkThemeUploadDir( $themeTmpDirPath );
-            if ( !empty( $errors ) ) {
-                File::deleteDirectory( $tmpDirPath );
-                return $this->responseError( __( 'a.The uploaded file is not a valid theme.' ) );
-            }
-
             //#! Move to the themes directory
             $themeDestDirPath = path_combine( $this->themesManager->getThemesDirectoryPath(), $themeDirName );
 
@@ -1406,8 +1392,17 @@ class AjaxController extends Controller
                 return $this->responseError( __( 'a.A theme with the same name already exists.' ) );
             }
 
+            $themeTmpDirPath = path_combine($tmpDirPath, $themeDirName);
             File::moveDirectory( $themeTmpDirPath, $themeDestDirPath );
             File::deleteDirectory( $tmpDirPath );
+
+            //#! Validate the uploaded theme
+            $errors = $this->themesManager->checkThemeUploadDir( $themeDirName );
+            if ( !empty( $errors ) ) {
+                File::deleteDirectory( $themeDestDirPath );
+                return $this->responseError( __( 'a.The uploaded file is not a valid theme.' ) );
+            }
+
             $this->themesManager->updateCache();
 
             return $this->responseSuccess( [
