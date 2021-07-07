@@ -564,5 +564,6 @@ return [
     "Plugin uploaded." => "Plugin uploaded.",
     "The uploaded file is not a valid theme." => "The uploaded file is not a valid theme.",
     "You cannot delete an active theme." => "You cannot delete an active theme.",
+    "The resource you are trying to access does not exist." => "The resource you are trying to access does not exist.",
     "" => "",
 ];

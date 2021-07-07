@@ -101,8 +101,7 @@ Route::post( '/email/verification-notification', function ( Request $request ) {
 Route::group(
     [
         "prefix" => "admin", "namespace" => "Admin",
-        'middleware' => [ 'web', 'auth', 'active_user', 'under_maintenance' ],
-
+        'middleware' => [ 'web', 'auth', 'active_user', 'can_access_admin', 'under_maintenance' ],
     ], function () {
     Route::get( "ajax", [ "uses" => "AjaxController@index" ] )->name( "admin.ajax" );
     Route::post( "ajax", [ "uses" => "AjaxController@index" ] )->name( "admin.ajax" );

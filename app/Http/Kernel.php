@@ -57,6 +57,7 @@ class Kernel extends HttpKernel
         'auth' => \App\Http\Middleware\Authenticate::class,
         'active_user' => \App\Http\Middleware\ActiveUser::class,
         'under_maintenance' => \App\Http\Middleware\CheckForMaintenance::class,
+        'can_access_admin' => \App\Http\Middleware\CanAccessAdmin::class,
 
         'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
         'bindings' => \Illuminate\Routing\Middleware\SubstituteBindings::class,
