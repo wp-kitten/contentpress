@@ -21,6 +21,10 @@ class CanAccessAdmin
      */
     public function handle( Request $request, Closure $next )
     {
+        //#! Let ajax requests pass
+        if ( $request->ajax() ) {
+            return $next( $request );
+        }
         $user = auth()->user();
         if ( $user ) {
             $redirectUrl = apply_filters( 'valpress/admin_access/forbidden/redirect_route', config( 'app.url' ) );
