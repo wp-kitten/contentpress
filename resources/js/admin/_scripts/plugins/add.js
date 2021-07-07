@@ -16,8 +16,8 @@ jQuery( function ($) {
         /* the selector for the file upload field */
         $( '#plugin_upload_field' )
     );
-    if( ! __dropifySetup){
-        dropifyImageUploader.setup({
+    if ( !__dropifySetup ) {
+        dropifyImageUploader.setup( {
             on_add_image: function ($this) {
                 var value = $this.element[0].files[0];
                 if ( value.length < 1 ) {
@@ -30,14 +30,14 @@ jQuery( function ($) {
                 ajaxData.append( appLocale.nonce_name, appLocale.nonce_value );
 
                 $.ajax( {
-                    url: appLocale.ajax.url,
-                    method: 'POST',
-                    async: true,
-                    timeout: 29000,
-                    data: ajaxData,
-                    processData: false,
-                    contentType: false
-                } )
+                        url: appLocale.ajax.url,
+                        method: 'POST',
+                        async: true,
+                        timeout: 29000,
+                        data: ajaxData,
+                        processData: false,
+                        contentType: false
+                    } )
                     .done( function (r) {
                         if ( r ) {
                             if ( r.success ) {
@@ -65,48 +65,51 @@ jQuery( function ($) {
                     .fail( function (x, s, e) {
                         showToast( e, 'error' );
                     } )
-            },
-            on_remove_image: function ($this) {
-                $.ajax( {
-                    url: appLocale.ajax.url,
-                    method: 'POST',
-                    async: true,
-                    timeout: 29000,
-                    data: {
-                        action: 'delete_plugin',
-                        path: $this.ajaxResponse.path,
-                        [appLocale.nonce_name]: appLocale.nonce_value
-                    }
-                } )
-                    .done( function (r) {
-                        if ( r ) {
-                            if ( r.success ) {
-                                showToast( pageLocale.text_plugin_deleted, 'success' );
-                            }
-                            else {
-                                if ( r.data ) {
-                                    showToast( r.data, 'warning' );
-                                }
-                                else {
-                                    showToast( appLocale.ajax.empty_response, 'warning' );
-                                }
-                            }
+                    .always( function () {
+                        const wrapper = $this.element.parents( '.dropify-wrapper.has-preview' );
+                        if ( wrapper && wrapper.length ) {
+                            $( '.dropify-clear', wrapper ).trigger( 'click' );
                         }
-                        else {
-                            showToast( appLocale.ajax.no_response, 'error' );
-                        }
-                    } )
-                    .fail( function (x, s, e) {
-                        showToast( e, 'error' );
                     } );
             },
-        });
+            on_remove_image: function ($this) {
+                //! Ensure we have a value
+                if ( $this.element.val().trim().length > 0 ) {
+                    $.ajax( {
+                            url: appLocale.ajax.url,
+                            method: 'POST',
+                            async: true,
+                            timeout: 29000,
+                            data: {
+                                action: 'delete_plugin',
+                                path: $this.ajaxResponse.path,
+                                [appLocale.nonce_name]: appLocale.nonce_value
+                            }
+                        } )
+                        .done( function (r) {
+                            if ( r ) {
+                                if ( r.success ) {
+                                    showToast( pageLocale.text_plugin_deleted, 'success' );
+                                }
+                                else {
+                                    if ( r.data ) {
+                                        showToast( r.data, 'warning' );
+                                    }
+                                    else {
+                                        showToast( appLocale.ajax.empty_response, 'warning' );
+                                    }
+                                }
+                            }
+                            else {
+                                showToast( appLocale.ajax.no_response, 'error' );
+                            }
+                        } )
+                        .fail( function (x, s, e) {
+                            showToast( e, 'error' );
+                        } );
+                }
+            },
+        } );
         __dropifySetup = true;
     }
-
-    //#! Search plugins
-    const searchField = $('#plugin-search-field');
-    $('#plugin-search-button').on('click', function(){
-
-    });
 } );

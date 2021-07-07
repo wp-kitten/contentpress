@@ -561,5 +561,9 @@ return [
     "Post type deleted" => "Post type deleted",
     'The theme ":theme_name" could not be activated due to unexpected errors nor the default theme since it was not found.' => 'The theme ":theme_name" could not be activated due to unexpected errors nor the default theme since it was not found.',
     "No themes found on marketplace." => "No themes found on marketplace.",
+    "Plugin uploaded." => "Plugin uploaded.",
+    "The uploaded file is not a valid theme." => "The uploaded file is not a valid theme.",
+    "You cannot delete an active theme." => "You cannot delete an active theme.",
+    "The resource you are trying to access does not exist." => "The resource you are trying to access does not exist.",
     "" => "",
 ];

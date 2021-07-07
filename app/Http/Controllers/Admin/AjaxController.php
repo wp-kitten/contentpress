@@ -2,12 +2,13 @@
 
 namespace App\Http\Controllers\Admin;
 
-use App\Helpers\VPML;
 use App\Helpers\ImageHelper;
 use App\Helpers\MediaHelper;
 use App\Helpers\MetaFields;
 use App\Helpers\Theme;
+use App\Helpers\ThemesManager;
 use App\Helpers\Util;
+use App\Helpers\VPML;
 use App\Http\Controllers\Controller;
 use App\Models\Category;
 use App\Models\Language;
@@ -24,6 +25,7 @@ use App\Models\PostType;
 use App\Models\Tag;
 use App\Models\User;
 use App\Models\UserMeta;
+use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\File;
 use Illuminate\Support\Str;
@@ -1264,10 +1266,12 @@ class AjaxController extends Controller
 
         //#! Setup vars
         $uploadFilePath = $this->request->the_file->getRealPath();
-        $archiveName = basename( $uploadFilePath, '.zip' );
+        $tmpDirName = basename( $uploadFilePath, '.zip' );
+        //#! Fixes error when the plugin's directory was not found
+        $archiveName = basename( $this->request->the_file->getClientOriginalName(), '.zip' );
 
         $zip = new \ZipArchive();
-        $tmpDirPath = public_path( 'uploads/tmp/' . $archiveName );
+        $tmpDirPath = public_path( 'uploads/tmp/' . $tmpDirName );
         if ( !File::isDirectory( $tmpDirPath ) ) {
             File::makeDirectory( $tmpDirPath, 0777, true );
         }
@@ -1370,10 +1374,11 @@ class AjaxController extends Controller
 
         //#! Setup vars
         $uploadFilePath = $this->request->the_file->getRealPath();
-        $archiveName = basename( $uploadFilePath, '.zip' );
+        $tmpDirName = basename( $uploadFilePath, '.zip' );
+        $themeDirName = basename( $this->request->the_file->getClientOriginalName(), '.zip' );
 
         $zip = new \ZipArchive();
-        $tmpDirPath = public_path( 'uploads/tmp/' . $archiveName );
+        $tmpDirPath = public_path( 'uploads/tmp/' . $tmpDirName );
         if ( !File::isDirectory( $tmpDirPath ) ) {
             File::makeDirectory( $tmpDirPath, 0777, true );
         }
@@ -1382,21 +1387,6 @@ class AjaxController extends Controller
             $zip->extractTo( $tmpDirPath );
             $zip->close();
 
-            //#! Get the directory
-            $dirs = File::directories( $tmpDirPath );
-            if ( empty( $dirs ) ) {
-                return $this->responseError( __( 'a.The uploaded file is not valid.' ) );
-            }
-            $themeTmpDirPath = wp_normalize_path( $dirs[ 0 ] );
-            $themeDirName = basename( $themeTmpDirPath );
-
-            //#! Validate the uploaded theme
-            $errors = $this->themesManager->checkThemeUploadDir( $themeTmpDirPath );
-            if ( !empty( $errors ) ) {
-                File::deleteDirectory( $tmpDirPath );
-                return $this->responseError( __( 'a.The uploaded file is not a valid theme.' ) );
-            }
-
             //#! Move to the themes directory
             $themeDestDirPath = path_combine( $this->themesManager->getThemesDirectoryPath(), $themeDirName );
 
@@ -1404,8 +1394,17 @@ class AjaxController extends Controller
                 return $this->responseError( __( 'a.A theme with the same name already exists.' ) );
             }
 
+            $themeTmpDirPath = path_combine( $tmpDirPath, $themeDirName );
             File::moveDirectory( $themeTmpDirPath, $themeDestDirPath );
             File::deleteDirectory( $tmpDirPath );
+
+            //#! Validate the uploaded theme
+            $errors = $this->themesManager->checkThemeUploadDir( $themeDirName );
+            if ( !empty( $errors ) ) {
+                File::deleteDirectory( $themeDestDirPath );
+                return $this->responseError( __( 'a.The uploaded file is not a valid theme.' ) );
+            }
+
             $this->themesManager->updateCache();
 
             return $this->responseSuccess( [
@@ -1434,6 +1433,53 @@ class AjaxController extends Controller
             ] )->toHtml() );
         }
         return $this->responseError( __( 'a.An error occurred.' ) );
+    }
+
+    private function action_delete_theme()
+    {
+        if ( !vp_current_user_can( 'delete_themes' ) ) {
+            return $this->responseError( __( 'a.You are not allowed to perform this action.' ) );
+        }
+
+        if ( !$this->request->has( 'path' ) ) {
+            return $this->responseError( __( 'a.Request not valid. Path is missing.' ) );
+        }
+
+        $themesManager = ThemesManager::getInstance();
+        $themeDirName = sanitize_file_name( $this->request->get( 'path' ) );
+
+        if ( $this->themesManager->getActiveTheme()->get( 'name' ) == $themeDirName ) {
+            return $this->responseError( __( 'a.You cannot delete an active theme.' ) );
+        }
+
+        //#! Prevent deleting the theme if the specified theme is a child of it
+        $themes = $this->themesManager->getInstalledThemes();
+        foreach ( $themes as $themeDir ) {
+            $theme = new Theme( $themeDir );
+            if ( $theme->get( 'extends' ) == $themeDirName ) {
+                return $this->responseError( __( 'a.This theme cannot be deleted while it is the parent of an active theme.' ) );
+            }
+        }
+
+        //#! Delete the theme's directory
+        $theme = new Theme( $themeDirName );
+        //#! Load the theme's uninstall.php file before deleting the theme's files
+        $filePath = path_combine( $theme->getDirPath(), 'uninstall.php' );
+        if ( File::exists( $filePath ) ) {
+            require_once( $filePath );
+        }
+        //#! Delete theme's files
+        if ( File::deleteDirectory( $theme->getDirPath() ) ) {
+            try {
+                $this->themesManager->rebuildCache( true );
+            }
+            catch ( FileNotFoundException $e ) {
+            }
+            do_action( 'valpress/theme_deleted', $themeDirName );
+            return $this->responseSuccess( __( 'a.Theme deleted.' ) );
+        }
+
+        return $this->responseError( __( 'a.An error occurred while trying to delete the theme.' ) );
     }
 
 
