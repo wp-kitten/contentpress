@@ -98,7 +98,10 @@ This document lists all hooks registered by the application, and the order they'
 
 * valpress/body-class ($classes = [])
 * valpress/post-class ($classes = [])
-
+* valpress/admin_access/forbidden/redirect_route
+* valpress/admin_access/forbidden/error_message
+* valpress/admin_access/allowed
+  
 ### Globals
 * [since v1.0.1] Action: valpress/heartbeat/success, param: User $user
 * [since v1.0.1] Action: valpress/heartbeat/error
